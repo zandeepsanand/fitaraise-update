@@ -1,0 +1,4356 @@
+{
+    "success": true,
+    "data": {
+        "success": true,
+        "data": [
+            {
+                "id": 15,
+                "food_name": "Bread Salvadoran Sweet Cheese (Quesadilla Salvadorena)",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 7.12,
+                "calories": 374,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16,
+                "food_name": "Bread Pound Cake Type Pan De Torta Salvadoran",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 7.06,
+                "calories": 390,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 21,
+                "food_name": "Bread White Wheat",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 10.66,
+                "calories": 238,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 86,
+                "food_name": "Rudis Gluten-Free Bakery Original Sandwich Bread",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 3.13,
+                "calories": 320,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 87,
+                "food_name": "Udis Gluten Free Soft & Delicious White Sandwich Bread",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 5.4,
+                "calories": 298,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 88,
+                "food_name": "Udis Gluten Free Soft & Hearty Whole Grain Bread",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 7.25,
+                "calories": 309,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 122,
+                "food_name": "Bread Kneel Down (Navajo)",
+                "food_group": "american indian",
+                "weight_in_g": 100,
+                "protein_in_g": 4.29,
+                "calories": 195,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 124,
+                "food_name": "Frybread Made With Lard (Navajo)",
+                "food_group": "american indian",
+                "weight_in_g": 100,
+                "protein_in_g": 6.69,
+                "calories": 330,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 144,
+                "food_name": "Frybread Made With Lard (Apache)",
+                "food_group": "american indian",
+                "weight_in_g": 100,
+                "protein_in_g": 8.38,
+                "calories": 309,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 208,
+                "food_name": "Chicken Meatless Breaded Fried",
+                "food_group": "beans and lentils",
+                "weight_in_g": 100,
+                "protein_in_g": 21.28,
+                "calories": 234,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 424,
+                "food_name": "Bread Pan Dulce Sweet Yeast Bread",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 9.42,
+                "calories": 367,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 428,
+                "food_name": "Garlic Bread Frozen",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 8.36,
+                "calories": 350,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 432,
+                "food_name": "Bread Potato",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 12.5,
+                "calories": 266,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 433,
+                "food_name": "Bread Cheese",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 10.42,
+                "calories": 408,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 434,
+                "food_name": "Focaccia Italian Flatbread Plain",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 8.77,
+                "calories": 249,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 498,
+                "food_name": "Schar Gluten-Free Wheat-Free Classic White Bread",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 3.81,
+                "calories": 240,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 502,
+                "food_name": "Bread Multi-Grain (Includes Whole-Grain)",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 13.36,
+                "calories": 265,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 559,
+                "food_name": "Restaurant Latino Arepa (Unleavened Cornmeal Bread)",
+                "food_group": "restaurant foods",
+                "weight_in_g": 100,
+                "protein_in_g": 5.48,
+                "calories": 219,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 560,
+                "food_name": "Restaurant Latino Bunuelos (Fried Yeast Bread)",
+                "food_group": "restaurant foods",
+                "weight_in_g": 100,
+                "protein_in_g": 8.02,
+                "calories": 462,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 1385,
+                "food_name": "Wheat Flour White Bread Enriched",
+                "food_group": "grains and pasta",
+                "weight_in_g": 100,
+                "protein_in_g": 11.98,
+                "calories": 361,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 1402,
+                "food_name": "Wheat Flours Bread Unenriched",
+                "food_group": "grains and pasta",
+                "weight_in_g": 100,
+                "protein_in_g": 11.98,
+                "calories": 361,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 1450,
+                "food_name": "Chicken Thighs Frozen Breaded Reheated",
+                "food_group": "prepared meals",
+                "weight_in_g": 100,
+                "protein_in_g": 18.66,
+                "calories": 334,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 1493,
+                "food_name": "Piki Bread Made From Blue Cornmeal (Hopi)",
+                "food_group": "american indian",
+                "weight_in_g": 100,
+                "protein_in_g": 9.06,
+                "calories": 390,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 1513,
+                "food_name": "Dennys Fish Fillet Battered Or Breaded Fried",
+                "food_group": "restaurant foods",
+                "weight_in_g": 100,
+                "protein_in_g": 13.75,
+                "calories": 234,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6298,
+                "food_name": "Tennis Bread Plain (Apache)",
+                "food_group": "american indian",
+                "weight_in_g": 100,
+                "protein_in_g": 9,
+                "calories": 258,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6317,
+                "food_name": "Bread Blue Corn Somiviki (Hopi)",
+                "food_group": "american indian",
+                "weight_in_g": 100,
+                "protein_in_g": 3.1,
+                "calories": 186,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6319,
+                "food_name": "TGI Fridays Fridays Shrimp Breaded",
+                "food_group": "restaurant foods",
+                "weight_in_g": 100,
+                "protein_in_g": 11.87,
+                "calories": 302,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6325,
+                "food_name": "Restaurant Family Style Shrimp Breaded And Fried",
+                "food_group": "restaurant foods",
+                "weight_in_g": 100,
+                "protein_in_g": 12.67,
+                "calories": 308,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6333,
+                "food_name": "Restaurant Family Style Fish Fillet Battered Or Breaded Fried",
+                "food_group": "restaurant foods",
+                "weight_in_g": 100,
+                "protein_in_g": 13.49,
+                "calories": 219,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6631,
+                "food_name": "Seeds Breadfruit Seeds Raw",
+                "food_group": "NUTS AND SEEDS",
+                "weight_in_g": 100,
+                "protein_in_g": 7.4,
+                "calories": 191,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6632,
+                "food_name": "Breadfruit Nuts (Seeds)",
+                "food_group": "NUTS AND SEEDS",
+                "weight_in_g": 100,
+                "protein_in_g": 5.3,
+                "calories": 168,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6785,
+                "food_name": "Submarine Sandwich Roast Beef On White Bread With Lettuce And Tomato",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 12.17,
+                "calories": 156,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6786,
+                "food_name": "Submarine Sandwich Tuna On White Bread With Lettuce And Tomato",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 12.33,
+                "calories": 218,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6793,
+                "food_name": "Submarine Sandwich Sweet Onion Chicken Teriyaki On White Bread With Lettuce Tomato And Sweet Onion Sauce",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 10.91,
+                "calories": 155,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6794,
+                "food_name": "Subway Subway Club Sub On White Bread With Lettuce And Tomato",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 10.66,
+                "calories": 146,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6795,
+                "food_name": "Submarine Sandwich Turkey Roast Beef And Ham On White Bread With Lettuce And Tomato",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 10.66,
+                "calories": 146,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6796,
+                "food_name": "Submarine Sandwich Oven Roasted Chicken On White Bread With Lettuce And Tomato",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 10.84,
+                "calories": 157,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6797,
+                "food_name": "Subway Steak & Cheese Sub On White Bread With American Cheese Lettuce And Tomato",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 12.29,
+                "calories": 183,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6798,
+                "food_name": "Submarine Sandwich Steak And Cheese On White Bread With Cheese Lettuce And Tomato",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 12.29,
+                "calories": 183,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6799,
+                "food_name": "Subway B.l.t. Sub On White Bread With Bacon Lettuce And Tomato",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 10.06,
+                "calories": 205,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6800,
+                "food_name": "Submarine Sandwich Bacon Lettuce And Tomato On White Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 10.06,
+                "calories": 205,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6801,
+                "food_name": "Subway Oven Roasted Chicken Sub On White Bread With Lettuce And Tomato",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 10.84,
+                "calories": 157,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6802,
+                "food_name": "Subway Cold Cut Sub On White Bread With Lettuce And Tomato",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 10.52,
+                "calories": 214,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6829,
+                "food_name": "Kfc Fried Chicken Original Recipe Wing Meat Only Skin And Breading Removed",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 28.65,
+                "calories": 216,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6830,
+                "food_name": "Kfc Fried Chicken Extra Crispy Skin And Breading",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 10.96,
+                "calories": 464,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6831,
+                "food_name": "Kfc Fried Chicken Extra Crispy Breast Meat Only Skin And Breading Removed",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 27.25,
+                "calories": 153,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6832,
+                "food_name": "Kfc Fried Chicken Extra Crispy Drumstick Meat Only Skin And Breading Removed",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 25.9,
+                "calories": 170,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6833,
+                "food_name": "Kfc Fried Chicken Original Recipe Thigh Meat And Skin With Breading",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 18.9,
+                "calories": 269,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6834,
+                "food_name": "Kfc Fried Chicken Original Recipe Wing Meat And Skin With Breading",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 21.7,
+                "calories": 297,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6836,
+                "food_name": "Kfc Fried Chicken Extra Crispy Drumstick Meat And Skin With Breading",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 20.62,
+                "calories": 274,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6837,
+                "food_name": "Popeyes Fried Chicken Mild Skin And Breading",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 13.96,
+                "calories": 433,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6838,
+                "food_name": "Popeyes Fried Chicken Mild Thigh Meat Only Skin And Breading Removed",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 24.31,
+                "calories": 188,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6839,
+                "food_name": "Popeyes Fried Chicken Mild Wing Meat Only Skin And Breading Removed",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 28.94,
+                "calories": 212,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6840,
+                "food_name": "Popeyes Fried Chicken Mild Breast Meat And Skin With Breading",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 21.67,
+                "calories": 274,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6841,
+                "food_name": "Popeyes Fried Chicken Mild Drumstick Meat And Skin With Breading",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 20.44,
+                "calories": 293,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6843,
+                "food_name": "Fast Foods Fried Chicken Breast Meat Only Skin And Breading Removed",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 27.93,
+                "calories": 153,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6844,
+                "food_name": "Fast Foods Fried Chicken Drumstick Meat Only Skin And Breading Removed",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 26.24,
+                "calories": 172,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6845,
+                "food_name": "Fast Foods Fried Chicken Thigh Meat Only Skin And Breading Removed",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 23.21,
+                "calories": 178,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6846,
+                "food_name": "Fast Foods Fried Chicken Thigh Meat And Skin And Breading",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 19.23,
+                "calories": 274,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6847,
+                "food_name": "Fast Foods Fried Chicken Wing Meat And Skin And Breading",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 21.14,
+                "calories": 310,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 6901,
+                "food_name": "Onion Rings Breaded Par Fried Frozen Unprepared",
+                "food_group": "VEGETABLES",
+                "weight_in_g": 100,
+                "protein_in_g": 3.15,
+                "calories": 258,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7039,
+                "food_name": "Seeds Breadnut Tree Seeds Raw",
+                "food_group": "NUTS AND SEEDS",
+                "weight_in_g": 100,
+                "protein_in_g": 5.97,
+                "calories": 217,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7040,
+                "food_name": "Seeds Breadnut Tree Seeds Dried",
+                "food_group": "NUTS AND SEEDS",
+                "weight_in_g": 100,
+                "protein_in_g": 8.62,
+                "calories": 367,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7082,
+                "food_name": "Seeds Breadfruit Seeds Roasted",
+                "food_group": "NUTS AND SEEDS",
+                "weight_in_g": 100,
+                "protein_in_g": 6.2,
+                "calories": 207,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7183,
+                "food_name": "Submarine Sandwich Cold Cut On White Bread With Lettuce And Tomato",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 10.52,
+                "calories": 213,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7184,
+                "food_name": "Onion Rings Breaded And Fried",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 3.86,
+                "calories": 411,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7192,
+                "food_name": "Subway Sweet Onion Chicken Teriyaki Sub On White Bread With Lettuce Tomato And Sweet Onion Sauce",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 10.91,
+                "calories": 155,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7193,
+                "food_name": "Submarine Sandwich Turkey Breast On White Bread With Lettuce And Tomato",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 9.12,
+                "calories": 147,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7194,
+                "food_name": "Submarine Sandwich Ham On White Bread With Lettuce And Tomato",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 9.12,
+                "calories": 151,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7195,
+                "food_name": "Subway Meatball Marinara Sub On White Bread (No Toppings)",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 9.77,
+                "calories": 219,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7196,
+                "food_name": "Submarine Sandwich Meatball Marinara On White Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 9.77,
+                "calories": 219,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7198,
+                "food_name": "Subway Turkey Breast Sub On White Bread With Lettuce And Tomato",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 9.12,
+                "calories": 147,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7199,
+                "food_name": "Subway Black Forest Ham Sub On White Bread With Lettuce And Tomato",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 9.12,
+                "calories": 151,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7200,
+                "food_name": "Subway Roast Beef Sub On White Bread With Lettuce And Tomato",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 12.17,
+                "calories": 155,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7205,
+                "food_name": "Chicken Breaded And Fried Boneless Pieces Plain",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 15.92,
+                "calories": 307,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7225,
+                "food_name": "Kfc Fried Chicken Original Recipe Skin And Breading",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 14.17,
+                "calories": 384,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7226,
+                "food_name": "Kfc Fried Chicken Original Recipe Breast Meat Only Skin And Breading Removed",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 26.89,
+                "calories": 149,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7227,
+                "food_name": "Kfc Fried Chicken Original Recipe Drumstick Meat Only Skin And Breading Removed",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 26.3,
+                "calories": 175,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7228,
+                "food_name": "Kfc Fried Chicken Original Recipe Thigh Meat Only Skin And Breading Removed",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 22.78,
+                "calories": 175,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7229,
+                "food_name": "Kfc Fried Chicken Extra Crispy Thigh Meat Only Skin And Breading Removed",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 22.41,
+                "calories": 179,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7230,
+                "food_name": "Kfc Fried Chicken Extra Crispy Wing Meat Only Skin And Breading Removed",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 28.67,
+                "calories": 236,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7231,
+                "food_name": "Kfc Fried Chicken Original Recipe Breast Meat And Skin With Breading",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 21.94,
+                "calories": 231,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7232,
+                "food_name": "Kfc Fried Chicken Original Recipe Drumstick Meat And Skin With Breading",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 22.3,
+                "calories": 239,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7233,
+                "food_name": "Kfc Fried Chicken Extra Crispy Thigh Meat And Skin With Breading",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 17.17,
+                "calories": 309,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7234,
+                "food_name": "Kfc Fried Chicken Extra Crispy Wing Meat And Skin With Breading",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 20.8,
+                "calories": 337,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7235,
+                "food_name": "Popeyes Fried Chicken Mild Breast Meat Only Skin And Breading Removed",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 28.98,
+                "calories": 157,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7236,
+                "food_name": "Popeyes Fried Chicken Mild Drumstick Meat Only Skin And Breading Removed",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 26.51,
+                "calories": 170,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7237,
+                "food_name": "Popeyes Fried Chicken Mild Thigh Meat And Skin With Breading",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 19.14,
+                "calories": 310,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7238,
+                "food_name": "Popeyes Fried Chicken Mild Wing Meat And Skin With Breading",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 20.4,
+                "calories": 338,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7241,
+                "food_name": "Fast Foods Fried Chicken Wing Meat Only Skin And Breading Removed",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 28.77,
+                "calories": 215,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7242,
+                "food_name": "Fast Foods Fried Chicken Skin And Breading From All Pieces",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 14.11,
+                "calories": 398,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7243,
+                "food_name": "Fast Foods Fried Chicken Breast Meat And Skin And Breading",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 23.51,
+                "calories": 230,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7244,
+                "food_name": "Fast Foods Fried Chicken Drumstick Meat And Skin With Breading",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 21.13,
+                "calories": 267,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7275,
+                "food_name": "Breadstick Soft Prepared With Garlic And Parmesan Cheese",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 12.2,
+                "calories": 343,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7276,
+                "food_name": "Pizza Hut Breadstick Parmesan Garlic",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 12.2,
+                "calories": 343,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7281,
+                "food_name": "School Lunch Chicken Patty Whole Grain Breaded",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 17.64,
+                "calories": 246,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7282,
+                "food_name": "School Lunch Chicken Nuggets Whole Grain Breaded",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 15.67,
+                "calories": 270,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 7590,
+                "food_name": "Turkey Sticks Breaded Battered Fried",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 14.2,
+                "calories": 279,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 10000,
+                "food_name": "Chicken Breast Tenders Breaded Cooked Microwaved",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 16.35,
+                "calories": 252,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 10001,
+                "food_name": "Chicken Breast Tenders Breaded Uncooked",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 14.73,
+                "calories": 263,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 10200,
+                "food_name": "Breadfruit",
+                "food_group": "FRUITS",
+                "weight_in_g": 100,
+                "protein_in_g": 1.07,
+                "calories": 103,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 10330,
+                "food_name": "Bread Chapati Or Roti Plain Commercially Prepared",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 11.25,
+                "calories": 297,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 10331,
+                "food_name": "Bread Naan Plain Commercially Prepared Refrigerated",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 9.62,
+                "calories": 291,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 10335,
+                "food_name": "Bread Cinnamon",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 7.05,
+                "calories": 253,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 10336,
+                "food_name": "Bread Wheat Sprouted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 13.16,
+                "calories": 188,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 10337,
+                "food_name": "Bread Wheat Sprouted Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 14.3,
+                "calories": 205,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 10443,
+                "food_name": "Fish Croaker Atlantic Cooked Breaded And Fried",
+                "food_group": "FISH & SEAFOOD",
+                "weight_in_g": 100,
+                "protein_in_g": 18.2,
+                "calories": 221,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 10456,
+                "food_name": "Crustaceans Shrimp Mixed Species Cooked Breaded And Fried",
+                "food_group": "FISH & SEAFOOD",
+                "weight_in_g": 100,
+                "protein_in_g": 21.39,
+                "calories": 242,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 10460,
+                "food_name": "Mollusks Clam Mixed Species Cooked Breaded And Fried",
+                "food_group": "FISH & SEAFOOD",
+                "weight_in_g": 100,
+                "protein_in_g": 14.24,
+                "calories": 202,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 10465,
+                "food_name": "Mollusks Oyster Eastern Cooked Breaded And Fried",
+                "food_group": "FISH & SEAFOOD",
+                "weight_in_g": 100,
+                "protein_in_g": 8.77,
+                "calories": 199,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 10523,
+                "food_name": "Shrimp Breaded And Fried",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 7.84,
+                "calories": 308,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 10815,
+                "food_name": "Shortening Bread Soybean (Hydrogenated) And Cottonseed",
+                "food_group": "fats and oils",
+                "weight_in_g": 100,
+                "protein_in_g": 0,
+                "calories": 884,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 11158,
+                "food_name": "Bread Cracked-Wheat",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 8.7,
+                "calories": 260,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 11159,
+                "food_name": "Bread Egg",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 9.5,
+                "calories": 287,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 11160,
+                "food_name": "Bread Egg Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 10.5,
+                "calories": 315,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 11161,
+                "food_name": "French Bread",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 10.75,
+                "calories": 272,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 11162,
+                "food_name": "Bread Oat Bran",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 10.4,
+                "calories": 236,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 11163,
+                "food_name": "Bread Oat Bran Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 11.4,
+                "calories": 259,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 11164,
+                "food_name": "Bread Oatmeal",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 8.4,
+                "calories": 269,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 11165,
+                "food_name": "Bread Oatmeal Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 9.2,
+                "calories": 292,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 11166,
+                "food_name": "Bread Raisin Enriched",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 7.9,
+                "calories": 274,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 11167,
+                "food_name": "Bread Raisin Enriched Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 8.6,
+                "calories": 297,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 11168,
+                "food_name": "Bread Reduced-Calorie Oat Bran",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 8,
+                "calories": 201,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 11169,
+                "food_name": "Bread Reduced-Calorie Oat Bran Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 9.5,
+                "calories": 239,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 11170,
+                "food_name": "Rye Bread",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 8.5,
+                "calories": 259,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 11171,
+                "food_name": "Bread Rye Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 9.4,
+                "calories": 284,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 11172,
+                "food_name": "Wheat Bread",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 10.67,
+                "calories": 274,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 11173,
+                "food_name": "Bread Wheat Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 12.96,
+                "calories": 313,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 11174,
+                "food_name": "Whole Wheat Bread",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 12.45,
+                "calories": 252,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 11175,
+                "food_name": "Toasted Whole Wheat Bread",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 16.27,
+                "calories": 306,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 11176,
+                "food_name": "Bread Whole-Wheat Prepared From Recipe",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 8.4,
+                "calories": 278,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 11177,
+                "food_name": "Bread Whole-Wheat Prepared From Recipe Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 9.2,
+                "calories": 305,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 11178,
+                "food_name": "Bread Stuffing Cornbread Dry Mix",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 10,
+                "calories": 389,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 11179,
+                "food_name": "Bread Stuffing Cornbread Dry Mix Prepared",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 2.9,
+                "calories": 179,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 11187,
+                "food_name": "Cake Gingerbread Dry Mix",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 4.4,
+                "calories": 437,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 11188,
+                "food_name": "Gingerbread Cake",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 3.9,
+                "calories": 356,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 11225,
+                "food_name": "Rye Crispbread",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 7.9,
+                "calories": 366,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 11292,
+                "food_name": "Bread Crumbs Dry Grated Seasoned",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 14.13,
+                "calories": 383,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 11295,
+                "food_name": "Bread Protein (Includes Gluten) Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 13.2,
+                "calories": 270,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 11301,
+                "food_name": "Bread Cornbread Dry Mix Unenriched (Includes Corn Muffin Mix)",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 7,
+                "calories": 418,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 11302,
+                "food_name": "Bread Pita White Unenriched",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 9.1,
+                "calories": 275,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 11303,
+                "food_name": "Bread Raisin Unenriched",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 7.9,
+                "calories": 274,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 11304,
+                "food_name": "Bread White Commercially Prepared Low Sodium No Salt",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 8.2,
+                "calories": 267,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 11312,
+                "food_name": "Bread White Commercially Prepared Toasted Low Sodium No Salt",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 9,
+                "calories": 293,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 11578,
+                "food_name": "Beef New Zealand Imported Sweetbread Cooked Boiled",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 12.53,
+                "calories": 318,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 11579,
+                "food_name": "Beef New Zealand Imported Sweetbread Raw",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 11.51,
+                "calories": 303,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 11832,
+                "food_name": "Chicken Tenders Breaded Frozen Prepared",
+                "food_group": "prepared meals",
+                "weight_in_g": 100,
+                "protein_in_g": 14.62,
+                "calories": 240,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 12207,
+                "food_name": "USDA Commodity Salmon Nuggets Breaded Frozen Heated",
+                "food_group": "FISH & SEAFOOD",
+                "weight_in_g": 100,
+                "protein_in_g": 12.69,
+                "calories": 212,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 12305,
+                "food_name": "Veal Leg (Top Round) Separable Lean And Fat Cooked Pan-Fried Breaded",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 27.29,
+                "calories": 238,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 12306,
+                "food_name": "Veal Leg (Top Round) Separable Lean And Fat Cooked Pan-Fried Not Breaded",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 31.75,
+                "calories": 211,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 12409,
+                "food_name": "Quaker Weight Control Instant Oatmeal Banana Bread",
+                "food_group": "breakfast cereals",
+                "weight_in_g": 100,
+                "protein_in_g": 16.5,
+                "calories": 361,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 12561,
+                "food_name": "Bread Chapati Or Roti Whole Wheat Commercially Prepared Frozen",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 7.85,
+                "calories": 299,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 12562,
+                "food_name": "Bread Paratha Whole Wheat Commercially Prepared Frozen",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 6.36,
+                "calories": 326,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 12563,
+                "food_name": "Bread Naan Whole Wheat Commercially Prepared Refrigerated",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 10.2,
+                "calories": 286,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 12564,
+                "food_name": "Bread Roll Mexican Bollilo",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 10.65,
+                "calories": 318,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 12573,
+                "food_name": "Cookies Shortbread Reduced Fat",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 5.37,
+                "calories": 451,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 12577,
+                "food_name": "Bread French Or Vienna Whole Wheat",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 8.33,
+                "calories": 239,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 12585,
+                "food_name": "Bread Gluten-Free White Made With Potato Extract Rice Starch And Rice Flour",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 3.13,
+                "calories": 320,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 12586,
+                "food_name": "Bread Gluten-Free White Made With Rice Flour Corn Starch And/or Tapioca",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 4.31,
+                "calories": 248,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 12587,
+                "food_name": "Bread Gluten-Free White Made With Tapioca Starch And Brown Rice Flour",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 5.4,
+                "calories": 298,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 12588,
+                "food_name": "Bread Gluten-Free Whole Grain Made With Tapioca Starch And Brown Rice Flour",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 7.25,
+                "calories": 309,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 12673,
+                "food_name": "Fish Catfish Channel Cooked Breaded And Fried",
+                "food_group": "FISH & SEAFOOD",
+                "weight_in_g": 100,
+                "protein_in_g": 18.09,
+                "calories": 229,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 12707,
+                "food_name": "Mollusks Scallop Mixed Species Cooked Breaded And Fried",
+                "food_group": "FISH & SEAFOOD",
+                "weight_in_g": 100,
+                "protein_in_g": 18.07,
+                "calories": 216,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 12931,
+                "food_name": "Lamb New Zealand Imported Sweetbread Cooked Soaked And Simmered",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 21.13,
+                "calories": 144,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 12932,
+                "food_name": "Lamb New Zealand Imported Sweetbread Raw",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 11,
+                "calories": 72,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 13124,
+                "food_name": "Quaker Instant Oatmeal Banana Bread Dry",
+                "food_group": "breakfast cereals",
+                "weight_in_g": 100,
+                "protein_in_g": 8.97,
+                "calories": 368,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 13392,
+                "food_name": "Bread Banana Prepared From Recipe Made With Margarine",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 4.3,
+                "calories": 326,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 13393,
+                "food_name": "Bread Boston Brown Canned",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 5.2,
+                "calories": 195,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 13394,
+                "food_name": "Bread Cornbread Dry Mix Enriched (Includes Corn Muffin Mix)",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 7,
+                "calories": 418,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 13395,
+                "food_name": "Bread Cornbread Dry Mix Prepared With 2% Milk 80% Margarine And Eggs",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 6.59,
+                "calories": 330,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 13396,
+                "food_name": "Bread Cornbread Prepared From Recipe Made With Low Fat (2%) Milk",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 6.7,
+                "calories": 266,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 13397,
+                "food_name": "Bread French Or Vienna Toasted (Includes Sourdough)",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 13,
+                "calories": 319,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 13398,
+                "food_name": "Bread Irish Soda Prepared From Recipe",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 6.6,
+                "calories": 290,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 13399,
+                "food_name": "Bread Italian",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 9.49,
+                "calories": 259,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 13401,
+                "food_name": "Pita Bread",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 9.1,
+                "calories": 275,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 13403,
+                "food_name": "Bread Protein (Includes Gluten)",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 12.1,
+                "calories": 245,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 13404,
+                "food_name": "Bread Pumpernickel",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 8.7,
+                "calories": 250,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 13405,
+                "food_name": "Bread Reduced-Calorie Oatmeal",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 7.6,
+                "calories": 210,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 13406,
+                "food_name": "Bread Reduced-Calorie Rye",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 9.1,
+                "calories": 203,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 13407,
+                "food_name": "Bread Reduced-Calorie Wheat",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 13.32,
+                "calories": 217,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 13408,
+                "food_name": "Bread Reduced-Calorie White",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 8.7,
+                "calories": 207,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 13409,
+                "food_name": "Bread Rice Bran",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 8.9,
+                "calories": 243,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 13410,
+                "food_name": "White Bread",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 8.85,
+                "calories": 266,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 13411,
+                "food_name": "Toasted White Bread",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 9,
+                "calories": 290,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 13412,
+                "food_name": "Bread White Prepared From Recipe Made With Nonfat Dry Milk",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 7.7,
+                "calories": 274,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 13413,
+                "food_name": "Bread White Prepared From Recipe Made With Low Fat (2%) Milk",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 7.9,
+                "calories": 285,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 13414,
+                "food_name": "Bread Crumbs Dry Grated Plain",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 13.35,
+                "calories": 395,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 13415,
+                "food_name": "Bread Sticks Plain",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 12,
+                "calories": 412,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 13416,
+                "food_name": "Bread Stuffing Bread Dry Mix",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 11,
+                "calories": 386,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 13417,
+                "food_name": "Bread Stuffing Bread Dry Mix Prepared",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 2.73,
+                "calories": 195,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 13453,
+                "food_name": "Cookies Shortbread Commercially Prepared Plain",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 5.37,
+                "calories": 514,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 13454,
+                "food_name": "Cookies Shortbread Commercially Prepared Pecan",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 4.9,
+                "calories": 542,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 13530,
+                "food_name": "Bread Rice Bran Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 9.7,
+                "calories": 264,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 13757,
+                "food_name": "Veal Leg (Top Round) Separable Lean Only Cooked Pan-Fried Breaded",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 28.41,
+                "calories": 216,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 13758,
+                "food_name": "Veal Leg (Top Round) Separable Lean Only Cooked Pan-Fried Not Breaded",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 33.17,
+                "calories": 183,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14127,
+                "food_name": "Pudding Bread",
+                "food_group": "SWEETS,CANDY & DESSERTS",
+                "weight_in_g": 100,
+                "protein_in_g": 5.47,
+                "calories": 155,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14128,
+                "food_name": "Bread Pudding Made With Evaporated Milk And Rum",
+                "food_group": "SWEETS,CANDY & DESSERTS",
+                "weight_in_g": 100,
+                "protein_in_g": 8.23,
+                "calories": 271,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14130,
+                "food_name": "Pudding Mexican Bread",
+                "food_group": "SWEETS,CANDY & DESSERTS",
+                "weight_in_g": 100,
+                "protein_in_g": 5.06,
+                "calories": 280,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14131,
+                "food_name": "Pudding Mexican Bread Low Fat",
+                "food_group": "SWEETS,CANDY & DESSERTS",
+                "weight_in_g": 100,
+                "protein_in_g": 7.47,
+                "calories": 278,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14188,
+                "food_name": "Cheese Sandwich American Cheese On White Bread No Spread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 11.83,
+                "calories": 283,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14189,
+                "food_name": "Cheese Sandwich American Cheese On Wheat Bread No Spread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 13.36,
+                "calories": 281,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14190,
+                "food_name": "Cheese Sandwich American Cheese On Whole Wheat Bread No Spread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 13.36,
+                "calories": 281,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14191,
+                "food_name": "Cheese Sandwich Cheddar Cheese On White Bread No Spread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 14.62,
+                "calories": 323,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14192,
+                "food_name": "Cheese Sandwich Cheddar Cheese On Wheat Bread No Spread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 16.15,
+                "calories": 321,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14193,
+                "food_name": "Cheese Sandwich Cheddar Cheese On Whole Wheat Bread No Spread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 16.15,
+                "calories": 321,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14194,
+                "food_name": "Cheese Sandwich Reduced Fat American Cheese On White Bread No Spread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 12.45,
+                "calories": 255,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14195,
+                "food_name": "Cheese Sandwich Reduced Fat American Cheese On Wheat Bread No Spread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 13.98,
+                "calories": 253,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14196,
+                "food_name": "Cheese Sandwich Reduced Fat American Cheese On Whole Wheat Bread No Spread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 13.98,
+                "calories": 253,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14197,
+                "food_name": "Cheese Sandwich Reduced Fat Cheddar Cheese On White Bread No Spread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 16.47,
+                "calories": 284,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14198,
+                "food_name": "Cheese Sandwich Reduced Fat Cheddar Cheese On Wheat Bread No Spread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 18,
+                "calories": 282,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14199,
+                "food_name": "Cheese Sandwich Reduced Fat Cheddar Cheese On Whole Wheat Bread No Spread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 18,
+                "calories": 282,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14200,
+                "food_name": "Cheese Sandwich American Cheese On White Bread With Mayonnaise",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 10.52,
+                "calories": 331,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14201,
+                "food_name": "Cheese Sandwich American Cheese On Wheat Bread With Mayonnaise",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 11.87,
+                "calories": 329,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14202,
+                "food_name": "Cheese Sandwich American Cheese On Whole Wheat Bread With Mayonnaise",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 11.87,
+                "calories": 329,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14203,
+                "food_name": "Cheese Sandwich Cheddar Cheese On White Bread With Mayonnaise",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 12.97,
+                "calories": 366,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14204,
+                "food_name": "Cheese Sandwich Cheddar Cheese On Wheat Bread With Mayonnaise",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 14.32,
+                "calories": 364,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14205,
+                "food_name": "Cheese Sandwich Cheddar Cheese On Whole Wheat Bread With Mayonnaise",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 14.32,
+                "calories": 364,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14206,
+                "food_name": "Cheese Sandwich Reduced Fat American Cheese On White Bread With Mayonnaise",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 11.07,
+                "calories": 307,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14207,
+                "food_name": "Cheese Sandwich Reduced Fat American Cheese On Wheat Bread With Mayonnaise",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 12.41,
+                "calories": 305,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14208,
+                "food_name": "Cheese Sandwich Reduced Fat American Cheese On Whole Wheat Bread With Mayonnaise",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 12.41,
+                "calories": 305,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14209,
+                "food_name": "Cheese Sandwich Reduced Fat Cheddar Cheese On White Bread With Mayonnaise",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 14.6,
+                "calories": 332,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14210,
+                "food_name": "Cheese Sandwich Reduced Fat Cheddar Cheese On Wheat Bread With Mayonnaise",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 15.94,
+                "calories": 330,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14211,
+                "food_name": "Cheese Sandwich Reduced Fat Cheddar Cheese On Whole Wheat Bread With Mayonnaise",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 15.94,
+                "calories": 330,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14212,
+                "food_name": "Cheese Sandwich American Cheese On White Bread With Butter",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 10.47,
+                "calories": 326,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14213,
+                "food_name": "Cheese Sandwich American Cheese On Wheat Bread With Butter",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 11.82,
+                "calories": 325,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14214,
+                "food_name": "Cheese Sandwich American Cheese On Whole Wheat Bread With Butter",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 11.82,
+                "calories": 325,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14215,
+                "food_name": "Cheese Sandwich Cheddar Cheese On White Bread With Butter",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 12.93,
+                "calories": 362,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14216,
+                "food_name": "Cheese Sandwich Cheddar Cheese On Wheat Bread With Butter",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 14.27,
+                "calories": 360,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14217,
+                "food_name": "Cheese Sandwich Cheddar Cheese On Whole Wheat Bread With Butter",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 14.27,
+                "calories": 360,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14218,
+                "food_name": "Cheese Sandwich Reduced Fat American Cheese On White Bread With Butter",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 11.02,
+                "calories": 302,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14219,
+                "food_name": "Cheese Sandwich Reduced Fat American Cheese On Wheat Bread With Butter",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 12.37,
+                "calories": 301,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14220,
+                "food_name": "Cheese Sandwich Reduced Fat American Cheese On Whole Wheat Bread With Butter",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 12.37,
+                "calories": 301,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14221,
+                "food_name": "Cheese Sandwich Reduced Fat Cheddar Cheese On White Bread With Butter",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 14.55,
+                "calories": 327,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14222,
+                "food_name": "Cheese Sandwich Reduced Fat Cheddar Cheese On Wheat Bread With Butter",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 15.9,
+                "calories": 325,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14223,
+                "food_name": "Cheese Sandwich Reduced Fat Cheddar Cheese On Whole Wheat Bread With Butter",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 15.9,
+                "calories": 325,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14225,
+                "food_name": "Grilled Cheese Sandwich American Cheese On White Bread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 10.47,
+                "calories": 326,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14226,
+                "food_name": "Grilled Cheese Sandwich American Cheese On Wheat Bread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 11.82,
+                "calories": 325,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14227,
+                "food_name": "Grilled Cheese Sandwich American Cheese On Whole Wheat Bread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 11.82,
+                "calories": 325,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14228,
+                "food_name": "Grilled Cheese Sandwich Cheddar Cheese On White Bread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 12.93,
+                "calories": 362,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14229,
+                "food_name": "Grilled Cheese Sandwich Cheddar Cheese On Wheat Bread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 14.27,
+                "calories": 360,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14230,
+                "food_name": "Grilled Cheese Sandwich Cheddar Cheese On Whole Wheat Bread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 14.27,
+                "calories": 360,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14231,
+                "food_name": "Grilled Cheese Sandwich Reduced Fat American Cheese On White Bread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 11.02,
+                "calories": 302,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14232,
+                "food_name": "Grilled Cheese Sandwich Reduced Fat American Cheese On Wheat Bread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 12.37,
+                "calories": 301,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14233,
+                "food_name": "Grilled Cheese Sandwich Reduced Fat American Cheese On Whole Wheat Bread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 12.37,
+                "calories": 301,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14234,
+                "food_name": "Grilled Cheese Sandwich Reduced Fat Cheddar Cheese On White Bread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 14.55,
+                "calories": 327,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14235,
+                "food_name": "Grilled Cheese Sandwich Reduced Fat Cheddar Cheese On Wheat Bread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 15.9,
+                "calories": 325,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14236,
+                "food_name": "Grilled Cheese Sandwich Reduced Fat Cheddar Cheese On Whole Wheat Bread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 15.9,
+                "calories": 325,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14269,
+                "food_name": "Beef Steak Breaded Or Floured Baked Or Fried Ns As To Fat Eaten",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 25.04,
+                "calories": 247,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14270,
+                "food_name": "Beef Steak Breaded Or Floured Baked Or Fried Lean And Fat Eaten",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 24.42,
+                "calories": 267,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14271,
+                "food_name": "Beef Steak Breaded Or Floured Baked Or Fried Lean Only Eaten",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 25.04,
+                "calories": 247,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14310,
+                "food_name": "Pork Ns As To Cut Breaded Or Floured Fried Ns As To Fat Eaten",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 25.03,
+                "calories": 270,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14311,
+                "food_name": "Pork Ns As To Cut Breaded Or Floured Fried Lean And Fat Eaten",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 24,
+                "calories": 304,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14312,
+                "food_name": "Pork Ns As To Cut Breaded Or Floured Fried Lean Only Eaten",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 25.03,
+                "calories": 270,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14314,
+                "food_name": "Pork Ground Or Patty Breaded Cooked",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 20.3,
+                "calories": 333,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14321,
+                "food_name": "Pork Chop Breaded Or Floured Broiled Or Baked Ns As To Fat Eaten",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 26.87,
+                "calories": 239,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14322,
+                "food_name": "Pork Chop Breaded Or Floured Broiled Or Baked Lean And Fat Eaten",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 26.87,
+                "calories": 239,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14323,
+                "food_name": "Pork Chop Breaded Or Floured Broiled Or Baked Lean Only Eaten",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 28.19,
+                "calories": 196,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14327,
+                "food_name": "Pork Chop Breaded Or Floured Fried Ns As To Fat Eaten",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 24,
+                "calories": 304,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14328,
+                "food_name": "Pork Chop Breaded Or Floured Fried Lean And Fat Eaten",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 24,
+                "calories": 304,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14329,
+                "food_name": "Pork Chop Breaded Or Floured Fried Lean Only Eaten",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 25.03,
+                "calories": 270,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14348,
+                "food_name": "Pork Steak Or Cutlet Breaded Or Floured Broiled Or Baked Ns As To Fat Eaten",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 22.3,
+                "calories": 264,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14349,
+                "food_name": "Pork Steak Or Cutlet Breaded Or Floured Broiled Or Baked Lean And Fat Eaten",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 22.3,
+                "calories": 264,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14350,
+                "food_name": "Pork Steak Or Cutlet Breaded Or Floured Broiled Or Baked Lean Only Eaten",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 23.8,
+                "calories": 202,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14351,
+                "food_name": "Pork Steak Or Cutlet Breaded Or Floured Fried Ns As To Fat Eaten",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 21.08,
+                "calories": 305,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14352,
+                "food_name": "Pork Steak Or Cutlet Breaded Or Floured Fried Lean And Fat Eaten",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 20.64,
+                "calories": 324,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14353,
+                "food_name": "Pork Steak Or Cutlet Breaded Or Floured Fried Lean Only Eaten",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 21.81,
+                "calories": 275,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14355,
+                "food_name": "Pork Tenderloin Breaded Fried",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 22,
+                "calories": 294,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14362,
+                "food_name": "Ham Breaded Or Floured Fried Ns As To Fat Eaten",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 18.36,
+                "calories": 200,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14363,
+                "food_name": "Ham Breaded Or Floured Fried Lean And Fat Eaten",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 18.36,
+                "calories": 200,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14364,
+                "food_name": "Ham Breaded Or Floured Fried Lean Only Eaten",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 19.66,
+                "calories": 191,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14442,
+                "food_name": "Veal Patty Breaded Cooked",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 22.23,
+                "calories": 283,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14445,
+                "food_name": "Rabbit Ns As To Domestic Or Wild Breaded Fried",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 27.65,
+                "calories": 248,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14451,
+                "food_name": "Venison/deer Steak Breaded Or Floured Cooked Ns As To Cooking Method",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 24.88,
+                "calories": 224,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14608,
+                "food_name": "Chicken Tenders Or Strips Breaded From Restaurant",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 18.82,
+                "calories": 283,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14609,
+                "food_name": "Chicken Tenders Or Strips Breaded From Other Sources",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 17.84,
+                "calories": 262,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14614,
+                "food_name": "Turkey Light Meat Breaded Baked Or Fried Skin Not Eaten",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 27.33,
+                "calories": 172,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14615,
+                "food_name": "Turkey Light Meat Breaded Baked Or Fried Skin Eaten",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 26.85,
+                "calories": 199,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 14665,
+                "food_name": "Sweetbreads Cooked",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 22.48,
+                "calories": 124,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15019,
+                "food_name": "Abalone Floured Or Breaded Fried",
+                "food_group": "FISH & SEAFOOD",
+                "weight_in_g": 100,
+                "protein_in_g": 18.24,
+                "calories": 242,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15301,
+                "food_name": "Lobster With Bread Stuffing Baked",
+                "food_group": "FISH & SEAFOOD",
+                "weight_in_g": 100,
+                "protein_in_g": 14.85,
+                "calories": 175,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15319,
+                "food_name": "Meatballs With Breading Ns As To Type Of Meat With Gravy",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 12.28,
+                "calories": 144,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15325,
+                "food_name": "Breaded Brains Puerto Rican Style",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 10.09,
+                "calories": 246,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15580,
+                "food_name": "Chicken Or Turkey Breaded Fried Garden Salad With Bacon And Cheese Chicken And/or Turkey Bacon Cheese Lettuce And/or Greens Tomato And/or Carrots Other Vegetables No Dressing",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 6.86,
+                "calories": 120,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15582,
+                "food_name": "Chicken Or Turkey Breaded Fried Garden Salad With Cheese Chicken And/or Turkey Cheese Lettuce And/or Greens Tomato And/or Carrots Other Vegetables No Dressing",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 6.54,
+                "calories": 120,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15586,
+                "food_name": "Chicken Or Turkey Breaded Fried Caesar Garden Salad Chicken And/or Turkey Lettuce Tomatoes Cheese No Dressing",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 6.62,
+                "calories": 112,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15726,
+                "food_name": "Fajita-Style Beef Sandwich With Cheese On Pita Bread With Lettuce And Tomato",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 9.1,
+                "calories": 160,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15729,
+                "food_name": "Gyro Sandwich (Pita Bread Beef Lamb Onion Condiments) With Tomato And Spread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 11.91,
+                "calories": 167,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15737,
+                "food_name": "Bacon Breaded Fried Chicken Fillet And Tomato Club With Lettuce And Spread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 12.4,
+                "calories": 257,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15759,
+                "food_name": "Chicken Fillet Breaded Fried Sandwich With Cheese Lettuce Tomato And Spread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 11.66,
+                "calories": 286,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15762,
+                "food_name": "Fajita-Style Chicken Sandwich With Cheese On Pita Bread With Lettuce And Tomato",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 10.52,
+                "calories": 156,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15802,
+                "food_name": "Frankfurter Or Hot Dog Sandwich NFS Plain On White Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 11.17,
+                "calories": 310,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15803,
+                "food_name": "Frankfurter Or Hot Dog Sandwich NFS Plain On Wheat Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 11.77,
+                "calories": 313,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15804,
+                "food_name": "Frankfurter Or Hot Dog Sandwich NFS Plain On Whole Wheat Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 12.36,
+                "calories": 301,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15805,
+                "food_name": "Frankfurter Or Hot Dog Sandwich NFS Plain On Whole Grain White Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 11.67,
+                "calories": 295,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15806,
+                "food_name": "Frankfurter Or Hot Dog Sandwich NFS Plain On Multigrain Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 12.71,
+                "calories": 306,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15812,
+                "food_name": "Frankfurter Or Hot Dog Sandwich Beef Plain On White Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 11.17,
+                "calories": 310,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15813,
+                "food_name": "Frankfurter Or Hot Dog Sandwich Beef Plain On Wheat Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 11.77,
+                "calories": 313,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15814,
+                "food_name": "Frankfurter Or Hot Dog Sandwich Beef Plain On Whole Wheat Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 12.36,
+                "calories": 301,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15815,
+                "food_name": "Frankfurter Or Hot Dog Sandwich Beef Plain On Whole Grain White Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 11.67,
+                "calories": 295,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15816,
+                "food_name": "Frankfurter Or Hot Dog Sandwich Beef Plain On Multigrain Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 12.71,
+                "calories": 306,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15822,
+                "food_name": "Frankfurter Or Hot Dog Sandwich Beef And Pork Plain On White Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 9.93,
+                "calories": 288,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15823,
+                "food_name": "Frankfurter Or Hot Dog Sandwich Beef And Pork Plain On Wheat Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 10.56,
+                "calories": 291,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15824,
+                "food_name": "Frankfurter Or Hot Dog Sandwich Beef And Pork Plain On Whole Wheat Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 11.34,
+                "calories": 281,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15825,
+                "food_name": "Frankfurter Or Hot Dog Sandwich Beef And Pork Plain On Whole Grain White Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 10.62,
+                "calories": 276,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15826,
+                "food_name": "Frankfurter Or Hot Dog Sandwich Beef And Pork Plain On Multigrain Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 11.72,
+                "calories": 287,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15832,
+                "food_name": "Frankfurter Or Hot Dog Sandwich Meat And Poultry Plain On White Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 9.78,
+                "calories": 283,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15833,
+                "food_name": "Frankfurter Or Hot Dog Sandwich Meat And Poultry Plain On Wheat Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 10.38,
+                "calories": 286,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15834,
+                "food_name": "Frankfurter Or Hot Dog Sandwich Meat And Poultry Plain On Whole Wheat Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 11.09,
+                "calories": 276,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15835,
+                "food_name": "Frankfurter Or Hot Dog Sandwich Meat And Poultry Plain On Whole Grain White Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 10.4,
+                "calories": 271,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15836,
+                "food_name": "Frankfurter Or Hot Dog Sandwich Meat And Poultry Plain On Multigrain Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 11.44,
+                "calories": 281,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15842,
+                "food_name": "Frankfurter Or Hot Dog Sandwich Chicken And/or Turkey Plain On White Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 13.86,
+                "calories": 245,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15843,
+                "food_name": "Frankfurter Or Hot Dog Sandwich Chicken And/or Turkey Plain On Wheat Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 14.46,
+                "calories": 248,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15844,
+                "food_name": "Frankfurter Or Hot Dog Sandwich Chicken And/or Turkey Plain On Whole Wheat Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 14.83,
+                "calories": 241,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15845,
+                "food_name": "Frankfurter Or Hot Dog Sandwich Chicken And/or Turkey Plain On Whole Grain White Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 14.13,
+                "calories": 236,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15846,
+                "food_name": "Frankfurter Or Hot Dog Sandwich Chicken And/or Turkey Plain On Multigrain Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 15.18,
+                "calories": 246,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15852,
+                "food_name": "Frankfurter Or Hot Dog Sandwich Reduced Fat Or Light Plain On White Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 13.86,
+                "calories": 173,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15853,
+                "food_name": "Frankfurter Or Hot Dog Sandwich Reduced Fat Or Light Plain On Wheat Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 14.46,
+                "calories": 176,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15854,
+                "food_name": "Frankfurter Or Hot Dog Sandwich Reduced Fat Or Light Plain On Whole Wheat Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 14.82,
+                "calories": 176,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15855,
+                "food_name": "Frankfurter Or Hot Dog Sandwich Reduced Fat Or Light Plain On Whole Grain White Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 14.13,
+                "calories": 170,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15856,
+                "food_name": "Frankfurter Or Hot Dog Sandwich Reduced Fat Or Light Plain On Multigrain Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 15.17,
+                "calories": 181,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15862,
+                "food_name": "Frankfurter Or Hot Dog Sandwich Fat Free Plain On White Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 11.74,
+                "calories": 165,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15863,
+                "food_name": "Frankfurter Or Hot Dog Sandwich Fat Free Plain On Wheat Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 12.34,
+                "calories": 167,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15864,
+                "food_name": "Frankfurter Or Hot Dog Sandwich Fat Free Plain On Whole Wheat Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 12.88,
+                "calories": 168,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15865,
+                "food_name": "Frankfurter Or Hot Dog Sandwich Fat Free Plain On Whole Grain White Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 12.19,
+                "calories": 162,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15866,
+                "food_name": "Frankfurter Or Hot Dog Sandwich Fat Free Plain On Multigrain Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 13.24,
+                "calories": 173,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15868,
+                "food_name": "Frankfurter Or Hot Dog Sandwich Meatless Plain On Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 16.54,
+                "calories": 242,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15874,
+                "food_name": "Frankfurter Or Hot Dog Sandwich With Chili On White Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 8.86,
+                "calories": 223,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15875,
+                "food_name": "Frankfurter Or Hot Dog Sandwich With Chili On Wheat Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 9.2,
+                "calories": 224,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15876,
+                "food_name": "Frankfurter Or Hot Dog Sandwich With Chili On Whole Wheat Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 9.69,
+                "calories": 222,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15877,
+                "food_name": "Frankfurter Or Hot Dog Sandwich With Chili On Whole Grain White Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 9.28,
+                "calories": 219,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15878,
+                "food_name": "Frankfurter Or Hot Dog Sandwich With Chili On Multigrain Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 9.9,
+                "calories": 225,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15884,
+                "food_name": "Frankfurter Or Hot Dog Sandwich With Meatless Chili On White Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 9,
+                "calories": 221,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15885,
+                "food_name": "Frankfurter Or Hot Dog Sandwich With Meatless Chili On Wheat Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 9.34,
+                "calories": 223,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15886,
+                "food_name": "Frankfurter Or Hot Dog Sandwich With Meatless Chili On Whole Wheat Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 9.69,
+                "calories": 222,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15887,
+                "food_name": "Frankfurter Or Hot Dog Sandwich With Meatless Chili On Whole Grain White Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 9.41,
+                "calories": 217,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15888,
+                "food_name": "Frankfurter Or Hot Dog Sandwich With Meatless Chili On Multigrain Bread",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 10.03,
+                "calories": 223,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15890,
+                "food_name": "Frankfurter Or Hot Dog Sandwich Meatless On Bread With Meatless Chili",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 12.42,
+                "calories": 187,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15921,
+                "food_name": "Veal Breaded With Spaghetti In Tomato Sauce Frozen Meal",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 6.36,
+                "calories": 129,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15928,
+                "food_name": "Chicken Patty Or Nuggets Boneless Breaded Potatoes Vegetable Frozen Meal",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 10.71,
+                "calories": 204,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15929,
+                "food_name": "Chicken Patty Breaded With Tomato Sauce And Cheese Fettuccine Alfredo Vegetable Frozen Meal",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 9.4,
+                "calories": 122,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15930,
+                "food_name": "Chicken Patty Or Nuggets Boneless Breaded With Pasta And Tomato Sauce Fruit Dessert Frozen Meal",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 5.09,
+                "calories": 178,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 15933,
+                "food_name": "Chicken Patty Parmigiana Breaded With Vegetable Diet Frozen Meal",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 9.6,
+                "calories": 135,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16074,
+                "food_name": "Egg Casserole With Bread Cheese Milk And Meat",
+                "food_group": "dairy and egg products ",
+                "weight_in_g": 100,
+                "protein_in_g": 12.03,
+                "calories": 192,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16398,
+                "food_name": "Soybean Curd Breaded Fried",
+                "food_group": "beans and lentils",
+                "weight_in_g": 100,
+                "protein_in_g": 8.4,
+                "calories": 150,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16448,
+                "food_name": "Peanut Butter Sandwich With Regular Peanut Butter On White Bread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 13.5,
+                "calories": 381,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16449,
+                "food_name": "Peanut Butter Sandwich With Regular Peanut Butter On Wheat Bread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 15.2,
+                "calories": 379,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16450,
+                "food_name": "Peanut Butter Sandwich With Regular Peanut Butter On Whole Wheat Bread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 15.2,
+                "calories": 379,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16451,
+                "food_name": "Peanut Butter Sandwich With Reduced Fat Peanut Butter On White Bread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 14.78,
+                "calories": 354,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16452,
+                "food_name": "Peanut Butter Sandwich With Reduced Fat Peanut Butter On Wheat Bread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 16.48,
+                "calories": 352,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16453,
+                "food_name": "Peanut Butter Sandwich With Reduced Fat Peanut Butter On Whole Wheat Bread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 16.48,
+                "calories": 352,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16455,
+                "food_name": "Peanut Butter And Jelly Sandwich With Regular Peanut Butter Regular Jelly On White Bread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 11.11,
+                "calories": 361,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16456,
+                "food_name": "Peanut Butter And Jelly Sandwich With Regular Peanut Butter Regular Jelly On Wheat Bread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 12.51,
+                "calories": 359,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16457,
+                "food_name": "Peanut Butter And Jelly Sandwich With Regular Peanut Butter Regular Jelly On Whole Wheat Bread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 12.51,
+                "calories": 359,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16458,
+                "food_name": "Peanut Butter And Jelly Sandwich With Reduced Fat Peanut Butter Regular Jelly On White Bread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 12.17,
+                "calories": 339,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16459,
+                "food_name": "Peanut Butter And Jelly Sandwich With Reduced Fat Peanut Butter Regular Jelly On Wheat Bread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 13.56,
+                "calories": 337,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16460,
+                "food_name": "Peanut Butter And Jelly Sandwich With Reduced Fat Peanut Butter Regular Jelly On Whole Wheat Bread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 13.56,
+                "calories": 337,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16461,
+                "food_name": "Peanut Butter And Jelly Sandwich With Regular Peanut Butter Reduced Sugar Jelly On White Bread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 11.09,
+                "calories": 340,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16462,
+                "food_name": "Peanut Butter And Jelly Sandwich With Regular Peanut Butter Reduced Sugar Jelly On Wheat Bread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 12.48,
+                "calories": 339,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16463,
+                "food_name": "Peanut Butter And Jelly Sandwich With Regular Peanut Butter Reduced Sugar Jelly On Whole Wheat Bread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 12.48,
+                "calories": 339,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16464,
+                "food_name": "Peanut Butter And Jelly Sandwich With Reduced Fat Peanut Butter Reduced Sugar Jelly On White Bread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 12.14,
+                "calories": 318,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16465,
+                "food_name": "Peanut Butter And Jelly Sandwich With Reduced Fat Peanut Butter Reduced Sugar Jelly On Wheat Bread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 13.54,
+                "calories": 316,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16466,
+                "food_name": "Peanut Butter And Jelly Sandwich With Reduced Fat Peanut Butter Reduced Sugar Jelly On Whole Wheat Bread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 13.54,
+                "calories": 316,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16479,
+                "food_name": "Bread Made From Home Recipe Or Purchased At A Bakery Ns As To Major Flour",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 8.62,
+                "calories": 270,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16480,
+                "food_name": "Bread Made From Home Recipe Or Purchased At A Bakery Toasted Ns As To Major Flour",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 9.47,
+                "calories": 297,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16481,
+                "food_name": "Bread White Made From Home Recipe Or Purchased At A Bakery",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 8.62,
+                "calories": 270,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16482,
+                "food_name": "Bread White Made From Home Recipe Or Purchased At A Bakery Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 9.47,
+                "calories": 297,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16483,
+                "food_name": "Bread White With Whole Wheat Swirl",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 10.65,
+                "calories": 259,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16484,
+                "food_name": "Bread White With Whole Wheat Swirl Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 11.79,
+                "calories": 298,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16485,
+                "food_name": "Bread Cuban Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 11.81,
+                "calories": 299,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16486,
+                "food_name": "Bread Native Water Puerto Rican Style",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 8.78,
+                "calories": 277,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16487,
+                "food_name": "Bread Native Water Toasted Puerto Rican Style",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 9.65,
+                "calories": 305,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16488,
+                "food_name": "Bread Lard Puerto Rican Style",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 6.97,
+                "calories": 280,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16489,
+                "food_name": "Bread Lard Toasted Puerto Rican Style",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 7.74,
+                "calories": 311,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16490,
+                "food_name": "Bread Caressed Puerto Rican Style",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 7.76,
+                "calories": 273,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16491,
+                "food_name": "Bread Caressed Toasted Puerto Rican Style",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 8.53,
+                "calories": 300,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16492,
+                "food_name": "Naan Indian Flatbread",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 11.09,
+                "calories": 311,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16493,
+                "food_name": "Bread Italian Grecian Armenian",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 8.8,
+                "calories": 271,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16494,
+                "food_name": "Bread Italian Grecian Armenian Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 9.67,
+                "calories": 298,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16495,
+                "food_name": "Bread Pita Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 10,
+                "calories": 302,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16496,
+                "food_name": "Bread Pita With Fruit",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 8.2,
+                "calories": 279,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16497,
+                "food_name": "Bread Pita With Fruit Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 9.02,
+                "calories": 306,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16498,
+                "food_name": "Bread Cheese Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 11.45,
+                "calories": 448,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16499,
+                "food_name": "Bread Cornmeal And Molasses",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 6.7,
+                "calories": 283,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16500,
+                "food_name": "Bread Cornmeal And Molasses Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 7.37,
+                "calories": 311,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16501,
+                "food_name": "Bread Egg Challah Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 10.44,
+                "calories": 315,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16502,
+                "food_name": "Garlic Bread Nfs",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 8.34,
+                "calories": 349,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16503,
+                "food_name": "Garlic Bread From Fast Food / Restaurant",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 8.34,
+                "calories": 349,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16504,
+                "food_name": "Garlic Bread With Parmesan Cheese From Fast Food / Restaurant",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 8.74,
+                "calories": 351,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16505,
+                "food_name": "Garlic Bread With Parmesan Cheese From Frozen",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 8.75,
+                "calories": 351,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16506,
+                "food_name": "Garlic Bread With Melted Cheese From Fast Food / Restaurant",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 11.42,
+                "calories": 338,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16507,
+                "food_name": "Garlic Bread With Melted Cheese From Frozen",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 10.37,
+                "calories": 343,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16508,
+                "food_name": "Bread Onion",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 7.52,
+                "calories": 236,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16509,
+                "food_name": "Bread Onion Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 8.26,
+                "calories": 260,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16510,
+                "food_name": "Bread White Special Formula Added Fiber Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 11.71,
+                "calories": 262,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16511,
+                "food_name": "Bread High Protein Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 13.3,
+                "calories": 269,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16512,
+                "food_name": "Bread Potato Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 13.74,
+                "calories": 292,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16513,
+                "food_name": "Bread Raisin",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 8.27,
+                "calories": 269,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16514,
+                "food_name": "Bread Raisin Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 9.09,
+                "calories": 296,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16515,
+                "food_name": "Bread White Low Sodium Or No Salt Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 9.01,
+                "calories": 293,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16516,
+                "food_name": "Bread Sweet Potato",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 7.4,
+                "calories": 239,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16517,
+                "food_name": "Bread Sweet Potato Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 8.13,
+                "calories": 263,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16518,
+                "food_name": "Bread Vegetable",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 8.28,
+                "calories": 259,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16519,
+                "food_name": "Bread Vegetable Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 9.1,
+                "calories": 285,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16521,
+                "food_name": "Bread Dough Fried",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 8.02,
+                "calories": 382,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16531,
+                "food_name": "Bread Spanish Coffee",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 7.6,
+                "calories": 344,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16535,
+                "food_name": "Bread Stuffing",
+                "food_group": "prepared meals",
+                "weight_in_g": 100,
+                "protein_in_g": 3.14,
+                "calories": 177,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16536,
+                "food_name": "Bread Stuffing Made With Egg",
+                "food_group": "prepared meals",
+                "weight_in_g": 100,
+                "protein_in_g": 3.32,
+                "calories": 192,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16537,
+                "food_name": "Breadsticks Nfs",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 12.18,
+                "calories": 342,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16538,
+                "food_name": "Breadsticks Hard Reduced Sodium",
+                "food_group": "SNACKS",
+                "weight_in_g": 100,
+                "protein_in_g": 10.64,
+                "calories": 431,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16539,
+                "food_name": "Breadsticks Soft Nfs",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 12.18,
+                "calories": 342,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16540,
+                "food_name": "Breadsticks Soft From Fast Food / Restaurant",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 12.18,
+                "calories": 342,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16541,
+                "food_name": "Breadsticks Soft From Frozen",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 10.86,
+                "calories": 312,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16542,
+                "food_name": "Breadsticks Soft With Parmesan Cheese From Fast Food / Restaurant",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 12.49,
+                "calories": 344,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16543,
+                "food_name": "Breadsticks Soft With Parmesan Cheese From Frozen",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 10.86,
+                "calories": 312,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16544,
+                "food_name": "Breadsticks Soft Topped With Melted Cheese",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 14.49,
+                "calories": 333,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16545,
+                "food_name": "Breadsticks Soft Stuffed With Melted Cheese",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 14.49,
+                "calories": 333,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16550,
+                "food_name": "Bread Whole Grain White Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 11.71,
+                "calories": 262,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16552,
+                "food_name": "Bread Whole Wheat Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 13.68,
+                "calories": 277,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16553,
+                "food_name": "Bread Whole Wheat Made From Home Recipe Or Purchased At Bakery",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 9.21,
+                "calories": 248,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16554,
+                "food_name": "Bread Whole Wheat Made From Home Recipe Or Purchased At Bakery Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 10.12,
+                "calories": 272,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16555,
+                "food_name": "Bread Puri Wheat",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 6.21,
+                "calories": 396,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16556,
+                "food_name": "Bread Whole Wheat With Raisins",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 7.74,
+                "calories": 273,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16557,
+                "food_name": "Bread Whole Wheat With Raisins Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 8.51,
+                "calories": 301,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16558,
+                "food_name": "Bread Sprouted Wheat Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 14.46,
+                "calories": 207,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16559,
+                "food_name": "Bread Wheat Or Cracked Wheat Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 11.72,
+                "calories": 301,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16560,
+                "food_name": "Bread Wheat Or Cracked Wheat Made From Home Recipe Or Purchased At Bakery",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 8.93,
+                "calories": 263,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16561,
+                "food_name": "Bread Wheat Or Cracked Wheat Made From Home Recipe Or Purchased At Bakery Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 9.81,
+                "calories": 289,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16562,
+                "food_name": "Bread Wheat Or Cracked Wheat With Raisins",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 7.58,
+                "calories": 285,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16563,
+                "food_name": "Bread Wheat Or Cracked Wheat With Raisins Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 8.33,
+                "calories": 313,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16564,
+                "food_name": "Bread French Or Vienna Whole Wheat Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 9.15,
+                "calories": 263,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16565,
+                "food_name": "Bread Pita Whole Wheat Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 10.77,
+                "calories": 288,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16566,
+                "food_name": "Bread Pita Wheat Or Cracked Wheat Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 10.77,
+                "calories": 288,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16576,
+                "food_name": "Breadsticks Hard Whole Wheat",
+                "food_group": "SNACKS",
+                "weight_in_g": 100,
+                "protein_in_g": 13.23,
+                "calories": 411,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16577,
+                "food_name": "Bread Marble Rye And Pumpernickel Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 9.34,
+                "calories": 285,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16578,
+                "food_name": "Bread Pumpernickel Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 9.56,
+                "calories": 275,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16580,
+                "food_name": "Bread Black Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 9.56,
+                "calories": 275,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16583,
+                "food_name": "Bread Multigrain Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 14.68,
+                "calories": 291,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16584,
+                "food_name": "Bread Multigrain With Raisins",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 12.33,
+                "calories": 268,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16585,
+                "food_name": "Bread Multigrain With Raisins Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 13.55,
+                "calories": 295,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16588,
+                "food_name": "Bread Barley Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 11.72,
+                "calories": 301,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16589,
+                "food_name": "Bread Soy",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 15.4,
+                "calories": 258,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16590,
+                "food_name": "Bread Soy Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 16.92,
+                "calories": 284,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16591,
+                "food_name": "Bread Sunflower Meal",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 9.94,
+                "calories": 304,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16592,
+                "food_name": "Bread Sunflower Meal Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 10.92,
+                "calories": 334,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16593,
+                "food_name": "Bread Rice Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 4.74,
+                "calories": 273,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16594,
+                "food_name": "Injera Ethiopian Bread",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 3.48,
+                "calories": 88,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16595,
+                "food_name": "Bread Gluten Free Toasted",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 4.74,
+                "calories": 273,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16606,
+                "food_name": "Cornbread Made From Home Recipe",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 6.42,
+                "calories": 283,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16607,
+                "food_name": "Cornbread Muffin Stick Round Made From Home Recipe",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 6.88,
+                "calories": 303,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16613,
+                "food_name": "Spoonbread",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 6.65,
+                "calories": 164,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16630,
+                "food_name": "Bread Nut",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 6.49,
+                "calories": 392,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16631,
+                "food_name": "Bread Pumpkin",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 4.84,
+                "calories": 300,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16632,
+                "food_name": "Bread Fruit",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 5.96,
+                "calories": 362,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16633,
+                "food_name": "Bread Zucchini",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 4.92,
+                "calories": 300,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16634,
+                "food_name": "Bread Irish Soda",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 6.27,
+                "calories": 297,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16651,
+                "food_name": "Cake Or Cupcake Gingerbread",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 4.02,
+                "calories": 308,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16698,
+                "food_name": "Cookie Shortbread With Icing Or Filling",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 5.05,
+                "calories": 515,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16830,
+                "food_name": "Coffee Cake Crumb Or Quick-Bread Type",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 6.36,
+                "calories": 382,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16831,
+                "food_name": "Coffee Cake Crumb Or Quick-Bread Type With Fruit",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 4.12,
+                "calories": 311,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16832,
+                "food_name": "Coffee Cake Crumb Or Quick-Bread Type Cheese-Filled",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 7.24,
+                "calories": 355,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16843,
+                "food_name": "Crackers Flatbread",
+                "food_group": "SNACKS",
+                "weight_in_g": 100,
+                "protein_in_g": 9.85,
+                "calories": 412,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 16988,
+                "food_name": "Fried Bread Puerto Rican Style",
+                "food_group": "FAST FOODS",
+                "weight_in_g": 100,
+                "protein_in_g": 5.01,
+                "calories": 257,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 17301,
+                "food_name": "Ground Beef With Tomato Sauce And Taco Seasonings On A Cornbread Crust",
+                "food_group": "prepared meals",
+                "weight_in_g": 100,
+                "protein_in_g": 9.56,
+                "calories": 194,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 17443,
+                "food_name": "Sweet Bread Dough Filled With Meat Steamed",
+                "food_group": "prepared meals",
+                "weight_in_g": 100,
+                "protein_in_g": 10.92,
+                "calories": 272,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 17444,
+                "food_name": "Sweet Bread Dough Filled With Bean Paste Meatless Steamed",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 6.56,
+                "calories": 265,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 17474,
+                "food_name": "Chicken Cornbread",
+                "food_group": "meats",
+                "weight_in_g": 100,
+                "protein_in_g": 13.81,
+                "calories": 167,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 17862,
+                "food_name": "Jelly Sandwich Regular Jelly On White Bread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 5.37,
+                "calories": 266,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 17863,
+                "food_name": "Jelly Sandwich Regular Jelly On Wheat Bread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 6.93,
+                "calories": 264,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 17864,
+                "food_name": "Jelly Sandwich Regular Jelly On Whole Wheat Bread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 6.93,
+                "calories": 264,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 17865,
+                "food_name": "Jelly Sandwich Reduced Sugar Jelly On White Bread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 5.31,
+                "calories": 220,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 17866,
+                "food_name": "Jelly Sandwich Reduced Sugar Jelly On Wheat Bread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 6.87,
+                "calories": 218,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 17867,
+                "food_name": "Jelly Sandwich Reduced Sugar Jelly On Whole Wheat Bread",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 6.87,
+                "calories": 218,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 17879,
+                "food_name": "Spaghetti And Meatballs With Tomato Sauce Sliced Apples Bread Frozen Meal",
+                "food_group": "prepared meals",
+                "weight_in_g": 100,
+                "protein_in_g": 7.69,
+                "calories": 130,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 18230,
+                "food_name": "Casabe Cassava Bread",
+                "food_group": "baked foods",
+                "weight_in_g": 100,
+                "protein_in_g": 2.54,
+                "calories": 299,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 18979,
+                "food_name": "Breadfruit Cooked Ns As To Fat Added In Cooking",
+                "food_group": "VEGETABLES",
+                "weight_in_g": 100,
+                "protein_in_g": 1.15,
+                "calories": 131,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 18980,
+                "food_name": "Breadfruit Cooked Fat Not Added In Cooking",
+                "food_group": "VEGETABLES",
+                "weight_in_g": 100,
+                "protein_in_g": 1.18,
+                "calories": 114,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 18981,
+                "food_name": "Breadfruit Cooked Fat Added In Cooking",
+                "food_group": "VEGETABLES",
+                "weight_in_g": 100,
+                "protein_in_g": 1.15,
+                "calories": 131,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 18982,
+                "food_name": "Breadfruit Fried",
+                "food_group": "VEGETABLES",
+                "weight_in_g": 100,
+                "protein_in_g": 1.29,
+                "calories": 158,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 19625,
+                "food_name": "Jalapeno Pepper Stuffed With Cheese Breaded Or Battered Fried",
+                "food_group": "prepared meals",
+                "weight_in_g": 100,
+                "protein_in_g": 8.98,
+                "calories": 240,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 19662,
+                "food_name": "Squash Summer Yellow Or Green Breaded Or Battered Baked",
+                "food_group": "VEGETABLES",
+                "weight_in_g": 100,
+                "protein_in_g": 2.85,
+                "calories": 70,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 19663,
+                "food_name": "Squash Summer Yellow Or Green Breaded Or Battered Fried",
+                "food_group": "VEGETABLES",
+                "weight_in_g": 100,
+                "protein_in_g": 2.73,
+                "calories": 178,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 20150,
+                "food_name": "Breading Or Batter As Ingredient In Food",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 6.32,
+                "calories": 201,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            },
+            {
+                "id": 20151,
+                "food_name": "Wheat Bread As Ingredient In Sandwiches",
+                "food_group": null,
+                "weight_in_g": 100,
+                "protein_in_g": 11.45,
+                "calories": 263,
+                "image": "http://128.199.17.216/step_one_application/storage/uploads/app_images/no_image.png"
+            }
+        ]
+    },
+    "message": "Feteched Successfully."
+}

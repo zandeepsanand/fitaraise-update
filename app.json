@@ -1,0 +1,60 @@
+{
+  "expo": {
+    "name": "Fitaraise",
+    "owner": "sandeepsanand",
+    "slug": "sandeep",
+    "node": "18.18.2",
+    "projectNameForProxy": "sandeepsanand/sandeep",
+    "description": "new proj",
+    "primaryColor": "#0ef896",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/fitter.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#fffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/7544a3cd-5c50-497d-8063-25bb9fc2ddf6"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.sandeepsanand.sandeep",
+      "infoPlist": {
+        "CFBundleURLTypes": [
+          {
+            "CFBundleURLSchemes": [
+              "com.googleusercontent.apps.999204942642-jfbbjt13l1s1jtv7m5n1cqtjuelluvr7"
+            ]
+          }
+        ]
+      }
+    },
+    "android": {
+      "useNextNotificationsApi": true,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#fffff"
+      },
+      "package": "com.sandeepsanand.sandeep",
+      "permissions": ["READ_SMS", "RECEIVE_SMS"]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "7544a3cd-5c50-497d-8063-25bb9fc2ddf6"
+      }
+    },
+    "plugins": ["expo-localization","@react-native-google-signin/google-signin"],
+ 
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "scheme": "fitaraise"
+  }
+}
