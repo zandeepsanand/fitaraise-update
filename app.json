@@ -1,60 +1,41 @@
 {
   "expo": {
-    "name": "Fitaraise",
-    "owner": "sandeepsanand",
-    "slug": "sandeep",
-    "node": "18.18.2",
-    "projectNameForProxy": "sandeepsanand/sandeep",
-    "description": "new proj",
-    "primaryColor": "#0ef896",
+    "name": "fitaraise_windows-update-main",
+    "slug": "fitaraise_windows-update-main",
     "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "splash": {
-      "image": "./assets/fitter.png",
-      "resizeMode": "cover",
-      "backgroundColor": "#fffff"
+    "sdkVersion": "48.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "android": {
+      "package": "com.sandeepsanand.fitaraise_windowsupdatemain",
+      "runtimeVersion": "1.0.0"
     },
     "updates": {
       "fallbackToCacheTimeout": 0,
-      "url": "https://u.expo.dev/7544a3cd-5c50-497d-8063-25bb9fc2ddf6"
+      "url": "https://u.expo.dev/624ffd43-5a6e-4881-81c1-e1a7a72a9b9c"
     },
-    "assetBundlePatterns": ["**/*"],
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.sandeepsanand.sandeep",
-      "infoPlist": {
-        "CFBundleURLTypes": [
-          {
-            "CFBundleURLSchemes": [
-              "com.googleusercontent.apps.999204942642-jfbbjt13l1s1jtv7m5n1cqtjuelluvr7"
-            ]
-          }
-        ]
-      }
-    },
-    "android": {
-      "useNextNotificationsApi": true,
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#fffff"
-      },
-      "package": "com.sandeepsanand.sandeep",
-      "permissions": ["READ_SMS", "RECEIVE_SMS"]
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
+    "plugins": [
+      [
+        "expo-updates",
+        {
+          "username": "sandeepsanand"
+        }
+      ],
+      "expo-localization",
+      "@react-native-google-signin/google-signin"
+    ],
     "extra": {
       "eas": {
-        "projectId": "7544a3cd-5c50-497d-8063-25bb9fc2ddf6"
+        "projectId": "624ffd43-5a6e-4881-81c1-e1a7a72a9b9c"
       }
     },
-    "plugins": ["expo-localization","@react-native-google-signin/google-signin"],
- 
-    "runtimeVersion": {
-      "policy": "sdkVersion"
-    },
-    "scheme": "fitaraise"
+    "ios": {
+      "runtimeVersion": {
+        "policy": "sdkVersion"
+      }
+    }
   }
 }

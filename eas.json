@@ -1,29 +1,23 @@
-
 {
-  "cli": {
-    "version": ">= 5.9.1"
-  },
   "build": {
-    "development": {
+    "preview": {
+      "channel": "staging",
       "distribution": "internal",
       "android": {
-        "gradleCommand": ":app:assembleDebug"
-      },
-      "ios": {
-        "buildConfiguration": "Debug",
-        "simulator":true
-      },
-      "channel": "development"
+        "buildType": "apk"
+      }
     },
-    "preview": {
-      "distribution": "internal",
-      "channel": "preview"
+    "preview2": {
+      "android": {
+        "gradleCommand": ":app:assembleRelease"
+      }
     },
-    "production": {
-      "channel": "production"
-    }
-  },
-  "submit": {
+    "preview3": {
+      "developmentClient": true
+    },
+    "preview4": {
+      "distribution": "internal"
+    },
     "production": {}
   }
 }
