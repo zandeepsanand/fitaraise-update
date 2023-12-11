@@ -9,10 +9,15 @@ import { CommonActions } from '@react-navigation/native';
 import { MealContext } from '../../hooks/useMeal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+
 export default function Account({route ,navigation}) {
   const [formData,setFormData]=useState('');
-  // const {formData} = route.params ?? {};
+ 
 
+  // const {formData} = route.params ?? {};
+  console.log('====================================');
+  console.log(formData, "new formdata");
+  console.log('====================================');
 
   const {
     customerId,
@@ -32,6 +37,8 @@ export default function Account({route ,navigation}) {
     // logout();
     clearContextData();
     logout();
+   
+
     navigation.dispatch(
       CommonActions.reset({
         index: 0,
@@ -80,16 +87,25 @@ export default function Account({route ,navigation}) {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{paddingBottom: 10}}>
         <Block  paddingHorizontal={5}>
-          <Text h5>Profile</Text>
+          <Text h5>Profile </Text>
         </Block>
         <Block card flex={1} height={100} marginTop={10} color={'lightgreen'}>
           <Block row>
             <Block flex={0} center>
-              <Image
+              {formData.image ? (
+    <Image
+    width={60}
+    height={60}
+    source={{uri:formData.image}}
+    radius={50}></Image>
+              ):(
+                <Image
                 width={60}
                 height={60}
                 source={require('../../assets/icons/male.png')}
                 radius={50}></Image>
+              )}
+          
             </Block>
             <Block flex={1} paddingLeft={20} paddingTop={15}>
               <Text h5 semibold white>

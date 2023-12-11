@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "837125474987",
+    "project_id": "fitaraise-notification",
+    "storage_bucket": "fitaraise-notification.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:837125474987:android:2c2e94fee6ea282bd905ee",
+        "android_client_info": {
+          "package_name": "com.sandeepsanand.fitaraise_windowsupdatemain"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXQ7DBjKe9DHnDzy6wVZmQ7qRo8NXh2nQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

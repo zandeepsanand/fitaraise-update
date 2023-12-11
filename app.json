@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "fitaraise_windows-update-main",
+    "name": "Fitaraise",
     "slug": "fitaraise_windows-update-main",
     "version": "1.0.0",
     "sdkVersion": "48.0.0",
@@ -11,7 +11,8 @@
     ],
     "android": {
       "package": "com.sandeepsanand.fitaraise_windowsupdatemain",
-      "runtimeVersion": "1.0.0"
+      "runtimeVersion": "1.0.0",
+      "googleServicesFile": "./google-services.json"
     },
     "updates": {
       "fallbackToCacheTimeout": 0,

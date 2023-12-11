@@ -1,16 +1,18 @@
 /* eslint-disable prettier/prettier */
-
 import React, { useEffect, useState } from "react";
-import { Platform,View, Text, StyleSheet } from "react-native";
+import { Platform, View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { configureGoogleSignIn, signIn as signInUtil, signOut } from "../constants/GoogleSignInUtil.js";
-import {Block,Button , Image, Input} from '../components';
-import {useTheme} from "../hooks";
+import { Block, Button, Image, Input } from '../components';
+import { useTheme } from "../hooks";
+
 const isAndroid = Platform.OS === 'android';
-export const GoogleAuthNew = () => {
+
+export const GoogleAuthNew = ({ onUserLogin }) => {
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
   const [userInfo, setUserInfo] = useState();
-  const {assets, colors, gradients, sizes} = useTheme();
+  const { assets, colors, gradients, sizes } = useTheme();
 
   useEffect(() => {
     // Ensure that Google Sign-In is configured before component mounts
@@ -19,19 +21,22 @@ export const GoogleAuthNew = () => {
 
   const signIn = async () => {
     console.log("Pressed sign in");
+    setLoading(true);
 
     try {
       // Check if Google Sign-In is configured
       await configureGoogleSignIn();
-      
+
       const userInfo = await signInUtil();
       setUserInfo(userInfo);
-      console.log('====================================');
-      console.log(userInfo);
-      console.log('====================================');
       setError();
+
+      // Pass the user information to the parent component
+      onUserLogin(userInfo);
     } catch (e) {
       setError(e);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -45,60 +50,46 @@ export const GoogleAuthNew = () => {
       <Text>{JSON.stringify(error)}</Text>
       {userInfo && <Text>{JSON.stringify(userInfo.user)}</Text>}
       {userInfo ? (
-
-        // <Button title="Logout" onPress={handleLogout} />
         <Button
-        outlined
-        gray
-        shadow={!isAndroid}
-        onPress={handleLogout}
-        style={{
-          justifyContent: 'center',
-          alignSelf: 'center',
-        }}>
-        <Image
-          source={assets.apple}
-          height={sizes.m}
-          width={sizes.m}
-          color={colors.icon}
-        />
-      </Button>
-      ) : (
-      
-        <View>
-          <Button
           outlined
           gray
           shadow={!isAndroid}
-          style={{justifyContent: 'center', alignSelf: 'center'}}
-          onPress={signIn}
-          >
+          onPress={handleLogout}
+          style={{
+            justifyContent: 'center',
+            alignSelf: 'center',
+          }}>
           <Image
-            source={assets.google}
+            source={assets.apple}
             height={sizes.m}
             width={sizes.m}
             color={colors.icon}
           />
         </Button>
-
+      ) : (
+        <View>
+          <Button
+            outlined
+            gray
+            shadow={!isAndroid}
+            style={{ justifyContent: 'center', alignSelf: 'center' }}
+            onPress={signIn}
+          >
+            {loading ? (
+              <ActivityIndicator color={colors.icon} />
+            ) : (
+              <Image
+                source={assets.google}
+                height={sizes.m}
+                width={sizes.m}
+                color={colors.icon}
+              />
+            )}
+          </Button>
         </View>
       )}
       <StatusBar style="auto" />
     </View>
-  //   <Button
-  //   outlined
-  //   gray
-  //   shadow={!isAndroid}
-  //   style={{justifyContent: 'center', alignSelf: 'center'}}
-  //   onPress={signIn}
-  //   >
-  //   <Image
-  //     source={assets.google}
-  //     height={sizes.m}
-  //     width={sizes.m}
-  //     color={colors.icon}
-  //   />
-  // </Button>
   );
 };
 

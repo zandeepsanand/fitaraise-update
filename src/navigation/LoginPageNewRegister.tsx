@@ -41,23 +41,7 @@ const LoginScreenNewRegister = ({navigation, route}) => {
       setName(formData.name);
       setLastName(formData.last_name);
       setPassword(formData.password);
-      // api
-      //   .post('login', {email, password})
-      //   .then((response) => {
-      //     console.log(response.data.data.user_id);
 
-      //     if (response.data.success === false) {
-      //       const user_id = response.data.data.user_id;
-      //       setUserId(user_id);
-      //       console.log(user_id, 'userId gdsfg');
-      //     }
-
-      //     // You can navigate to another screen or perform other actions here
-      //   })
-      //   .catch((error) => {
-      //     // Handle login errors here
-      //     console.error('Login Error resend link:', error);
-      //   });
     }
   }, [route.params]);
   console.log(email);

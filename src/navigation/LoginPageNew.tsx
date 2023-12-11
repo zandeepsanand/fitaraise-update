@@ -14,6 +14,7 @@ import {
   TouchableOpacity,
   Platform,
   StyleSheet,
+  ActivityIndicator
 } from 'react-native';
 import axios from 'axios';
 import {BASE_URL} from '@env';
@@ -267,6 +268,77 @@ const LoginScreenNew = ({navigation, route}) => {
       password: regex.password.test(registration.password),
     }));
   }, [registration, setIsValid]);
+
+  const [loggedInUser, setLoggedInUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleUserLogin = async (userInfo) => {
+    // Access the userInfo in the LoginPageNew component
+    console.log('User Info in LoginPageNew:', userInfo);
+
+    // Add your logic to handle the userInfo in LoginPageNew
+    // For example, you can set the user information in the state
+    setLoggedInUser(userInfo);
+
+    // You can also perform other actions with the user information here
+    // For example, make an API call and navigate to another screen
+
+    try {
+      setLoading(true);
+
+      // Extract the necessary information from the Google sign-in userInfo
+      const { id, email, givenName ,familyName,photo} = userInfo.user;
+
+      // Make the login request to the specified API endpoint
+      const response = await api.post("login_with_google", {
+        google_customer_id:id,
+        email,
+        name:givenName,
+      });
+
+      console.log(response.data, 'data of login');
+
+      if (response.data.success === true) {
+        // If the server responds with a successful login message
+        const { token, user_id, customer_id } = response.data.data;
+
+        // Create an object that combines token and formData
+        const authData = {
+          token,
+          formData: {
+            user_id,
+            customer_id,
+            first_name:givenName,
+           
+            last_name:familyName,
+            image:photo
+            // Add other formData properties here
+          },
+        };
+
+        // Store the authData object as a JSON string in AsyncStorage
+        await AsyncStorage.setItem("authData", JSON.stringify(authData));
+        setAuthToken(authData.token);
+
+        // Navigate to 'FirstPage' with the formData
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'Frstpage', params: {formData: authData.formData}}],
+        });
+      } else {
+        // If the server responds with a failed login message
+        const errorMessage = response.data.message;
+        alert(errorMessage);
+
+        // Handle other cases as needed
+      }
+    } catch (error) {
+      // Handle login errors here
+      console.error('Login Error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <Block safe marginTop={sizes.xl} style={{backgroundColor: '#ffff'}}>
       <Block scrollEnabled flex={1}>
@@ -595,7 +667,11 @@ const LoginScreenNew = ({navigation, route}) => {
                         <Block row center justify="space-evenly">
                       
                        
-                          <GoogleAuthNew/>
+                        {loading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : (
+        <GoogleAuthNew onUserLogin={handleUserLogin} />
+      )}
                           
                         </Block>
                       </Block>
@@ -747,7 +823,11 @@ Share to your friends
                      
                    
                     
-                    <GoogleAuthNew/>
+                    {loading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : (
+        <GoogleAuthNew onUserLogin={handleUserLogin} />
+      )}
                     </Block>
                   </Block>
 
