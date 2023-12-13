@@ -47,8 +47,7 @@ export const GoogleAuthNew = ({ onUserLogin }) => {
 
   return (
     <View style={styles.container}>
-      <Text>{JSON.stringify(error)}</Text>
-      {userInfo && <Text>{JSON.stringify(userInfo.user)}</Text>}
+   
       {userInfo ? (
         <Button
           outlined

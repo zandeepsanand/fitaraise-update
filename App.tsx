@@ -8,6 +8,7 @@ import LoginContext, { LoginProvider } from './src/hooks/LoginContext';
 import * as NotificationsExpo from 'expo-notifications';
 import api from './api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import GoogleContext, { GoogleProvider } from './src/hooks/GoogleContext';
 
 
 
@@ -40,31 +41,34 @@ export default function App() {
 
   async function registerForPushNotifications() {
     try {
-      const { status: existingStatus } = await NotificationsExpo.getPermissionsAsync();
+      // Check existing permissions
+      const { status: existingStatus } = await Notifications.getPermissionsAsync();
       let finalStatus = existingStatus;
-
+  
       if (existingStatus !== 'granted') {
-        const { status } = await NotificationsExpo.requestPermissionsAsync();
+        // Request permissions if not granted
+  
+        
+  const { status } = await Notifications.requestPermissionsAsync();
         finalStatus = status;
       }
-
+  
       if (finalStatus !== 'granted') {
-        console.log('Failed to get push token for push notification!');
+        console.error('Failed to get push token for push notification!');
         return;
       }
-
-      const token = (await NotificationsExpo.getExpoPushTokenAsync()).data;
-      const device_token = token;
-      console.log('Expo push token:', token);
-
-      // Store the token in AsyncStorage for later use
-      await AsyncStorage.setItem('expoPushToken', device_token);
-
-      // Uncomment and complete this part to send the token to your server
-      // await api.post('set_personal_datas', { customerId, device_token });
-
+  
+      // Get Expo Push Token
+      const expoPushToken = (await Notifications.getExpoPushTokenAsync()).data;
+      console.log('Expo Push Token:', expoPushToken);
+  
+      // Store token in AsyncStorage
+      await AsyncStorage.setItem('expoPushToken', expoPushToken);
+  
+      // Send token to server (uncomment and complete)
+      // await api.post('set_personal_datas', { customerId, expoPushToken });
     } catch (error) {
-      console.error('Error registering for push notificationsqq:', error.message, error.code);
+      console.error('Error registering for push notifications:', error);
     }
   }
 
@@ -91,10 +95,12 @@ export default function App() {
   
 
   return (
+    <GoogleProvider>
     <LoginProvider>
       <DataProvider>
         <AppNavigation />
       </DataProvider>
     </LoginProvider>
+    </GoogleProvider>
   );
 }

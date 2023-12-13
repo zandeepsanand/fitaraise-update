@@ -46,6 +46,7 @@ export default function Frstpage({
   console.log(formData);
   const {loginSuccess} = useContext(LoginContext);
 
+
   const {assets, colors, fonts, gradients, sizes} = useTheme();
   const {t} = useTranslation();
   const [tab, setTab] = useState<number>(0);
@@ -81,16 +82,19 @@ export default function Frstpage({
     registerForPushNotifications();
 
     // Add a listener for received notifications
-    const notificationListener = Notifications.addNotificationReceivedListener(notification => {
-      // Handle received notification here
-      console.log('Received notification:', notification);
-    });
+    const notificationListener = Notifications.addNotificationReceivedListener(
+      (notification) => {
+        // Handle received notification here
+        console.log('Received notification:', notification);
+      },
+    );
 
     // Add a listener for notification responses
-    const responseListener = Notifications.addNotificationResponseReceivedListener(response => {
-      // Handle notification response here
-      console.log('Notification response:', response);
-    });
+    const responseListener =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        // Handle notification response here
+        console.log('Notification response:', response);
+      });
 
     // Clean up the listeners when the component unmounts
     return () => {
@@ -100,11 +104,12 @@ export default function Frstpage({
   }, []);
   async function registerForPushNotifications() {
     try {
-      const { status: existingStatus } = await Notifications.getPermissionsAsync();
+      const {status: existingStatus} =
+        await Notifications.getPermissionsAsync();
       let finalStatus = existingStatus;
 
       if (existingStatus !== 'granted') {
-        const { status } = await Notifications.requestPermissionsAsync();
+        const {status} = await Notifications.requestPermissionsAsync();
         finalStatus = status;
       }
 
@@ -114,23 +119,21 @@ export default function Frstpage({
       }
 
       const token = (await Notifications.getExpoPushTokenAsync()).data;
-        const device_token = token;
-        console.log('Expo push token:', token);
+      const device_token = token;
+      console.log('Expo push token:', token);
 
-        // Store the token in AsyncStorage for later use
-        await AsyncStorage.setItem('expoPushToken', device_token);
+      // Store the token in AsyncStorage for later use
+      await AsyncStorage.setItem('expoPushToken', device_token);
 
-        // Uncomment and complete this part to send the token to your server
-        // await api.post('set_personal_datas', { customerId, device_token });
-      
+      // Uncomment and complete this part to send the token to your server
+      // await api.post('set_personal_datas', { customerId, device_token });
     } catch (error) {
       console.error('Error registering for push notifications:', error);
     }
   }
-  AsyncStorage.getItem('expoPushToken').then(value => {
-    console.log(value, "expo");
+  AsyncStorage.getItem('expoPushToken').then((value) => {
+    console.log(value, 'expo');
   });
-  
 
   const redirectTo = async () => {
     try {
@@ -228,7 +231,7 @@ export default function Frstpage({
         if (expoToken) {
           setExpoNotification(expoToken);
         }
-  
+
         // Start the animation after the API request is completed
         Animated.timing(animationProgress.current, {
           toValue: 1,
@@ -250,8 +253,11 @@ export default function Frstpage({
       ) : (
         <Block>
           <Block style={styles.container1} gradient={gradients.success}>
-            <Text bold font="Pacifico" style={{top: 40, padding: 16}}>
-              Welcome {formData.first_name}
+            <Text
+              bold
+              //  font="Pacifico"
+              style={{top: 40, padding: 16}}>
+              Welcome {formData.first_name} ,
             </Text>
             <View style={styles.img}>
               <Image

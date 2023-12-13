@@ -25,6 +25,7 @@ import {useTheme} from '../hooks';
 import InputField from '../components/inputField';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 import LoginContext, {loginSuccess} from '../hooks/LoginContext';
+
 import {StackActions} from '@react-navigation/native';
 import {Animated, Easing} from 'react-native';
 import * as Animatable from 'react-native-animatable';
@@ -40,6 +41,7 @@ import {
 } from "@react-native-google-signin/google-signin";
 import { signIn } from "../constants/GoogleSignInUtil.js"; 
 import { GoogleAuthNew } from '../components/GoogleAuthNew';
+import GoogleContext from '../hooks/GoogleContext';
 
 
 
@@ -62,6 +64,7 @@ interface IRegistrationValidation {
 
 const LoginScreenNew = ({navigation, route}) => {
   const {country} = route.params;
+  const {googleloginSuccess} = useContext(GoogleContext);
   console.log(country);
   const [token, setToken] = useState('');
 
@@ -318,13 +321,17 @@ const LoginScreenNew = ({navigation, route}) => {
 
         // Store the authData object as a JSON string in AsyncStorage
         await AsyncStorage.setItem("authData", JSON.stringify(authData));
-        setAuthToken(authData.token);
-
+        await AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
+        
+      
+      
+        googleloginSuccess(userInfo);
         // Navigate to 'FirstPage' with the formData
         navigation.reset({
           index: 0,
           routes: [{name: 'Frstpage', params: {formData: authData.formData}}],
         });
+        // navigation.navigate("SignOutPage", { userInfo });
       } else {
         // If the server responds with a failed login message
         const errorMessage = response.data.message;
@@ -342,11 +349,11 @@ const LoginScreenNew = ({navigation, route}) => {
   return (
     <Block safe marginTop={sizes.xl} style={{backgroundColor: '#ffff'}}>
       <Block scrollEnabled flex={1}>
-        <Block flex={0} height={250}>
+        <Block flex={0} height={250} center>
           <Image
             source={require('../assets/icons/fitaraise.png')}
-            height={300}
-            width={300}
+            height={150}
+            width={150}
             color={'gray'}
             style={{alignSelf: 'center'}}
           />

@@ -95,6 +95,8 @@ import FirstPageCountrySelect from './FirstPageCountrySelect';
 import ChallengeTabNavigator from '../screens/workout/workout challenges/ChallengeTabNavigator';
 import ChallengeMenu from '../screens/workout/workout challenges/ChallengeMenu';
 import NotificationFirebase from '../components/PushNotification';
+import SignOutPage from '../screens/account/SignOut';
+import EditProfile from '../screens/account/EditProfile';
 
 
 // Keep the splash screen visible while we fetch resources
@@ -158,12 +160,17 @@ export default () => {
       <TranslationProvider>
         <ThemeProvider theme={theme} setTheme={setTheme}>
           <NavigationContainer theme={navigationTheme}>
-            <Stack.Navigator initialRouteName="Notification">
+            <Stack.Navigator initialRouteName="EditProfile">
             <Stack.Screen name="ChallengeMenu" component={ChallengeMenu} options={{ headerShown: false }} />
             <Stack.Screen
                 name="ChallengeTabNavigator"
                 component={ChallengeTabNavigator}
                 options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="EditProfile"
+                component={EditProfile}
+                options={{headerShown: true}}
               />
               <Stack.Screen
                 name="Notification"

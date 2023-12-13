@@ -18,6 +18,7 @@ import DonutChart1 from './DonutChart';
 import api, {setAuthToken} from '../../api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LoginContext from '../hooks/LoginContext';
+import { ActivityIndicator } from 'react-native';
 
 // const data=
 // {calories: 1648, carb_g: 206, carb_percent: "50%", fat_g: 37, fat_percent: "20%", protien_g: 124, protien_percent: "30%"}
@@ -151,107 +152,116 @@ const CirclePage = ({route, navigation}) => {
   const {loginSuccess} = useContext(LoginContext);
   const [isLoading, setIsLoading] = useState(false);
 
-  const redirectTo = async () => {
-    try {
-      console.log('clicked');
-      if (data && formDataCopy && dietPlan !== null) {
-        navigation.reset({
-          index: 0,
-          routes: [{ name: 'Menu', params: { data, formDataCopy, dietPlan } }],
-        });
-      }
-    } catch (error) {
-      console.error('Authentication Status Error:', error);
-
-      navigation.reset({
-        index: 0,
-        routes: [{name: 'FirstPageCountrySelect'}],
-      });
-    }
-  };
   // const redirectTo = async () => {
   //   try {
   //     console.log('clicked');
-
-  //     const authDataJSON = await AsyncStorage.getItem('authData');
-  //     console.log(authDataJSON, 'authdata first page');
-
-  //     if (authDataJSON) {
-  //       const authData = JSON.parse(authDataJSON);
-
-  //       const authToken = authData.token;
-  //       const customerId = authData.formData.customer_id;
-  //       const formData = authData.formData;
-  //       const token = authData.token;
-
-  //       loginSuccess(customerId, formData, token);
-  //       console.log(authToken, 'auth Data');
-  //       if (authToken) {
-  //         setAuthToken(authToken);
-  //         // setIsLoading(true);
-  //         const requiredCalorieResponse = await api.get(
-  //           `get_daily_required_calories/${formData.customer_id}`,
-  //         );
-  //         const diet_List = await api.get(
-  //           `get_recommended_diet/${formData.customer_id}`,
-  //         );
-
-  //         const requiredCalorie = requiredCalorieResponse.data.data;
-
-  //         const dietPlan = diet_List.data.data.recommended_diet_list;
-  //         console.log(requiredCalorie, 'calorie required');
-  //         console.log(authData.formData, 'for workout example');
-
-  //         // setIsLoading(false);
-
-  //         if (
-  //           requiredCalorieResponse.data.success === true &&
-  //           authData.formData
-  //         ) {
-  //             navigation.reset({
-  //             index: 0,
-  //             routes: [{ name: 'Menu', params: { data: requiredCalorie, formDataCopy: authData.formData, dietPlan } }],
-  //           });
-  //       //  navigation.navigate('Menu'
-  //       //     // , {
-  //       //     //   data: requiredCalorie,
-  //       //     //   formDataCopy: authData.formData,
-  //       //     //   dietPlan,
-  //       //     // }
-  //       //     );
-  //         } else if (authData.formData) {
-  //           navigation.navigate('Details', {formData: authData.formData});
-  //         } else {
-  //           navigation.reset({
-  //             index: 0,
-  //             routes: [{name: 'loginNew'}],
-  //           });
-  //         }
-  //         // Replace 2000 with the desired loading duration (in milliseconds)
-  //       } else {
-  //         // No authToken, navigate to 'loginNew'
-  //         navigation.reset({
-  //           index: 0,
-  //           routes: [{name: 'loginNew'}],
-  //         });
-  //       }
-  //     } else {
-  //       // authData JSON doesn't exist, navigate to 'loginNew'
+  //     if (data && formDataCopy && dietPlan !== null) {
   //       navigation.reset({
   //         index: 0,
-  //         routes: [{name: 'loginNew'}],
+  //         routes: [{ name: 'Menu', params: { data, formDataCopy, dietPlan } }],
   //       });
   //     }
-  //     setIsLoading(false);
   //   } catch (error) {
   //     console.error('Authentication Status Error:', error);
-  //     setIsLoading(false);
+
   //     navigation.reset({
   //       index: 0,
   //       routes: [{name: 'FirstPageCountrySelect'}],
   //     });
   //   }
   // };
+  const redirectTo = async () => {
+    try {
+      console.log('clicked');
+      setIsLoading(true);
+
+      const authDataJSON = await AsyncStorage.getItem('authData');
+      console.log(authDataJSON, 'authdata first page');
+
+      if (authDataJSON) {
+        const authData = JSON.parse(authDataJSON);
+
+        const authToken = authData.token;
+        const customerId = authData.formData.customer_id;
+        const formData = authData.formData;
+        const token = authData.token;
+
+        loginSuccess(customerId, formData, token);
+        console.log(authToken, 'auth Data');
+        if (authToken) {
+          setAuthToken(authToken);
+          // setIsLoading(true);
+          const requiredCalorieResponse = await api.get(
+            `get_daily_required_calories/${formData.customer_id}`,
+          );
+          const diet_List = await api.get(
+            `get_recommended_diet/${formData.customer_id}`,
+          );
+
+          const requiredCalorie = requiredCalorieResponse.data.data;
+
+          const dietPlan = diet_List.data.data.recommended_diet_list;
+          console.log(requiredCalorie, 'calorie required');
+          console.log(authData.formData, 'for workout example');
+
+          // setIsLoading(false);
+
+          if (
+            requiredCalorieResponse.data.success === true &&
+            authData.formData
+          ) {
+            setIsLoading(false);
+            navigation.reset({
+              index: 0,
+              routes: [
+                {
+                  name: 'Menu',
+                  params: {
+                    data: requiredCalorie,
+                    formDataCopy: authData.formData,
+                    dietPlan,
+                  },
+                },
+              ],
+            });
+        
+          } else if (authData.formData) {
+            setIsLoading(false);
+            navigation.navigate('Details', {formData: authData.formData});
+          } else {
+            setIsLoading(false);
+            navigation.reset({
+              index: 0,
+              routes: [{name: 'loginNew'}],
+            });
+          }
+          // Replace 2000 with the desired loading duration (in milliseconds)
+        } else {
+          setIsLoading(false);
+          // No authToken, navigate to 'loginNew'
+          navigation.reset({
+            index: 0,
+            routes: [{name: 'loginNew'}],
+          });
+        }
+      } else {
+        setIsLoading(false);
+        // authData JSON doesn't exist, navigate to 'loginNew'
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'loginNew'}],
+        });
+      }
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Authentication Status Error:', error);
+      setIsLoading(false);
+      navigation.reset({
+        index: 0,
+        routes: [{name: 'FirstPageCountrySelect'}],
+      });
+    }
+  };
 
   return (
     <Block
@@ -363,6 +373,7 @@ const CirclePage = ({route, navigation}) => {
             onPress={() => {
               redirectTo();
             }}>
+ 
             <Block flex={1} paddingTop={10}>
               <Block>
                 <Block
@@ -371,9 +382,14 @@ const CirclePage = ({route, navigation}) => {
                   radius={46}
                   gradient={gradients?.[tab === 0 ? 'success' : '#fffff']}>
                   <Block center>
-                    <Text p font={fonts.semibold} white>
+                  {isLoading ? (
+    <ActivityIndicator animating={isLoading} style={{ marginRight: 10 }} size="small"  color={'white'}/>
+  ):(
+<Text p font={fonts.semibold} white>
                       {'Go to home'}
                     </Text>
+  )}
+                    
                     <View
                       style={{
                         marginTop: 4,

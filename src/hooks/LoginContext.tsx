@@ -17,6 +17,7 @@ type LoginContextValue = {
     // ... other properties
   } | null;
   token: string | null; // Add token
+ 
   loginSuccess: (customerId: string, formData: any, token: string) => void; // Update loginSuccess
   logout: () => void;
 };
@@ -27,6 +28,7 @@ const LoginContext = createContext<LoginContextValue>({
   isLoggedIn: false,
   formData: null,
   token: null,
+ 
   loginSuccess: () => {},
   logout: () => {},
 });
@@ -37,7 +39,7 @@ export const LoginProvider = ({children}) => {
   const [formData, setFormData] = useState(null); // Initialize formData state
   const [token, setToken] = useState(null); // Initialize token state
   const [authenticated, setAuthenticated] = useState(false); // Initialize authenticated state
-console.log(customerId , "login context");
+
 
   useEffect(() => {
     // Check for authentication status in AsyncStorage and update the authenticated state
@@ -48,9 +50,7 @@ console.log(customerId , "login context");
           const authData = JSON.parse(authDataJSON);
           const authToken = authData.token;
           const customerId=authData.customerId
-          console.log('====================================');
-          console.log(customerId,"tell me");
-          console.log('====================================');
+  
   
           if (authToken) {
             // User is authenticated
@@ -76,7 +76,7 @@ console.log(customerId , "login context");
    // Empty dependency array to run only once
 
 
-   const loginSuccess = async (customerId, formData, token) => {
+   const loginSuccess = async (customerId, formData, token ) => {
     try {
       // Convert customerId to a string before saving to AsyncStorage
       const customerIdString = customerId.toString();
@@ -85,6 +85,7 @@ console.log(customerId , "login context");
       await AsyncStorage.setItem('isLoggedIn', 'true');
       await AsyncStorage.setItem('formData', JSON.stringify(formData));
       await AsyncStorage.setItem('token', token);
+     
   
       setCustomerId(customerIdString);
       setIsLoggedIn(true);
@@ -92,7 +93,7 @@ console.log(customerId , "login context");
       setToken(token);
       setAuthToken(token);
       setAuthenticated(true);
-  
+     
     } catch (error) {
       console.error('Error saving data to AsyncStorage:', error);
     }
@@ -110,6 +111,7 @@ console.log(customerId , "login context");
       // setAuthToken(null);
   
       // Set the user as logged out
+   
       setIsLoggedIn(false);
       // After logout, set authenticated to false
       setAuthenticated(false);
@@ -127,6 +129,7 @@ console.log(customerId , "login context");
         isLoggedIn,
         formData,
         token,
+       
         loginSuccess,
         logout,
       }}>

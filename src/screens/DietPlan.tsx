@@ -109,9 +109,9 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
   const [expandedItems, setExpandedItems] = useState([]); // To keep track of expanded items
   const [waterAmount, setWaterAmount] = React.useState(0);
 
-  const waterProgress =
-    waterTracker.todays_consumed_water_count_ml /
-    waterTracker.normal_water_count_ml;
+  const waterProgress = waterTracker && waterTracker.todays_consumed_water_count_ml && waterTracker.normal_water_count_ml
+  ? waterTracker.todays_consumed_water_count_ml / waterTracker.normal_water_count_ml
+  : 0 ; 
     
   console.log(waterProgress, 'progress water');
 
@@ -2913,121 +2913,130 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                           </TouchableOpacity>
                         </Button>
                       </Block> */}
-                          <Block row  centerContent>
-                            <Block
-                              flex={0}
-                              width={160}
-                              height={80}
-                              card
-                              center
-                              marginTop={30}>
-                              <Block
-                                center
-                                flex={0}
-                                marginBottom={10}
-                                marginRight={20}>
-                                <Lottie
-                                  width={44}
-                                  height={54}
-                                  source={require('../assets/json/water.json')}
-                                  progress={animationProgress.current}
-                                />
-                              </Block>
-                              <Block flex={0} marginLeft={30}>
-                                <Text center info h5 bold>
-                                  {/* {Math.round(waterAmount * 100)}% */}
-                                  {/* {data.water_datas.todays_consumed_water_count_ml} */}
-                                  {waterTracker.todays_consumed_water_count_ml
-                                    ? `${waterTracker.todays_consumed_water_count_ml} ml`
-                                    : '0 ml'}
-                                </Text>
-                                <Text center semibold secondary>
-                                  Water intake
-                                </Text>
-                              </Block>
-                            </Block>
-                            <Block
-                              flex={0}
-                              // card
-                              width={130}
-                              marginHorizontal={10}
-                              center
-                              padding={10}>
-                              <Block
-                                flex={1}
-                                centerContent
-                                center
-                                style={{
-                                  justifyContent: 'center',
-                                  alignSelf: 'center',
-                                }}>
-                                {/* <Block center marginBottom={10}>
-                            <Lottie
-                              width={64}
-                              height={64}
-                              source={require('../assets/json/water.json')}
-                              progress={animationProgress.current}
-                            />
-                          </Block> */}
-                                <Image
-                                  center
-                                  source={require('../assets/icons/glass.png')}
-                                  height={40}
-                                  width={40}></Image>
-                              </Block>
-                              <Text center white>
-                                (250 ml per cup)
-                              </Text>
-                              <Block row center marginTop={10}>
-                                <Block flex={0} marginRight={5}>
-                                  <Button
-                                    info
-                                    onPress={decreaseWater}
-                                    disabled={
-                                      waterTracker.todays_consumed_water_count_ml <=
-                                      0
-                                    }>
-                                    <Text bold white p>
-                                      -
-                                    </Text>
-                                  </Button>
-                                </Block>
-                                <Block flex={0}>
-                                  <Button
-                                    info
-                                    marginLeft={5}
-                                    onPress={increaseWater}>
-                                    <Text bold white>
-                                      {' '}
-                                      +{' '}
-                                    </Text>
-                                  </Button>
-                                </Block>
-                              </Block>
-                            </Block>
-                            <Block flex={1} center>
-                              <Block
-                                transform={[{rotate: '-90deg'}]}
-                                centerContent
-                                flex={0}
-                                width={100}
-                                margin={-20}>
-                                {/* <Lottie
-                             source={require('../assets/json/water2.json')} // Replace with the path to your fill animation JSON file
-                             autoPlay={false}
-                             loop={false}
-                             style={{ width: 50, height: 100, position: 'absolute', bottom: 0 }}
-                            >
+{water ? (
+      // Render content when water data is present
+      <Block row  centerContent>
+      <Block
+        flex={0}
+        width={160}
+        height={80}
+        card
+        center
+        marginTop={30}>
+        <Block
+          center
+          flex={0}
+          marginBottom={10}
+          marginRight={20}>
+          <Lottie
+            width={44}
+            height={54}
+            source={require('../assets/json/water.json')}
+            progress={animationProgress.current}
+          />
+        </Block>
+        <Block flex={0} marginLeft={30}>
+          <Text center info h5 bold>
+            {/* {Math.round(waterAmount * 100)}% */}
+            {/* {data.water_datas.todays_consumed_water_count_ml} */}
+            {waterTracker.todays_consumed_water_count_ml
+              ? `${waterTracker.todays_consumed_water_count_ml} ml`
+              : '0 ml'}
+          </Text>
+          <Text center semibold secondary>
+            Water intake
+          </Text>
+        </Block>
+      </Block>
+      <Block
+        flex={0}
+        // card
+        width={130}
+        marginHorizontal={10}
+        center
+        padding={10}>
+        <Block
+          flex={1}
+          centerContent
+          center
+          style={{
+            justifyContent: 'center',
+            alignSelf: 'center',
+          }}>
+          {/* <Block center marginBottom={10}>
+      <Lottie
+        width={64}
+        height={64}
+        source={require('../assets/json/water.json')}
+        progress={animationProgress.current}
+      />
+    </Block> */}
+          <Image
+            center
+            source={require('../assets/icons/glass.png')}
+            height={40}
+            width={40}></Image>
+        </Block>
+        <Text center white>
+          (250 ml per cup)
+        </Text>
+        <Block row center marginTop={10}>
+          <Block flex={0} marginRight={5}>
+            <Button
+              info
+              onPress={decreaseWater}
+              disabled={
+                waterTracker.todays_consumed_water_count_ml <=
+                0
+              }>
+              <Text bold white p>
+                -
+              </Text>
+            </Button>
+          </Block>
+          <Block flex={0}>
+            <Button
+              info
+              marginLeft={5}
+              onPress={increaseWater}>
+              <Text bold white>
+                {' '}
+                +{' '}
+              </Text>
+            </Button>
+          </Block>
+        </Block>
+      </Block>
+      <Block flex={1} center>
+        <Block
+          transform={[{rotate: '-90deg'}]}
+          centerContent
+          flex={0}
+          width={100}
+          margin={-20}>
+          {/* <Lottie
+       source={require('../assets/json/water2.json')} // Replace with the path to your fill animation JSON file
+       autoPlay={false}
+       loop={false}
+       style={{ width: 50, height: 100, position: 'absolute', bottom: 0 }}
+      >
 
-                            </Lottie> */}
-                                <Progress.Bar
-                                  progress={waterProgress}
-                                  width={120}
-                                  height={15}
-                                  color="skyblue"></Progress.Bar>
-                              </Block>
-                            </Block>
-                          </Block>
+      </Lottie> */}
+          <Progress.Bar
+            progress={waterProgress}
+            width={120}
+            height={15}
+            color="skyblue"></Progress.Bar>
+        </Block>
+      </Block>
+    </Block>
+    ) : (
+      <ActivityIndicator size="large" color="green" /> // Show loading indicator when water data is null
+    )}
+                         
+
+
+
                         </Block>
                       </Image>
                     </Block>

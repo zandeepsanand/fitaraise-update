@@ -30,6 +30,7 @@ export const signIn = async () => {
 
 export const signOut = async () => {
   try {
+    await configureGoogleSignIn();
     await GoogleSignin.revokeAccess();
     await GoogleSignin.signOut();
   } catch (error) {
