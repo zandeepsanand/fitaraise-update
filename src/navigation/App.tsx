@@ -170,7 +170,7 @@ export default () => {
               <Stack.Screen
                 name="EditProfile"
                 component={EditProfile}
-                options={{headerShown: true}}
+                options={{headerShown: false}}
               />
               <Stack.Screen
                 name="Notification"
