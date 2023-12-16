@@ -264,9 +264,9 @@ const Cards = ({route, navigation}) => {
     // Remove any non-numeric characters and allow decimal points from the input
     const numericValue = text.replace(/[^0-9.]/g, '');
   
-    // Limit the value to the maximum pounds limit
-    if (!isNaN(numericValue) && parseFloat(numericValue) <= MAX_POUNDS_LIMIT) {
-      setInputValueLbs(numericValue);
+    // Check if the numericValue is empty (user pressed backspace to delete)
+    if (numericValue === '' || numericValue === '.') {
+      setInputValueLbs(numericValue); // Allow backspacing for empty or '.' value
       const updatedFormData = {
         ...formData,
         weight: numericValue,
@@ -275,8 +275,20 @@ const Cards = ({route, navigation}) => {
       console.log(updatedFormData, 'weight unit check');
       navigation.setParams({ formData: updatedFormData });
     } else {
-      // Handle when the input exceeds the maximum limit or is not a valid number
-      console.log('Invalid or out of range weight input');
+      // Limit the value to the maximum pounds limit
+      if (!isNaN(numericValue) && parseFloat(numericValue) <= MAX_POUNDS_LIMIT) {
+        setInputValueLbs(numericValue);
+        const updatedFormData = {
+          ...formData,
+          weight: numericValue,
+          weight_unit: 'lbs',
+        };
+        console.log(updatedFormData, 'weight unit check');
+        navigation.setParams({ formData: updatedFormData });
+      } else {
+        // Handle when the input exceeds the maximum limit or is not a valid number
+        console.log('Invalid or out of range weight input');
+      }
     }
   };
   const MAX_KG_LIMIT = 500; // Set the maximum limit in kilograms
@@ -1483,7 +1495,8 @@ async function checkPage() {
       <TouchableOpacity
         onPress={() => {
           checkPage();
-        }}>
+        }}
+        >
         <Block row justify="flex-end" paddingTop={20}>
           <Image
             source={assets.Button}

@@ -158,7 +158,11 @@ export default () => {
               <Stack.Screen
                 name="TrackProgress"
                 component={TrackProgress}
-                options={{headerShown: false}}
+                options={{
+                  title: 'Track Progress', // Change the header title
+                  headerBackTitle: 'Back', // Change the back button title
+                  headerShown: true, // Show the header (you can omit this line if not needed)
+                }}
               />
               <Stack.Screen
                 name="EditProfile"

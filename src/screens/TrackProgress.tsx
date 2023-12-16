@@ -1,14 +1,18 @@
 /* eslint-disable prettier/prettier */
 import React, {useCallback, useContext, useState} from 'react';
-import {Platform, Linking} from 'react-native';
+import {Platform, Linking, Modal, Alert, Pressable} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/core';
 
 import {Block, Button, Image, Input, Text} from '../components/';
 import {useData, useTheme, useTranslation} from '../hooks/';
 import LoginContext from '../hooks/LoginContext';
-import { TouchableOpacity } from 'react-native';
+import {TouchableOpacity, StyleSheet} from 'react-native';
 import DuoToggleSwitch from 'react-native-duo-toggle-switch';
+import api from '../../api';
+import Ripple from 'react-native-material-ripple';
+import {View} from 'react-native';
+import { COLORS } from '../constants/light';
 
 const isAndroid = Platform.OS === 'android';
 
@@ -20,7 +24,12 @@ const TrackProgress = () => {
     logout, // You can access the logout function
   } = useContext(LoginContext);
   const [isKg, setIsKg] = useState(true);
-
+  const [inputValueLbs, setInputValueLbs] = useState('');
+  const [inputValueKg, setInputValueKg] = useState('');
+  const [showModalKg, setModalKg] = useState(false);
+  const [formData, setFormData] = useState(null);
+  const [showView, setShowView] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   const {user} = useData();
   const {t} = useTranslation();
   const navigation = useNavigation();
@@ -55,9 +64,142 @@ const TrackProgress = () => {
     logout();
     navigation.navigate('loginNew');
   };
+  const handleInputChangeKg = (text) => {
+    // Remove any non-numeric characters and allow decimal points from the input
+    const numericValue = text.replace(/[^0-9.]/g, '');
+
+    // Check if the numericValue is empty (user pressed backspace to delete)
+    if (numericValue === '') {
+      setInputValueKg('');
+      const updatedFormData = {
+        ...formData,
+        weight: '',
+        weight_unit: 'kg',
+      };
+      console.log(updatedFormData, 'weight unit check');
+      navigation.setParams({formData: updatedFormData});
+    } else {
+      // Limit the value to the maximum kilograms limit
+      if (!isNaN(numericValue) && parseFloat(numericValue) <= MAX_KG_LIMIT) {
+        setInputValueKg(numericValue);
+
+        const updatedFormData = {
+          ...formData,
+          weight: numericValue,
+          weight_unit: 'kg',
+        };
+        console.log(updatedFormData, 'weight unit check');
+        navigation.setParams({formData: updatedFormData});
+      } else {
+        // Handle when the input exceeds the maximum limit or is not a valid number
+        console.log('Invalid or out of range weight input');
+      }
+    }
+  };
+  const handlePrimaryPress = () => {
+    setIsKg(true);
+    setInputValueKg(''); // Clear the kg input field
+    const updatedFormData = {
+      ...formData,
+      weight: '',
+      weight_unit: 'kg',
+    };
+    navigation.setParams({formData: updatedFormData});
+  };
+  const handleSecondaryPress = () => {
+    setIsKg(false);
+    setInputValueLbs(''); // Clear the lbs input field
+    const updatedFormData = {
+      ...formData,
+      weight: '',
+      weight_unit: 'lbs',
+    };
+    navigation.setParams({formData: updatedFormData});
+  };
+  const MAX_POUNDS_LIMIT = 1000; // Set the maximum limit in pounds
+
+  const handleInputChangeLbs = (text) => {
+    // Remove any non-numeric characters and allow decimal points from the input
+    const numericValue = text.replace(/[^0-9.]/g, '');
+
+    // Check if the numericValue is empty (user pressed backspace to delete)
+    if (numericValue === '' || numericValue === '.') {
+      setInputValueLbs(numericValue); // Allow backspacing for empty or '.' value
+      const updatedFormData = {
+        ...formData,
+        weight: numericValue,
+        weight_unit: 'lbs',
+      };
+      console.log(updatedFormData, 'weight unit check');
+      navigation.setParams({formData: updatedFormData});
+    } else {
+      // Limit the value to the maximum pounds limit
+      if (
+        !isNaN(numericValue) &&
+        parseFloat(numericValue) <= MAX_POUNDS_LIMIT
+      ) {
+        setInputValueLbs(numericValue);
+        const updatedFormData = {
+          ...formData,
+          weight: numericValue,
+          weight_unit: 'lbs',
+        };
+        console.log(updatedFormData, 'weight unit check');
+        navigation.setParams({formData: updatedFormData});
+      } else {
+        // Handle when the input exceeds the maximum limit or is not a valid number
+        console.log('Invalid or out of range weight input');
+      }
+    }
+  };
+  const MAX_KG_LIMIT = 500; // Set the maximum limit in kilograms
+
+  async function checkPage() {
+    // Check if required fields are filled
+    console.log(formData.weight);
+    if (formData.weight) {
+      // Create a copy of the formData object
+      const formDataCopy = Object.fromEntries(
+        Object.entries(formData).filter(([key, value]) => value !== null),
+      );
+      console.log(formDataCopy, 'form data');
+
+      try {
+        const response = await api.post('set_personal_datas', formDataCopy);
+        console.log(formDataCopy, 'customer id');
+        console.log(response.data, 'hello');
+        alert(response.data.message);
+        5;
+        if (response.data.success) {
+          console.log('hai testing');
+
+          // Call the second API
+          const secondApiResponse = await api.get(
+            `get_daily_required_calories/${formDataCopy.customer_id}`,
+          );
+          // Do something with the second API response
+          const data = secondApiResponse.data.data;
+          console.log(data, 'the data of second apifffff');
+          if (data === null) {
+            console.log('first click');
+            // Recursive call may not be necessary; please review if it's needed.
+            // checkPage();
+          } else {
+            console.log('success');
+            navigation.navigate('AnimationPage', {data, formDataCopy});
+          }
+        }
+      } catch (error) {
+        console.error(error, 'errorsss');
+      }
+    } else {
+      // Alert the user to fill in all required fields
+      alert('Please enter all details');
+    }
+  }
 
   return (
-    <Block safe marginTop={sizes.md}>
+    <Block safe >
       <Block
         scroll
         paddingHorizontal={sizes.s}
@@ -91,42 +233,50 @@ const TrackProgress = () => {
               </Block>
               <Block align="center" paddingTop={10}>
                 {/* <Text h5>{(user?.stats?.followers || 0) / 1000}k</Text> */}
-                <Text bold color={'#34d18f'} center>
+                <Text bold primary center>
                   Log history
                 </Text>
               </Block>
               <Block align="center"></Block>
             </Block>
           </Block>
-          <Block
-            row
-            //   blur
-            marginTop={-sizes.s}
-            flex={0}
-            //   intensity={100}
-            radius={sizes.sm}
-            overflow="hidden"
-            //   tint={colors.blurTint}
-            justify="space-evenly"
-            paddingVertical={sizes.sm}
-            renderToHardwareTextureAndroid>
-            <Block align="center">{/* <Text  >16-12-2023</Text> */}</Block>
-            <Block align="center" paddingTop={10}>
-              {/* <Text h5>{(user?.stats?.followers || 0) / 1000}k</Text> */}
-              {/* <Text bold primary center>Log history</Text> */}
+          {!showView && (
+            <Block
+              row
+              //   blur
+              marginTop={-sizes.s}
+              flex={0}
+              //   intensity={100}
+              radius={sizes.sm}
+              overflow="hidden"
+              //   tint={colors.blurTint}
+              justify="space-evenly"
+              paddingVertical={sizes.sm}
+              renderToHardwareTextureAndroid>
+              <Block align="center">{/* <Text  >16-12-2023</Text> */}</Block>
+              <Block align="center" paddingTop={10}>
+                {/* <Text h5>{(user?.stats?.followers || 0) / 1000}k</Text> */}
+                {/* <Text bold primary center>Log history</Text> */}
+              </Block>
+              <Block align="center">
+                <Button
+                  color={colors.primary}
+                  padding={10}
+                  width={100}
+                  onPress={() => {
+                    setShowView(true);
+                    setModalVisible(true);
+                  }}>
+                  <Text bold white>
+                    Add
+                  </Text>
+                </Button>
+              </Block>
             </Block>
-            <Block align="center">
-              <Button color={'#64d6ef'} padding={10} width={100}>
-                <Text bold white>
-                  Add
-                </Text>
-              </Button>
-            </Block>
-          </Block>
-          {/* <Button onPress={handleLogout}> <Text>Logout</Text></Button> */}
+          )}
 
-          {/* profile: about me */}
-          <Block flex={0}  marginHorizontal={20} card marginTop={10}>
+         
+          <Block flex={0} marginHorizontal={20} card marginTop={10}>
             <Block row center>
               <Block
                 flex={0}
@@ -169,13 +319,29 @@ const TrackProgress = () => {
               </Block>
             </Block>
           </Block>
-
-
+        </Block>
+      </Block>
+      <View style={styles.centeredView}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+            setModalVisible(!modalVisible);
+          }}>
           <Block
+            card
+            flex={0}
+            style={styles.centeredView}
+            marginTop={200}
+            marginHorizontal={15}>
+            <Block
               row
               justify="space-between"
               marginBottom={sizes.base}
-              marginTop={sizes.sm}>
+              marginTop={sizes.sm}
+              marginHorizontal={20}>
               <Button
                 flex={2}
                 row
@@ -185,47 +351,43 @@ const TrackProgress = () => {
                   {/* <Text dark bold transform="uppercase" marginRight={sizes.sm}>
                 {kg} Kg
               </Text> */}
-              {isKg ? (
-                 <Input
-                 placeholder={'Kg'}
-                 keyboardType="numeric"
-                 maxLength={6}
-                 value={inputValueKg}
-                 style={{
-                   height: 50,
-                   width: 125,
-                   flex: 1,
-                   borderRadius: 10,
-                   backgroundColor: 'white',
-                   borderWidth: 0,
-                 }}
-                 onChangeText={handleInputChangeKg}
-              
-               />
-              ):(
-              
-                  <Input
-                  placeholder={'Lbs'}
-                  keyboardType="numeric"
-                  maxLength={6}
-                  value={inputValueLbs}
-                  style={{
-                    height: 50,
-                    width: 125,
-                    flex: 1,
-                    borderRadius: 10,
-                    backgroundColor: 'white',
-                    borderWidth: 0,
-                  }}
-                  onChangeText={handleInputChangeLbs}
-                
-                />
-              )}
-                  
+                  {isKg ? (
+                    <Input
+                      placeholder={'Kg'}
+                      keyboardType="numeric"
+                      maxLength={6}
+                      value={inputValueKg}
+                      style={{
+                        height: 50,
+                        width: 125,
+                        flex: 1,
+                        borderRadius: 10,
+                        backgroundColor: 'white',
+                        borderWidth: 0,
+                      }}
+                      onChangeText={handleInputChangeKg}
+                    />
+                  ) : (
+                    <Input
+                      placeholder={'Lbs'}
+                      keyboardType="numeric"
+                      maxLength={6}
+                      value={inputValueLbs}
+                      style={{
+                        height: 50,
+                        width: 125,
+                        flex: 1,
+                        borderRadius: 10,
+                        backgroundColor: 'white',
+                        borderWidth: 0,
+                      }}
+                      onChangeText={handleInputChangeLbs}
+                    />
+                  )}
                 </Block>
               </Button>
               <Block
-                flex={4}
+                flex={2}
                 style={{
                   alignItems: 'center',
                   shadowRadius: 8,
@@ -250,23 +412,88 @@ const TrackProgress = () => {
                   activeColor="#5f9b4c"
                 />
               </Block>
-              {/* <Button flex={2} gradient={gradients.dark} marginHorizontal={sizes.s}>
-            <Text white bold  marginHorizontal={sizes.s}>
-              Kg
-            </Text>
-          </Button>
-          <Button flex={2} gradient={gradients.dark}>
-            <Text white bold  marginHorizontal={sizes.sm}>
-              Lbs
-            </Text>
-          </Button> */}
             </Block>
- 
-    
-        </Block>
-      </Block>
+
+            <Block flex={0} marginTop={80} row>
+              <Pressable
+                style={[styles.button1, styles.buttonClose1]}
+                onPress={() => {
+                  setModalVisible(!modalVisible);
+                  setShowView(false);
+                }}>
+                <Text style={styles.textStyle} white bold>Update</Text>
+              </Pressable>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => {
+                  setModalVisible(!modalVisible);
+                  setShowView(false);
+                }}>
+                <Text style={styles.textStyle} bold >Hide </Text>
+              </Pressable>
+            </Block>
+          </Block>
+        </Modal>
+        {/* <Pressable
+          style={[styles.button, styles.buttonOpen]}
+          onPress={() => setModalVisible(true)}>
+          <Text style={styles.textStyle}>Show Modal</Text>
+        </Pressable> */}
+      </View>
     </Block>
   );
 };
-
+const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  button1: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+   
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+  },
+  buttonClose1: {
+    backgroundColor: COLORS.primary,
+    marginRight:10,
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+});
 export default TrackProgress;
