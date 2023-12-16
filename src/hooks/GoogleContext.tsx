@@ -8,7 +8,7 @@ type GoogleContextValue = {
   userInfo: string | null; // Add token
  
   googleloginSuccess: (userInfo: any) => void; // Update googleloginSuccess
-  logout: () => void;
+  logoutGoogle: () => void;
 };
 
 const GoogleContext = createContext<GoogleContextValue>({
@@ -16,7 +16,7 @@ const GoogleContext = createContext<GoogleContextValue>({
   userInfo: null,
  
   googleloginSuccess: () => {},
-  logout: () => {},
+  logoutGoogle: () => {},
 });
 
 export const GoogleProvider = ({children}) => {
@@ -77,7 +77,7 @@ console.log('====================================');
     }
   };
   
-  const logout = async () => {
+  const logoutGoogle = async () => {
     try {
       // Clear the stored authentication data from AsyncStorage
       await AsyncStorage.multiRemove(['userInfo']);
@@ -97,7 +97,7 @@ console.log('====================================');
        userInfo,
        
         googleloginSuccess,
-        logout,
+        logoutGoogle,
       }}>
       {children}
     </GoogleContext.Provider>
