@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
 
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useRef, useState} from 'react';
 
-import {Block, Button, Image, Text} from '../../components';
+import {Block, Button, Image, Input, Text} from '../../components';
 import {Alert, TextInput, TouchableOpacity} from 'react-native';
 import LoginContext from '../../hooks/LoginContext';
 import {CommonActions} from '@react-navigation/native';
@@ -10,11 +10,55 @@ import {MealContext} from '../../hooks/useMeal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {signOut} from '../../constants/GoogleSignInUtil.js.js';
 import GoogleContext from '../../hooks/GoogleContext';
-import {View, StyleSheet, ActivityIndicator} from 'react-native';
+import {View, StyleSheet, ActivityIndicator,Animated, Easing} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import * as regex from '../../constants/regex';
+import api from '../../../api';
+import { useTheme } from '../../hooks';
+
+
+interface IRegistration {
+  name: string;
+  last_name: string;
+  email: string;
+  number: string;
+  password: string;
+}
+interface IRegistrationValidation {
+  name: boolean;
+  last_name: boolean;
+  email: boolean;
+  number: boolean;
+  password: boolean;
+}
+
 
 export default function EditProfile({route, navigation}) {
+  const {assets, colors, gradients, sizes} = useTheme();
   const [formData, setFormData] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+  const [isValid, setIsValid] = useState<IRegistrationValidation>({
+    email: false,
+    password: false
+  });
+  const [registration, setRegistration] = useState<IRegistration>({
+    email: '',
+    password: ''
+   
+  });
+  // const {formData} = route.params ?? {};
+
+  useEffect(() => {
+    setIsValid((state) => ({
+      ...state,
+    
+      email: regex.email.test(registration.email),
+     
+      password: regex.password.test(registration.password),
+    }));
+  }, [registration, setIsValid]);
 
   // const {formData} = route.params ?? {};
 
@@ -28,9 +72,9 @@ export default function EditProfile({route, navigation}) {
 
   const {userInfo} = useContext(GoogleContext);
 
-  console.log('====================================');
-  console.log(userInfo, 'google data from account');
-  console.log('====================================');
+  // console.log('====================================');
+  // console.log(userInfo, 'google data from account');
+  // console.log('====================================');
   const {clearContextData} = useContext(MealContext);
   // const handleSignOut = () => {
   //   // Call the signOut function from GoogleSignInUtil
@@ -56,6 +100,59 @@ export default function EditProfile({route, navigation}) {
       }),
     );
   };
+  const handleChange = useCallback(
+    (value) => {
+      setRegistration((state) => ({...state, ...value}));
+      setFormData({
+       
+     
+       
+        email: registration.email,
+        password: registration.password,
+      });
+      console.log(formData);
+    },
+    [setRegistration, registration],
+  );
+  console.log(registration.password , "email console");
+  const handleSignUp = async () => {
+    if (isValid.email || isValid.password) {
+      setIsLoading(true); // Start loading
+  
+      try {
+        const response = await api.post('set_personal_datas', {
+          email: registration.email,
+          password: registration.password,
+          customer_id: customerId,
+        });
+  
+        setIsLoading(false); // Stop loading
+  
+        // Handle response from server
+        console.log(response.data);
+        if(response.data.success){
+          Alert.alert(response.data.message);
+          navigation.goBack();
+        }
+  
+        // const updatedFormData = {
+        //   ...formData,
+        //   customer_id: id,
+        //   mobile_number: phoneNumber,
+        // };
+        // navigation.setParams({formData: formDataCopy});
+        // navigation.navigate('OtpPage', {
+        //   formData: formDataCopy,
+        // });
+      } catch (error) {
+        setIsLoading(false); // Stop loading
+        console.error(error);
+        // Handle error from server
+        alert(error.message || 'An error occurred');
+      }
+    }
+  };
+  
   useEffect(() => {
     const checkAuthenticationStatus = async () => {
       try {
@@ -118,6 +215,15 @@ export default function EditProfile({route, navigation}) {
       }
     }
   };
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible(!isPasswordVisible);
+  };
+  const iconPosition = useRef(new Animated.Value(0)).current;
+  Animated.timing(iconPosition, {
+    toValue: registration.password ? 1 : 0, // Slide the icon to the right when text is entered, or back to the left when empty
+    duration: 200, // Animation duration in milliseconds
+    useNativeDriver: false, // Important for Android
+  }).start();
   return (
     <Block safe marginTop={15} card color={'#f2f8fc'}>
       <Block
@@ -180,56 +286,92 @@ export default function EditProfile({route, navigation}) {
         {/* second block */}
         <Block card flex={1} marginTop={20}>
           <Block flex={0}>
-            <Text padding={10}>Email address</Text>
-            <View style={styles.inputContainer}>
-              <Image
-                source={require('../../assets/icons/Message.png')} // Replace with your icon source
-                style={styles.icon}
-              />
-              <TextInput
-                style={styles.input}
-                autoCapitalize="none"
-                placeholder="Enter text"
-                // value={email}
-                // onChangeText={(text) => setEmail(text)}
-                placeholder="Email"
-              />
-            </View>
+            
+          
+            <Input
+                    autoCapitalize="none"
+                    marginBottom={10}
+                    label={'Email'}
+                    keyboardType="email-address"
+                    placeholder={'enter email'}
+                    success={Boolean(registration.email && isValid.email)}
+                    danger={Boolean(registration.email && !isValid.email)}
+                    onChangeText={(value) => handleChange({email: value})}
+                  />
+               
           </Block>
-          <Block flex={0} paddingTop={10}>
-            <Text padding={10}>Password</Text>
-            <View style={styles.inputContainer}>
-              <Image
-                source={require('../../assets/icons/Message.png')} // Replace with your icon source
-                style={styles.icon}
-              />
-              <TextInput
-                style={styles.input}
-                autoCapitalize="none"
-                placeholder="Enter text"
-                // value={email}
-                // onChangeText={(text) => setEmail(text)}
-                placeholder="Password"
-              />
-            </View>
-          </Block>
-          <Block flex={0}>
-            <Text padding={10}>Confirm Password</Text>
-            <View style={styles.inputContainer}>
-              <Image
-                source={require('../../assets/icons/Message.png')} // Replace with your icon source
-                style={styles.icon}
-              />
-              <TextInput
-                style={styles.input}
-                autoCapitalize="none"
-                placeholder="Enter text"
-                // value={email}
-                // onChangeText={(text) => setEmail(text)}
-                placeholder="Password"
-              />
-            </View>
-          </Block>
+        <Block row >
+        <Block style={styles.input} padding={0}>
+                      <Input
+                        secureTextEntry={!isPasswordVisible}
+                        autoCapitalize="none"
+                        marginBottom={10}
+                        label={'Password'}
+                        placeholder={'Enter new password'}
+                        // onChangeText={(value) => handleChange({password: value})}
+                        onChangeText={(value) =>
+                          handleChange({password: value})
+                        }
+                        success={Boolean(
+                          registration.password && isValid.password,
+                        )}
+                        danger={Boolean(
+                          registration.password && !isValid.password,
+                        )}
+                      />
+                    </Block>
+                    <Block flex={0} center paddingTop={15}>
+                      {registration.password.length > 0 && (
+                        <Animated.View
+                          style={{
+                            transform: [
+                              {
+                                translateX: iconPosition.interpolate({
+                                  inputRange: [0, 1],
+                                  outputRange: [-30, 0],
+                                }),
+                              },
+                            ],
+                          }}>
+                          <TouchableOpacity onPress={togglePasswordVisibility}>
+                            {!isPasswordVisible ? (
+                              <Image
+                                source={require('../../assets/icons/show.png')}
+                                style={styles.toggleButton}
+                              />
+                            ) : (
+                              <Image
+                                source={require('../../assets/icons/hide.png')}
+                                style={styles.toggleButton}
+                              />
+                            )}
+                          </TouchableOpacity>
+                        </Animated.View>
+                      )}
+                    </Block>
+        </Block>
+                    
+                    <Button
+                  onPress={() => {
+                    handleSignUp();
+                  }}
+                  marginVertical={10}
+                  marginHorizontal={10}
+                  gradient={gradients.primary}
+                  disabled={
+                    !isValid.password || !isValid.email
+                  }>
+                  {isLoading && (
+                    <ActivityIndicator size="small" color="white" />
+                  )}
+                  {!isLoading && (
+                    <Text bold white transform="uppercase">
+                      Update
+                    </Text>
+                  )}
+                </Button>
+                  
+       
         </Block>
 
         {/* third block */}
@@ -358,5 +500,19 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
+  },
+
+  toggleButton: {
+    width: 20,
+    height: 20,
+    resizeMode: 'contain',
+    marginLeft: 10,
+    tintColor: 'gray',
+  },
+  toggleButtonContainer: {
+    position: 'absolute',
+    right: 10, // Adjust the position based on your layout
+    top: 10, // Adjust the position based on your layout
+    zIndex: 1, // Make sure it's above the input field
   },
 });
