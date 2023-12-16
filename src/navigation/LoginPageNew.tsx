@@ -65,6 +65,7 @@ interface IRegistrationValidation {
 const LoginScreenNew = ({navigation, route}) => {
   const {country} = route.params;
   const {googleloginSuccess} = useContext(GoogleContext);
+  const [isLoading, setIsLoading] = useState(false);
   console.log(country);
   const [token, setToken] = useState('');
 
@@ -84,7 +85,7 @@ const LoginScreenNew = ({navigation, route}) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
 
-  const [isLoading, setIsLoading] = useState(false);
+
   const blockRef = useRef(null);
   const handleWebLink = useCallback((url) => Linking.openURL(url), []);
 
@@ -281,7 +282,7 @@ const LoginScreenNew = ({navigation, route}) => {
 
     // Add your logic to handle the userInfo in LoginPageNew
     // For example, you can set the user information in the state
-    setLoggedInUser(userInfo);
+  
 
     // You can also perform other actions with the user information here
     // For example, make an API call and navigate to another screen
@@ -520,7 +521,7 @@ const LoginScreenNew = ({navigation, route}) => {
                       </Block>
                       <Block padding={10} margin={10} flex={0} height={100}>
                         <Block row center justify="space-evenly">
-                          <Button
+                          {/* <Button
                             outlined
                             gray
                             shadow={!isAndroid}
@@ -534,8 +535,8 @@ const LoginScreenNew = ({navigation, route}) => {
                               width={sizes.m}
                               color={colors.icon}
                             />
-                          </Button>
-                          <Button
+                          </Button> */}
+                          {/* <Button
                             outlined
                             gray
                             shadow={!isAndroid}
@@ -549,8 +550,8 @@ const LoginScreenNew = ({navigation, route}) => {
                               width={sizes.m}
                               color={colors.icon}
                             />
-                          </Button>
-                          <Button
+                          </Button> */}
+                          {/* <Button
                             outlined
                             gray
                             shadow={!isAndroid}
@@ -564,7 +565,7 @@ const LoginScreenNew = ({navigation, route}) => {
                               width={sizes.m}
                               color={colors.icon}
                             />
-                          </Button>
+                          </Button> */}
                           {/* <Button
                             outlined
                             gray
@@ -585,6 +586,11 @@ const LoginScreenNew = ({navigation, route}) => {
                               color={colors.icon}
                             />
                           </Button> */}
+                           {loading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : (
+        <GoogleAuthNew onUserLogin={handleUserLogin} />
+      )}
                         </Block>
                       </Block>
                     </>
