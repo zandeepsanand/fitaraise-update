@@ -99,6 +99,7 @@
     "react-native-scrollable-calendar-strip": "^2.0.14",
     "react-native-select-dropdown": "^3.3.2",
     "react-native-skeleton-content": "^1.0.28",
+    "react-native-splash-screen": "^3.3.0",
     "react-native-star-review": "^0.0.3",
     "react-native-svg": "^13.4.0",
     "react-native-svg-charts": "^5.4.0",
