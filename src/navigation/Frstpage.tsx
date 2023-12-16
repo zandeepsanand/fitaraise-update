@@ -15,7 +15,7 @@ import {useData, useTheme, useTranslation} from '../hooks/';
 import {Block, Button, Image, Input, Product, Text} from '../components/';
 import {StatusBar as ExpoStatusBar} from 'expo-status-bar';
 import Lottie from 'lottie-react-native';
-import {Animated, Easing, TouchableWithoutFeedback} from 'react-native';
+import {Alert, Animated, Easing, TouchableWithoutFeedback} from 'react-native';
 import * as Notifications from 'expo-notifications';
 
 import {
@@ -32,6 +32,7 @@ import LoginContext from '../hooks/LoginContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api, {setAuthToken} from '../../api';
 import Loader from '../screens/alert/loader/Loader';
+import messaging from '@react-native-firebase/messaging';
 
 const {height, width} = Dimensions.get('window');
 
@@ -61,7 +62,7 @@ export default function Frstpage({
     token,
     logout, // You can access the logout function
   } = useContext(LoginContext);
-  console.log(token);
+  console.log(customerId , "idddd");
 
   const handleLogout = () => {
     console.log('clicked');
@@ -79,61 +80,56 @@ export default function Frstpage({
     [following, trending, setTab, setProducts],
   );
   useEffect(() => {
-    registerForPushNotifications();
-
-    // Add a listener for received notifications
-    const notificationListener = Notifications.addNotificationReceivedListener(
-      (notification) => {
-        // Handle received notification here
-        console.log('Received notification:', notification);
-      },
-    );
-
-    // Add a listener for notification responses
-    const responseListener =
-      Notifications.addNotificationResponseReceivedListener((response) => {
-        // Handle notification response here
-        console.log('Notification response:', response);
-      });
-
-    // Clean up the listeners when the component unmounts
-    return () => {
-      Notifications.removeNotificationSubscription(notificationListener);
-      Notifications.removeNotificationSubscription(responseListener);
-    };
-  }, []);
-  async function registerForPushNotifications() {
+    getDeviceToken();
+    requestPermission();
+     
+   }, [customerId]);
+   const getDeviceToken = async () => {
     try {
-      const {status: existingStatus} =
-        await Notifications.getPermissionsAsync();
-      let finalStatus = existingStatus;
-
-      if (existingStatus !== 'granted') {
-        const {status} = await Notifications.requestPermissionsAsync();
-        finalStatus = status;
+      const token = await messaging().getToken();
+      console.log(token, 'token12');
+  
+      if (token && customerId) {
+        try {
+          const response = await api.post('set_personal_datas', { device_token: token,customer_id:customerId });
+          console.log(response.data, 'set data');
+        } catch (error) {
+          console.error('Error making API request:', error);
+          if (error.response) {
+            // The request was made, but the server responded with a status code
+            // outside the range of 2xx
+            console.error('Server responded with:', error.response.data);
+            console.error('Status code:', error.response.status);
+          } else if (error.request) {
+            // The request was made but no response was received
+            console.error('No response received from the server');
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            console.error('Error setting up the request:', error.message);
+          }
+        }
       }
-
-      if (finalStatus !== 'granted') {
-        console.log('Failed to get push token for push notification!');
-        return;
-      }
-
-      const token = (await Notifications.getExpoPushTokenAsync()).data;
-      const device_token = token;
-      console.log('Expo push token:', token);
-
-      // Store the token in AsyncStorage for later use
-      await AsyncStorage.setItem('expoPushToken', device_token);
-
-      // Uncomment and complete this part to send the token to your server
-      // await api.post('set_personal_datas', { customerId, device_token });
     } catch (error) {
-      console.error('Error registering for push notifications:', error);
+      console.error('Error getting device token:', error);
     }
-  }
-  AsyncStorage.getItem('expoPushToken').then((value) => {
-    console.log(value, 'expo');
-  });
+  };
+   
+   useEffect(() => {
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    });
+
+    return unsubscribe;
+  }, []);
+
+  const requestPermission = async () => {
+    const authorized = await messaging().requestPermission();
+    if (authorized) {
+      console.log('Notification permission granted');
+    } else {
+      console.log('Notification permission denied');
+    }
+  };
 
   const redirectTo = async () => {
     try {
@@ -217,35 +213,9 @@ export default function Frstpage({
     }
   };
 
-  const animationProgress = useRef(new Animated.Value(0));
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // const response = await api.get(`get_personal_datas/${customerId}`);
-        // setExpoNotification(response.data.data.device_token);
-        // const expo = response.data.data.device_token;
-        const expoToken = await AsyncStorage.getItem('expoPushToken');
 
-        // If the token is found in AsyncStorage, set it in your component's state
-        if (expoToken) {
-          setExpoNotification(expoToken);
-        }
 
-        // Start the animation after the API request is completed
-        Animated.timing(animationProgress.current, {
-          toValue: 1,
-          duration: 5000,
-          easing: Easing.linear,
-          useNativeDriver: false,
-        }).start();
-      } catch (error) {
-        console.error('Error fetching data for expo:', error);
-      }
-    };
-
-    fetchData();
-  }, [customerId, animationProgress]);
   return (
     <>
       {isLoading ? (
