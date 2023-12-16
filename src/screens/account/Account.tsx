@@ -11,28 +11,24 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {signOut} from '../../constants/GoogleSignInUtil.js';
 import GoogleContext from '../../hooks/GoogleContext';
 
+
+
 export default function Account({route, navigation}) {
   const [formData, setFormData] = useState('');
-
-  // const {formData} = route.params ?? {};
-
-
+ 
   const {
     customerId,
     isLoggedIn,
     token,
-   
+
     logout,
   } = useContext(LoginContext);
 
-  const {
-  userInfo,
-  } = useContext(GoogleContext);
+  const {userInfo,logoutGoogle} = useContext(GoogleContext);
 
-
-console.log('====================================');
-console.log(userInfo, "google data from account");
-console.log('====================================');
+  console.log('====================================');
+  console.log(userInfo, 'google data from account');
+  console.log('====================================');
   const {clearContextData} = useContext(MealContext);
   // const handleSignOut = () => {
   //   // Call the signOut function from GoogleSignInUtil
@@ -50,12 +46,13 @@ console.log('====================================');
     clearContextData();
     logout();
     signOut();
+    logoutGoogle();
 
     navigation.dispatch(
       CommonActions.reset({
         index: 0,
-        routes: [{ name: 'FirstPageCountrySelect' }],
-      })
+        routes: [{name: 'FirstPageCountrySelect'}],
+      }),
     );
   };
   useEffect(() => {
@@ -88,6 +85,42 @@ console.log('====================================');
 
     checkAuthenticationStatus();
   }, [navigation]);
+
+  const handleLogin = () => {
+    setIsLoading(true); // Set loading to true
+
+    const email = registration.email;
+    const password = registration.password;
+
+    // Make the login request
+    api
+      .post('set_personal_datas', {email, password})
+      .then((response) => {
+        setIsLoading(false); // Set loading back to false
+
+        console.log(response.data, 'email register');
+
+        // Assuming the server responds with a token on successful login
+
+        if (response.data.success === false) {
+           // Extract the error message for the email field
+         console.log(response.data,  "error report");
+         
+        } else {
+          // navigation.setParams({ formData: registration });
+          navigation.goBack()
+        }
+
+        // Set the token for future requests
+
+        // You can navigate to another screen or perform other actions here
+      })
+      .catch((error) => {
+        setIsLoading(false); // Set loading back to false
+        // Handle login errors here
+        console.error('Login Error:', error);
+      });
+  };
 
   return (
     <Block safe marginTop={15}>
@@ -126,60 +159,66 @@ console.log('====================================');
             </Block>
             <Block flex={0} center paddingRight={10}>
               <TouchableOpacity>
-                <Image
+                {/* <Image
                   color={'white'}
                   width={25}
                   height={25}
-                  source={require('../../assets/icons/pencil.png')}></Image>
+                  source={require('../../assets/icons/pencil.png')}></Image> */}
               </TouchableOpacity>
             </Block>
           </Block>
         </Block>
         {/* second block */}
         <Block card flex={1} marginTop={20} height={370}>
-          <Block flex={0} height={85}>
-            <Block row height={85} center>
-              <Block
-                flex={0}
-                center
-                width={60}
-                height={60}
-                radius={50}
-                color={'#f0f0f8'}
-                paddingLeft={18}
-                marginTop={10}>
-                <Image
-                  color={'green'}
-                  width={25}
-                  height={25}
-                  source={require('../../assets/icons/user.png')}></Image>
-              </Block>
-              <Block flex={1} paddingLeft={20} paddingTop={15}>
-                <Block flex={0} center>
-                  <Text p semibold>
-                    My Account
-                  </Text>
-                  <Text
-                    semibold
-                    secondary
-                    opacity={0.5}
-                    paddingTop={5}
-                    size={12}>
-                    Make Changes to your account
-                  </Text>
-                </Block>
-              </Block>
-              <Block flex={0} center paddingRight={10}>
-                <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('EditProfile');
+            }}>
+            <Block flex={0} height={85}>
+              <Block row height={85} center>
+                <Block
+                  flex={0}
+                  center
+                  width={60}
+                  height={60}
+                  radius={50}
+                  color={'#f0f0f8'}
+                  paddingLeft={18}
+                  marginTop={10}>
                   <Image
                     color={'green'}
-                    width={8}
-                    height={15}
-                    source={require('../../assets/icons/arrow.png')}></Image>
-                </TouchableOpacity>
+                    width={25}
+                    height={25}
+                    source={require('../../assets/icons/user.png')}></Image>
+                </Block>
+                <Block flex={1} paddingLeft={20} paddingTop={15}>
+                  <Block flex={0} center>
+                    <Text p semibold>
+                      My Account
+                    </Text>
+                    <Text
+                      semibold
+                      secondary
+                      opacity={0.5}
+                      paddingTop={5}
+                      size={12}>
+                      Make Changes to your account
+                    </Text>
+                  </Block>
+                </Block>
+                <Block flex={0} center paddingRight={10}>
+                  <TouchableOpacity>
+                    <Image
+                      color={'green'}
+                      width={8}
+                      height={15}
+                      source={require('../../assets/icons/arrow.png')}></Image>
+                  </TouchableOpacity>
+                </Block>
               </Block>
             </Block>
-          </Block>
+          </TouchableOpacity>
+
           <Block flex={0} height={85}>
             <Block row>
               <Block

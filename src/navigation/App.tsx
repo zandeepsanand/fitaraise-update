@@ -18,7 +18,7 @@ import LoginPage from './LoginPage';
 import OtpPage from './OtpPage';
 import WelcomePage from './WelcomePage';
 import TypingScreen from './TypingScreen';
-import * as SplashScreen from 'expo-splash-screen';
+
 import NextButton from './NextButton';
 import DemoPage from './DemoPage';
 import AgeAndHeightPage from './AgeAndHeightPage';
@@ -97,23 +97,11 @@ import ChallengeMenu from '../screens/workout/workout challenges/ChallengeMenu';
 import NotificationFirebase from '../components/PushNotification';
 import SignOutPage from '../screens/account/SignOut';
 import EditProfile from '../screens/account/EditProfile';
-
+import * as SplashScreen from 'expo-splash-screen';
+import TrackProgress from '../screens/TrackProgress';
 
 // Keep the splash screen visible while we fetch resources
-SplashScreen.preventAutoHideAsync()
-  .then((result) => {
-    // Do any asynchronous tasks you need to do before hiding the splash screen.
-    // For example, you can load data or perform any initialization here.
-  })
-  .catch(console.warn); // Handle any errors that occur during the asynchronous tasks.
-
-// When you're ready to hide the splash screen (e.g., after your app has loaded),
-// you can call hideAsync():
 SplashScreen.hideAsync()
-  .then(() => {
-    // The splash screen is now hidden, and your app can continue.
-  })
-  .catch(console.warn); // Handle any errors that occur while hiding the splash screen.
 
 export default () => {
   const {isDark, theme, setTheme} = useData();
@@ -160,11 +148,16 @@ export default () => {
       <TranslationProvider>
         <ThemeProvider theme={theme} setTheme={setTheme}>
           <NavigationContainer theme={navigationTheme}>
-            <Stack.Navigator initialRouteName="EditProfile">
+            <Stack.Navigator initialRouteName="TrackProgress">
             <Stack.Screen name="ChallengeMenu" component={ChallengeMenu} options={{ headerShown: false }} />
             <Stack.Screen
                 name="ChallengeTabNavigator"
                 component={ChallengeTabNavigator}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="TrackProgress"
+                component={TrackProgress}
                 options={{headerShown: false}}
               />
               <Stack.Screen

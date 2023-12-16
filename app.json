@@ -14,7 +14,7 @@
     "splash": {
       "image": "./assets/fitaraise.png",
       "resizeMode": "cover",
-      "backgroundColor": "#fffff"
+      "backgroundColor": "#ffffff"
     },
     "android": {
       "package": "com.sandeepsanand.fitaraise_windowsupdatemain",
@@ -23,7 +23,7 @@
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#fffff"
+        "backgroundColor": "#ffffff"
       }
     },
     "updates": {
