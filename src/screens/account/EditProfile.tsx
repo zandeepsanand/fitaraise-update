@@ -1,6 +1,12 @@
 /* eslint-disable prettier/prettier */
 
-import React, {useCallback, useContext, useEffect, useRef, useState} from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 import {Block, Button, Image, Input, Text} from '../../components';
 import {Alert, TextInput, TouchableOpacity} from 'react-native';
@@ -10,12 +16,17 @@ import {MealContext} from '../../hooks/useMeal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {signOut} from '../../constants/GoogleSignInUtil.js.js';
 import GoogleContext from '../../hooks/GoogleContext';
-import {View, StyleSheet, ActivityIndicator,Animated, Easing} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  ActivityIndicator,
+  Animated,
+  Easing,
+} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as regex from '../../constants/regex';
 import api from '../../../api';
-import { useTheme } from '../../hooks';
-
+import {useTheme} from '../../hooks';
 
 interface IRegistration {
   name: string;
@@ -32,7 +43,6 @@ interface IRegistrationValidation {
   password: boolean;
 }
 
-
 export default function EditProfile({route, navigation}) {
   const {assets, colors, gradients, sizes} = useTheme();
   const [formData, setFormData] = useState('');
@@ -41,21 +51,20 @@ export default function EditProfile({route, navigation}) {
 
   const [isValid, setIsValid] = useState<IRegistrationValidation>({
     email: false,
-    password: false
+    password: false,
   });
   const [registration, setRegistration] = useState<IRegistration>({
     email: '',
-    password: ''
-   
+    password: '',
   });
   // const {formData} = route.params ?? {};
 
   useEffect(() => {
     setIsValid((state) => ({
       ...state,
-    
+
       email: regex.email.test(registration.email),
-     
+
       password: regex.password.test(registration.password),
     }));
   }, [registration, setIsValid]);
@@ -104,9 +113,6 @@ export default function EditProfile({route, navigation}) {
     (value) => {
       setRegistration((state) => ({...state, ...value}));
       setFormData({
-       
-     
-       
         email: registration.email,
         password: registration.password,
       });
@@ -114,27 +120,27 @@ export default function EditProfile({route, navigation}) {
     },
     [setRegistration, registration],
   );
-  console.log(registration.password , "email console");
+  console.log(registration.password, 'email console');
   const handleSignUp = async () => {
     if (isValid.email || isValid.password) {
       setIsLoading(true); // Start loading
-  
+
       try {
         const response = await api.post('set_personal_datas', {
           email: registration.email,
           password: registration.password,
           customer_id: customerId,
         });
-  
+
         setIsLoading(false); // Stop loading
-  
+
         // Handle response from server
         console.log(response.data);
-        if(response.data.success){
+        if (response.data.success) {
           Alert.alert(response.data.message);
           navigation.goBack();
         }
-  
+
         // const updatedFormData = {
         //   ...formData,
         //   customer_id: id,
@@ -152,7 +158,7 @@ export default function EditProfile({route, navigation}) {
       }
     }
   };
-  
+
   useEffect(() => {
     const checkAuthenticationStatus = async () => {
       try {
@@ -190,31 +196,61 @@ export default function EditProfile({route, navigation}) {
 
   // Function to pick an image from
   //the device's media library
+  const uploadImage = async (uri) => {
+    try {
+      const formData = new FormData();
+      formData.append('image', {
+        uri,
+        type: 'image/jpeg', // Change the type based on your image type
+        name: 'photo.jpg',
+      });
+
+      const response = await api.post('set_personal_datas', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      if (response.data && response.data.url) {
+        return response.data.url;
+      } else {
+        throw new Error('Image upload failed');
+      }
+    } catch (error) {
+      console.error('Image upload error:', error);
+      throw error;
+    }
+  };
+
   const pickImage = async () => {
     const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
     if (status !== 'granted') {
-      // If permission is denied, show an alert
       Alert.alert(
         'Permission Denied',
-        `Sorry, we need camera  
-               roll permission to upload images.`,
+        'Sorry, we need camera roll permission to upload images.',
       );
     } else {
-      // Launch the image library and get
-      // the selected image
-      const result = await ImagePicker.launchImageLibraryAsync();
+      try {
+        const result = await ImagePicker.launchImageLibraryAsync();
 
-      if (!result.cancelled) {
-        // If an image is selected (not cancelled),
-        // update the file state variable
-        setFile(result.uri);
+        if (!result.cancelled) {
+          // Upload the image and get the URL
+          const imageUrl = await uploadImage(result.uri);
 
-        // Clear any previous errors
-        setError(null);
+          // Now you can use imageUrl as needed (e.g., update personal data)
+          updatePersonalData({image: imageUrl});
+
+          // Clear any previous errors
+          setError(null);
+        }
+      } catch (error) {
+        console.error('Image picking error:', error);
+        // Handle error as needed
       }
     }
   };
+
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
@@ -231,7 +267,6 @@ export default function EditProfile({route, navigation}) {
         paddingHorizontal={15}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{paddingBottom: 10}}>
-       
         <Block paddingHorizontal={5}>
           {/* <Text h5>Edit Profile</Text> */}
         </Block>
@@ -286,92 +321,77 @@ export default function EditProfile({route, navigation}) {
         {/* second block */}
         <Block card flex={1} marginTop={20}>
           <Block flex={0}>
-            
-          
             <Input
-                    autoCapitalize="none"
-                    marginBottom={10}
-                    label={'Email'}
-                    keyboardType="email-address"
-                    placeholder={'enter email'}
-                    success={Boolean(registration.email && isValid.email)}
-                    danger={Boolean(registration.email && !isValid.email)}
-                    onChangeText={(value) => handleChange({email: value})}
-                  />
-               
+              autoCapitalize="none"
+              marginBottom={10}
+              label={'Email'}
+              keyboardType="email-address"
+              placeholder={'enter email'}
+              success={Boolean(registration.email && isValid.email)}
+              danger={Boolean(registration.email && !isValid.email)}
+              onChangeText={(value) => handleChange({email: value})}
+            />
           </Block>
-        <Block row >
-        <Block style={styles.input} padding={0}>
-                      <Input
-                        secureTextEntry={!isPasswordVisible}
-                        autoCapitalize="none"
-                        marginBottom={10}
-                        label={'Password'}
-                        placeholder={'Enter new password'}
-                        // onChangeText={(value) => handleChange({password: value})}
-                        onChangeText={(value) =>
-                          handleChange({password: value})
-                        }
-                        success={Boolean(
-                          registration.password && isValid.password,
-                        )}
-                        danger={Boolean(
-                          registration.password && !isValid.password,
-                        )}
+          <Block row>
+            <Block style={styles.input} padding={0}>
+              <Input
+                secureTextEntry={!isPasswordVisible}
+                autoCapitalize="none"
+                marginBottom={10}
+                label={'Password'}
+                placeholder={'Enter new password'}
+                // onChangeText={(value) => handleChange({password: value})}
+                onChangeText={(value) => handleChange({password: value})}
+                success={Boolean(registration.password && isValid.password)}
+                danger={Boolean(registration.password && !isValid.password)}
+              />
+            </Block>
+            <Block flex={0} center paddingTop={15}>
+              {registration.password.length > 0 && (
+                <Animated.View
+                  style={{
+                    transform: [
+                      {
+                        translateX: iconPosition.interpolate({
+                          inputRange: [0, 1],
+                          outputRange: [-30, 0],
+                        }),
+                      },
+                    ],
+                  }}>
+                  <TouchableOpacity onPress={togglePasswordVisibility}>
+                    {!isPasswordVisible ? (
+                      <Image
+                        source={require('../../assets/icons/show.png')}
+                        style={styles.toggleButton}
                       />
-                    </Block>
-                    <Block flex={0} center paddingTop={15}>
-                      {registration.password.length > 0 && (
-                        <Animated.View
-                          style={{
-                            transform: [
-                              {
-                                translateX: iconPosition.interpolate({
-                                  inputRange: [0, 1],
-                                  outputRange: [-30, 0],
-                                }),
-                              },
-                            ],
-                          }}>
-                          <TouchableOpacity onPress={togglePasswordVisibility}>
-                            {!isPasswordVisible ? (
-                              <Image
-                                source={require('../../assets/icons/show.png')}
-                                style={styles.toggleButton}
-                              />
-                            ) : (
-                              <Image
-                                source={require('../../assets/icons/hide.png')}
-                                style={styles.toggleButton}
-                              />
-                            )}
-                          </TouchableOpacity>
-                        </Animated.View>
-                      )}
-                    </Block>
-        </Block>
-                    
-                    <Button
-                  onPress={() => {
-                    handleSignUp();
-                  }}
-                  marginVertical={10}
-                  marginHorizontal={10}
-                  gradient={gradients.primary}
-                  disabled={
-                    !isValid.password || !isValid.email
-                  }>
-                  {isLoading && (
-                    <ActivityIndicator size="small" color="white" />
-                  )}
-                  {!isLoading && (
-                    <Text bold white transform="uppercase">
-                      Update
-                    </Text>
-                  )}
-                </Button>
-                  
-       
+                    ) : (
+                      <Image
+                        source={require('../../assets/icons/hide.png')}
+                        style={styles.toggleButton}
+                      />
+                    )}
+                  </TouchableOpacity>
+                </Animated.View>
+              )}
+            </Block>
+          </Block>
+
+          <Button
+            onPress={() => {
+              handleSignUp();
+            }}
+            marginVertical={10}
+            marginHorizontal={10}
+            gradient={gradients.primary}
+            disabled={!isValid.password || !isValid.email}>
+            {isLoading && <ActivityIndicator size="small" color="white" />}
+            {!isLoading && (
+              <Text bold white transform="uppercase">
+                Update
+              </Text>
+            )}
+          </Button>
         </Block>
 
         {/* third block */}

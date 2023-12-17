@@ -8,7 +8,7 @@ import api, {setAuthToken} from '../../../../api';
 import {Animated, Easing} from 'react-native';
 import Lottie from 'lottie-react-native';
 import LoginContext from '../../../hooks/LoginContext';
-import * as Notifications from 'expo-notifications';
+
 
 const LoadingScreenDiet = () => {
   const navigation = useNavigation();

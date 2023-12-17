@@ -99,6 +99,10 @@ import SignOutPage from '../screens/account/SignOut';
 import EditProfile from '../screens/account/EditProfile';
 import * as SplashScreen from 'expo-splash-screen';
 import TrackProgress from '../screens/TrackProgress';
+import NotificationPage from '../screens/NotificationPage';
+import EnableNotificationOnOff from '../screens/EnableNotificationOnOff';
+import NutritionFactsSearch from '../screens/nutritionFacts/NutritionFactsSearch';
+import SingleNutritionPage from '../screens/nutritionFacts/SingleNutritionPage';
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.hideAsync()
@@ -148,11 +152,31 @@ export default () => {
       <TranslationProvider>
         <ThemeProvider theme={theme} setTheme={setTheme}>
           <NavigationContainer theme={navigationTheme}>
-            <Stack.Navigator initialRouteName="TrackProgress">
+            <Stack.Navigator initialRouteName="Loading">
             <Stack.Screen name="ChallengeMenu" component={ChallengeMenu} options={{ headerShown: false }} />
             <Stack.Screen
                 name="ChallengeTabNavigator"
                 component={ChallengeTabNavigator}
+                options={{headerShown: false}}
+              />
+               <Stack.Screen
+                name="SingleNutritionPage"
+                component={SingleNutritionPage}
+                options={{title: 'Nutrition', headerTitleAlign: 'center'}}
+              />
+                 <Stack.Screen
+                name="NutritionFactsSearch"
+                component={NutritionFactsSearch}
+                options={{title: 'Nutrition', headerTitleAlign: 'center'}}
+              />
+               <Stack.Screen
+                name="EnableNotificationOnOff"
+                component={EnableNotificationOnOff}
+                options={{title: 'Notification Settings', headerTitleAlign: 'center'}}
+              />
+               <Stack.Screen
+                name="NotificationPage"
+                component={NotificationPage}
                 options={{headerShown: false}}
               />
               <Stack.Screen
@@ -169,11 +193,7 @@ export default () => {
                 component={EditProfile}
                 options={{headerShown: false}}
               />
-              <Stack.Screen
-                name="Notification"
-                component={NotificationFirebase}
-                options={{headerShown: false}}
-              />
+            
             <Stack.Screen
                 name="FirstPageCountrySelect"
                 component={FirstPageCountrySelect}

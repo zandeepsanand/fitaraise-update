@@ -45,7 +45,7 @@ export default () => {
           style={{marginRight: sizes.sm}}
           onPress={() =>
             navigation.navigate('Screens', {
-              screen: 'NotFoundPage',
+              screen: 'NotificationPage1',
             })
           }>
           <Image source={icons.bell} radius={0} color={colors.icon} />
@@ -59,7 +59,7 @@ export default () => {
             gradient={gradients?.primary}
           />
         </TouchableOpacity>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() =>
             navigation.navigate('Screens', {
               screen: 'NotFoundPage',
@@ -81,7 +81,7 @@ export default () => {
               3
             </Text>
           </Block>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </Block>
     ),
   } as StackHeaderOptions;

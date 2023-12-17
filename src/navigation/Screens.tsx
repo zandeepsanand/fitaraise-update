@@ -12,6 +12,8 @@ import DemoAlert from '../screens/alert/DemoAlert';
 import Account from '../screens/account/Account';
 import NotFoundPage from '../screens/error/ErrorPage';
 import Frstpage from './Frstpage';
+import TrackProgress from '../screens/TrackProgress';
+import NotificationPage from '../screens/NotificationPage';
 
 const Stack = createStackNavigator();
 
@@ -99,14 +101,18 @@ export default ({data, formDataCopy, dietPlan}) => {
         options={{headerShown: false}}
       />
          <Stack.Screen
-        name="NotFoundPage"
-        component={NotFoundPage}
-        options={{headerShown: false}}
+        name="NotificationPage1"
+        component={NotificationPage}
+        options={{title: 'Notification', headerTitleAlign: 'left'}}
       />
          <Stack.Screen
         name="NotFoundPage2"
-        component={NotFoundPage}
-        options={{headerShown: false}}
+        component={TrackProgress}
+        options={{
+          title: 'Track Progress', // Change the header title
+          headerBackTitle: 'Back', // Change the back button title
+          headerShown: true, // Show the header (you can omit this line if not needed)
+        }}
       />
        <Stack.Screen
         name="NotFoundPage3"

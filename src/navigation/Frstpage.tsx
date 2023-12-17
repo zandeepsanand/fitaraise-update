@@ -16,7 +16,7 @@ import {Block, Button, Image, Input, Product, Text} from '../components/';
 import {StatusBar as ExpoStatusBar} from 'expo-status-bar';
 import Lottie from 'lottie-react-native';
 import {Alert, Animated, Easing, TouchableWithoutFeedback} from 'react-native';
-import * as Notifications from 'expo-notifications';
+
 
 import {
   StyleSheet,
@@ -356,10 +356,11 @@ export default function Frstpage({
               </Block>
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback
-              // onPressOut={() => navigation.navigate('water')}
+              // onPressOut={() => navigation.navigate('NutritionFactsSearch')}
               onPress={() => {
+                navigation.navigate('NutritionFactsSearch');
                 handleProducts(4);
-                handleLogout();
+                // handleLogout();
               }}>
               <Block
                 style={styles.mainCardView}

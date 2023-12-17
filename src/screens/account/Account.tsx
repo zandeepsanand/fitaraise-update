@@ -218,8 +218,8 @@ export default function Account({route, navigation}) {
               </Block>
             </Block>
           </TouchableOpacity>
-
-          <Block flex={0} height={85}>
+<TouchableOpacity onPress={()=>navigation.navigate("EnableNotificationOnOff")}>
+<Block flex={0} height={85}>
             <Block row>
               <Block
                 flex={0}
@@ -262,7 +262,11 @@ export default function Account({route, navigation}) {
               </Block>
             </Block>
           </Block>
+</TouchableOpacity>
+        
+
           <Block flex={0} height={85}>
+
             <Block row>
               <Block
                 flex={0}
