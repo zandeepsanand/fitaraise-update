@@ -18,10 +18,13 @@ import api from '../../../../api';
 import CalendarHomeWorkout from './calendar/Calendar';
 import LoginContext from '../../../hooks/LoginContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFavorites } from '../../../hooks/HomeWorkoutContext';
 
 const HomeWorkoutMain = ({navigation, route}) => {
   const {t} = useTranslation();
-  const { homeWorkout, workoutData, savedDate} = route.params;
+  const {  workoutData, savedDate} = route.params;
+  const {workout} = useFavorites();
+  const homeWorkout = workout;
   const {authenticated,customerId} = useContext(LoginContext);
   const [tab, setTab] = useState<number>(0);
   const {following, trending} = useData();

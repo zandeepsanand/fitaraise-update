@@ -404,7 +404,7 @@ const SingleNutritionPage = ({route, navigation}) => {
                         handleAddToFavorites(responseData);
                         }}>
                           <Icon
-                              name={responseData.is_favorite ? 'heart' : 'heart-o'}
+                              name={isFavorite ? 'heart' : 'heart-o'}
                             size={30}
                             color="green"
                           />

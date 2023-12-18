@@ -31,6 +31,19 @@ const NutritionFactsSearch = ({route, navigation}) => {
   const {t} = useTranslation();
   const {assets, colors, fonts, gradients, sizes} = useTheme();
   const [searchResults, setSearchResults] = useState([]);
+  const [dropdownVisible, setDropdownVisible] = useState(null);
+  const toggleDropdown = (item) => {
+    setDropdownVisible(dropdownVisible === item ? null : item);
+  };
+  const handleEdit = () => {
+    // Implement your edit logic here
+    console.log('Edit button clicked');
+  };
+
+  const handleRemove = () => {
+    // Implement your remove logic here
+    console.log('Remove button clicked');
+  };
   //   console.log(searchResults);
 
   const [error, setError] = useState(null);
@@ -57,6 +70,25 @@ const NutritionFactsSearch = ({route, navigation}) => {
 
       try {
         api.get(`get_food_item_datas_with_id/${food.id}`).then((response) => {
+          const responseData = response.data.data;
+          navigation.navigate('SingleNutritionPage', {
+            responseData,
+
+            food,
+          });
+        });
+        setError(null);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  };
+  const handlePressFavorite = (food) => {
+    if (food) {
+      // console.log(food, "food data");
+
+      try {
+        api.get(`get_food_item_datas_with_id/${food.food_id}`).then((response) => {
           const responseData = response.data.data;
           navigation.navigate('SingleNutritionPage', {
             responseData,
@@ -210,7 +242,11 @@ const NutritionFactsSearch = ({route, navigation}) => {
                     height={25}
                     source={require('../../assets/icons/bell2.png')}></Image>
                 </Block>
+                
                 <Block flex={1} paddingLeft={20} paddingTop={15}>
+                <TouchableOpacity onPress={()=>{
+                  handlePressFavorite(item)
+                }}>
                   <Block flex={0} center>
                     <Text p semibold>
                     {item.food_name}
@@ -224,16 +260,30 @@ const NutritionFactsSearch = ({route, navigation}) => {
                       {item.food_name}
                     </Text>
                   </Block>
+                  </TouchableOpacity>
                 </Block>
+               
+                
                 <Block flex={0} center paddingRight={10}>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={()=>{toggleDropdown(item)}}>
                     <Image
                       // color={'green'}
                       width={8}
                       height={30}
                       source={require('../../assets/icons/dot.png')}></Image>
                   </TouchableOpacity>
+                  
                 </Block>
+                {dropdownVisible === item && (
+              <View style={styles.dropdown}>
+                <TouchableOpacity onPress={handleEdit}>
+                  <Text>Edit</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={handleRemove}>
+                  <Text>Remove</Text>
+                </TouchableOpacity>
+              </View>
+            )}
               </Block>
             </Block>
             ))}
@@ -264,6 +314,24 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1, // Allow input field to expand to fill available space
+  },
+  container: {
+    position: 'relative',
+  },
+  image: {
+    width: 100,
+    height: 100,
+    resizeMode: 'cover',
+  },
+  dropdown: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    backgroundColor: 'white',
+    padding: 10,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 5,
   },
 });
 

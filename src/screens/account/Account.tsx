@@ -26,9 +26,7 @@ export default function Account({route, navigation}) {
 
   const {userInfo,logoutGoogle} = useContext(GoogleContext);
 
-  console.log('====================================');
-  console.log(userInfo, 'google data from account');
-  console.log('====================================');
+
   const {clearContextData} = useContext(MealContext);
   // const handleSignOut = () => {
   //   // Call the signOut function from GoogleSignInUtil

@@ -3,6 +3,8 @@
 
 import {createContext, useContext, useEffect, useState} from 'react';
 import api from '../../api';
+import { Text } from '../components';
+import LoginContext from './LoginContext';
 
 const FavoritesContext = createContext();
 
@@ -12,23 +14,35 @@ export const useFavorites = () => {
 
 export const FavoritesProvider = ({ children }) => {
   const [favorites, setFavorites] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const {
+    customerId,
+    isLoggedIn,
+    token,
+
+    logout,
+  } = useContext(LoginContext);
 
   useEffect(() => {
+    console.log("fetched once");
+    
     const fetchFavorites = async () => {
       try {
         const getFavoritesResponse = await api.get('get_customer_fav_food');
         console.log(getFavoritesResponse.data, "get_customer_fav_food response");
 
-        // Update state with the fetched list of favorites
         setFavorites(getFavoritesResponse.data.data);
       } catch (error) {
         console.error('Error fetching favorites:', error);
+      } finally {
+        // Set isLoading to false regardless of success or failure
+        setIsLoading(false);
       }
     };
 
     // Fetch favorites when the component mounts
     fetchFavorites();
-  }, []); // Empty dependency array ensures it runs only once on mount
+  }, [customerId]); // Empty dependency array ensures it runs only once on mount
 
   const addToFavorites = async (item) => {
     try {
@@ -55,6 +69,9 @@ export const FavoritesProvider = ({ children }) => {
       console.error('Error adding to favorites:', error);
     }
   };
+  if (isLoading) {
+    return <Text secondary semibold>Loading...</Text> // You can replace this with a loading spinner or any other loading indicator
+  }
 
   return (
     <FavoritesContext.Provider value={{ favorites, addToFavorites }}>

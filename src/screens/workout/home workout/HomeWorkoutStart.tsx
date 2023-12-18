@@ -95,6 +95,9 @@ const HomeWorkoutStart = () => {
 
   //   }
   // };
+
+
+  // this is working code 
   const goToNextWorkout = () => {
     console.log('clicked');
 
@@ -107,6 +110,35 @@ const HomeWorkoutStart = () => {
       setIsTimerPaused(false); // Reset pause state to false
       setShowRestPopup(true); // Show the rest time popup
       setShowNextButton(false); // to set show button false
+    }
+  };
+  const goToNextWorkoutDone = () => {
+    console.log('clicked');
+  
+    if (exerciseData && currentWorkoutIndex < exerciseData.length - 1) {
+      let nextIndex = currentWorkoutIndex + 1;
+  
+      // Find the next workout with completed_today set to false
+      while (
+        nextIndex < exerciseData.length &&
+        exerciseData[nextIndex].completed_today
+      ) {
+        nextIndex++;
+      }
+  
+      if (nextIndex < exerciseData.length) {
+        const nextWorkout = exerciseData[nextIndex];
+        const newRestTime = nextWorkout.time_in_seconds;
+  
+        setCurrentWorkoutIndex(nextIndex);
+        setTimeLeft(newRestTime); // Start the new countdown timer with the new rest time
+        setIsTimerPaused(false); // Reset pause state to false
+        setShowRestPopup(true); // Show the rest time popup
+        setShowNextButton(false); // Set show button to false
+      } else {
+        console.log('No more workouts available.');
+        // Handle the case where there are no more workouts available
+      }
     }
   };
   const handleRestPopupClose = () => {
@@ -218,6 +250,13 @@ const HomeWorkoutStart = () => {
     setModalVisible(false);
     // Close the popup when "Skip" button is pressed
   };
+  const nextNotCompletedIndex = exerciseData.findIndex(
+    (workout, index) => index > currentWorkoutIndex && !workout.completed_today
+  );
+  
+  // Determine the next workout based on the index
+  const nextNotCompletedWorkout =
+    nextNotCompletedIndex !== -1 ? exerciseData[nextNotCompletedIndex] : null;
 
   return (
     <Block safe >
@@ -241,14 +280,14 @@ const HomeWorkoutStart = () => {
               <Block>
                 <Timer
                   restTimeInSeconds={restTimeInSeconds}
-                  workout={currentWorkout}
+                  workout={nextNotCompletedWorkout}
                   data={exerciseData}
                   onClose={handleSkip}
                 />
               </Block>
             </Modal>
             <TimerIntermediatePage
-              isVisible={showRestPopup}
+              isVisible={showRestPopup }
               restTimeInSeconds={previousRestTimeInSeconds}
               onClose={handleRestPopupClose}
               workout={currentWorkout}
@@ -270,7 +309,7 @@ const HomeWorkoutStart = () => {
                     padding={20}
                     style={{alignSelf: 'center', backgroundColor: '#fdb2b2'}}
                     onPress={() => {
-                      goToNextWorkout();
+                      goToNextWorkoutDone();
                       handleFinish();
                       if (isLastWorkout) {
                         navigation.navigate('CongratsPage', {savedDate}); // Replace 'YourNewPage' with the actual page name
@@ -287,7 +326,7 @@ const HomeWorkoutStart = () => {
                     <Button
                       tertiary
                       onPress={() => {
-                        goToNextWorkout();
+                        goToNextWorkoutDone();
                         setShowNextButton(false);
                         handleFinish();
                         if (isLastWorkout) {

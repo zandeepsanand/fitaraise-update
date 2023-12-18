@@ -1,11 +1,12 @@
 /* eslint-disable prettier/prettier */
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   Platform,
   Linking,
   StyleSheet,
   TouchableWithoutFeedback,
+  Alert,
 } from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/core';
@@ -16,12 +17,15 @@ import {Block, Button, Image, Text} from '../../../components/';
 import {useData, useTheme, useTranslation} from '../../../hooks/';
 import api from '../../../../api';
 import {isAuthTokenSet} from '../../../../api';
+import {useFavorites} from '../../../hooks/HomeWorkoutContext';
+import {useFocusEffect} from '@react-navigation/native';
 
 const isAndroid = Platform.OS === 'android';
 
 const HomeWorkoutAll = ({route}) => {
-  const {workout ,workoutData} = route.params;
-  // console.log(workout, 'workout datas');
+  const {workoutData, workout} = route.params;
+  console.log(workoutData, 'workout datas');
+  // const {workout} = useFavorites();
 
   const [exerciseData, setExerciseData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -52,65 +56,93 @@ const HomeWorkoutAll = ({route}) => {
     },
     [user],
   );
-  useEffect(() => {
-    const checkAuthenticationStatus = async () => {
-      try {
-        // Set isLoading to true to indicate that the check is in progress
-        setIsLoading(true);
+  // useEffect(() => {
+  //   const checkAuthenticationStatus = async () => {
+  //     try {
+  //       // Set isLoading to true to indicate that the check is in progress
+  //       setIsLoading(true);
 
-        const authDataJSON = await AsyncStorage.getItem('authData');
+  //       const authDataJSON = await AsyncStorage.getItem('authData');
 
-        if (authDataJSON) {
-          const authData = JSON.parse(authDataJSON);
-          const authToken = authData.token;
+  //       if (authDataJSON) {
+  //         const authData = JSON.parse(authDataJSON);
+  //         const authToken = authData.token;
 
-          if (authToken) {
-            try {
-              // Check if the token is still set
-              const tokenIsSet = await isAuthTokenSet();
-              // console.log(tokenIsSet, 'token is set');
-              console.log(workout.id , "check workout id ");
-              
+  //         if (authToken) {
+  //           try {
+  //             // Check if the token is still set
+  //             const tokenIsSet = await isAuthTokenSet();
+  //             // console.log(tokenIsSet, 'token is set');
+  //             console.log(workout.id , "check workout id ");
 
-              if (tokenIsSet) {
-                // Proceed with the API call
-                const response = await api.get(
-                  `get_home_workout_excercises/${workout.id}`,
-                );
-                setExerciseData(response.data.data);
-                // ...
-              } else {
-                // Handle the case where the token is not set or has expired
-                console.error(
-                  'Token is not set or has expired. Handle accordingly.',
-                );
-              }
-            } catch (error) {
-              // Handle API call errors
-              console.error('Error fetching exercise data:', error);
-            }
+  //             if (tokenIsSet) {
+  //               // Proceed with the API call
+  //               const response = await api.get(
+  //                 `get_home_workout_excercises/${workout.id}`,
+  //               );
+  //               setExerciseData(response.data.data);
+  //               // ...
+  //             } else {
+  //               // Handle the case where the token is not set or has expired
+  //               console.error(
+  //                 'Token is not set or has expired. Handle accordingly.',
+  //               );
+  //             }
+  //           } catch (error) {
+  //             // Handle API call errors
+  //             console.error('Error fetching exercise data:', error);
+  //           }
+  //         } else {
+  //           // Handle the case where authToken is not set
+  //           console.error('authToken is not set');
+  //         }
+  //       } else {
+  //         // Handle the case where authDataJSON is not set
+  //         console.error('authDataJSON is not set');
+  //       }
+  //     } catch (error) {
+  //       // Handle AsyncStorage errors
+  //       console.error('Error reading authData from AsyncStorage:', error);
+  //     } finally {
+  //       // Set isLoading to false when the check is finished
+  //       setIsLoading(false);
+  //     }
+  //   };
+
+  //   // Call the checkAuthenticationStatus function
+  //   checkAuthenticationStatus();
+  // }, [workout.id]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchData = async () => {
+        try {
+          setIsLoading(true);
+  
+          const tokenIsSet = await isAuthTokenSet();
+  
+          if (tokenIsSet) {
+            const response = await api.get(
+              `get_home_workout_excercises/${workout.id}`,
+            );
+            setExerciseData(response.data.data);
+            // ...
           } else {
-            // Handle the case where authToken is not set
-            console.error('authToken is not set');
+            console.error(
+              'Token is not set or has expired. Handle accordingly.',
+            );
           }
-        } else {
-          // Handle the case where authDataJSON is not set
-          console.error('authDataJSON is not set');
+        } catch (error) {
+          console.error('Error fetching exercise data:', error);
+        } finally {
+          setIsLoading(false);
         }
-      } catch (error) {
-        // Handle AsyncStorage errors
-        console.error('Error reading authData from AsyncStorage:', error);
-      } finally {
-        // Set isLoading to false when the check is finished
-        setIsLoading(false);
-      }
-    };
-
-    // Call the checkAuthenticationStatus function
-    checkAuthenticationStatus();
-  }, [workout.id]);
-
-  console.log(exerciseData , "single exercise data");
+      };
+  
+      fetchData();
+    }, [workout.id])
+  );
+  console.log(exerciseData, 'single exercise data');
 
   return (
     <Block safe marginTop={sizes.md} marginBottom={10}>
@@ -320,16 +352,28 @@ const HomeWorkoutAll = ({route}) => {
         </Block>
       </Block>
       <TouchableWithoutFeedback
-        onPress={() => {
-          navigation.navigate('HomeWorkoutStart', {
-            exerciseData: exerciseData,workoutData
-          });
-        }}>
-        <Block style={styles.stickyButton} center justify="center">
+ 
+>
+        <Button style={styles.stickyButton}  justify="center" color={'#19F196'}  onPress={() => {
+    const isAnyExerciseNotCompleted = exerciseData.some(
+      (exercise) => !exercise.completed_today
+    );
+
+    if (isAnyExerciseNotCompleted) {
+      navigation.navigate('HomeWorkoutStart', {
+        exerciseData: exerciseData,
+        workoutData,
+      });
+    } else {
+      // Handle the case where all exercises are completed
+      console.log('All exercises are completed. Button is disabled.');
+      Alert.alert("All workouts are done today")
+    }
+  }} >
           <Text style={styles.buttonText} bold>
             START
           </Text>
-        </Block>
+        </Button>
       </TouchableWithoutFeedback>
     </Block>
   );

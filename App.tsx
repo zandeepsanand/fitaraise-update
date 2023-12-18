@@ -13,6 +13,7 @@ import messaging from '@react-native-firebase/messaging';
 import {Alert, View} from 'react-native';
 import * as Permissions from 'expo-permissions';
 import {Text} from './src/components';
+import { HomeWorkoutProvider } from './src/hooks/HomeWorkoutContext';
 
 export default function App() {
   const [token1, setToken1] = useState(null);
@@ -51,9 +52,12 @@ export default function App() {
     <GoogleProvider>
       <LoginProvider>
         <FavoritesProvider>
+          <HomeWorkoutProvider>
           <DataProvider>
             <AppNavigation />
           </DataProvider>
+          </HomeWorkoutProvider>
+          
         </FavoritesProvider>
       </LoginProvider>
     </GoogleProvider>
