@@ -10,8 +10,10 @@ import {
   StyleSheet,
   View,
   Modal,
+  Alert,
+  BackHandler
 } from 'react-native';
-import {useRoute} from '@react-navigation/native';
+import {useRoute  } from '@react-navigation/native';
 import {Ionicons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/core';
 
@@ -42,7 +44,7 @@ function PopupPage() {
 const HomeWorkoutStart = () => {
   const route = useRoute();
   const {exerciseData ,workoutData} = route.params;
-  console.log(workoutData , "formDAta");
+  // console.log(workoutData , "formDAta");
 
   const {user} = useData();
   const {t} = useTranslation();
@@ -52,16 +54,26 @@ const HomeWorkoutStart = () => {
   const [currentWorkoutIndex, setCurrentWorkoutIndex] = useState(0); // Start with the first workout
   const [showNextButton, setShowNextButton] = useState(false);
   const [savedDate, setCompletedDate] = useState([]);
+  const [isLoading ,setIsLoading]=useState(false);
   // console.log(savedDate , "date for showing scroll calender");
 
   const currentWorkout = exerciseData[currentWorkoutIndex];
+  const nextNotCompletedIndex = exerciseData.findIndex(
+    (workout, index) => index >= currentWorkoutIndex && !workout.completed_today
+  );
+  
+  // Determine the next workout based on the index
+  const nextNotCompletedWorkout =
+    nextNotCompletedIndex !== -1 ? exerciseData[nextNotCompletedIndex] : null;
+
+    const [timeLeft, setTimeLeft] = useState(
+      nextNotCompletedWorkout.time_or_sets === 'time' ? nextNotCompletedWorkout.time_in_seconds : 0,
+    );
   // console.log(currentWorkout.time_or_sets, 'time or set ');
 
-  const restTimeInSeconds = currentWorkout.rest_time_in_seconds;
+  const restTimeInSeconds = nextNotCompletedWorkout.rest_time_in_seconds;
 
-  const [timeLeft, setTimeLeft] = useState(
-    currentWorkout.time_or_sets === 'time' ? currentWorkout.time_in_seconds : 0,
-  );
+
   // console.log(timeLeft, 'actual time left ');
 
   const [isTimerPaused, setIsTimerPaused] = useState(false);
@@ -82,6 +94,7 @@ const HomeWorkoutStart = () => {
     }
   };
 
+
   // const goToNextWorkout = () => {
   //   if (currentWorkoutIndex < exerciseData.length - 1) {
   //     setCurrentWorkoutIndex(currentWorkoutIndex + 1);
@@ -98,30 +111,43 @@ const HomeWorkoutStart = () => {
 
 
   // this is working code 
+  // const goToNextWorkout = () => {
+  //   console.log('clicked');
+
+  //   if (exerciseData && currentWorkoutIndex < exerciseData.length - 1) {
+  //     const nextWorkout = exerciseData[currentWorkoutIndex + 1];
+  //     const newRestTime = nextWorkout.time_in_seconds;
+
+  //     setCurrentWorkoutIndex(currentWorkoutIndex + 1);
+  //     setTimeLeft(newRestTime); // Start the new countdown timer with the new rest time
+  //     setIsTimerPaused(false); // Reset pause state to false
+  //     setShowRestPopup(true); // Show the rest time popup
+  //     setShowNextButton(false); // to set show button false
+  //   }
+  // };
   const goToNextWorkout = () => {
     console.log('clicked');
-
-    if (exerciseData && currentWorkoutIndex < exerciseData.length - 1) {
-      const nextWorkout = exerciseData[currentWorkoutIndex + 1];
-      const newRestTime = nextWorkout.time_in_seconds;
-
-      setCurrentWorkoutIndex(currentWorkoutIndex + 1);
-      setTimeLeft(newRestTime); // Start the new countdown timer with the new rest time
-      setIsTimerPaused(false); // Reset pause state to false
-      setShowRestPopup(true); // Show the rest time popup
-      setShowNextButton(false); // to set show button false
-    }
-  };
-  const goToNextWorkoutDone = () => {
-    console.log('clicked');
   
+    // Check if there are more workouts and the current index is within bounds
     if (exerciseData && currentWorkoutIndex < exerciseData.length - 1) {
+      // Find the next workout with completed_today set to false
       let nextIndex = currentWorkoutIndex + 1;
   
-      // Find the next workout with completed_today set to false
+      // Check if the current workout is the first one and is already completed today
+      if (
+        currentWorkoutIndex === 0 &&
+        exerciseData[currentWorkoutIndex].completed_today
+      ) {
+        console.log('Skipping first completed workout.');
+        return;
+      }
+  
+      // Find the next workout with completed_today set to false and not the same as the current workout
       while (
         nextIndex < exerciseData.length &&
-        exerciseData[nextIndex].completed_today
+        (exerciseData[nextIndex].completed_today ||
+          (nextIndex === currentWorkoutIndex + 1 &&
+            exerciseData[nextIndex].completed_today))
       ) {
         nextIndex++;
       }
@@ -131,16 +157,51 @@ const HomeWorkoutStart = () => {
         const newRestTime = nextWorkout.time_in_seconds;
   
         setCurrentWorkoutIndex(nextIndex);
-        setTimeLeft(newRestTime); // Start the new countdown timer with the new rest time
-        setIsTimerPaused(false); // Reset pause state to false
-        setShowRestPopup(true); // Show the rest time popup
-        setShowNextButton(false); // Set show button to false
+        setTimeLeft(newRestTime);
+        setIsTimerPaused(false);
+        setShowRestPopup(true);
+        setShowNextButton(false);
       } else {
-        console.log('No more workouts available.');
-        // Handle the case where there are no more workouts available
+        console.log('No more uncompleted workouts available.');
+        alert("last workout of unfinished");
+        // Handle the case where there are no more uncompleted workouts available
       }
     }
   };
+  
+  const goToNextWorkoutDone = () => {
+    console.log('clicked');
+  
+    if (exerciseData && currentWorkoutIndex < exerciseData.length - 1) {
+      let nextIndex = currentWorkoutIndex + 1;
+  
+      // Find the next workout with completed_today set to false and not the same as the current workout
+      while (
+        nextIndex < exerciseData.length &&
+        (exerciseData[nextIndex].completed_today ||
+          (nextIndex === currentWorkoutIndex + 1 &&
+            exerciseData[nextIndex].completed_today))
+      ) {
+        nextIndex++;
+      }
+  
+      if (nextIndex < exerciseData.length) {
+        const nextWorkout = exerciseData[nextIndex];
+        const newRestTime = nextWorkout.time_in_seconds;
+  
+        setCurrentWorkoutIndex(nextIndex);
+        setTimeLeft(newRestTime);
+        setIsTimerPaused(false);
+        setShowRestPopup(true);
+        setShowNextButton(false);
+      } else {
+        console.log('No more workouts available.');
+        navigation.navigate('CongratsPage');
+      }
+    }
+  };
+  
+
   const handleRestPopupClose = () => {
     setShowRestPopup(false); // Close the rest time popup
   };
@@ -162,13 +223,40 @@ const HomeWorkoutStart = () => {
     currentWorkoutIndex,
     exerciseData,
   );
-  console.log(previousRestTimeInSeconds, 'testing previous time');
+  // console.log(previousRestTimeInSeconds, 'testing previous time');
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisibleBackButton, setModalVisibleBackButton] = useState(false);
+
+  useEffect(() => {
+    const backAction = () => {
+      setModalVisibleBackButton(true);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+
+    return () => {
+      backHandler.remove();
+    };
+  }, []);
+
+  const handleModalButtonPress = (action) => {
+    if (action === 'Resume') {
+      setModalVisibleBackButton(false);
+      // Resume logic
+    } else if (action === 'Restart') {
+      setModalVisibleBackButton(false);
+      // Restart logic
+    } else if (action === 'Exit') {
+      setModalVisibleBackButton(false);
+      navigation.goBack();
+    }
+  };
   useEffect(() => {
     if (
       !showRestPopup &&
-      currentWorkout.time_or_sets === 'time' &&
+      nextNotCompletedWorkout.time_or_sets === 'time' &&
       timeLeft > 0 &&
       !isTimerPaused &&
       !modalVisible // Check if the modal is not visible
@@ -185,18 +273,18 @@ const HomeWorkoutStart = () => {
       }, 1000);
       return () => clearInterval(interval);
     }
-  }, [currentWorkout, timeLeft, isTimerPaused, showRestPopup, modalVisible]);
+  }, [nextNotCompletedWorkout, timeLeft, isTimerPaused, showRestPopup, modalVisible]);
   const targetTimeZone = 'Asia/Kolkata'; // Change this to 'Asia/Kolkata' for Indian Standard Time
 
   const completed_date = moment.tz(targetTimeZone).format('YYYY-MM-DD');
   // const completed_date = new Date().toISOString().slice(0, 10);
-  console.log(completed_date  ,"today date");
+  // console.log(completed_date  ,"today date");
   const customer_id = workoutData.customer_id;
-  console.log(customer_id, "check id");
+  // console.log(customer_id, "check id");
   
-  const workout_id = currentWorkout.workout_id;
-  const excercise_id = currentWorkout.excercise;
-  const home_workout_excercise = currentWorkout.id;
+  const workout_id = nextNotCompletedWorkout.workout_id;
+  const excercise_id = nextNotCompletedWorkout.excercise;
+  const home_workout_excercise = nextNotCompletedWorkout.id;
   // const workoutData = {
   //   customer_id,
   //   workout_id,
@@ -219,7 +307,7 @@ const HomeWorkoutStart = () => {
         ,
       )
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         if (response.data.success) {
           console.log("success workout");
           
@@ -232,7 +320,7 @@ const HomeWorkoutStart = () => {
       });
   };
   const isLastWorkout = currentWorkoutIndex === exerciseData.length - 1;
-  console.log(showNextButton, 'last');
+  // console.log(showNextButton, 'last');
 
   useEffect(() => {
     // Open the modal when the component mounts
@@ -250,14 +338,20 @@ const HomeWorkoutStart = () => {
     setModalVisible(false);
     // Close the popup when "Skip" button is pressed
   };
-  const nextNotCompletedIndex = exerciseData.findIndex(
-    (workout, index) => index > currentWorkoutIndex && !workout.completed_today
-  );
+  // const nextNotCompletedIndex = exerciseData.findIndex(
+  //   (workout, index) => index > currentWorkoutIndex && !workout.completed_today
+  // );
+  // const nextNotCompletedIndex = exerciseData.findIndex(
+  //   (workout, index) => index >= currentWorkoutIndex && !workout.completed_today
+  // );
   
-  // Determine the next workout based on the index
-  const nextNotCompletedWorkout =
-    nextNotCompletedIndex !== -1 ? exerciseData[nextNotCompletedIndex] : null;
+  // // Determine the next workout based on the index
+  // const nextNotCompletedWorkout =
+  //   nextNotCompletedIndex !== -1 ? exerciseData[nextNotCompletedIndex] : null;
 
+  //   const [timeLeft, setTimeLeft] = useState(
+  //     nextNotCompletedWorkout.time_or_sets === 'time' ? nextNotCompletedWorkout.time_in_seconds : 0,
+  //   );
   return (
     <Block safe >
       <Block
@@ -270,6 +364,78 @@ const HomeWorkoutStart = () => {
             {/* Button to open the modal */}
 
             {/* Modal */}
+            <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisibleBackButton}
+        onRequestClose={() => {
+          setModalVisibleBackButton(false);
+        }}
+      >
+        <Block card flex={1} bottom={10}  center style={styles.modalContainer}>
+       
+        <Block flex={0} height={85} marginHorizontal={10}>
+              <Block row height={85} center>
+                <Block
+                  flex={0}
+                  center
+                  width={60}
+                  height={60}
+                  radius={50}
+                  color={'#f0f0f8'}
+                  paddingLeft={18}
+                  marginTop={10}>
+                  <Image
+                   
+                    width={25}
+                    height={25}
+                    source={require('../../../assets/icons/pause-button.png')}></Image>
+                </Block>
+                <Block flex={1} paddingLeft={20} paddingTop={15}>
+                  <Block flex={0} center>
+                    <Text p semibold>
+                     Pause
+                    </Text>
+                    <Text
+                      semibold
+                      secondary
+                      opacity={0.5}
+                      paddingTop={5}
+                      size={12}>
+                      Please select one option to continue!
+                    </Text>
+                  </Block>
+                </Block>
+                <Block flex={0} center paddingRight={10}>
+                  <TouchableOpacity>
+                    {/* <Image
+                      color={'green'}
+                      width={8}
+                      height={15}
+                      source={require('../../../assets/icons/arrow.png')}></Image> */}
+                  </TouchableOpacity>
+                </Block>
+              </Block>
+            </Block>
+          <TouchableOpacity onPress={() => handleModalButtonPress('Resume')}>
+            <Button primary>
+            <Text white>Resume</Text>
+            </Button>
+            
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handleModalButtonPress('Restart')}>
+          <Button secondary>
+          <Text>Restart this exercise</Text>
+          </Button>
+           
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handleModalButtonPress('Exit')}>
+          <Button secondary>
+          <Text>Yes</Text>
+          </Button>
+          </TouchableOpacity>
+        </Block>
+      </Modal>
             <Modal
               animationType="slide" // You can choose different animation types
               transparent={false} // Makes the modal background transparent
@@ -290,18 +456,18 @@ const HomeWorkoutStart = () => {
               isVisible={showRestPopup }
               restTimeInSeconds={previousRestTimeInSeconds}
               onClose={handleRestPopupClose}
-              workout={currentWorkout}
+              workout={nextNotCompletedWorkout}
               data={exerciseData}
             />
           </View>
           <Block center paddingTop={20}>
             <View style={{flex: 1}}>
               <HomeWorkoutDetailsPage
-                workout={currentWorkout}
+                workout={nextNotCompletedWorkout}
                 timeLeft={timeLeft}
               />
 
-              {currentWorkout.time_or_sets === 'sets' ? (
+              {nextNotCompletedWorkout.time_or_sets === 'sets' ? (
                 <Block centerContent paddingTop={50}>
                   <Button
                     tertiary
@@ -385,7 +551,7 @@ const HomeWorkoutStart = () => {
               <View
                 style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                 <Button
-                  disabled={currentWorkoutIndex === 0}
+                  disabled={nextNotCompletedWorkout === 0}
                   onPress={goToPreviousWorkout}>
                   <Image
                     radius={0}
@@ -398,7 +564,8 @@ const HomeWorkoutStart = () => {
                 </Button>
                 <Button
                   onPress={goToNextWorkout}
-                  disabled={currentWorkoutIndex === exerciseData.length - 1}>
+                  disabled={exerciseData.every(workout => workout.completed_today)}
+                 >
                   <Image
                     radius={0}
                     width={30}
@@ -412,7 +579,7 @@ const HomeWorkoutStart = () => {
             </View>
           </Block>
 
-          <HomeWorkoutDetailsPageTwo workout={currentWorkout} />
+          <HomeWorkoutDetailsPageTwo workout={nextNotCompletedWorkout} />
 
           {/* profile: photo album */}
         </Block>
@@ -443,6 +610,17 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontSize: 18,
+  },
+  modalContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: 'white',
+    padding: 36,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    height:300
   },
 });
 

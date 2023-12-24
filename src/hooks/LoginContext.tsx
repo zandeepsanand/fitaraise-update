@@ -17,7 +17,7 @@ type LoginContextValue = {
     // ... other properties
   } | null;
   token: string | null; // Add token
- 
+  SetCustomerIdLogin:(customerId:number)=>void;
   loginSuccess: (customerId: string, formData: any, token: string) => void; // Update loginSuccess
   logout: () => void;
 };
@@ -28,7 +28,7 @@ const LoginContext = createContext<LoginContextValue>({
   isLoggedIn: false,
   formData: null,
   token: null,
- 
+  SetCustomerIdLogin:()=>{},
   loginSuccess: () => {},
   logout: () => {},
 });
@@ -98,6 +98,19 @@ export const LoginProvider = ({children}) => {
       console.error('Error saving data to AsyncStorage:', error);
     }
   };
+
+   const SetCustomerIdLogin = async (customerId)=>{
+    
+  try{
+    const customerIdString = customerId.toString();
+    await AsyncStorage.setItem('customerId', customerIdString);
+    setCustomerId(customerIdString);
+
+  }catch(error){
+    console.error('Error saving dcustomerId to AsyncStorage:', error);
+  }
+  
+  };
   
   const logout = async () => {
     try {
@@ -129,7 +142,8 @@ export const LoginProvider = ({children}) => {
         isLoggedIn,
         formData,
         token,
-       
+
+        SetCustomerIdLogin,
         loginSuccess,
         logout,
       }}>

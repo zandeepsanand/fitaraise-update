@@ -9,6 +9,7 @@ import {Image} from '../components';
 import Account from '../screens/account/Account';
 import NotFoundPage from '../screens/error/ErrorPage';
 import HomeWorkoutLoadingScreen from '../screens/workout/home workout/HomeWorkoutLoadingScreen';
+import NutritionFactsSearch from '../screens/nutritionFacts/NutritionFactsSearch';
 
 
 
@@ -77,7 +78,7 @@ const TabNavigator = ({route}) => {
       />
       <Tab.Screen
         name="nutrition"
-        component={NotFoundPage}
+        component={NutritionFactsSearch}
         options={{
           headerShown: false,
 
@@ -97,7 +98,7 @@ const TabNavigator = ({route}) => {
         options={{
           headerShown: false,
 
-          tabBarLabel: '', // Custom tab label
+          tabBarLabel: 'User', // Custom tab label
           tabBarIcon: ({color, size}) => (
             <Image
               source={require('../assets/icons/user.png')} // Replace with your image source

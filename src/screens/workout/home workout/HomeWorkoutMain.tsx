@@ -22,8 +22,8 @@ import { useFavorites } from '../../../hooks/HomeWorkoutContext';
 
 const HomeWorkoutMain = ({navigation, route}) => {
   const {t} = useTranslation();
-  const {  workoutData, savedDate} = route.params;
-  const {workout} = useFavorites();
+  const {workout, workoutData} = route.params;
+  // const {workout} = useFavorites();
   const homeWorkout = workout;
   const {authenticated,customerId} = useContext(LoginContext);
   const [tab, setTab] = useState<number>(0);

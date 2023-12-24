@@ -64,6 +64,7 @@ interface IRegistrationValidation {
 
 const LoginScreenNew = ({navigation, route}) => {
   const {country} = route.params;
+  const {SetCustomerIdLogin}=useContext(LoginContext)
   const {googleloginSuccess} = useContext(GoogleContext);
   const [isLoading, setIsLoading] = useState(false);
   console.log(country);
@@ -173,7 +174,7 @@ const LoginScreenNew = ({navigation, route}) => {
 
         // Use the loginSuccess method from LoginContext
         setAuthToken(authData.token); // Set the token for future requests
-        // loginSuccess(customerId, formData, token);
+        SetCustomerIdLogin(customerId);
         // You can navigate to another screen or perform other actions here
         // navigation.navigate('Loading', {
         //   formData: authData.formData,
@@ -305,6 +306,8 @@ const LoginScreenNew = ({navigation, route}) => {
       if (response.data.success === true) {
         // If the server responds with a successful login message
         const { token, user_id, customer_id } = response.data.data;
+        console.log(token, "token set from google authentication");
+        
 
         // Create an object that combines token and formData
         const authData = {
@@ -324,8 +327,8 @@ const LoginScreenNew = ({navigation, route}) => {
         await AsyncStorage.setItem("authData", JSON.stringify(authData));
         await AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
         
-      
-      
+        setAuthToken(token);
+        SetCustomerIdLogin(customer_id);
         googleloginSuccess(userInfo);
         // Navigate to 'FirstPage' with the formData
         navigation.reset({

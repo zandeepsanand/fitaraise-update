@@ -24,8 +24,8 @@ const isAndroid = Platform.OS === 'android';
 const screenHeight = Dimensions.get('window').height;
 
 const CongratsPage = ({route}) => {
-  const {savedDate} = route.params;
-  console.log(savedDate, 'saved date from');
+  // const {savedDate} = route.params;
+  // console.log(savedDate, 'saved date from');
 
   const {user} = useData();
   const {t} = useTranslation();
@@ -79,8 +79,7 @@ const CongratsPage = ({route}) => {
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate('HomeTabNavigator', {
-                  screen: 'HomeWorkoutMain', // Screen name within the TabNavigator
-                  params: {savedDate}, // Pass your parameters here
+                  screen: 'HomeWorkoutMain'
                 });
               }}>
               <Block style={styles.stickyButton} center justify="center" row>

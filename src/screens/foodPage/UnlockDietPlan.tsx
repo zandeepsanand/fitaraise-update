@@ -25,286 +25,7 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/core';
 import {useHeaderHeight} from '@react-navigation/stack';
-const dietPlan = [
-  {
-    id: 1,
-    meal_type_name: 'Breakfast',
-    meal_type_image:
-      'http://admin.fitaraise.com/storage/uploads/meal_type/16799380846421d22431507.jpg',
-    diet_list: [
-      {
-        id: 671,
-        food_id: 20481,
-        food_name: 'Oats',
-        taken_weight: 96,
-        quantity: 1,
-        serving_desc: 'half cup',
-        final_weight_g: 96,
-        calories_kcal: 365.83,
-        proteins_g: 12.64,
-        carb_g: 64.58,
-        fat_g: 6.17,
-        meal_type_recommended_percentage_from: 18,
-        meal_type_recommended_percentage_to: 25,
-        food_image:
-          'http://admin.fitaraise.com/storage/uploads/foods/168034407264280408b2843.jpg',
-      },
-      {
-        id: 672,
-        food_id: 7359,
-        food_name: 'Low-Fat Milk',
-        taken_weight: 155,
-        quantity: 1,
-        serving_desc: '1 cup',
-        final_weight_g: 155,
-        calories_kcal: 65.1,
-        proteins_g: 5.22,
-        carb_g: 7.73,
-        fat_g: 1.5,
-        meal_type_recommended_percentage_from: 18,
-        meal_type_recommended_percentage_to: 25,
-        food_image:
-          'http://admin.fitaraise.com/storage/uploads/app_images/no_image.png',
-      },
-      {
-        id: 673,
-        food_id: 654,
-        food_name: 'Raisins',
-        taken_weight: 28.4,
-        quantity: 1,
-        serving_desc: '1 oz (60 raisins)',
-        final_weight_g: 28.4,
-        calories_kcal: 84.92,
-        proteins_g: 0.94,
-        carb_g: 22.53,
-        fat_g: 0.07,
-        meal_type_recommended_percentage_from: 18,
-        meal_type_recommended_percentage_to: 25,
-        food_image:
-          'http://admin.fitaraise.com/storage/uploads/app_images/no_image.png',
-      },
-    ],
-  },
-  {
-    id: 3,
-    meal_type_name: 'Morning Snack',
-    meal_type_image:
-      'http://admin.fitaraise.com/storage/uploads/meal_type/1679938164.jpg',
-    diet_list: [
-      {
-        id: 674,
-        food_id: 10174,
-        food_name: 'Apples',
-        taken_weight: 109,
-        quantity: 1,
-        serving_desc: '1 cup slices',
-        final_weight_g: 109,
-        calories_kcal: 56.68,
-        proteins_g: 0.28,
-        carb_g: 15.05,
-        fat_g: 0.19,
-        meal_type_recommended_percentage_from: 6,
-        meal_type_recommended_percentage_to: 8,
-        food_image:
-          'http://admin.fitaraise.com/storage/uploads/app_images/no_image.png',
-      },
-      {
-        id: 675,
-        food_id: 1903,
-        food_name: 'Flax Seeds',
-        taken_weight: 28.4,
-        quantity: 1,
-        serving_desc: '1oz',
-        final_weight_g: 28.4,
-        calories_kcal: 151.66,
-        proteins_g: 5.19,
-        carb_g: 8.2,
-        fat_g: 11.97,
-        meal_type_recommended_percentage_from: 6,
-        meal_type_recommended_percentage_to: 8,
-        food_image:
-          'http://admin.fitaraise.com/storage/uploads/app_images/no_image.png',
-      },
-      {
-        id: 676,
-        food_id: 7054,
-        food_name: 'Almonds',
-        taken_weight: 26,
-        quantity: 1,
-        serving_desc: '5 Piece',
-        final_weight_g: 26,
-        calories_kcal: 150.54,
-        proteins_g: 5.5,
-        carb_g: 5.6,
-        fat_g: 12.98,
-        meal_type_recommended_percentage_from: 6,
-        meal_type_recommended_percentage_to: 8,
-        food_image:
-          'http://admin.fitaraise.com/storage/uploads/foods/168043909264297734e235a.jpg',
-      },
-    ],
-  },
-  {
-    id: 4,
-    meal_type_name: 'Lunch',
-    meal_type_image:
-      'http://admin.fitaraise.com/storage/uploads/meal_type/1679938205.jpg',
-    diet_list: [
-      {
-        id: 677,
-        food_id: 6191,
-        food_name: 'Brown Rice',
-        taken_weight: 175,
-        quantity: 1,
-        serving_desc: '1 cup',
-        final_weight_g: 175,
-        calories_kcal: 215.25,
-        proteins_g: 4.79,
-        carb_g: 44.76,
-        fat_g: 1.7,
-        meal_type_recommended_percentage_from: 27,
-        meal_type_recommended_percentage_to: 36,
-        food_image:
-          'http://admin.fitaraise.com/storage/uploads/app_images/no_image.png',
-      },
-      {
-        id: 678,
-        food_id: 7771,
-        food_name: 'Plain Yogurt',
-        taken_weight: 125,
-        quantity: 1,
-        serving_desc: '(1/2 cup)',
-        final_weight_g: 125,
-        calories_kcal: 76.25,
-        proteins_g: 4.34,
-        carb_g: 5.83,
-        fat_g: 4.06,
-        meal_type_recommended_percentage_from: 27,
-        meal_type_recommended_percentage_to: 36,
-        food_image:
-          'http://admin.fitaraise.com/storage/uploads/app_images/no_image.png',
-      },
-      {
-        id: 679,
-        food_id: 13680,
-        food_name: 'Cooked Red Kidney Beans',
-        taken_weight: 120,
-        quantity: 1,
-        serving_desc: '1 cup',
-        final_weight_g: 120,
-        calories_kcal: 152.4,
-        proteins_g: 10.4,
-        carb_g: 27.36,
-        fat_g: 0.6,
-        meal_type_recommended_percentage_from: 27,
-        meal_type_recommended_percentage_to: 36,
-        food_image:
-          'http://admin.fitaraise.com/storage/uploads/app_images/no_image.png',
-      },
-      {
-        id: 680,
-        food_id: 6909,
-        food_name: 'Pea Sprouts',
-        taken_weight: 120,
-        quantity: 1,
-        serving_desc: '1 cup',
-        final_weight_g: 120,
-        calories_kcal: 148.8,
-        proteins_g: 10.56,
-        carb_g: 32.53,
-        fat_g: 0.82,
-        meal_type_recommended_percentage_from: 27,
-        meal_type_recommended_percentage_to: 36,
-        food_image:
-          'http://admin.fitaraise.com/storage/uploads/app_images/no_image.png',
-      },
-    ],
-  },
-  {
-    id: 5,
-    meal_type_name: 'Evening snack',
-    meal_type_image:
-      'http://admin.fitaraise.com/storage/uploads/meal_type/1679938250.jpg',
-    diet_list: [
-      {
-        id: 681,
-        food_id: 16498,
-        food_name: 'Bread Cheese Toasted',
-        taken_weight: 25,
-        quantity: 1,
-        serving_desc: '1 medium or regular slice',
-        final_weight_g: 25,
-        calories_kcal: 112,
-        proteins_g: 2.86,
-        carb_g: 12.31,
-        fat_g: 5.72,
-        meal_type_recommended_percentage_from: 5,
-        meal_type_recommended_percentage_to: 8,
-        food_image:
-          'http://admin.fitaraise.com/storage/uploads/app_images/no_image.png',
-      },
-      {
-        id: 683,
-        food_id: 12780,
-        food_name: 'Peanut Butter (Smooth)',
-        taken_weight: 16,
-        quantity: 1,
-        serving_desc: '1 tblsp',
-        final_weight_g: 16,
-        calories_kcal: 94.08,
-        proteins_g: 3.51,
-        carb_g: 3.84,
-        fat_g: 7.93,
-        meal_type_recommended_percentage_from: 5,
-        meal_type_recommended_percentage_to: 8,
-        food_image:
-          'http://admin.fitaraise.com/storage/uploads/app_images/no_image.png',
-      },
-    ],
-  },
-  {
-    id: 6,
-    meal_type_name: 'Dinner',
-    meal_type_image:
-      'http://admin.fitaraise.com/storage/uploads/meal_type/1679938309.jpg',
-    diet_list: [
-      {
-        id: 684,
-        food_id: 6191,
-        food_name: 'Brown Rice',
-        taken_weight: 100,
-        quantity: 1,
-        serving_desc: '1 cup',
-        final_weight_g: 100,
-        calories_kcal: 123,
-        proteins_g: 2.74,
-        carb_g: 25.58,
-        fat_g: 0.97,
-        meal_type_recommended_percentage_from: 27,
-        meal_type_recommended_percentage_to: 36,
-        food_image:
-          'http://admin.fitaraise.com/storage/uploads/app_images/no_image.png',
-      },
-      {
-        id: 685,
-        food_id: 20484,
-        food_name: 'vegetable Salad',
-        taken_weight: 55,
-        quantity: 1,
-        serving_desc: '(1/2 cup)',
-        final_weight_g: 55,
-        calories_kcal: 38.45,
-        proteins_g: 1.26,
-        carb_g: 3.69,
-        fat_g: 2.2,
-        meal_type_recommended_percentage_from: 27,
-        meal_type_recommended_percentage_to: 36,
-        food_image:
-          'http://admin.fitaraise.com/storage/uploads/foods/1680449414.jpg',
-      },
-    ],
-  },
-];
+
 
 export default function UnlockDietPlan({navigation, route}) {
   const {dietPlan} = route.params;
@@ -318,24 +39,22 @@ export default function UnlockDietPlan({navigation, route}) {
   const initialLinesToShow = 2;
   const [showFullText, setShowFullText] = useState(false);
   const [showFullList, setShowFullList] = useState(false);
+  const [expandedMealTypes, setExpandedMealTypes] = useState([]);
+  const toggleExpanded = (mealTypeId) => {
+    if (expandedMealTypes.includes(mealTypeId)) {
+      // If the meal type is expanded, collapse it
+      setExpandedMealTypes((prev) => prev.filter((id) => id !== mealTypeId));
+    } else {
+      // If the meal type is collapsed, expand it
+      setExpandedMealTypes((prev) => [...prev, mealTypeId]);
+    }
+  };
 
   const toggleFullList = () => {
     setShowFullList(!showFullList);
   };
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerBackground: () => (
-        <Image
-          radius={0}
-          resizeMode="cover"
-          width={sizes.width}
-          height={headerHeight}
-          source={assets.header4}
-        />
-      ),
-    });
-  }, [assets.header4, navigation, sizes.width, headerHeight]);
+ 
   const animationProgress = useRef(new Animated.Value(0));
 
   useEffect(() => {
@@ -367,7 +86,8 @@ export default function UnlockDietPlan({navigation, route}) {
         contentContainerStyle={{paddingVertical: sizes.padding}}>
         <ScrollView
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{paddingVertical: sizes.padding}}>
+        
+          >
           <Block style={styles.container1}>
             <Block card marginHorizontal={10}>
               <Text
@@ -396,16 +116,10 @@ export default function UnlockDietPlan({navigation, route}) {
             <Block
               key={item.id}
               card
-              padding={0}
+              padding={15}
               marginTop={10}
               marginHorizontal={10}>
-              <Image
-                background
-                padding={15}
-                blurRadius={10}
-                resizeMode="cover"
-                source={require('../../assets/images/bgcard.jpg')}
-                radius={sizes.cardRadius}>
+           
                 <Block
                   style={styles.container5}
                   paddingTop={15}
@@ -423,8 +137,9 @@ export default function UnlockDietPlan({navigation, route}) {
                       semibold></Text>
                   </Block>
                 </Block>
-                {item.diet_list.slice(0, 2).map((foodItem) => (
-                  <View key={foodItem.id}>
+                {item.diet_list.map((foodItem, index) => (
+                   <View key={foodItem.id}>
+                   {expandedMealTypes.includes(item.id) || index < 2 ? (
                     <View
                       style={{
                         flexDirection: 'row',
@@ -436,8 +151,8 @@ export default function UnlockDietPlan({navigation, route}) {
                         <>
                           <Block>
                             <Block paddingTop={5}>
-                              <Block card row marginLeft={5} marginLeft={5}>
-                                <View
+                              <Block card row marginLeft={5} marginLeft={5} >
+                                <Block flex={0} center
                                   style={{
                                     width: sizes.xxl,
                                     height: sizes.xxl,
@@ -452,7 +167,7 @@ export default function UnlockDietPlan({navigation, route}) {
                                     primary>
                                     {foodItem.food_name.charAt(0).toUpperCase()}
                                   </Text>
-                                </View>
+                                </Block>
 
                                 <Block
                                   padding={sizes.s}
@@ -477,7 +192,7 @@ export default function UnlockDietPlan({navigation, route}) {
                                         semibold
                                         marginRight={sizes.s}
                                         color={colors.secondary}>
-                                        {foodItem.serving_desc}
+                                        {foodItem.serving_desc} ({foodItem.final_weight_g}gm)
                                       </Text>
                                     </Block>
                                   </TouchableOpacity>
@@ -529,7 +244,7 @@ export default function UnlockDietPlan({navigation, route}) {
                                       semibold
                                       marginRight={sizes.s}
                                       color={colors.secondary}>
-                                      {foodItem.serving_desc}
+                                      {foodItem.serving_desc} ({foodItem.final_weight_g}gm)
                                     </Text>
                                   </Block>
                                 </TouchableOpacity>
@@ -542,22 +257,17 @@ export default function UnlockDietPlan({navigation, route}) {
 
                       {/* <Text>{item.food_name}</Text> */}
                       {/* You can include more information about the food here */}
-                    </View>
+                    </View>):null}
                   </View>
                 ))}
-                {!expandedMealTypeId && item.diet_list.length > 2 && (
-                  <TouchableOpacity
-                    onPress={() => setExpandedMealTypeId(item.id)}>
-                    <Text
-                      style={{color: 'blue', marginTop: 5}}
-                      align="center"
-                      bold
-                      color={'green'}>
-                      Show More Option
-                    </Text>
-                  </TouchableOpacity>
-                )}
-              </Image>
+                {item.diet_list.length > 2 && (
+  <TouchableOpacity onPress={() => toggleExpanded(item.id)}>
+    <Text style={{color: 'blue', marginTop: 5}} align="center" bold color={'green'}>
+      {expandedMealTypes.includes(item.id) ? 'Show Less' : 'Show More'}
+    </Text>
+  </TouchableOpacity>
+)}
+             
             </Block>
           ))}
         </ScrollView>

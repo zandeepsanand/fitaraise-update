@@ -13,6 +13,9 @@ import HomeWorkoutMain from './HomeWorkoutMain';
 
 import Frstpage from '../../../navigation/Frstpage';
 import LoadingScreen from '../../../navigation/LoadingScreen';
+import HomeWorkoutDietPlan from '../../../navigation/HomeWorkoutDietPlan';
+import NutritionFactsSearch from '../../nutritionFacts/NutritionFactsSearch';
+import Account from '../../account/Account';
 // import {Profile} from '../screens';
 
 const workoutIcon = `
@@ -50,7 +53,7 @@ const HomeTabNavigator = () => {
       />
       <Tab.Screen
         name="Loading"
-        component={LoadingScreen}
+        component={HomeWorkoutDietPlan}
         options={{
           headerShown: false,
 
@@ -65,7 +68,7 @@ const HomeTabNavigator = () => {
       />
       <Tab.Screen
         name="nutrition"
-        component={Profile}
+        component={NutritionFactsSearch}
         options={{
           headerShown: false,
 
@@ -80,7 +83,7 @@ const HomeTabNavigator = () => {
       />
       <Tab.Screen
         name="profile"
-        component={Profile}
+        component={Account}
         options={{
           headerShown: false,
           tabBarLabel: '', // Custom tab label

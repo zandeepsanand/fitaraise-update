@@ -24,6 +24,7 @@ const NotificationPage = () => {
     const unsubscribe = onMessageReceived(async (remoteMessage) => {
       console.log('Notification Data:', remoteMessage.data);
       console.log('Notification Notification:', remoteMessage.notification);
+   
 
       // Update the state with the new notification
       const newNotification = {

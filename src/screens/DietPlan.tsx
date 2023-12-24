@@ -6,6 +6,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import {useIsFocused} from '@react-navigation/native';
 import {DataTable} from 'react-native-paper';
 import {ProgressBarAndroid} from 'react-native-elements';
 import {BASE_URL} from '@env';
@@ -29,6 +30,8 @@ import LoginContext from '../hooks/LoginContext';
 import {TouchableWithoutFeedback} from 'react-native';
 import Loader from './alert/loader/Loader';
 import Calendar from './calendar/Calendar';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { colors } from '../../app/res/colors';
 // import AnimatableProgressBar from 'animateprogress';
 
@@ -56,6 +59,7 @@ const VerticalProgressBar = ({progress}) => {
 
 const DietPlan = ({navigation, text, maxLines = 3}) => {
   // const [selectedDate, setSelectedDate] = useState(null);
+  const isFocused = useIsFocused();
   const route = useRoute();
   const {
     breakfastItems,
@@ -68,14 +72,47 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
     mealItems2,
     isLoading,
     addWater,
-    water
-    
+    water,
   } = useContext(MealContext);
-  const {customerId}=useContext(LoginContext);
+  const {customerId} = useContext(LoginContext);
   const [isLoadingScroll, setIsLoadingScroll] = useState(true);
-  // const [isLoading, setIsLoading] = useState(true);
+  const [isDietPlanUnlocked, setDietPlanUnlocked] = useState(true); // Initially set to true
+  
 
+  const handleUnlockDietPlan = async () => {
+    // Check if the diet plan is unlocked in AsyncStorage
+    const unlocked = await AsyncStorage.getItem('isDietPlanUnlocked');
+    
+    if (!unlocked) {
+      // Perform actions to unlock the diet plan, e.g., make an API call
+      // ...
 
+      // Update state to indicate that the diet plan is now unlocked
+      setDietPlanUnlocked(true);
+
+      // Store the unlocked status in AsyncStorage to persist it
+      await AsyncStorage.setItem('isDietPlanUnlocked', 'true');
+    }
+
+    // Continue with navigation
+    if (dietPlan) {
+      navigation.navigate('unlockDiet', {
+        dietPlan,
+      });
+    }
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      // Check if the diet plan is unlocked in AsyncStorage
+      const unlocked = AsyncStorage.getItem('isDietPlanUnlocked');
+
+      if (unlocked) {
+        // Update state to permanently set it to DIET PLAN
+        setDietPlanUnlocked(true);
+      }
+    }, [])
+  );
   useEffect(() => {
     const loadingTimeout = setTimeout(() => {
       setIsLoadingScroll(false);
@@ -85,34 +122,35 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
     return () => clearTimeout(loadingTimeout);
   }, []);
 
+
   const {authenticated} = useContext(LoginContext);
 
   const shouldRenderDietPlan = authenticated && isLoading;
 
   const {data, dietPlan, formDataCopy} = route.params;
 
-
-
-
-  if(water){
+  if (water) {
     console.log('====================================');
     console.log(water, 'water data');
     console.log('====================================');
-  
   }
-    console.log(water, 'water track new 1');
-    const waterTracker = water;
-    console.log(waterTracker, 'water track new');
+  console.log(water, 'water track new 1');
+  const waterTracker = water;
+  console.log(waterTracker, 'water track new');
 
   console.log(data, 'check 2');
 
   const [expandedItems, setExpandedItems] = useState([]); // To keep track of expanded items
   const [waterAmount, setWaterAmount] = React.useState(0);
 
-  const waterProgress = waterTracker && waterTracker.todays_consumed_water_count_ml && waterTracker.normal_water_count_ml
-  ? waterTracker.todays_consumed_water_count_ml / waterTracker.normal_water_count_ml
-  : 0 ; 
-    
+  const waterProgress =
+    waterTracker &&
+    waterTracker.todays_consumed_water_count_ml &&
+    waterTracker.normal_water_count_ml
+      ? waterTracker.todays_consumed_water_count_ml /
+        waterTracker.normal_water_count_ml
+      : 0;
+
   console.log(waterProgress, 'progress water');
 
   const increaseWater = () => {
@@ -150,35 +188,35 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
     return items.reduce((total, item) => total + item.calories, 0);
   };
 
-  const sum = breakfastItems.reduce(
-    (accumulator, currentValue) => {
-      // Remove formatting characters (e.g., commas) before parsing
-      const value = currentValue.details.totalCalorie.replace(/,/g, '');
-      return accumulator + parseFloat(value);
-    },
-    0
-  );
-  
-  console.log(sum, "total sum");
+  const sum = breakfastItems.reduce((accumulator, currentValue) => {
+    // Remove formatting characters (e.g., commas) before parsing
+    const value = currentValue.details.totalCalorie.replace(/,/g, '');
+    return accumulator + parseFloat(value);
+  }, 0);
+
+  console.log(sum, 'total sum');
 
   const totalBreakfastCalorie = breakfastItems.reduce(
     (accumulator, currentValue) => {
       // Check if currentValue.details.totalCalorie is a non-empty string
-      if (currentValue.details.totalCalorie && typeof currentValue.details.totalCalorie === 'string') {
+      if (
+        currentValue.details.totalCalorie &&
+        typeof currentValue.details.totalCalorie === 'string'
+      ) {
         // Remove formatting characters (e.g., commas) before parsing
         const value = currentValue.details.totalCalorie.replace(/,/g, '');
-  
+
         // Check if the parsed value is a valid number
         const parsedValue = parseFloat(value);
         if (!isNaN(parsedValue)) {
           return accumulator + parsedValue;
         }
       }
-  
+
       // If currentValue.details.totalCalorie is not a valid string or the parsing fails, return accumulator
       return accumulator;
     },
-    0
+    0,
   );
   // const totalBreakfastProtein = breakfastItems.reduce(
   //   (acc, item) => {
@@ -191,187 +229,139 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
     (accumulator, currentValue) => {
       const value = currentValue.details.totalProtein;
 
-      return accumulator +  parseFloat(value)
-    
+      return accumulator + parseFloat(value);
     },
-    0
+    0,
   );
-  
 
-  const totalBreakfastCarb = breakfastItems.reduce(
-    (acc, item) =>{
-      const value = item.details.totalCarb;
-     return acc + parseFloat(value);},
-    0,
-  );
-  const totalBreakfastFat = breakfastItems.reduce(
-    (acc, item) =>{
-      const value = item.details.totalFat;
-     return acc + parseFloat(value);},
-    0,
-  );
+  const totalBreakfastCarb = breakfastItems.reduce((acc, item) => {
+    const value = item.details.totalCarb;
+    return acc + parseFloat(value);
+  }, 0);
+  const totalBreakfastFat = breakfastItems.reduce((acc, item) => {
+    const value = item.details.totalFat;
+    return acc + parseFloat(value);
+  }, 0);
   // const totalBreakfastCalories = totalBreakfastCalorie.toFixed(2);
   // console.log("total calorie for breakfast items: ", totalBreakfastCalories);
 
-  const totalLunchCalorie = lunchItems.reduce(
-    (acc, item) =>{
-      const value = item.details.totalCalorie.replace(/,/g, '');
-     return acc + parseFloat(value);},
-    0,
-  );
+  const totalLunchCalorie = lunchItems.reduce((acc, item) => {
+    const value = item.details.totalCalorie.replace(/,/g, '');
+    return acc + parseFloat(value);
+  }, 0);
   // const totalLunchCalories = totalLunchCalorie.toFixed(2);
-  const totalLunchProtein = lunchItems.reduce(
-    (acc, item) => {
-      const value = item.details.totalProtein.replace(/,/g, '');
-     return acc + parseFloat(value);},
-    0,
-  );
+  const totalLunchProtein = lunchItems.reduce((acc, item) => {
+    const value = item.details.totalProtein.replace(/,/g, '');
+    return acc + parseFloat(value);
+  }, 0);
 
-  const totalLunchCarb = lunchItems.reduce(
-    (acc, item) => {
-      const value = item.details.totalCarb.replace(/,/g, '');
-     return acc + parseFloat(value);},
-    0,
-  );
-  const totalLunchFat = lunchItems.reduce(
-    (acc, item) =>{
-      const value = item.details.totalFat.replace(/,/g, '');
-     return acc + parseFloat(value);},
-    0,
-  );
+  const totalLunchCarb = lunchItems.reduce((acc, item) => {
+    const value = item.details.totalCarb.replace(/,/g, '');
+    return acc + parseFloat(value);
+  }, 0);
+  const totalLunchFat = lunchItems.reduce((acc, item) => {
+    const value = item.details.totalFat.replace(/,/g, '');
+    return acc + parseFloat(value);
+  }, 0);
 
-  const totalDinnerCalorie = dinnerItems.reduce(
-    (acc, item) =>{
-      const value = item.details.totalCalorie.replace(/,/g, '');
-     return acc + parseFloat(value);},
-    0,
-  );
-  const totalDinnerProtein = dinnerItems.reduce(
-    (acc, item) => {
-      const value = item.details.totalFat.replace(/,/g, '');
-     return acc + parseFloat(value);},
-    0,
-  );
+  const totalDinnerCalorie = dinnerItems.reduce((acc, item) => {
+    const value = item.details.totalCalorie.replace(/,/g, '');
+    return acc + parseFloat(value);
+  }, 0);
+  const totalDinnerProtein = dinnerItems.reduce((acc, item) => {
+    const value = item.details.totalFat.replace(/,/g, '');
+    return acc + parseFloat(value);
+  }, 0);
 
-  const totalDinnerCarb = dinnerItems.reduce(
-    (acc, item) => {
-      const value = item.details.totalCarb.replace(/,/g, '');
-     return acc + parseFloat(value);},
-    0,
-  );
-  const totalDinnerFat = dinnerItems.reduce(
-    (acc, item) => {
-      const value = item.details.totalFat.replace(/,/g, '');
-     return acc + parseFloat(value);},
-    0,
-  );
+  const totalDinnerCarb = dinnerItems.reduce((acc, item) => {
+    const value = item.details.totalCarb.replace(/,/g, '');
+    return acc + parseFloat(value);
+  }, 0);
+  const totalDinnerFat = dinnerItems.reduce((acc, item) => {
+    const value = item.details.totalFat.replace(/,/g, '');
+    return acc + parseFloat(value);
+  }, 0);
   // const totalDinnerCalories = totalDinnerCalorie.toFixed(2);
 
-  const totalMorningSnackCalorie = morningSnackItems.reduce(
-    (acc, item) =>{
-      const value = item.details.totalCalorie.replace(/,/g, '');
-     return acc + parseFloat(value);},
-    0,
-  );
+  const totalMorningSnackCalorie = morningSnackItems.reduce((acc, item) => {
+    const value = item.details.totalCalorie.replace(/,/g, '');
+    return acc + parseFloat(value);
+  }, 0);
   const totalmorningSnackItemsProtein = morningSnackItems.reduce(
     (acc, item) => {
       const value = item.details.totalFat.replace(/,/g, '');
-     return acc + parseFloat(value);},
+      return acc + parseFloat(value);
+    },
     0,
   );
 
-  const totalmorningSnackItemsCarb = morningSnackItems.reduce(
-    (acc, item) => {
-      const value = item.details.totalCarb.replace(/,/g, '');
-     return acc + parseFloat(value);},
-    0,
-  );
-  const totalmorningSnackItemsFat = morningSnackItems.reduce(
-    (acc, item) => {
-      const value = item.details.totalFat.replace(/,/g, '');
-     return acc + parseFloat(value);},
-    0,
-  );
+  const totalmorningSnackItemsCarb = morningSnackItems.reduce((acc, item) => {
+    const value = item.details.totalCarb.replace(/,/g, '');
+    return acc + parseFloat(value);
+  }, 0);
+  const totalmorningSnackItemsFat = morningSnackItems.reduce((acc, item) => {
+    const value = item.details.totalFat.replace(/,/g, '');
+    return acc + parseFloat(value);
+  }, 0);
 
   // const totalMorningSnackCalories = totalMorningSnackCalorie.toFixed(2);
 
-  const totalEveningSnackCalorie = eveningSnackItems.reduce(
-    (acc, item) => {
-      const value = item.details.totalCalorie.replace(/,/g, '');
-     return acc + parseFloat(value);},
-    0,
-  );
+  const totalEveningSnackCalorie = eveningSnackItems.reduce((acc, item) => {
+    const value = item.details.totalCalorie.replace(/,/g, '');
+    return acc + parseFloat(value);
+  }, 0);
   const totaleveningSnackItemsProtein = eveningSnackItems.reduce(
     (acc, item) => {
       const value = item.details.totalFat.replace(/,/g, '');
-     return acc + parseFloat(value);},
+      return acc + parseFloat(value);
+    },
     0,
   );
 
-  const totaleveningSnackItemsCarb = eveningSnackItems.reduce(
-    (acc, item) => {
-      const value = item.details.totalCarb.replace(/,/g, '');
-     return acc + parseFloat(value);},
-    0,
-  );
-  const totaleveningSnackItemsFat = eveningSnackItems.reduce(
-    (acc, item) => {
-      const value = item.details.totalFat.replace(/,/g, '');
-     return acc + parseFloat(value);},
-    0,
-  );
+  const totaleveningSnackItemsCarb = eveningSnackItems.reduce((acc, item) => {
+    const value = item.details.totalCarb.replace(/,/g, '');
+    return acc + parseFloat(value);
+  }, 0);
+  const totaleveningSnackItemsFat = eveningSnackItems.reduce((acc, item) => {
+    const value = item.details.totalFat.replace(/,/g, '');
+    return acc + parseFloat(value);
+  }, 0);
 
-  const totalMeal1Calorie = mealItems1.reduce(
-    (acc, item) => {
-      const value = item.details.totalCalorie.replace(/,/g, '');
-     return acc + parseFloat(value);},
-    0,
-  );
-  const totalMeal1Protein = mealItems1.reduce(
-    (acc, item) => {
-      const value = item.details.totalFat.replace(/,/g, '');
-     return acc + parseFloat(value);},
-    0,
-  );
+  const totalMeal1Calorie = mealItems1.reduce((acc, item) => {
+    const value = item.details.totalCalorie.replace(/,/g, '');
+    return acc + parseFloat(value);
+  }, 0);
+  const totalMeal1Protein = mealItems1.reduce((acc, item) => {
+    const value = item.details.totalFat.replace(/,/g, '');
+    return acc + parseFloat(value);
+  }, 0);
 
-  const totalMeal1Carb = mealItems1.reduce(
-    (acc, item) => {
-      const value = item.details.totalCarb.replace(/,/g, '');
-     return acc + parseFloat(value);},
-    0,
-  );
-  const totalMeal1Fat = mealItems1.reduce(
-    (acc, item) => {
-      const value = item.details.totalFat.replace(/,/g, '');
-     return acc + parseFloat(value);},
-    0,
-  );
+  const totalMeal1Carb = mealItems1.reduce((acc, item) => {
+    const value = item.details.totalCarb.replace(/,/g, '');
+    return acc + parseFloat(value);
+  }, 0);
+  const totalMeal1Fat = mealItems1.reduce((acc, item) => {
+    const value = item.details.totalFat.replace(/,/g, '');
+    return acc + parseFloat(value);
+  }, 0);
 
-  const totalMeal2Calorie = mealItems2.reduce(
-    (acc, item) => {
-      const value = item.details.totalCalorie.replace(/,/g, '');
-     return acc + parseFloat(value);},
-    0,
-  );
-  const totalMeal2Protein = mealItems2.reduce(
-    (acc, item) => {
-      const value = item.details.totalFat.replace(/,/g, '');
-     return acc + parseFloat(value);},
-    0,
-  );
+  const totalMeal2Calorie = mealItems2.reduce((acc, item) => {
+    const value = item.details.totalCalorie.replace(/,/g, '');
+    return acc + parseFloat(value);
+  }, 0);
+  const totalMeal2Protein = mealItems2.reduce((acc, item) => {
+    const value = item.details.totalFat.replace(/,/g, '');
+    return acc + parseFloat(value);
+  }, 0);
 
-  const totalMeal2Carb = mealItems2.reduce(
-    (acc, item) => {
-      const value = item.details.totalCarb.replace(/,/g, '');
-     return acc + parseFloat(value);},
-    0,
-  );
-  const totalMeal2Fat = mealItems2.reduce(
-    (acc, item) => {
-      const value = item.details.totalFat.replace(/,/g, '');
-     return acc + parseFloat(value);},
-    0,
-  );
+  const totalMeal2Carb = mealItems2.reduce((acc, item) => {
+    const value = item.details.totalCarb.replace(/,/g, '');
+    return acc + parseFloat(value);
+  }, 0);
+  const totalMeal2Fat = mealItems2.reduce((acc, item) => {
+    const value = item.details.totalFat.replace(/,/g, '');
+    return acc + parseFloat(value);
+  }, 0);
 
   // const totalEveningSnackCalories = totalEveningSnackCalorie.toFixed(2);
 
@@ -579,9 +569,9 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
   };
   useEffect(() => {
     console.log('====================================');
-    console.log(data,"checking over");
+    console.log(data, 'checking over');
     console.log('====================================');
-  },[data]);
+  }, [data]);
 
   return (
     <Block paddingTop={10}>
@@ -635,7 +625,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                       //     ? totalCaloriesOfAllFoods
                       //     : data.calories - totalCaloriesOfAllFoods
                       // }
-                      value={(totalCaloriesOfAllFoods).toFixed(2)}
+                      value={totalCaloriesOfAllFoods.toFixed(2)}
                       showProgressValue={false}
                       initialValue={initialValueWithoutDecimals}
                       radius={100}
@@ -645,7 +635,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                       maxValue={data.calories}
                       circleBackgroundColor={'#353353'}
                       title={
-                        (totalCaloriesOfAllFoods).toFixed(2) >= data.calories
+                        totalCaloriesOfAllFoods.toFixed(2) >= data.calories
                           ? 'KCAL OVER'
                           : `${data.calories - totalCaloriesOfAllFoods}`
                       }
@@ -801,32 +791,19 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                   marginHorizontal="8%"
                   color="rgba(255,255,255,0.2)">
                   <TouchableWithoutFeedback
-                    onPress={() => {
-                      if (dietPlan) {
-                        navigation.navigate('unlockDiet', {
-                          dietPlan,
-                        });
-                      }
-                    }}
-                    disabled={!dietPlan}>
-                    {/* <Image
-                  background
-                  resizeMode="cover"
-                  source={assets.card6}
-                  blurRadius={5}
-                  radius={sizes.cardRadius}> */}
-                    <Block padding={sizes.padding} card>
-                      {/* user details */}
-                      <Block row>
-                        <Block>
-                          <Text bold center primary>
-                            UNLOCK YOUR FREE DIET PLAN
-                          </Text>
-                        </Block>
-                      </Block>
-                    </Block>
-                    {/* </Image> */}
-                  </TouchableWithoutFeedback>
+      onPress={handleUnlockDietPlan}
+      disabled={!dietPlan}
+    >
+      <Block padding={sizes.padding} card>
+        <Block row>
+          <Block>
+            <Text bold center primary>
+              {isDietPlanUnlocked ? 'DIET PLAN' : 'UNLOCK YOUR FREE DIET PLAN'}
+            </Text>
+          </Block>
+        </Block>
+      </Block>
+    </TouchableWithoutFeedback>
                 </Block>
 
                 {/* profile: about me */}
@@ -899,7 +876,8 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                                 });
                               }}>
                               <Text p black semibold center padding={10}>
-                                Breakfast ({(totalBreakfastCalorie).toFixed(2)}) kcal
+                                Breakfast ({totalBreakfastCalorie.toFixed(2)})
+                                kcal
                               </Text>
                             </TouchableOpacity>
 
@@ -2520,7 +2498,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                         </Block>
 
                         {/* testing  */}
-                        <Block flex={1} center >
+                        <Block flex={1} center>
                           <DataTable style={styles.container}>
                             <DataTable.Header style={styles.tableHeader}>
                               <DataTable.Cell
@@ -2659,32 +2637,33 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                     </Button>
 
                     {/* <Progress.Bar progress={0.3}  width={100}  /> */}
-                    {water.length > 0 ? (<Block flex={0}>
-                      <Image
-                        background
-                        resizeMode="cover"
-                        padding={sizes.sm}
-                        paddingBottom={sizes.l}
-                        radius={sizes.cardRadius}
-                        source={assets.green}
-                        blurRadius={10}>
-                        <Block flex={0}>
-                          <Image source={{uri: user?.avatar}} />
-                          {/* <Lottie
+                    {water.length > 0 ? (
+                      <Block flex={0}>
+                        <Image
+                          background
+                          resizeMode="cover"
+                          padding={sizes.sm}
+                          paddingBottom={sizes.l}
+                          radius={sizes.cardRadius}
+                          source={assets.green}
+                          blurRadius={10}>
+                          <Block flex={0}>
+                            <Image source={{uri: user?.avatar}} />
+                            {/* <Lottie
                             width={64}
                             height={64}
                             marginBottom={sizes.sm}
                             source={require('../assets/json/water.json')}
                             progress={animationProgress.current}
                           /> */}
-                          <Text h5 center white>
-                            {/* {user?.name} */}
-                            Water Tracker
-                          </Text>
-                          <Text p center white>
-                            Target {waterTracker.normal_water_count_ml} ml
-                          </Text>
-                          {/* <Block flex={0} align="center" padding={sizes.xl}>
+                            <Text h5 center white>
+                              {/* {user?.name} */}
+                              Water Tracker
+                            </Text>
+                            <Text p center white>
+                              Target {waterTracker.normal_water_count_ml} ml
+                            </Text>
+                            {/* <Block flex={0} align="center" padding={sizes.xl}>
                         <ProgressBar
                           steps={6}
                           ranges={[
@@ -2704,7 +2683,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                           withDots
                         />
                       </Block> */}
-                          {/* <Block
+                            {/* <Block
                         row
                         justify="space-between"
                         marginBottom={sizes.base}
@@ -2727,55 +2706,55 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                           </TouchableOpacity>
                         </Button>
                       </Block> */}
-                          <Block row  centerContent>
-                            <Block
-                              flex={0}
-                              width={160}
-                              height={80}
-                              card
-                              center
-                              marginTop={30}>
+                            <Block row centerContent>
                               <Block
-                                center
                                 flex={0}
-                                marginBottom={10}
-                                marginRight={20}>
-                                <Lottie
-                                  width={44}
-                                  height={54}
-                                  source={require('../assets/json/water.json')}
-                                  progress={animationProgress.current}
-                                />
-                              </Block>
-                              <Block flex={0} marginLeft={30}>
-                                <Text center info h5 bold>
-                                  {/* {Math.round(waterAmount * 100)}% */}
-                                  {/* {data.water_datas.todays_consumed_water_count_ml} */}
-                                  {waterTracker.todays_consumed_water_count_ml
-                                    ? `${waterTracker.todays_consumed_water_count_ml} ml`
-                                    : '0 ml'}
-                                </Text>
-                                <Text center semibold secondary>
-                                  Water intake
-                                </Text>
-                              </Block>
-                            </Block>
-                            <Block
-                              flex={0}
-                              // card
-                              width={130}
-                              marginHorizontal={10}
-                              center
-                              padding={10}>
-                              <Block
-                                flex={1}
-                                centerContent
+                                width={160}
+                                height={80}
+                                card
                                 center
-                                style={{
-                                  justifyContent: 'center',
-                                  alignSelf: 'center',
-                                }}>
-                                {/* <Block center marginBottom={10}>
+                                marginTop={30}>
+                                <Block
+                                  center
+                                  flex={0}
+                                  marginBottom={10}
+                                  marginRight={20}>
+                                  <Lottie
+                                    width={44}
+                                    height={54}
+                                    source={require('../assets/json/water.json')}
+                                    progress={animationProgress.current}
+                                  />
+                                </Block>
+                                <Block flex={0} marginLeft={30}>
+                                  <Text center info h5 bold>
+                                    {/* {Math.round(waterAmount * 100)}% */}
+                                    {/* {data.water_datas.todays_consumed_water_count_ml} */}
+                                    {waterTracker.todays_consumed_water_count_ml
+                                      ? `${waterTracker.todays_consumed_water_count_ml} ml`
+                                      : '0 ml'}
+                                  </Text>
+                                  <Text center semibold secondary>
+                                    Water intake
+                                  </Text>
+                                </Block>
+                              </Block>
+                              <Block
+                                flex={0}
+                                // card
+                                width={130}
+                                marginHorizontal={10}
+                                center
+                                padding={10}>
+                                <Block
+                                  flex={1}
+                                  centerContent
+                                  center
+                                  style={{
+                                    justifyContent: 'center',
+                                    alignSelf: 'center',
+                                  }}>
+                                  {/* <Block center marginBottom={10}>
                             <Lottie
                               width={64}
                               height={64}
@@ -2783,50 +2762,50 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                               progress={animationProgress.current}
                             />
                           </Block> */}
-                                <Image
-                                  center
-                                  source={require('../assets/icons/glass.png')}
-                                  height={40}
-                                  width={40}></Image>
-                              </Block>
-                              <Text center white>
-                                (250 ml per cup)
-                              </Text>
-                              <Block row center marginTop={10}>
-                                <Block flex={0} marginRight={5}>
-                                  <Button
-                                    info
-                                    onPress={decreaseWater}
-                                    disabled={
-                                      waterTracker.todays_consumed_water_count_ml <=
-                                      0
-                                    }>
-                                    <Text bold white p>
-                                      -
-                                    </Text>
-                                  </Button>
+                                  <Image
+                                    center
+                                    source={require('../assets/icons/glass.png')}
+                                    height={40}
+                                    width={40}></Image>
                                 </Block>
-                                <Block flex={0}>
-                                  <Button
-                                    info
-                                    marginLeft={5}
-                                    onPress={increaseWater}>
-                                    <Text bold white>
-                                      {' '}
-                                      +{' '}
-                                    </Text>
-                                  </Button>
+                                <Text center white>
+                                  (250 ml per cup)
+                                </Text>
+                                <Block row center marginTop={10}>
+                                  <Block flex={0} marginRight={5}>
+                                    <Button
+                                      info
+                                      onPress={decreaseWater}
+                                      disabled={
+                                        waterTracker.todays_consumed_water_count_ml <=
+                                        0
+                                      }>
+                                      <Text bold white p>
+                                        -
+                                      </Text>
+                                    </Button>
+                                  </Block>
+                                  <Block flex={0}>
+                                    <Button
+                                      info
+                                      marginLeft={5}
+                                      onPress={increaseWater}>
+                                      <Text bold white>
+                                        {' '}
+                                        +{' '}
+                                      </Text>
+                                    </Button>
+                                  </Block>
                                 </Block>
                               </Block>
-                            </Block>
-                            <Block flex={1} center>
-                              <Block
-                                transform={[{rotate: '-90deg'}]}
-                                centerContent
-                                flex={0}
-                                width={100}
-                                margin={-20}>
-                                {/* <Lottie
+                              <Block flex={1} center>
+                                <Block
+                                  transform={[{rotate: '-90deg'}]}
+                                  centerContent
+                                  flex={0}
+                                  width={100}
+                                  margin={-20}>
+                                  {/* <Lottie
                              source={require('../assets/json/water2.json')} // Replace with the path to your fill animation JSON file
                              autoPlay={false}
                              loop={false}
@@ -2834,43 +2813,44 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                             >
 
                             </Lottie> */}
-                                <Progress.Bar
-                                  progress={waterProgress}
-                                  width={120}
-                                  height={15}
-                                  color="skyblue"></Progress.Bar>
+                                  <Progress.Bar
+                                    progress={waterProgress}
+                                    width={120}
+                                    height={15}
+                                    color="skyblue"></Progress.Bar>
+                                </Block>
                               </Block>
                             </Block>
                           </Block>
-                        </Block>
-                      </Image>
-                    </Block>):(
+                        </Image>
+                      </Block>
+                    ) : (
                       <Block flex={0}>
-                      <Image
-                        background
-                        resizeMode="cover"
-                        padding={sizes.sm}
-                        paddingBottom={sizes.l}
-                        radius={sizes.cardRadius}
-                        source={assets.green}
-                        blurRadius={10}>
-                        <Block flex={0}>
-                          <Image source={{uri: user?.avatar}} />
-                          {/* <Lottie
+                        <Image
+                          background
+                          resizeMode="cover"
+                          padding={sizes.sm}
+                          paddingBottom={sizes.l}
+                          radius={sizes.cardRadius}
+                          source={assets.green}
+                          blurRadius={10}>
+                          <Block flex={0}>
+                            <Image source={{uri: user?.avatar}} />
+                            {/* <Lottie
                             width={64}
                             height={64}
                             marginBottom={sizes.sm}
                             source={require('../assets/json/water.json')}
                             progress={animationProgress.current}
                           /> */}
-                          <Text h5 center white>
-                            {/* {user?.name} */}
-                            Water Tracker
-                          </Text>
-                          <Text p center white>
-                            Target {waterTracker.normal_water_count_ml} ml
-                          </Text>
-                          {/* <Block flex={0} align="center" padding={sizes.xl}>
+                            <Text h5 center white>
+                              {/* {user?.name} */}
+                              Water Tracker
+                            </Text>
+                            <Text p center white>
+                              Target {waterTracker.normal_water_count_ml} ml
+                            </Text>
+                            {/* <Block flex={0} align="center" padding={sizes.xl}>
                         <ProgressBar
                           steps={6}
                           ranges={[
@@ -2890,7 +2870,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                           withDots
                         />
                       </Block> */}
-                          {/* <Block
+                            {/* <Block
                         row
                         justify="space-between"
                         marginBottom={sizes.base}
@@ -2913,57 +2893,57 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                           </TouchableOpacity>
                         </Button>
                       </Block> */}
-{water ? (
-      // Render content when water data is present
-      <Block row  centerContent>
-      <Block
-        flex={0}
-        width={160}
-        height={80}
-        card
-        center
-        marginTop={30}>
-        <Block
-          center
-          flex={0}
-          marginBottom={10}
-          marginRight={20}>
-          <Lottie
-            width={44}
-            height={54}
-            source={require('../assets/json/water.json')}
-            progress={animationProgress.current}
-          />
-        </Block>
-        <Block flex={0} marginLeft={30}>
-          <Text center info h5 bold>
-            {/* {Math.round(waterAmount * 100)}% */}
-            {/* {data.water_datas.todays_consumed_water_count_ml} */}
-            {waterTracker.todays_consumed_water_count_ml
-              ? `${waterTracker.todays_consumed_water_count_ml} ml`
-              : '0 ml'}
-          </Text>
-          <Text center semibold secondary>
-            Water intake
-          </Text>
-        </Block>
-      </Block>
-      <Block
-        flex={0}
-        // card
-        width={130}
-        marginHorizontal={10}
-        center
-        padding={10}>
-        <Block
-          flex={1}
-          centerContent
-          center
-          style={{
-            justifyContent: 'center',
-            alignSelf: 'center',
-          }}>
-          {/* <Block center marginBottom={10}>
+                            {water ? (
+                              // Render content when water data is present
+                              <Block row centerContent>
+                                <Block
+                                  flex={0}
+                                  width={160}
+                                  height={80}
+                                  card
+                                  center
+                                  marginTop={30}>
+                                  <Block
+                                    center
+                                    flex={0}
+                                    marginBottom={10}
+                                    marginRight={20}>
+                                    <Lottie
+                                      width={44}
+                                      height={54}
+                                      source={require('../assets/json/water.json')}
+                                      progress={animationProgress.current}
+                                    />
+                                  </Block>
+                                  <Block flex={0} marginLeft={30}>
+                                    <Text center info h5 bold>
+                                      {/* {Math.round(waterAmount * 100)}% */}
+                                      {/* {data.water_datas.todays_consumed_water_count_ml} */}
+                                      {waterTracker.todays_consumed_water_count_ml
+                                        ? `${waterTracker.todays_consumed_water_count_ml} ml`
+                                        : '0 ml'}
+                                    </Text>
+                                    <Text center semibold secondary>
+                                      Water intake
+                                    </Text>
+                                  </Block>
+                                </Block>
+                                <Block
+                                  flex={0}
+                                  // card
+                                  width={130}
+                                  marginHorizontal={10}
+                                  center
+                                  padding={10}>
+                                  <Block
+                                    flex={1}
+                                    centerContent
+                                    center
+                                    style={{
+                                      justifyContent: 'center',
+                                      alignSelf: 'center',
+                                    }}>
+                                    {/* <Block center marginBottom={10}>
       <Lottie
         width={64}
         height={64}
@@ -2971,50 +2951,50 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
         progress={animationProgress.current}
       />
     </Block> */}
-          <Image
-            center
-            source={require('../assets/icons/glass.png')}
-            height={40}
-            width={40}></Image>
-        </Block>
-        <Text center white>
-          (250 ml per cup)
-        </Text>
-        <Block row center marginTop={10}>
-          <Block flex={0} marginRight={5}>
-            <Button
-              info
-              onPress={decreaseWater}
-              disabled={
-                waterTracker.todays_consumed_water_count_ml <=
-                0
-              }>
-              <Text bold white p>
-                -
-              </Text>
-            </Button>
-          </Block>
-          <Block flex={0}>
-            <Button
-              info
-              marginLeft={5}
-              onPress={increaseWater}>
-              <Text bold white>
-                {' '}
-                +{' '}
-              </Text>
-            </Button>
-          </Block>
-        </Block>
-      </Block>
-      <Block flex={1} center>
-        <Block
-          transform={[{rotate: '-90deg'}]}
-          centerContent
-          flex={0}
-          width={100}
-          margin={-20}>
-          {/* <Lottie
+                                    <Image
+                                      center
+                                      source={require('../assets/icons/glass.png')}
+                                      height={40}
+                                      width={40}></Image>
+                                  </Block>
+                                  <Text center white>
+                                    (250 ml per cup)
+                                  </Text>
+                                  <Block row center marginTop={10}>
+                                    <Block flex={0} marginRight={5}>
+                                      <Button
+                                        info
+                                        onPress={decreaseWater}
+                                        disabled={
+                                          waterTracker.todays_consumed_water_count_ml <=
+                                          0
+                                        }>
+                                        <Text bold white p>
+                                          -
+                                        </Text>
+                                      </Button>
+                                    </Block>
+                                    <Block flex={0}>
+                                      <Button
+                                        info
+                                        marginLeft={5}
+                                        onPress={increaseWater}>
+                                        <Text bold white>
+                                          {' '}
+                                          +{' '}
+                                        </Text>
+                                      </Button>
+                                    </Block>
+                                  </Block>
+                                </Block>
+                                <Block flex={1} center>
+                                  <Block
+                                    transform={[{rotate: '-90deg'}]}
+                                    centerContent
+                                    flex={0}
+                                    width={100}
+                                    margin={-20}>
+                                    {/* <Lottie
        source={require('../assets/json/water2.json')} // Replace with the path to your fill animation JSON file
        autoPlay={false}
        loop={false}
@@ -3022,26 +3002,21 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
       >
 
       </Lottie> */}
-          <Progress.Bar
-            progress={waterProgress}
-            width={120}
-            height={15}
-            color="skyblue"></Progress.Bar>
-        </Block>
-      </Block>
-    </Block>
-    ) : (
-      <ActivityIndicator size="large" color="green" /> // Show loading indicator when water data is null
-    )}
-                         
-
-
-
-                        </Block>
-                      </Image>
-                    </Block>
+                                    <Progress.Bar
+                                      progress={waterProgress}
+                                      width={120}
+                                      height={15}
+                                      color="skyblue"></Progress.Bar>
+                                  </Block>
+                                </Block>
+                              </Block>
+                            ) : (
+                              <ActivityIndicator size="large" color="green" /> // Show loading indicator when water data is null
+                            )}
+                          </Block>
+                        </Image>
+                      </Block>
                     )}
-                    
                   </>
                 ) : (
                   <PreviousDietDetails data={apiData} />

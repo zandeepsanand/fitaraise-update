@@ -244,64 +244,6 @@ const ChallengeMain = ({navigation, route}) => {
 
   const [isCurrentDayCompleted, setIsCurrentDayCompleted] = useState(false);
 
-  // const clickStart = async () => {
-  //   try {
-  //     if (!challenge.id) {
-  //       throw new Error('Please enter all details');
-  //     }
-  //     if (isCurrentDayCompleted) {
-  //       // Display an alert to inform the user that they've already completed today's workout
-  //       alert("You have already completed today's workout");
-  //       return;
-  //     }
-
-  //     // Fetch the days data
-  //     const daysResponse = await api.get(
-  //       `get_workout_challenge_days/${month.id}`,
-  //     );
-  //     const daysData = daysResponse.data.data;
-  //     console.log(daysData, 'days data');
-
-  //     if (daysData.length === 0) {
-  //       throw new Error('No days data available');
-  //     }
-
-  //     // Determine the current day number based on completion status
-  //     let currentDayNumber = 0;
-  //     for (const day of daysData) {
-  //       if (!day.completed) {
-  //         break; // The first incomplete day becomes the current day
-  //       }
-  //       currentDayNumber++;
-  //     }
-
-  //     if (currentDayNumber > daysData.length) {
-  //       throw new Error('All days are completed');
-  //     } else {
-  //       // Increment currentDayNumber to move to the next day
-  //       currentDayNumber++;
-  //     }
-
-  //     // Fetch the workout data for the determined current day
-  //     const workoutResponse = await api.get(
-  //       `get_workout_challenge_excercise/${challenge.id}/${currentDayNumber}`,
-  //     );
-  //     const responseData = workoutResponse.data.data;
-  //     console.log(responseData, `day ${currentDayNumber}`);
-
-  //     setTodayWorkout(responseData);
-
-  //     navigation.navigate('ChallengeDayAll', {
-  //       responseData,
-  //       completedWorkouts,
-  //       currentDayNumber,
-  //       dayWithId: daysData,
-  //       challenge,
-  //     });
-  //   } catch (err) {
-  //     setError(err.message);
-  //   }
-  // };
   const clickStart = async () => {
     try {
       if (!challenge.id) {
@@ -333,23 +275,12 @@ const ChallengeMain = ({navigation, route}) => {
         currentDayNumber++;
       }
 
-      if (currentDayNumber >= daysData.length) {
+      if (currentDayNumber > daysData.length) {
         throw new Error('All days are completed');
+      } else {
+        // Increment currentDayNumber to move to the next day
+        currentDayNumber++;
       }
-
-      // Check if the recent workout done date is the same as today's date
-      if (
-        daysData[currentDayNumber - 1].recent_workout_done_date &&
-        daysData[currentDayNumber - 1].recent_workout_done_date ===
-          completed_date // Replace todayDate with the actual today's date
-      ) {
-        // Display an alert to inform the user that they've already completed today's workout
-        alert("You have already completed today's workout");
-        return;
-      }
-
-      // If not, increment currentDayNumber to move to the next day
-      currentDayNumber++;
 
       // Fetch the workout data for the determined current day
       const workoutResponse = await api.get(
@@ -371,6 +302,77 @@ const ChallengeMain = ({navigation, route}) => {
       setError(err.message);
     }
   };
+  // const clickStart = async () => {
+    
+    
+  //   try {
+  //     if (!challenge.id) {
+  //       throw new Error('Please enter all details');
+  //     }
+  //     if (isCurrentDayCompleted) {
+  //       // Display an alert to inform the user that they've already completed today's workout
+  //       alert("You have already completed today's workout");
+  //       return;
+  //     }
+      
+  //     // Fetch the days data
+  //     const daysResponse = await api.get(
+  //       `get_workout_challenge_days/${month.id}`,
+  //     );
+  //     const daysData = daysResponse.data.data;
+  //     // console.log(daysData, 'days data');
+
+  //     if (daysData.length === 0) {
+  //       throw new Error('No days data available');
+  //     }
+
+  //     // Determine the current day number based on completion status
+  //     let currentDayNumber = 0;
+  //     for (const day of daysData) {
+  //       if (!day.completed) {
+  //         break; // The first incomplete day becomes the current day
+  //       }
+  //       currentDayNumber++;
+  //     }
+
+  //     if (currentDayNumber >= daysData.length) {
+  //       throw new Error('All days are completed');
+  //     }
+
+  //     // Check if the recent workout done date is the same as today's date
+  //     if (
+  //       daysData[currentDayNumber - 1].recent_workout_done_date &&
+  //       daysData[currentDayNumber - 1].recent_workout_done_date ===
+  //         completed_date // Replace todayDate with the actual today's date
+  //     ) {
+  //       // Display an alert to inform the user that they've already completed today's workout
+  //       alert("You have already completed today's workout");
+  //       return;
+  //     }
+      
+  //     // If not, increment currentDayNumber to move to the next day
+  //     currentDayNumber++;
+
+  //     // Fetch the workout data for the determined current day
+  //     const workoutResponse = await api.get(
+  //       `get_workout_challenge_excercise/${challenge.id}/${currentDayNumber}`,
+  //     );
+  //     const responseData = workoutResponse.data.data;
+  //     console.log(responseData, `day ${currentDayNumber}`);
+
+  //     setTodayWorkout(responseData);
+
+  //     navigation.navigate('ChallengeDayAll', {
+  //       responseData,
+  //       completedWorkouts,
+  //       currentDayNumber,
+  //       dayWithId: daysData,
+  //       challenge,
+  //     });
+  //   } catch (err) {
+  //     setError(err.message);
+  //   }
+  // };
 
   const handleProducts = useCallback(
     (tab: number) => {
@@ -439,7 +441,7 @@ const ChallengeMain = ({navigation, route}) => {
 
     checkAuthenticationStatus();
   }, []);
-  console.log(workoutData.workout_challenge_level, 'dataaaa');
+  console.log(workoutData, 'dataaaa');
   const numberOfWeeks = Math.ceil(data.length / 7);
 
   const weeks = [];
