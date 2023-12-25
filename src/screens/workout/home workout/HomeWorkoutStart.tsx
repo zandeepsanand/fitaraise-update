@@ -231,6 +231,9 @@ const HomeWorkoutStart = () => {
   useEffect(() => {
     const backAction = () => {
       setModalVisibleBackButton(true);
+      if (!isTimerPaused) {
+      toggleTimerPause();
+      }
       return true;
     };
 
@@ -244,9 +247,13 @@ const HomeWorkoutStart = () => {
   const handleModalButtonPress = (action) => {
     if (action === 'Resume') {
       setModalVisibleBackButton(false);
+      toggleTimerPause();
       // Resume logic
     } else if (action === 'Restart') {
       setModalVisibleBackButton(false);
+      setTimeLeft(
+        nextNotCompletedWorkout.time_or_sets === 'time' ? nextNotCompletedWorkout.time_in_seconds : 0,
+      );
       // Restart logic
     } else if (action === 'Exit') {
       setModalVisibleBackButton(false);
@@ -364,78 +371,8 @@ const HomeWorkoutStart = () => {
             {/* Button to open the modal */}
 
             {/* Modal */}
-            <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisibleBackButton}
-        onRequestClose={() => {
-          setModalVisibleBackButton(false);
-        }}
-      >
-        <Block card flex={1} bottom={10}  center style={styles.modalContainer}>
-       
-        <Block flex={0} height={85} marginHorizontal={10}>
-              <Block row height={85} center>
-                <Block
-                  flex={0}
-                  center
-                  width={60}
-                  height={60}
-                  radius={50}
-                  color={'#f0f0f8'}
-                  paddingLeft={18}
-                  marginTop={10}>
-                  <Image
-                   
-                    width={25}
-                    height={25}
-                    source={require('../../../assets/icons/pause-button.png')}></Image>
-                </Block>
-                <Block flex={1} paddingLeft={20} paddingTop={15}>
-                  <Block flex={0} center>
-                    <Text p semibold>
-                     Pause
-                    </Text>
-                    <Text
-                      semibold
-                      secondary
-                      opacity={0.5}
-                      paddingTop={5}
-                      size={12}>
-                      Please select one option to continue!
-                    </Text>
-                  </Block>
-                </Block>
-                <Block flex={0} center paddingRight={10}>
-                  <TouchableOpacity>
-                    {/* <Image
-                      color={'green'}
-                      width={8}
-                      height={15}
-                      source={require('../../../assets/icons/arrow.png')}></Image> */}
-                  </TouchableOpacity>
-                </Block>
-              </Block>
-            </Block>
-          <TouchableOpacity onPress={() => handleModalButtonPress('Resume')}>
-            <Button primary>
-            <Text white>Resume</Text>
-            </Button>
-            
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleModalButtonPress('Restart')}>
-          <Button secondary>
-          <Text>Restart this exercise</Text>
-          </Button>
-           
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleModalButtonPress('Exit')}>
-          <Button secondary>
-          <Text>Yes</Text>
-          </Button>
-          </TouchableOpacity>
-        </Block>
-      </Modal>
+        
+
             <Modal
               animationType="slide" // You can choose different animation types
               transparent={false} // Makes the modal background transparent
@@ -592,6 +529,86 @@ const HomeWorkoutStart = () => {
           </Text>
         </Block>
       </TouchableOpacity> */}
+          <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisibleBackButton}
+        onRequestClose={() => {
+          setModalVisibleBackButton(false);
+        }}
+      >
+        <Block card flex={1} bottom={10}  center style={styles.modalContainer}>
+       
+        <Block flex={0} height={85} marginHorizontal={10}>
+              <Block row height={85} center>
+                <Block
+                  flex={0}
+                  center
+                  width={60}
+                  height={60}
+                  radius={50}
+                  color={'#f0f0f8'}
+                  paddingLeft={18}
+                  marginTop={10}
+                  >
+                          <Image
+                   
+                    width={25}
+                    height={25}
+                    source={require('../../../assets/icons/pause-button.png')}></Image>
+                 
+                </Block>
+                <Block flex={1} paddingLeft={20} paddingTop={15}>
+                  <Block flex={0} center>
+                    <Text p semibold>
+                     Pause
+                    </Text>
+                    <Text
+                      semibold
+                      secondary
+                      opacity={0.5}
+                      paddingTop={5}
+                      size={12}>
+                      Please select one option to continue!
+                    </Text>
+                  </Block>
+                </Block>
+                <Block  flex={0} center
+                  width={50}
+                  height={50}
+                  radius={50}
+                  color={'#f0f0f8'}
+                  paddingLeft={15}
+                  marginTop={10}>
+                  <TouchableOpacity onPress={() => handleModalButtonPress('Resume')}>
+                    <Image
+                      color={'red'}
+                      width={20}
+                      height={20}
+                      source={require('../../../assets/icons/close.png')}></Image>
+                  </TouchableOpacity>
+                </Block>
+              </Block>
+            </Block>
+         <Block centerContent style={{justifyContent:'center',alignItems:"center"}}>
+         <Button padding={10} light width={300}  onPress={() => handleModalButtonPress('Resume')}>
+            <Text  bold secondary>Resume</Text>
+            </Button>
+            <Button padding={10} light width={300} margin={10}  onPress={() => handleModalButtonPress('Restart')}>
+          <Text bold secondary>Restart this exercise</Text>
+          </Button>
+           
+        
+          <Button padding={10} margin={10} marginTop={5} color={"#fff3f5"}  width={300}  onPress={() => handleModalButtonPress('Exit')}>
+          <Text bold  color={"red"}>Quit</Text>
+          </Button>
+         </Block>
+           
+         
+        
+        
+        </Block>
+      </Modal>
     </Block>
   );
 };
