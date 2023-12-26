@@ -105,7 +105,7 @@ import NutritionFactsSearch from '../screens/nutritionFacts/NutritionFactsSearch
 import SingleNutritionPage from '../screens/nutritionFacts/SingleNutritionPage';
 
 // Keep the splash screen visible while we fetch resources
-SplashScreen.hideAsync();
+// SplashScreen.hideAsync();
 
 export default () => {
   const {isDark, theme, setTheme} = useData();

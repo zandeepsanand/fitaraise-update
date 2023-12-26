@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import LoginContext from '../../hooks/LoginContext';
 import api, {setAuthToken} from '../../../api';
 import axios from 'axios';
-import { ActivityIndicator } from 'react-native';
+import {ActivityIndicator} from 'react-native';
 
 const WorkoutFirstPage = ({navigation, route}) => {
   const {workoutData} = route.params;
@@ -20,7 +20,9 @@ const WorkoutFirstPage = ({navigation, route}) => {
   const {following, trending} = useData();
   const [products, setProducts] = useState(following);
   const {assets, colors, fonts, gradients, sizes} = useTheme();
-  const [isLoading, setIsLoading] = useState(true); // State to track loading status
+  const [isLoadingHome, setIsLoadingHome] = useState(false);
+  const [isLoadingGym, setIsLoadingGym] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // State to track loading status
   const {authenticated, customerId} = useContext(LoginContext);
   console.log('====================================');
   console.log(customerId);
@@ -32,175 +34,167 @@ const WorkoutFirstPage = ({navigation, route}) => {
     },
     [following, trending, setTab, setProducts],
   );
- 
+
   // Function to handle the challenge page
-const handleChallengePage = async () => {
-  try {
-    // Fetch user data
-    setIsLoading(true);
-    const userData = await api.get(`get_personal_datas/${customerId}`);
-    const user = userData.data.data;
-    console.log(user, 'user data challenge workout loading');
+  const handleChallengePage = async () => {
+    try {
+      // Fetch user data
+      setIsLoading(true);
+      const userData = await api.get(`get_personal_datas/${customerId}`);
+      const user = userData.data.data;
+      console.log(user, 'user data challenge workout loading');
 
-    if (user.gender && user.workout_challenge_level) {
-      // Check if user has gender and workout challenge level set
-      console.log('entered');
-     
-      // Fetch home workout data based on user's gender and workout level
-      const homeWorkout = await api.get(
-        `get_workout_challenges?gender=${user.gender}&level=${user.workout_challenge_level}`
-      );
-      console.log(homeWorkout, 'entered');
+      if (user.gender && user.workout_challenge_level) {
+        // Check if user has gender and workout challenge level set
+        console.log('entered');
 
-      const challengeMonthJSON = homeWorkout.data.data;
-      console.log('====================================');
-      console.log(challengeMonthJSON, 'months');
-      console.log('====================================');
-      console.log(challengeMonthJSON);
-
-      if (challengeMonthJSON) {
-        // Check if there are active challenges
-        const activeChallenges = challengeMonthJSON.filter(
-          (challenge) => challenge.currently_using
+        // Fetch home workout data based on user's gender and workout level
+        const homeWorkout = await api.get(
+          `get_workout_challenges?gender=${user.gender}&level=${user.workout_challenge_level}`,
         );
-        console.log(activeChallenges, 'active challenge?');
+        console.log(homeWorkout, 'entered');
 
-        if (activeChallenges.length > 0) {
-          // If there are active challenges, find the currently active one
-          const currentlyActiveChallenge = activeChallenges.find(
-            (challenge) => challenge.currently_using
+        const challengeMonthJSON = homeWorkout.data.data;
+        console.log('====================================');
+        console.log(challengeMonthJSON, 'months');
+        console.log('====================================');
+        console.log(challengeMonthJSON);
+
+        if (challengeMonthJSON) {
+          // Check if there are active challenges
+          const activeChallenges = challengeMonthJSON.filter(
+            (challenge) => challenge.currently_using,
           );
-          console.log('====================================');
-          console.log(currentlyActiveChallenge, 'check active');
-          console.log('====================================');
-          if (currentlyActiveChallenge) {
-            // Navigate to the main challenge screen with the active challenge
-            navigation.navigate('ChallengeTabNavigator', {
-              screen: 'ChallengeMain',
-              params: { challenge: currentlyActiveChallenge },
-            });
+          console.log(activeChallenges, 'active challenge?');
+
+          if (activeChallenges.length > 0) {
+            // If there are active challenges, find the currently active one
+            const currentlyActiveChallenge = activeChallenges.find(
+              (challenge) => challenge.currently_using,
+            );
+            console.log('====================================');
+            console.log(currentlyActiveChallenge, 'check active');
+            console.log('====================================');
+            if (currentlyActiveChallenge) {
+              // Navigate to the main challenge screen with the active challenge
+              navigation.navigate('ChallengeTabNavigator', {
+                screen: 'ChallengeMain',
+                params: {challenge: currentlyActiveChallenge},
+              });
+            } else {
+              console.log('workout page');
+              // If no active challenge, navigate to the gender page with workout data
+              navigation.navigate('ChallengeGenderPage', {
+                workoutData: user,
+              });
+            }
           } else {
-            console.log('workout page');
             // If no active challenge, navigate to the gender page with workout data
             navigation.navigate('ChallengeGenderPage', {
               workoutData: user,
             });
           }
         } else {
-          // If no active challenge, navigate to the gender page with workout data
+          // If no challenge data, navigate to the gender page with workout data
           navigation.navigate('ChallengeGenderPage', {
             workoutData: user,
           });
         }
       } else {
-        // If no challenge data, navigate to the gender page with workout data
+        // If gender or workout challenge level is not set, log a message
+        console.log('set user gender weight height');
+
         navigation.navigate('ChallengeGenderPage', {
           workoutData: user,
         });
       }
-    } else {
-      // If gender or workout challenge level is not set, log a message
-      console.log('set user gender weight height');
-
-      navigation.navigate('ChallengeGenderPage', {
-        workoutData: user,
-      });
+    } catch (error) {
+      // Handle errors during API calls
+      if (error.response && error.response.data) {
+        console.error('Error fetching stored data 1:', error.response.data);
+      } else {
+        console.error('Error fetching stored data:', error.message);
+      }
+    } finally {
+      // Set loading state to false
+      setIsLoading(false);
     }
-  } catch (error) {
-    // Handle errors during API calls
-    if (error.response && error.response.data) {
-      console.error('Error fetching stored data 1:', error.response.data);
-    } else {
-      console.error('Error fetching stored data:', error.message);
-    }
-  } finally {
-    // Set loading state to false
-    setIsLoading(false);
-  }
-};
-  
-const HomeWorkoutLoading = async () => {
-  try {
-    setIsLoading(true);
-    const userDataResponse = await api.get(`get_personal_datas/${customerId}`);
-    const user = userDataResponse.data.data;
+  };
 
-    console.log(user, "user data home workout loading");
-
-    if (user.gender && user.home_workout_level) {
-      const homeWorkoutResponse = await api.get(
-        `get_home_workouts?gender=${user.gender}&level=${user.home_workout_level}`
+  const HomeWorkoutLoading = async () => {
+    try {
+      setIsLoadingHome(true);
+      const userDataResponse = await api.get(
+        `get_personal_datas/${customerId}`,
       );
-      const homeWorkoutJSON = homeWorkoutResponse.data.data;
+      const user = userDataResponse.data.data;
 
-      console.log(homeWorkoutJSON, "workout data home");
+      console.log(user, 'user data home workout loading');
 
-      if (homeWorkoutJSON) {
-        // Navigate to 'HomeTabNavigator' with homeWorkout and workoutData
-        navigation.navigate('HomeTabNavigator', {
-          screen: 'HomeWorkoutMain',
-          params: { workout: homeWorkoutJSON, workoutData: user },
+      if (user.gender && user.home_workout_level) {
+        const homeWorkoutResponse = await api.get(
+          `get_home_workouts?gender=${user.gender}&level=${user.home_workout_level}`,
+        );
+        const homeWorkoutJSON = homeWorkoutResponse.data.data;
+
+        console.log(homeWorkoutJSON, 'workout data home');
+
+        if (homeWorkoutJSON) {
+          // Navigate to 'HomeTabNavigator' with homeWorkout and workoutData
+          navigation.navigate('HomeTabNavigator', {
+            screen: 'HomeWorkoutMain',
+            params: {workout: homeWorkoutJSON, workoutData: user},
+          });
+       
+        }
+      } else {
+        console.log('workout page');
+        // Navigate to 'Gender' screen with workoutData
+        navigation.navigate('Gender', {
+          workoutData: user,
         });
       }
-    } else {
-      console.log('workout page');
-      // Navigate to 'Gender' screen with workoutData
-      navigation.navigate('Gender', {
-        workoutData: user,
-      });
+    } catch (error) {
+      console.error('Error fetching stored data:', error);
+    } finally {
+      setIsLoadingHome(false);
     }
-  } catch (error) {
-    console.error('Error fetching stored data:', error);
-  } finally {
-    setIsLoading(false);
-  }
-};
-const GymWorkoutLoading = async ()=>{
-  try {
-   
-    setIsLoading(true);
-    const userData = await api.get(
-      `get_personal_datas/${customerId}`,
-    );
-    const user = userData.data.data;
-    console.log(user, "user data home workout loading");
-    
+  };
+  const GymWorkoutLoading = async () => {
+    try {
+      setIsLoadingGym(true);
+      const userData = await api.get(`get_personal_datas/${customerId}`);
+      const user = userData.data.data;
+      console.log(user, 'user data home workout loading');
 
+      if (user.gender && user.gym_workout_level) {
+        const homeWorkout = await api.get(
+          `get_gym_workouts?gender=${user.gender}&level=${user.home_workout_level}`,
+        );
+        const gymWorkoutJSON = homeWorkout.data.data;
+        console.log(gymWorkoutJSON);
+        if (gymWorkoutJSON) {
+          console.log(gymWorkoutJSON, 'workout data gym');
 
-    if (user.gender && user.gym_workout_level){
-      const homeWorkout = await api.get(
-        `get_gym_workouts?gender=${user.gender}&level=${user.home_workout_level}`,
-      );
-      const gymWorkoutJSON = homeWorkout.data.data;
-      console.log(gymWorkoutJSON);
-      if (gymWorkoutJSON) {
-        console.log(gymWorkoutJSON , "workout data gym");
-        
-        
-        // Navigate to 'HomeTabNavigator' with homeWorkout and workoutData
-        navigation.navigate('GymTabNavigator', {
-          screen: 'GymWorkoutMain',
-          params: { data:gymWorkoutJSON, formDataCopy:user },
+          // Navigate to 'HomeTabNavigator' with homeWorkout and workoutData
+          navigation.navigate('GymTabNavigator', {
+            screen: 'GymWorkoutMain',
+            params: {data: gymWorkoutJSON, formDataCopy: user},
+          });
+        }
+      } else {
+        console.log('workout page');
+        // Navigate to 'Gender' screen with workoutData
+        navigation.navigate('GymGenderPage', {
+          workoutData: user,
         });
-      } 
-    }else {
-      console.log('workout page');
-      // Navigate to 'Gender' screen with workoutData
-      navigation.navigate('GymGenderPage', {
-        workoutData: user,
-      });
+      }
+    } catch (error) {
+      console.error('Error fetching stored data:', error);
+    } finally {
+      setIsLoadingGym(false);
     }
-    
-
-  
-  } catch (error) {
-    console.error('Error fetching stored data:', error);
-  } finally {
-    setIsLoading(false);
-  }
-}
-
-
+  };
 
   return (
     <Block>
@@ -226,15 +220,15 @@ const GymWorkoutLoading = async ()=>{
               onPress={() => {
                 // navigation.navigate('HomeWorkoutLoadingScreen');
                 handleProducts(2);
-                HomeWorkoutLoading()
+                HomeWorkoutLoading();
               }}>
               <Block
                 style={styles.mainCardView}
                 gradient={gradients?.[tab === 2 ? 'success' : '#ffff']}>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                   <View style={styles.subCardView}></View>
-                  {isLoading && <ActivityIndicator size="large" color="#ffffff" />}
-                  
+                
+
                   <View style={{marginLeft: 12}}>
                     <Text
                       style={{
@@ -255,20 +249,25 @@ const GymWorkoutLoading = async ()=>{
                 </View>
                 <View
                   style={{
-                    height: 25,
+                    height: 40,
                     backgroundColor: 'pink',
                     borderWidth: 0,
-                    width: 25,
+                    width: 40,
                     marginLeft: -26,
                     alignItems: 'center',
                     justifyContent: 'center',
                     borderRadius: 50,
                   }}>
-                  <Image
-                    source={assets.arrow}
-                    color={colors.white}
-                    radius={0}
-                  />
+                  {isLoadingHome ? (
+                    <ActivityIndicator size="large" color="#ffffff" />
+                    
+                  ) : (
+                    <Image
+                      source={assets.arrow}
+                      color={colors.white}
+                      radius={0}
+                    />
+                  )}
                 </View>
               </Block>
             </TouchableWithoutFeedback>
@@ -283,7 +282,7 @@ const GymWorkoutLoading = async ()=>{
                 gradient={gradients?.[tab === 3 ? 'success' : '#ffff']}>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                   <View style={styles.subCardView}></View>
-                  {isLoading && <ActivityIndicator size="large" color="#ffffff" />}
+               
                   <View style={{marginLeft: 12}}>
                     <Text
                       style={{
@@ -304,27 +303,31 @@ const GymWorkoutLoading = async ()=>{
                 </View>
                 <View
                   style={{
-                    height: 25,
+                    height: 40,
                     backgroundColor: 'pink',
                     borderWidth: 0,
-                    width: 25,
+                    width: 40,
                     marginLeft: -26,
                     alignItems: 'center',
                     justifyContent: 'center',
                     borderRadius: 50,
                   }}>
-                  <Image
-                    source={assets.arrow}
-                    color={colors.white}
-                    radius={0}
-                  />
+                  {isLoadingGym ? (
+                    <ActivityIndicator size="large" color="#ffffff" />
+                    
+                  ) : (
+                    <Image
+                      source={assets.arrow}
+                      color={colors.white}
+                      radius={0}
+                    />
+                  )}
                 </View>
               </Block>
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback
               onPress={() => {
                 handleProducts(4);
-                // navigation.navigate('ChallengeGenderPage',{workoutData});
                 handleChallengePage();
               }}>
               <Block
@@ -332,7 +335,74 @@ const GymWorkoutLoading = async ()=>{
                 gradient={gradients?.[tab === 4 ? 'success' : '#ffff']}>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                   <View style={styles.subCardView}></View>
-                  {isLoading && <ActivityIndicator size="large" color="#ffffff" />}
+               
+                  <View style={{marginLeft: 12}}>
+                  <Text
+                      style={{
+                        fontSize: 14,
+                        color: 'black',
+                        fontWeight: 'bold',
+                      }}
+                      bold
+                      primary
+                      // center
+                    >
+                      WORKOUT CHALLENGES
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 14,
+                        color: 'black',
+                        fontWeight: 'bold',
+                      }}
+                      bold
+                      // center
+                    >
+                      (Transformation plan)
+                    </Text>
+                    <View
+                      style={{
+                        marginTop: 4,
+                        borderWidth: 0,
+                        width: '85%',
+                      }}></View>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    height: 40,
+                    backgroundColor: 'pink',
+                    borderWidth: 0,
+                    width: 40,
+                    marginLeft: -26,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: 50,
+                  }}>
+                  {isLoading ? (
+                    <ActivityIndicator size="large" color="#ffffff" />
+                    
+                  ) : (
+                    <Image
+                      source={assets.arrow}
+                      color={colors.white}
+                      radius={0}
+                    />
+                  )}
+                </View>
+              </Block>
+            </TouchableWithoutFeedback>
+            {/* <TouchableWithoutFeedback
+              onPress={() => {
+                handleProducts(4);
+                handleChallengePage();
+              }}>
+              <Block
+                style={styles.mainCardView}
+                gradient={gradients?.[tab === 4 ? 'success' : '#ffff']}>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <View style={styles.subCardView}></View>
+                
                   <Block style={{alignContent: 'center'}}>
                     <Text
                       style={{
@@ -365,26 +435,30 @@ const GymWorkoutLoading = async ()=>{
                       }}></View>
                   </Block>
                 </View>
-                <Block
-                  flex={1}
+                <View
                   style={{
-                    height: 25,
+                    height: 40,
                     backgroundColor: 'pink',
                     borderWidth: 0,
-                    width: 25,
+                    width: 40,
                     marginLeft: -26,
                     alignItems: 'center',
                     justifyContent: 'center',
                     borderRadius: 50,
                   }}>
-                  <Image
-                    source={assets.arrow}
-                    color={colors.white}
-                    radius={0}
-                  />
-                </Block>
+                  {isLoadingGym ? (
+                    <ActivityIndicator size="large" color="#ffffff" />
+                    
+                  ) : (
+                    <Image
+                      source={assets.arrow}
+                      color={colors.white}
+                      radius={0}
+                    />
+                  )}
+                </View>
               </Block>
-            </TouchableWithoutFeedback>
+            </TouchableWithoutFeedback> */}
           </View>
         </Block>
       </Block>

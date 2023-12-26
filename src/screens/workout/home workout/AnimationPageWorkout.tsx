@@ -160,7 +160,8 @@ import { log } from 'react-native-reanimated';
             setTimeout(() => {
               navigation.navigate('HomeTabNavigator', {
                 screen: 'HomeWorkoutMain',
-                params: { homeWorkout, workoutData },
+                params: { workout:homeWorkout, workoutData },
+               
               });
             }, 2000);
           }

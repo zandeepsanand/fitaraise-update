@@ -43,13 +43,18 @@ const ChallengeMain = ({navigation, route}) => {
     '',
   );
   const [data, setData] = useState('');
-  const [loading, setLoading] = useState(true);
+  console.log(data.length, "dataaaaaas");
+  
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [data2, setData2] = useState('');
   const [currentDay, setCurrentDay] = useState(0);
   const [todayWorkout, setTodayWorkout] = useState('');
   const [workoutData, setWorkoutData] = useState('');
   const [userData, setUserData] = useState('');
+  const [challengeDays,setChallengeDays]=useState(challenge);
+  console.log(challengeDays,"testing");
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,6 +65,10 @@ const ChallengeMain = ({navigation, route}) => {
         const response = await api.get(
           `get_workout_challenge_days/${month.id}`,
         );
+        const userData = await api.get(`get_personal_datas/${customerId}`);
+        const user = userData.data.data;
+       setUserData(user);
+        console.log(user, 'user data home workout loading');
 
         const responseData = response.data.data;
         console.log(responseData);
@@ -158,7 +167,7 @@ const ChallengeMain = ({navigation, route}) => {
               // Now you can use challenge90DaysId in your code
               const response = await api.get(`get_workout_challenge_days/${challenge90DaysId}`);
               const responseData = response.data.data;
-              console.log(responseData, '90 days');
+              // console.log(responseData, '90 days dataaa');
               setData(responseData);
               setIsLoading(false);
               if (responseData === null) {
@@ -562,7 +571,7 @@ const ChallengeMain = ({navigation, route}) => {
                 <Block paddingLeft={20}>
                   <Block center>
                     <Text key={challenge.id} bold>
-                      {challenge.challenge_name}
+                      {data.length} days challenge
                     </Text>
                   </Block>
                   {/* <Block row>

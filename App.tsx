@@ -10,15 +10,18 @@ import GoogleContext, {GoogleProvider} from './src/hooks/GoogleContext';
 import {FavoritesProvider} from './src/hooks/FavoritesContext';
 
 import messaging from '@react-native-firebase/messaging';
-import {Alert, View} from 'react-native';
+import {Alert, View,ActivityIndicator,AppState } from 'react-native';
 import * as Permissions from 'expo-permissions';
-import {Text} from './src/components';
+import {Text ,Block,Image} from './src/components';
 import { HomeWorkoutProvider } from './src/hooks/HomeWorkoutContext';
 
 export default function App() {
   const [token1, setToken1] = useState(null);
   const {customerId} = useContext(LoginContext);
+ 
+
   console.log(customerId, 'from main app.tsx');
+
 
   useEffect(() => {
     getDeviceToken();
@@ -49,7 +52,9 @@ export default function App() {
   // };
 
   return (
-    <GoogleProvider>
+    
+
+      <GoogleProvider>
       <LoginProvider>
         <FavoritesProvider>
           <HomeWorkoutProvider>
@@ -57,9 +62,12 @@ export default function App() {
             <AppNavigation />
           </DataProvider>
           </HomeWorkoutProvider>
-          
         </FavoritesProvider>
       </LoginProvider>
     </GoogleProvider>
+  
+    
+    
+   
   );
 }
