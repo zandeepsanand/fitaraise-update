@@ -13,13 +13,78 @@ import {BASE_URL} from '@env';
 
 import {Block, Button, Image, Text} from '../../../components';
 import {useData, useTheme, useTranslation} from '../../../hooks';
+import api from '../../../../api';
+import { useFocusEffect } from '@react-navigation/native'; 
+import { useChallengeData } from '../../../hooks/ChallengeData';
 
 const isAndroid = Platform.OS === 'android';
 
 const ChallengeDayAll = ({route}) => {
   const {responseData, completedWorkouts = [],currentDayNumber,challenge,dayWithId} = route.params;
   // const [exerciseData, setExerciseData] = useState([]);
+  const { exerciseData, setExerciseData } = useChallengeData();
+  // const [completedWorkouts, setCompletedWorkouts] = React.useState(/* initial completedWorkouts state */);
+  const [challengeDayData, setChallengeDayData] = React.useState([]);
+  const clickStart = async () => {
+    try {
+      if (!challenge.id) {
+        throw new Error('Please enter all details');
+      }
 
+      // Fetch the days data
+      const daysResponse = await api.get(`get_workout_challenge_days/${challenge.id}`);
+      const daysData = daysResponse.data.data;
+
+      if (daysData.length === 0) {
+        throw new Error('No days data available');
+      }
+
+      // Determine the current day number based on completion status
+      let currentDayNumber = 0;
+      for (const day of daysData) {
+        if (!day.completed) {
+          break; // The first incomplete day becomes the current day
+        }
+        currentDayNumber++;
+      }
+
+      if (currentDayNumber > daysData.length) {
+        throw new Error('All days are completed');
+      } else {
+        // Increment currentDayNumber to move to the next day
+        currentDayNumber++;
+      }
+
+      // Fetch the workout data for the determined current day
+      const workoutResponse = await api.get(`get_workout_challenge_excercise/${challenge.id}/${currentDayNumber}`);
+      const responseData = workoutResponse.data.data;
+
+      setChallengeDayData(responseData);
+      setExerciseData(responseData)
+
+      // navigation.navigate('ChallengeDayAll', {
+      //   responseData,
+      //   completedWorkouts,
+      //   currentDayNumber,
+      //   dayWithId: daysData,
+      //   challenge,
+      // });
+    } catch (err) {
+      console.error('Error in clickStart:', err);
+    }
+  };
+
+  // useEffect with empty dependency array to run on mount and unmount
+  useEffect(() => {
+    clickStart(); // Call clickStart when the component mounts or re-renders
+  }, []);
+
+  // useFocusEffect to run when the screen comes into focus (including navigating back)
+  useFocusEffect(
+    React.useCallback(() => {
+      clickStart();
+    }, [navigation]) // Dependency array includes navigation
+  );
   console.log(responseData, 'workouts all');
 
   const [tab, setTab] = useState<number>(0);
@@ -170,7 +235,7 @@ const ChallengeDayAll = ({route}) => {
           <Text center bold marginBottom={10}>
             {/* EXCERCISE 1 - Legs */}
           </Text>
-          {responseData.map((day) => (
+          {challengeDayData.map((day) => (
             <TouchableWithoutFeedback
               key={day.id} // Assuming 'id' is a unique identifier for each day
               onPress={() => {
@@ -239,7 +304,7 @@ const ChallengeDayAll = ({route}) => {
           ))}
 
           <TouchableWithoutFeedback
-            onPress={() => {
+            onPress={() => { clickStart();
               navigation.navigate(
                 'ChallengeWorkoutStart',
                 {

@@ -11,12 +11,15 @@ export const configureGoogleSignIn = () => {
       '401912999040-8dksjba2jfpu6omjtq06idttjed4rvg5.apps.googleusercontent.com',
     iosClientId:
       '401912999040-96e6gf7oqull1hsh42qpejspci8noe7v.apps.googleusercontent.com',
-    androidClientId:
-      '401912999040-e31t2mifoqtotghigj541gjshq52qmat.apps.googleusercontent.com',
+
+       androidClientId:
+       '401912999040-pgs6g9dgq8s77mv14qei0bk19li17lu3.apps.googleusercontent.com',
   });
 };
  // androidClientId: eas build
     //   "401912999040-pgs6g9dgq8s77mv14qei0bk19li17lu3.apps.googleusercontent.com",
+  //  local build androidClientId: 
+  //   '401912999040-e31t2mifoqtotghigj541gjshq52qmat.apps.googleusercontent.com',
 
 export const signIn = async () => {
   try {

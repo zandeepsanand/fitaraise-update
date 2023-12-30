@@ -1,13 +1,12 @@
 /* eslint-disable prettier/prettier */
 import React, {useCallback, useState} from 'react';
 import {useData, useTheme, useTranslation} from '../../../hooks';
-import {Block, Button, Image, Input, Product, Text} from '../../../components';
+import {Block, Button, Image, Input, Product, Text} from '../../../components/';
 import {StatusBar as ExpoStatusBar} from 'expo-status-bar';
 import {StyleSheet, View, TouchableWithoutFeedback} from 'react-native';
 import DuoToggleSwitch from 'react-native-duo-toggle-switch';
 import Ripple from 'react-native-material-ripple';
-import api from '../../../../api';
-const ChallengeWeightAndHeight = ({
+const ChallengeHeightAndWeight = ({
   navigation,
   route: {
     params: {workoutData},
@@ -37,96 +36,198 @@ const ChallengeWeightAndHeight = ({
     },
     [following, trending, setTab, setProducts],
   );
-  const handleInputChangeFeet = (value) => {
-    setInputValueFeet(value);
-    const updatedFormData = {
-      ...workoutData,
-      feet: value,
-      height: '',
-      height_unit: 'ft',
-    };
-    navigation.setParams({workoutData: updatedFormData});
-    console.log(updatedFormData);
-  };
-  const handleInputChangeInches = (value) => {
-    setInputValueInch(value);
-    const updatedFormData = {
-      ...workoutData,
-      inches: value,
-      height: '',
-      height_unit: 'ft',
-    };
-    navigation.setParams({workoutData: updatedFormData});
-    console.log(updatedFormData, 'height unit check');
-  };
 
-  const handleInputChangeCm = (value) => {
-    setInputValueCm(value);
-    const updatedFormData = {
-      ...workoutData,
-      height: value,
-      inches: '',
-      feet: '',
-      height_unit: 'cm',
-    };
-    navigation.setParams({workoutData: updatedFormData});
-    console.log(updatedFormData, 'height unit check');
-  };
-
-  const handlePrimaryPress = (value) => {
-    setIsKg(true); // set isKg state to true when primary button is pressed
-    setInputValueKg(value);
-    const updatedFormData = {
-      ...workoutData,
-      weight: value,
-      weight_unit: 'kg',
-    };
-    navigation.setParams({workoutData: updatedFormData});
-    console.log(updatedFormData, 'height unit check');
-  };
-
-  const handleSecondaryPress = (value) => {
-    // setIsKg(false); // set isKg state to false when secondary button is pressed
-    setInputValueLbs(value);
-    const updatedFormData = {
-      ...workoutData,
-      weight: value,
-      weight_unit: 'lbs',
-    };
-    navigation.setParams({workoutData: updatedFormData});
-    console.log(updatedFormData, 'height unit check');
-  };
-
-  const heightWeightSave =async()=>{
-    if (
-      workoutData.gender &&
-      workoutData.weight &&
-      workoutData.height 
-    ) {
-      // Create a copy of the formData object
-      const formDataCopy = Object.fromEntries(
-        Object.entries(workoutData).filter(([key, value]) => value !== null)
-      );
-      console.log(formDataCopy, 'form data');
-  
-  
-      try {
-        const response = await api.post('set_personal_datas', formDataCopy);
-        console.log(formDataCopy, 'customer id');
-        console.log(response.data, 'hello');
-        alert(response.data.message);
-  
-        if (response.data.success) {
-          navigation.navigate('ChallengeDifficultyLevel', {workoutData});
-        }
-      } catch (error) {
-        console.error(error, 'errorsss');
-      }
-    } else {
-      // Alert the user to fill in all required fields
-      alert('Please enter all details');
+  const handleInputChange = (value) => {
+    if (isKg && value <= 200) {
+      setInputValue(value);
+      const updatedFormData = {
+        ...workoutData,
+        weight: value,
+        weight_unit: 'kg',
+      };
+      navigation.setParams({workoutData: updatedFormData});
+      console.log(updatedFormData);
+    } else if (!isKg && value <= 440) {
+      setInputValue(value);
+      const updatedFormData = {
+        ...workoutData,
+        weight: value,
+        weight_unit: 'lbs',
+      };
+      navigation.setParams({workoutData: updatedFormData});
+      console.log(updatedFormData);
     }
-  }
+  };
+
+  const handleInputChangeFeet = (value) => {
+    const numericValue = value.replace(/[^0-9]/g, '');
+    if (numericValue >= 0 && numericValue <= 11) {
+      setInputValueFeet(numericValue);
+      const updatedFormData = {
+        ...workoutData,
+        feet: numericValue,
+        inches: workoutData.inches, // Preserve the existing inches value
+        height: numericValue + '.' + workoutData.inches, // Combine feet and inches
+        height_unit: 'ft',
+      };
+      navigation.setParams({ workoutData: updatedFormData });
+      console.log(updatedFormData);
+    }
+  };
+  
+  const handleInputChangeInches = (text) => {
+    // Remove any non-numeric characters and allow decimal points from the input
+    const numericValue = text.replace(/[^0-9.]/g, '');
+    if (!isNaN(numericValue) && numericValue <= 12) {
+      setInputValueInch(numericValue);
+      // Calculate the height in feet and inches as a decimal number
+      const heightInFeet = parseFloat(workoutData.feet);
+      const heightInInches = parseFloat(numericValue);
+      const updatedHeight = (heightInFeet + heightInInches / 12).toFixed(2);
+      const updatedFormData = {
+        ...workoutData,
+        inches: numericValue,
+        height: updatedHeight,
+        height_unit: 'ft',
+      };
+      navigation.setParams({ workoutData: updatedFormData });
+      console.log(updatedFormData, 'height unit check');
+    } else {
+      // Handle when the input exceeds the maximum limit or is not a valid number
+      console.log('Invalid or out of range height input');
+    }
+  };
+  
+  const handleInputChangeCm = (text) => {
+    // Remove any non-numeric characters and allow decimal points from the input
+    const numericValue = text.replace(/[^0-9.]/g, '');
+  
+    // Check if the numericValue is empty (user pressed backspace to delete)
+    if (numericValue === '') {
+      setInputValueCm('');
+      const updatedFormData = {
+        ...workoutData,
+        inches: '',
+        feet: '',
+        height: '',
+        height_unit: 'cm',
+      };
+      console.log(updatedFormData, 'height unit check');
+      navigation.setParams({ workoutData: updatedFormData });
+    } else {
+      // Limit the value to a maximum of 220 cm
+      const maxCmValue = 220;
+      if (!isNaN(numericValue) && parseFloat(numericValue) <= maxCmValue) {
+        setInputValueCm(numericValue);
+        const updatedFormData = {
+          ...workoutData,
+          inches: '',
+          feet: '',
+          height: numericValue,
+          height_unit: 'cm',
+        };
+        console.log(updatedFormData, 'height unit check');
+        navigation.setParams({ workoutData: updatedFormData });
+      } else {
+        // Handle when the input exceeds the maximum value or is not a valid number
+        console.log('Invalid or out of range height input');
+      }
+    }
+  };
+  
+  
+  const MAX_POUNDS_LIMIT = 1000; // Set the maximum limit in pounds
+
+  const handleInputChangeLbs = (text) => {
+    // Remove any non-numeric characters and allow decimal points from the input
+    const numericValue = text.replace(/[^0-9.]/g, '');
+  
+    // Check if the numericValue is empty (user pressed backspace to delete)
+    if (numericValue === '' || numericValue === '.') {
+      setInputValueLbs(numericValue); // Allow backspacing for empty or '.' value
+      const updatedFormData = {
+        ...workoutData,
+        weight: numericValue,
+        weight_unit: 'lbs',
+      };
+      console.log(updatedFormData, 'weight unit check');
+      navigation.setParams({ workoutData: updatedFormData });
+    } else {
+      // Limit the value to the maximum pounds limit
+      if (!isNaN(numericValue) && parseFloat(numericValue) <= MAX_POUNDS_LIMIT) {
+        setInputValueLbs(numericValue);
+        const updatedFormData = {
+          ...workoutData,
+          weight: numericValue,
+          weight_unit: 'lbs',
+        };
+        console.log(updatedFormData, 'weight unit check');
+        navigation.setParams({ workoutData: updatedFormData });
+      } else {
+        // Handle when the input exceeds the maximum limit or is not a valid number
+        console.log('Invalid or out of range weight input');
+      }
+    }
+  };
+  const MAX_KG_LIMIT = 500; // Set the maximum limit in kilograms
+
+  const handleInputChangeKg = (text) => {
+    // Remove any non-numeric characters and allow decimal points from the input
+    const numericValue = text.replace(/[^0-9.]/g, '');
+  
+    // Check if the numericValue is empty (user pressed backspace to delete)
+    if (numericValue === '') {
+      setInputValueKg('');
+      const updatedFormData = {
+        ...workoutData,
+        weight: '',
+        weight_unit: 'kg',
+      };
+      console.log(updatedFormData, 'weight unit check');
+      navigation.setParams({ workoutData: updatedFormData });
+    } else {
+      // Limit the value to the maximum kilograms limit
+      if (!isNaN(numericValue) && parseFloat(numericValue) <= MAX_KG_LIMIT) {
+        setInputValueKg(numericValue);
+        
+        const updatedFormData = {
+          ...workoutData,
+          weight: numericValue,
+          weight_unit: 'kg',
+        };
+        console.log(updatedFormData, 'weight unit check');
+        navigation.setParams({ workoutData: updatedFormData });
+      } else {
+        // Handle when the input exceeds the maximum limit or is not a valid number
+        console.log('Invalid or out of range weight input');
+      }
+    }
+  };
+  
+  
+
+ const handlePrimaryPress = () => {
+  setIsKg(true);
+  setInputValueKg(''); // Clear the kg input field
+  const updatedFormData = {
+    ...workoutData,
+    weight:'',
+    weight_unit: 'kg',
+  };
+  navigation.setParams({ workoutData: updatedFormData });
+};
+
+const handleSecondaryPress = () => {
+  setIsKg(false);
+  setInputValueLbs(''); // Clear the lbs input field
+  const updatedFormData = {
+    ...workoutData,
+    weight:'',
+    weight_unit: 'lbs',
+  };
+  navigation.setParams({ workoutData: updatedFormData });
+};
+
   return (
     <Block scroll>
       <Block
@@ -167,39 +268,43 @@ const ChallengeWeightAndHeight = ({
                 },
               }}
               paddingBottom={20}>
-              <DuoToggleSwitch
-                primaryText="Cm"
-                secondaryText="Feet"
-                onPrimaryPress={() => {
-                  //   setModalCm(true);
-                  //   setIsCm(true);
-                  setFeetView(false);
-                  const updatedFormData = {
-                    ...workoutData,
-
-                    height_unit: 'cm',
-                  };
-                  navigation.setParams({workoutData: updatedFormData});
-                }}
-                onSecondaryPress={() => {
-                  // setModalFeet(true);
-                  setFeetView(true);
-                  //   setIsCm(false);
-                  const updatedFormData = {
-                    ...workoutData,
-
-                    height_unit: 'ft',
-                  };
-                  navigation.setParams({workoutData: updatedFormData});
-                }}
-                TouchableComponent={Ripple}
-                primaryButtonStyle={{height: 50}}
+            
+               <DuoToggleSwitch
+                  primaryText="Cm"
+                  secondaryText="Feet"
+                  onPrimaryPress={() => {
+                    // setModalCm(true);
+                    // setIsCm(true);
+                    setFeetView(false);
+                    setInputValueFeet('');
+                    setInputValueInch('');
+                    const updatedFormData = {
+                      ...workoutData,
+                      height:'',
+                      height_unit: 'cm',
+                    };
+                    navigation.setParams({formData: updatedFormData});
+                  }}
+                  onSecondaryPress={() => {
+                    // setModalFeet(true);
+                    setFeetView(true);
+                    // setIsCm(false);
+                    setInputValueCm('');
+                    const updatedFormData = {
+                      ...workoutData,
+                      height:'',
+                      height_unit: 'ft',
+                    };
+                    navigation.setParams({formData: updatedFormData});
+                  }}
+                  TouchableComponent={Ripple}
+                  primaryButtonStyle={{height: 50}}
                 secondaryButtonStyle={{height: 50}}
                 // primaryTextStyle={}
                 rippleColor="#fff"
                 rippleContainerBorderRadius={50}
                 activeColor="#5f9b4c"
-              />
+                />
             </Block>
             {feetView === true ? (
               <Button
@@ -214,7 +319,7 @@ const ChallengeWeightAndHeight = ({
                   <Input
                     placeholder={'Foot'}
                     keyboardType="numeric"
-                    maxLength={2}
+                    maxLength={5}
                     value={inputValueFeet}
                     style={{
                       height: 50,
@@ -245,34 +350,12 @@ const ChallengeWeightAndHeight = ({
                 </Block>
               </Button>
             ) : (
-              //   <Button
-              //     flex={2}
-              //     row
-              //     gradient={gradients.light}
-              //     onPress={() => {
-              //       // setModalCm(true)
-              //     }}
-              //     marginRight={sizes.base}>
-              //     <Block
-              //       row
-              //       align="center"
-              //       justify="space-between"
-              //       paddingHorizontal={sizes.sm}>
-              //       <Text dark bold transform="uppercase" marginRight={sizes.sm}>
-              //         {/* {selectedData} {isCm ? 'CM' : 'FEET'} */}
-              //       </Text>
-              //       <Image
-              //         source={assets.arrow}
-              //         color={colors.white}
-              //         transform={[{rotate: '90deg'}]}
-              //       />
-              //     </Block>
-              //   </Button>
+           
               <Button style={styles.container3}>
                 <Input
                   placeholder={'Cm'}
                   keyboardType="numeric"
-                  maxLength={3}
+                  maxLength={6}
                   value={inputValueCm}
                   style={{
                     height: 50,
@@ -324,75 +407,64 @@ const ChallengeWeightAndHeight = ({
                 },
               }}
               paddingBottom={20}>
-              <DuoToggleSwitch
-                primaryText="Lbs"
-                secondaryText="Kg"
-                onPrimaryPress={() => {
-                  //   setModalCm(true);
-                  //   setIsCm(true);
-                  setLbsView(false);
-                  const updatedFormData = {
-                    ...workoutData,
-
-                    height_unit: 'cm',
-                  };
-                  navigation.setParams({workoutData: updatedFormData});
-                }}
-                onSecondaryPress={() => {
-                  // setModalFeet(true);
-                  setLbsView(true);
-                  //   setIsCm(false);
-                  const updatedFormData = {
-                    ...workoutData,
-
-                    height_unit: 'ft',
-                  };
-                  navigation.setParams({workoutData: updatedFormData});
-                }}
-                TouchableComponent={Ripple}
-                primaryButtonStyle={{height: 50}}
+           
+                <DuoToggleSwitch
+                  primaryText="Kg"
+                  secondaryText="Lbs"
+                  onPrimaryPress={handlePrimaryPress}
+                  onSecondaryPress={handleSecondaryPress}
+                  TouchableComponent={Ripple}
+                  primaryButtonStyle={{height: 50}}
                 secondaryButtonStyle={{height: 50}}
                 // primaryTextStyle={}
                 rippleColor="#fff"
                 rippleContainerBorderRadius={50}
                 activeColor="#5f9b4c"
-              />
-            </Block>
-            {lbsView === true ? (
-              <Button onPress={() => setModalKg(true)}>
-                <Input
-                  placeholder={'Kg'}
-                  keyboardType="numeric"
-                  maxLength={2}
-                  value={inputValueKg}
-                  style={{
-                    height: 50,
-                    width: 170,
-                    borderRadius: 10,
-                    backgroundColor: 'white',
-                    borderWidth: 0,
-                  }}
-                  onChangeText={handlePrimaryPress}
                 />
-              </Button>
-            ) : (
+            </Block>
+          
+             {isKg ? (
               <Button>
                 <Input
+                 placeholder={'Kg'}
+                 keyboardType="numeric"
+                 maxLength={6}
+                 value={inputValueKg}
+                 style={{
+                   height: 50,
+                   width: 170,
+                   flex: 1,
+                   borderRadius: 10,
+                   backgroundColor: 'white',
+                   borderWidth: 0,
+                 }}
+                 onChangeText={handleInputChangeKg}
+              
+               />
+              </Button>
+                 
+              ):(
+              <Button>
+
+              
+                  <Input
                   placeholder={'Lbs'}
                   keyboardType="numeric"
-                  maxLength={3}
+                  maxLength={6}
                   value={inputValueLbs}
                   style={{
                     height: 50,
                     width: 170,
+                    flex: 1,
                     borderRadius: 10,
                     backgroundColor: 'white',
                     borderWidth: 0,
                   }}
-                  onChangeText={handleSecondaryPress}
+                  onChangeText={handleInputChangeLbs}
+                
                 />
-              </Button>
-            )}
+                </Button>
+              )}
           </Block>
         </Block>
       </Block>
@@ -405,8 +477,7 @@ const ChallengeWeightAndHeight = ({
                 (inputValueKg || inputValueLbs) &&
                 (inputValueCm || inputValueInch)
               ) {
-                // navigation.navigate('ChallengeDifficultyLevel', {workoutData});
-                heightWeightSave();
+                navigation.navigate('ChallengeDifficultyLevel', {workoutData});
               } else {
                 alert('Enter all fields');
               }
@@ -504,4 +575,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ChallengeWeightAndHeight;
+export default ChallengeHeightAndWeight;

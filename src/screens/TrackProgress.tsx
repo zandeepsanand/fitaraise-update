@@ -23,6 +23,8 @@ const TrackProgress = () => {
     token,
     logout, // You can access the logout function
   } = useContext(LoginContext);
+  console.log(customerId, "customerId");
+  
   const [isKg, setIsKg] = useState(true);
   const [inputValueLbs, setInputValueLbs] = useState('');
   const [inputValueKg, setInputValueKg] = useState('');
@@ -73,9 +75,11 @@ const TrackProgress = () => {
       setInputValueKg('');
       const updatedFormData = {
         ...formData,
+        customer_id:customerId,
         weight: '',
         weight_unit: 'kg',
       };
+      setFormData(updatedFormData)
       console.log(updatedFormData, 'weight unit check');
       navigation.setParams({formData: updatedFormData});
     } else {
@@ -85,9 +89,11 @@ const TrackProgress = () => {
 
         const updatedFormData = {
           ...formData,
+          customer_id:customerId,
           weight: numericValue,
           weight_unit: 'kg',
         };
+        setFormData(updatedFormData)
         console.log(updatedFormData, 'weight unit check');
         navigation.setParams({formData: updatedFormData});
       } else {
@@ -101,6 +107,7 @@ const TrackProgress = () => {
     setInputValueKg(''); // Clear the kg input field
     const updatedFormData = {
       ...formData,
+      customer_id:customerId,
       weight: '',
       weight_unit: 'kg',
     };
@@ -111,6 +118,7 @@ const TrackProgress = () => {
     setInputValueLbs(''); // Clear the lbs input field
     const updatedFormData = {
       ...formData,
+      customer_id:customerId,
       weight: '',
       weight_unit: 'lbs',
     };
@@ -127,11 +135,13 @@ const TrackProgress = () => {
       setInputValueLbs(numericValue); // Allow backspacing for empty or '.' value
       const updatedFormData = {
         ...formData,
+        customer_id:customerId,
         weight: numericValue,
         weight_unit: 'lbs',
       };
       console.log(updatedFormData, 'weight unit check');
       navigation.setParams({formData: updatedFormData});
+      setFormData(updatedFormData)
     } else {
       // Limit the value to the maximum pounds limit
       if (
@@ -141,9 +151,11 @@ const TrackProgress = () => {
         setInputValueLbs(numericValue);
         const updatedFormData = {
           ...formData,
+          customer_id:customerId,
           weight: numericValue,
           weight_unit: 'lbs',
         };
+        setFormData(updatedFormData)
         console.log(updatedFormData, 'weight unit check');
         navigation.setParams({formData: updatedFormData});
       } else {
@@ -153,50 +165,57 @@ const TrackProgress = () => {
     }
   };
   const MAX_KG_LIMIT = 500; // Set the maximum limit in kilograms
+  console.log(formData,"dataaaa");
+  
 
   async function checkPage() {
-    // Check if required fields are filled
-    console.log(formData.weight);
-    if (formData.weight) {
-      // Create a copy of the formData object
-      const formDataCopy = Object.fromEntries(
-        Object.entries(formData).filter(([key, value]) => value !== null),
-      );
-      console.log(formDataCopy, 'form data');
-
-      try {
+    try {
+      // Check if required fields are filled
+      if (formData.weight) {
+        // Create a copy of the formData object excluding null values
+        const formDataCopy = Object.fromEntries(
+          Object.entries(formData).filter(([key, value]) => value !== null),
+        );
+        console.log(formDataCopy, 'form data');
+  
+        // Make the API call to set personal data
         const response = await api.post('set_personal_datas', formDataCopy);
-        console.log(formDataCopy, 'customer id');
-        console.log(response.data, 'hello');
-        alert(response.data.message);
-        5;
+        console.log(response.data, 'api response');
+  
+        // Check if the API call was successful
         if (response.data.success) {
-          console.log('hai testing');
-
-          // Call the second API
-          const secondApiResponse = await api.get(
-            `get_daily_required_calories/${formDataCopy.customer_id}`,
-          );
+          console.log('API call successful');
+  
+          // Make the second API call
+          const secondApiResponse = await api.get('get_customer_weight_transformation');
+  
           // Do something with the second API response
           const data = secondApiResponse.data.data;
-          console.log(data, 'the data of second apifffff');
+          console.log(data, 'the data of second api');
+  
           if (data === null) {
-            console.log('first click');
-            // Recursive call may not be necessary; please review if it's needed.
-            // checkPage();
+            console.log('second API call failed');
+            // Depending on your use case, you might want to handle this differently
           } else {
-            console.log('success');
-            navigation.navigate('AnimationPage', {data, formDataCopy});
+            console.log('second API call successful');
+            // navigation.navigate('AnimationPage', { data, formDataCopy });
           }
+        } else {
+          // Handle the case where the first API call was not successful
+          console.log('API call failed');
+          alert(response.data.message);
         }
-      } catch (error) {
-        console.error(error, 'errorsss');
+      } else {
+        // Alert the user to fill in all required fields
+        alert('Please enter all details');
       }
-    } else {
-      // Alert the user to fill in all required fields
-      alert('Please enter all details');
+    } catch (error) {
+      // Handle errors that occur during API calls
+      console.error('Error:', error.response);
+      alert('An error occurred. Please try again.');
     }
   }
+  
 
   return (
     <Block safe >
@@ -418,6 +437,7 @@ const TrackProgress = () => {
               <Pressable
                 style={[styles.button1, styles.buttonClose1]}
                 onPress={() => {
+                  checkPage();
                   setModalVisible(!modalVisible);
                   setShowView(false);
                 }}>

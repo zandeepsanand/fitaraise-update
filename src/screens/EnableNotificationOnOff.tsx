@@ -78,12 +78,7 @@ const EnableNotificationOnOff = () => {
           <Switch value={notificationsEnabled} onValueChange={toggleNotifications} />
         </View>
 
-        {notifications.map((notification, index) => (
-          // Render notifications as before
-          <Block flex={0} height={95} key={index} card marginVertical={10}>
-            {/* ... (existing notification rendering code) */}
-          </Block>
-        ))}
+       
       </View>
     </Block>
   );

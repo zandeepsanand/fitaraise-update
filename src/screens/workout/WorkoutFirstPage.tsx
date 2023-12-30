@@ -81,6 +81,7 @@ const WorkoutFirstPage = ({navigation, route}) => {
                 screen: 'ChallengeMain',
                 params: {challenge: currentlyActiveChallenge},
               });
+             
             } else {
               console.log('workout page');
               // If no active challenge, navigate to the gender page with workout data
@@ -145,6 +146,7 @@ const WorkoutFirstPage = ({navigation, route}) => {
             screen: 'HomeWorkoutMain',
             params: {workout: homeWorkoutJSON, workoutData: user},
           });
+     
        
         }
       } else {
@@ -181,6 +183,7 @@ const WorkoutFirstPage = ({navigation, route}) => {
             screen: 'GymWorkoutMain',
             params: {data: gymWorkoutJSON, formDataCopy: user},
           });
+          
         }
       } else {
         console.log('workout page');

@@ -10,6 +10,7 @@ import {Ionicons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/core';
 import axios from 'axios';
 import {BASE_URL} from '@env';
+import {useFocusEffect} from '@react-navigation/native';
 
 import {Block, Button, Image, Text} from '../../../components';
 import {useData, useTheme, useTranslation} from '../../../hooks';
@@ -20,6 +21,7 @@ const isAndroid = Platform.OS === 'android';
 
 const GymWorkoutAll = ({route}) => {
   const {workout, completedWorkouts = []} = route.params;
+  const [isLoading, setIsLoading] = useState(false);
   // const [exerciseData, setExerciseData] = useState([]);
 
   console.log(workout.id, 'time');
@@ -59,30 +61,40 @@ const GymWorkoutAll = ({route}) => {
     },
     [user],
   );
-  useEffect(() => {
+   useEffect(() => {
+    fetchData(); // Initial fetch when the component mounts
+  
+    // Cleanup function
+    return () => {
+      // Additional cleanup if needed
+    };
+  }, []);
+  
+  useFocusEffect(
+    useCallback(() => {
+      fetchData(); // Fetch data when the component comes into focus
+    }, [workout.id])
+  );
+  
+  const fetchData = () => {
     api
-      .get(`get_gym_workout_excercises/${workout.id}`
-      )
+      .get(`get_gym_workout_excercises/${workout.id}`)
       .then((response) => {
-        // console.log(response.data.data , "data");
-        
         setExerciseAll(response.data.data);
-        // console.log(exerciseRecommended.id);
       })
       .catch((error) => {
         console.error('Error fetching exercise data:', error);
       });
+  
     api
       .get(`get_gym_workout_excercises_recommended/${workout.id}`)
       .then((response) => {
-        const workoutIndex = workout.id;
         setExerciseRecommended(response.data.data);
-        // console.log('Exercise data after API call:', response.data.data);
       })
       .catch((error) => {
         console.error('Error fetching exercise data:', error);
       });
-  }, [workout.id]);
+  };
 
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
@@ -103,6 +115,7 @@ const GymWorkoutAll = ({route}) => {
     },
     [setTab],
   );
+ 
 
   return (
     <Block safe marginTop={sizes.md} marginBottom={10}>
@@ -260,7 +273,7 @@ const GymWorkoutAll = ({route}) => {
               padding={sizes.sm}>
               <Button onPress={() => handleProducts(0)}>
                 <Block row align="center" >
-                  <Block 
+                  {/* <Block 
                     flex={0}
                     radius={6}
                     align="center"
@@ -275,11 +288,22 @@ const GymWorkoutAll = ({route}) => {
                       radius={0}
                       style={{width: 15, height: 15}}
                     />
-                  </Block>
+                  </Block> */}
                   <Text p font={fonts?.[tab === 0 ? 'medium' : 'normal']} >
                     Recommended
                   </Text>
                 </Block>
+                {tab === 0 ?( <Block
+                primary
+                flex={0}
+                width={2}
+                padding={0}
+                margin={-40}
+                marginHorizontal={sizes.sm}
+                height={90}
+                style={{transform: [{ rotate: '90deg' }]}}
+              />):(<></>)}
+               
               </Button>
               <Block
                 gray
@@ -290,7 +314,7 @@ const GymWorkoutAll = ({route}) => {
               />
               <Button onPress={() => handleProducts(1)}>
                 <Block row align="center">
-                  <Block
+                  {/* <Block
                     flex={0}
                     radius={6}
                     align="center"
@@ -304,11 +328,21 @@ const GymWorkoutAll = ({route}) => {
                       color={colors.white}
                       source={assets.documentation}
                     />
-                  </Block>
+                  </Block> */}
                   <Text p font={fonts?.[tab === 1 ? 'medium' : 'normal']}>
                     All
                   </Text>
                 </Block>
+                {tab === 1 ?( <Block
+                primary
+                flex={0}
+                width={2}
+                padding={0}
+                margin={-20}
+                marginHorizontal={sizes.sm}
+                height={45}
+                style={{transform: [{ rotate: '90deg' }]}}
+              />):(<></>)}
               </Button>
             </Block>
           </Block>

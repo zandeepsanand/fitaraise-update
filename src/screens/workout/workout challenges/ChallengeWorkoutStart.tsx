@@ -24,6 +24,8 @@ import GymWorkoutDetailsPage from './ChallengeDetailsPage';
 import GymWorkoutDetailsPageTwo from './ChallengeDetailsPageTwo';
 import api from '../../../../api';
 import LoginContext from '../../../hooks/LoginContext';
+import { ActivityIndicator } from 'react-native';
+import { useChallengeData } from '../../../hooks/ChallengeData';
 
 const isAndroid = Platform.OS === 'android';
 function PopupPage() {
@@ -43,12 +45,86 @@ function PopupPage() {
 const GymWorkoutStart = () => {
   const route = useRoute();
   const {
-    exerciseData,
+    
     completedWorkouts: initialCompletedWorkouts = [],
     currentDayNumber,
     challenge,
     dayWithId,
   } = route.params;
+  const { exerciseData, setExerciseData } = useChallengeData();
+
+  const clickStart = async () => {
+    try {
+      if (!challenge.id) {
+        throw new Error('Please enter all details');
+      }
+
+      // Fetch the days data
+      const daysResponse = await api.get(`get_workout_challenge_days/${challenge.id}`);
+      const daysData = daysResponse.data.data;
+
+      if (daysData.length === 0) {
+        throw new Error('No days data available');
+      }
+
+      // Determine the current day number based on completion status
+      let currentDayNumber = 0;
+      for (const day of daysData) {
+        if (!day.completed) {
+          break; // The first incomplete day becomes the current day
+        }
+        currentDayNumber++;
+      }
+
+      if (currentDayNumber > daysData.length) {
+        throw new Error('All days are completed');
+      } else {
+        // Increment currentDayNumber to move to the next day
+        currentDayNumber++;
+      }
+
+      // Fetch the workout data for the determined current day
+      const workoutResponse = await api.get(`get_workout_challenge_excercise/${challenge.id}/${currentDayNumber}`);
+      const responseData = workoutResponse.data.data;
+
+    
+      setExerciseData(responseData)
+
+      // navigation.navigate('ChallengeDayAll', {
+      //   responseData,
+      //   completedWorkouts,
+      //   currentDayNumber,
+      //   dayWithId: daysData,
+      //   challenge,
+      // });
+    } catch (err) {
+      console.error('Error in clickStart:', err);
+    }
+  };
+
+ 
+  const [loading, setLoading] = useState(false);
+
+
+
+
+
+
+  // const [exerciseData1, setExerciseData] = React.useState([exerciseData]);
+  const [currentWorkoutIndex, setCurrentWorkoutIndex] = useState(0); 
+  const currentWorkout = exerciseData[currentWorkoutIndex];
+  
+
+  
+  const restTimeInSeconds = currentWorkout.rest_time_in_seconds;
+
+  const [timeLeft, setTimeLeft] = useState(
+    currentWorkout.time_or_sets === 'time' ? currentWorkout.time_in_seconds : 0,
+  );
+
+
+  // Render loading indicator while data is being fetched
+
   console.log(challenge, 'challenge workout all start');
   const {customerId} = useContext(LoginContext);
 
@@ -59,8 +135,6 @@ const GymWorkoutStart = () => {
   const navigation = useNavigation();
   const {assets, colors, sizes} = useTheme();
   const [showRestPopup, setShowRestPopup] = useState(false);
-
-  const [currentWorkoutIndex, setCurrentWorkoutIndex] = useState(0); // Start with the first workout
   // console.log(currentWorkoutIndex, 'workout index');
 
   const [showNextButton, setShowNextButton] = useState(false);
@@ -70,15 +144,10 @@ const GymWorkoutStart = () => {
     initialCompletedWorkouts,
   );
 
-  const currentWorkout = exerciseData[currentWorkoutIndex];
 
   console.log(currentWorkout, 'workout data');
 
-  const restTimeInSeconds = currentWorkout.rest_time_in_seconds;
 
-  const [timeLeft, setTimeLeft] = useState(
-    currentWorkout.time_or_sets === 'time' ? currentWorkout.time_in_seconds : 0,
-  );
   console.log(timeLeft, 'actual time left ');
 
   const [isTimerPaused, setIsTimerPaused] = useState(false);
@@ -96,8 +165,11 @@ const GymWorkoutStart = () => {
           : 0,
       );
       setIsTimerPaused(false); // Reset state to false
+      
+      clickStart(); 
     }
   };
+
   const [kgInputValues, setKgInputValues] = useState(
     Array(currentWorkout.sets).fill(''),
   );

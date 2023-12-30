@@ -68,7 +68,36 @@ export default function EditProfile({route, navigation}) {
       password: regex.password.test(registration.password),
     }));
   }, [registration, setIsValid]);
+  useEffect(() => {
+    const checkAuthenticationStatus = async () => {
+      try {
+        const authDataJSON = await AsyncStorage.getItem('authData');
+        if (authDataJSON) {
+          const authData = JSON.parse(authDataJSON);
 
+          const authToken = authData.token;
+          const customerId = authData.formData.customer_id;
+          const formData = authData.formData;
+          const token = authData.token;
+          setFormData(formData);
+          // Store the authData object as a JSON string in AsyncStorage
+          // await AsyncStorage.setItem('authData', JSON.stringify(authData));
+
+          // Use the loginSuccess method from LoginContext
+          // setAuthToken(authData.token); // Set the token for future requests
+        }
+      } catch (error) {
+        console.error('Authentication Status Error:', error);
+
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'FirstPageCountrySelect'}],
+        });
+      }
+    };
+
+    checkAuthenticationStatus();
+  }, [navigation]);
   // const {formData} = route.params ?? {};
 
   const {
@@ -279,11 +308,19 @@ export default function EditProfile({route, navigation}) {
             alignSelf: 'center',
             position: 'relative',
           }}>
-          <Image
-            width={90}
-            height={90}
-            source={require('../../assets/icons/male.png')}
-            radius={50}></Image>
+          {formData.image ? (
+                <Image
+                  width={90}
+                  height={90}
+                  source={{uri: formData.image}}
+                  radius={50}></Image>
+              ) : (
+                <Image
+                  width={90}
+                  height={90}
+                  source={require('../../assets/icons/male.png')}
+                  radius={50}></Image>
+              )}
           <Block flex={0} style={{position: 'absolute', bottom: 0, right: 0}}>
             <Image
               width={20}
@@ -295,28 +332,26 @@ export default function EditProfile({route, navigation}) {
         </Block>
         <Block>
           <Text center bold padding={10}>
-            Sandeep S Anand
+            {formData.first_name}  {formData.last_name}
           </Text>
         </Block>
         <Block></Block>
-        <View>
+        {/* <View>
           <TouchableOpacity style={styles.button} onPress={pickImage}>
             <Text style={styles.buttonText}>Choose Image</Text>
           </TouchableOpacity>
 
-          {/* Conditionally render the image  
-            or error message */}
+         
           {file ? (
-            // Display the selected image
+         
             <View style={styles.imageContainer}>
               <Image source={{uri: file}} style={styles.image} />
             </View>
           ) : (
-            // Display an error message if there's
-            // an error or no image selected
+           
             <Text style={styles.errorText}>{error}</Text>
           )}
-        </View>
+        </View> */}
 
         {/* second block */}
         <Block card flex={1} marginTop={20}>

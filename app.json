@@ -1,34 +1,39 @@
 {
   "expo": {
     "name": "Fitaraise",
-    "slug": "fitaraise_windows-update-main",
+  
+    "displayName": "Fitaraise",
     "version": "1.0.0",
     "sdkVersion": "48.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "platforms": [
       "ios",
-      "android",
-      "web"
+      "android"
     ],
+    "extra": {
+      "eas": {
+        "projectId": "d722df05-12ff-4f32-bea1-c9c9d5d7976c"
+      }
+    },
+    
     "splash": {
       "image": "./assets/fitaraise.png",
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
+    "updates": {
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/d722df05-12ff-4f32-bea1-c9c9d5d7976c"
+    },
     "android": {
-      "package": "com.sandeepsanand.fitaraise_windowsupdatemain",
-      
       "runtimeVersion": "1.0.0",
+      "package": "com.sandeepsanand.fitaraise_windowsupdatemain",
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       }
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0,
-      "url": "https://u.expo.dev/624ffd43-5a6e-4881-81c1-e1a7a72a9b9c"
     },
     "plugins": [
       [
@@ -41,16 +46,11 @@
       "@react-native-google-signin/google-signin",
       "@react-native-firebase/app"
     ],
-    "extra": {
-      "eas": {
-        "projectId": "624ffd43-5a6e-4881-81c1-e1a7a72a9b9c"
-      }
-    },
     "ios": {
       "runtimeVersion": {
         "policy": "sdkVersion"
       },
-      "bundleIdentifier": "com.sandeepsanand.fitaraise_windowsupdatemain",
+ 
       "infoPlist": {
         "UIBackgroundModes": [
           "fetch",

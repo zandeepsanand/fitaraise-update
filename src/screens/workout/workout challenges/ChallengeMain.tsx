@@ -43,8 +43,8 @@ const ChallengeMain = ({navigation, route}) => {
     '',
   );
   const [data, setData] = useState('');
-  console.log(data.length, "dataaaaaas");
-  
+  console.log(data.length, 'dataaaaaas');
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [data2, setData2] = useState('');
@@ -52,9 +52,8 @@ const ChallengeMain = ({navigation, route}) => {
   const [todayWorkout, setTodayWorkout] = useState('');
   const [workoutData, setWorkoutData] = useState('');
   const [userData, setUserData] = useState('');
-  const [challengeDays,setChallengeDays]=useState(challenge);
-  console.log(challengeDays,"testing");
-  
+  const [challengeDays, setChallengeDays] = useState(challenge);
+  console.log(challengeDays, 'testing');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -67,7 +66,7 @@ const ChallengeMain = ({navigation, route}) => {
         );
         const userData = await api.get(`get_personal_datas/${customerId}`);
         const user = userData.data.data;
-       setUserData(user);
+        setUserData(user);
         console.log(user, 'user data home workout loading');
 
         const responseData = response.data.data;
@@ -89,7 +88,14 @@ const ChallengeMain = ({navigation, route}) => {
 
   const handleLevelChange = async (level) => {
     setSelectedLevel(level);
-    if (['Home Workout', 'Gym Workout', '90 day challenge','60 day challenge'].includes(level)) {
+    if (
+      [
+        'Home Workout',
+        'Gym Workout',
+        '90 day challenge',
+        '60 day challenge',
+      ].includes(level)
+    ) {
       if (level === 'Home Workout') {
         console.log('clicked');
 
@@ -113,7 +119,7 @@ const ChallengeMain = ({navigation, route}) => {
         } else {
           console.log('workout page');
           navigation.navigate('Gender', {
-            workoutData: formDataCopy,
+            workoutData: user,
           });
         }
       } else if (level === 'Gym Workout') {
@@ -159,13 +165,15 @@ const ChallengeMain = ({navigation, route}) => {
             );
             const challengeMonthJSON = homeWorkout.data.data;
             const challenge90Days = challengeMonthJSON.find(
-              (challenge) => challenge.number_of_days === 90
+              (challenge) => challenge.number_of_days === 90,
             );
             if (challenge90Days) {
               const challenge90DaysId = challenge90Days.id;
-              console.log("ID of 90 Days Challenge:", challenge90DaysId);
+              console.log('ID of 90 Days Challenge:', challenge90DaysId);
               // Now you can use challenge90DaysId in your code
-              const response = await api.get(`get_workout_challenge_days/${challenge90DaysId}`);
+              const response = await api.get(
+                `get_workout_challenge_days/${challenge90DaysId}`,
+              );
               const responseData = response.data.data;
               // console.log(responseData, '90 days dataaa');
               setData(responseData);
@@ -175,7 +183,7 @@ const ChallengeMain = ({navigation, route}) => {
                 throw new Error('Turn on the network and retry');
               }
             } else {
-              console.log("90 Days Challenge not found in the data.");
+              console.log('90 Days Challenge not found in the data.');
             }
           }
           // Fetch data specific to the '90 day challenge' scenario
@@ -200,13 +208,15 @@ const ChallengeMain = ({navigation, route}) => {
             );
             const challengeMonthJSON = homeWorkout.data.data;
             const challenge60Days = challengeMonthJSON.find(
-              (challenge) => challenge.number_of_days === 60
+              (challenge) => challenge.number_of_days === 60,
             );
             if (challenge60Days) {
               const challenge60DaysId = challenge60Days.id;
-              console.log("ID of 60 Days Challenge:", challenge60DaysId);
+              console.log('ID of 60 Days Challenge:', challenge60DaysId);
               // Now you can use challenge90DaysId in your code
-              const response = await api.get(`get_workout_challenge_days/${challenge60DaysId}`);
+              const response = await api.get(
+                `get_workout_challenge_days/${challenge60DaysId}`,
+              );
               const responseData = response.data.data;
               console.log(responseData, '60 days');
               setData(responseData);
@@ -216,15 +226,14 @@ const ChallengeMain = ({navigation, route}) => {
                 throw new Error('Turn on the network and retry');
               }
             } else {
-              console.log("60 Days Challenge not found in the data.");
+              console.log('60 Days Challenge not found in the data.');
             }
           }
-         } catch (error) {
+        } catch (error) {
           setIsLoading(false);
           console.error('Error in handleLevelChange:', error);
         }
       }
-
     }
   };
 
@@ -248,7 +257,7 @@ const ChallengeMain = ({navigation, route}) => {
 
   const completed_date = moment.tz(targetTimeZone).format('DD-MM-YYYY');
   console.log('====================================');
-  console.log(completed_date,"todays date");
+  console.log(completed_date, 'todays date');
   console.log('====================================');
 
   const [isCurrentDayCompleted, setIsCurrentDayCompleted] = useState(false);
@@ -312,8 +321,7 @@ const ChallengeMain = ({navigation, route}) => {
     }
   };
   // const clickStart = async () => {
-    
-    
+
   //   try {
   //     if (!challenge.id) {
   //       throw new Error('Please enter all details');
@@ -323,7 +331,7 @@ const ChallengeMain = ({navigation, route}) => {
   //       alert("You have already completed today's workout");
   //       return;
   //     }
-      
+
   //     // Fetch the days data
   //     const daysResponse = await api.get(
   //       `get_workout_challenge_days/${month.id}`,
@@ -358,7 +366,7 @@ const ChallengeMain = ({navigation, route}) => {
   //       alert("You have already completed today's workout");
   //       return;
   //     }
-      
+
   //     // If not, increment currentDayNumber to move to the next day
   //     currentDayNumber++;
 
@@ -595,7 +603,12 @@ const ChallengeMain = ({navigation, route}) => {
                         borderRadius: 20,
                         marginLeft: 10,
                       }}
-                      data={['Home Workout', 'Gym Workout', '90 day challenge','60 day challenge']} // Provide your options here
+                      data={[
+                        'Home Workout',
+                        'Gym Workout',
+                        '90 day challenge',
+                        '60 day challenge',
+                      ]} // Provide your options here
                       // defaultButtonText={formDataCopy.workout_level}
                       defaultButtonText={'Select an option'}
                       onSelect={handleLevelChange}

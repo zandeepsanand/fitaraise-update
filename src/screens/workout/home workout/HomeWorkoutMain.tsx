@@ -255,14 +255,14 @@ const HomeWorkoutMain = ({navigation, route}) => {
                   </Text>
                 </Block>
               </Block>
-              <Block>
+              <Block >
                 <Block center>
                   <SelectDropdown
                     defaultValue={'one'}
                     dropdownStyle={{borderRadius: 20}}
                     buttonStyle={{
                       height: 50,
-                      width: 180,
+                      width: 160,
                       backgroundColor: 'white',
                       borderRadius: 20,
                       marginLeft: 10,
@@ -283,7 +283,7 @@ const HomeWorkoutMain = ({navigation, route}) => {
               <CalendarHomeWorkout  savedDate={completedDates}/>
             </View>
 
-            {data2.map((workout) => (
+            {workout.map((workout) => (
               <TouchableOpacity
                 key={workout.id}
                 onPress={() => handleWorkoutClick(workout)}>

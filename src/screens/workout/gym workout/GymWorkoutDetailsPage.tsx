@@ -24,7 +24,7 @@ const GymWorkoutDetailsPage = ({
   repsInputValuesKg,
   setRepsInputValuesKg,
 }) => {
-  console.log(index, 'log index');
+  console.log(workout, 'workouttttt');
 
   const [inputValueKg, setInputValueKg] = useState('');
   const [inputValueLbs, setInputValueLbs] = useState('');
@@ -330,6 +330,8 @@ const GymWorkoutDetailsPage = ({
                 ))}
               </Button>
             )}
+            
+       
           </>
         )}
       </View>
