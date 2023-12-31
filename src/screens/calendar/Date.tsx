@@ -27,7 +27,7 @@ const Date1 = ({ date, onSelectDate, selected }) => {
       <Text
         style={[
           styles.medium,
-          selected === fullDate && { color: "#fff", fontWeight: 'bold', fontSize: 24 },
+          selected === fullDate && { color: "#fff", fontWeight: 'bold', fontSize: 16 },
         ]}
       >
         {dayNumber}

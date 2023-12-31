@@ -29,7 +29,6 @@ const GymWorkoutMain = ({navigation, route}) => {
   // console.log(completedWorkouts, 'saved workouts');
 
   console.log(savedDate, 'haiii');
-  
 
   const [tab, setTab] = useState<number>(0);
   const {following, trending} = useData();
@@ -279,86 +278,96 @@ const GymWorkoutMain = ({navigation, route}) => {
                 {/* <GifPlayer /> */}
                 <CalendarHomeWorkout savedDate={completedDates} />
               </View>
-             
-              <Button
-        
-        onPress={() => navigation.navigate('Details')}
-      >
-        <Text>Page Transition</Text>
-      </Button>
-      <Animated.Image
+
+              
+              {/* <Animated.Image
         source={{ uri: 'https://picsum.photos/id/39/200' }}
         style={{ width: 300, height: 300 }}
         sharedTransitionTag="tag"
-      />
-
-
-
+      /> */}
 
               {data2.map((workout) => (
                 <TouchableOpacity
                   key={workout.id}
                   onPress={() => handleWorkoutClick(workout)}>
-                
-                  <Block flex={1} marginHorizontal={10} marginVertical={10} style={styles.container}>
-                
-                <Block>
-                  <Text
-                    white
-                    // left={40}
-                    // top={20}
-                    padding={30}
-                    size={20}
-                    bold
-                    style={{
-                      position: 'absolute',
-                      zIndex: 10,
-                    }}>
-                    {workout.name}
-                  </Text>
-                  <Text
-                    white
-                    // left={40}
-                    top={60}
-                    paddingLeft={30}
-                    size={15}
-                    bold
-                    style={{
-                      position: 'absolute',
-                      zIndex: 10,
-                    }}>
-                    Total Minutes : {workout.total_minutes}
-                  </Text>
+                  <Block
+                    flex={1}
+                    marginHorizontal={10}
+                    marginVertical={10}
+                    style={styles.container}>
+                    <Block>
+                      <Text
+                        // white
+                        // left={40}
+                        // top={20}
+                        padding={30}
+                        size={20}
+                        color={'lightgreen'}
+                        bold
+                        style={{
+                          position: 'absolute',
+                          zIndex: 10,
+                        }}>
+                        {workout.name}
+                      </Text>
+                      {/* <Text
+                        white
+                        // left={40}
+                        top={60}
+                        paddingLeft={25}
+                        size={20}
+                        bold
+                        style={{
+                          position: 'absolute',
+                          zIndex: 10,
+                        }}>
+                        {workout.start_quote}
+                      </Text> */}
+                      <Text
+                        white
+                        // left={40}
+                        top={60}
+                        paddingLeft={30}
+                        size={15}
+                        
+                        style={{
+                          position: 'absolute',
+                          zIndex: 10,
+                        }}>
+                        Total Minutes : {workout.total_minutes}
+                      </Text>
+                      <Animated.Image
+                        style={styles.coverImage}
+                        source={{uri: `${workout.image}`}}
+                        // style={{ width: 300, height: 300 }}
+                        sharedTransitionTag="tag"></Animated.Image>
 
-                  <ImageBackground
+                      {/* <ImageBackground
                     style={styles.coverImage}
                     source={{
                       uri: `${workout.image}`,
                     }}
-                    >
-                    <View style={styles.darkness} />
-                  </ImageBackground>
-               
-                </Block>
-                <Block right={20} bottom={20}
-                    style={{
-                      position: 'absolute',
-                      zIndex: 10,
-                      justifyContent: 'flex-end',
-                    }}
-                   >
-                    <Button primary>
-                    <Text
-                      white
-                      paddingHorizontal={25}
-                      size={15}
-                      bold>
-                      Try
-                    </Text>
-                    </Button>
-                    
+                    > */}
+                      <View style={styles.darkness} />
+                      {/* </ImageBackground> */}
+                    </Block>
+                    <Block
+                      right={20}
+                      bottom={20}
+                      style={{
+                        position: 'absolute',
+                        zIndex: 10,
+                        justifyContent: 'flex-end',
+                      }}>
+                      <Button
+                        color={'#A7F432'}
+                        onPress={() => handleWorkoutClick(workout)}>
+                        <Text  paddingHorizontal={25} size={15} bold>
+                          Try
+                        </Text>
+                      </Button>
+                    </Block>
                   </Block>
-              </Block>
                 </TouchableOpacity>
               ))}
             </Block>
@@ -455,9 +464,12 @@ const styles = StyleSheet.create({
   coverImage: {
     flex: 1,
     resizeMode: 'cover',
+    width: '100%',
+    height: 200,
+    position: 'absolute',
   },
   darkness: {
-    backgroundColor: 'rgba(0,0,0,0.7)',
+    backgroundColor: 'rgba(0,0,0,0.64)',
     width: '100%',
     height: 200,
     borderRadius: 15,

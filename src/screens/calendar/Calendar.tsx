@@ -20,7 +20,7 @@ const Calendar = ({ onSelectDate, selected   }) => {
         _dates.push(date);
       }
     }
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 4; i++) {
       const date = moment().add(i, 'days');
       if (!_dates.find(d => d.isSame(date, 'day'))) {
         _dates.push(date);

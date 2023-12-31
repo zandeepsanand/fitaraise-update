@@ -13,7 +13,7 @@ export const configureGoogleSignIn = () => {
       '401912999040-96e6gf7oqull1hsh42qpejspci8noe7v.apps.googleusercontent.com',
 
        androidClientId:
-       '401912999040-pgs6g9dgq8s77mv14qei0bk19li17lu3.apps.googleusercontent.com',
+       '401912999040-e31t2mifoqtotghigj541gjshq52qmat.apps.googleusercontent.com',
   });
 };
  // androidClientId: eas build

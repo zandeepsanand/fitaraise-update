@@ -25,7 +25,7 @@ const isAndroid = Platform.OS === 'android';
 const NutritionFactsSearch = ({route, navigation}) => {
   //   const {mealType, meal_type , formDataCopy} = route.params;
   // console.log(formDataCopy);
-  const {favorites} = useFavorites();
+  const {favorites,addToFavorites } = useFavorites();
   console.log(favorites, 'food data favorite');
 
   const {t} = useTranslation();
@@ -40,9 +40,13 @@ const NutritionFactsSearch = ({route, navigation}) => {
     console.log('Edit button clicked');
   };
 
-  const handleRemove = () => {
+  const handleRemove = (item) => {
     // Implement your remove logic here
-    console.log('Remove button clicked');
+    console.log(item,'Remove button clicked');
+    setDropdownVisible(null);
+
+    const id_of_food = item.food_id;
+    addToFavorites(id_of_food);
   };
   //   console.log(searchResults);
 
@@ -275,14 +279,14 @@ const NutritionFactsSearch = ({route, navigation}) => {
                   
                 </Block>
                 {dropdownVisible === item && (
-              <View style={styles.dropdown}>
-                <TouchableOpacity onPress={handleEdit}>
+              <Block style={styles.dropdown} flex={0} center paddingRight={10}>
+                {/* <TouchableOpacity onPress={handleEdit}>
                   <Text>Edit</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={handleRemove}>
+                </TouchableOpacity> */}
+                <TouchableOpacity onPress={()=>handleRemove(item)}>
                   <Text>Remove</Text>
                 </TouchableOpacity>
-              </View>
+              </Block>
             )}
               </Block>
             </Block>
@@ -325,7 +329,7 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     position: 'absolute',
-    top: 0,
+    top: 10,
     right: 0,
     backgroundColor: 'white',
     padding: 10,

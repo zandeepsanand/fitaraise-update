@@ -20,12 +20,19 @@ import {MealContext} from '../hooks/useMeal';
 import {FOOD_IMAGE, BASE_URL} from '@env';
 import SelectDropdown from 'react-native-select-dropdown';
 import {ActivityIndicator} from 'react-native';
+import { useFavorites } from '../hooks/FavoritesContext';
+
 
 const isAndroid = Platform.OS === 'android';
 
 const DietPlanData = ({route, navigation}) => {
   const {mealType, responseData, meal_type, formDataCopy, food} = route.params;
   console.log(responseData, 'response');
+  const { addToFavorites } = useFavorites();
+  const {favorites} = useFavorites();
+ 
+
+  
 
   const [initialGram, setInitialGram] = useState(null);
   const [selectedWeight, setSelectedWeight] = useState(initialGram);
@@ -115,8 +122,25 @@ const DietPlanData = ({route, navigation}) => {
   const handleViewToggle = () => {
     setIsFullBlock(!isFullBlock);
   };
-  const toggleFavorite = () => {
-    setIsFavorite(!isFavorite);
+
+
+  const isCurrentlyFavorite = () => {
+    const favId = responseData.id;
+    return favorites.some(item => item.food_id === favId);
+  };
+  
+  useEffect(() => {
+    setIsFavorite(isCurrentlyFavorite());
+  }, [favorites]);
+
+  const toggleFavorite = (res) => {
+    console.log(res,"res");
+    
+    const fav = res.id
+    if(res){
+      setIsFavorite(!isFavorite);
+    }
+    
   };
   const IMAGE_SIZE = (sizes.width - (sizes.padding + sizes.sm) * 2) / 3;
   const IMAGE_VERTICAL_SIZE =
@@ -394,19 +418,19 @@ const DietPlanData = ({route, navigation}) => {
     }
     console.log(servingId);
 
-    // console.log(servingId);
-
-    // console.log(mealDetails.customer_id, 'demo');
-
-    // navigation.navigate('tabNavigator', {
-    //   screen: 'pie', // Screen name within the TabNavigator
-    //   params: {formDataCopy}, // Pass your parameters here
-    // });
+  
     navigation.navigate('Menu', {
       formDataCopy, // Pass your parameters here
     });
 
     setLoading(false);
+  };
+  
+
+  const handleAddToFavorites = (item) => {
+    console.log(item , "favoriteFood");
+    const id_of_food = item.id;
+    addToFavorites(id_of_food);
   };
 
   return (
@@ -472,7 +496,10 @@ const DietPlanData = ({route, navigation}) => {
                           </Text>
                         </Block>
 
-                        <TouchableOpacity onPress={toggleFavorite}>
+                        <TouchableOpacity onPress={()=>{
+                        toggleFavorite(responseData);
+                        handleAddToFavorites(responseData);
+                        }}>
                           <Icon
                             name={isFavorite ? 'heart' : 'heart-o'}
                             size={30}

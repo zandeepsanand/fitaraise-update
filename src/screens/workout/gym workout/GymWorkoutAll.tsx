@@ -19,6 +19,10 @@ import api from '../../../../api';
 
 const isAndroid = Platform.OS === 'android';
 
+
+
+
+
 const GymWorkoutAll = ({route}) => {
   const {workout, completedWorkouts = []} = route.params;
   const [isLoading, setIsLoading] = useState(false);
