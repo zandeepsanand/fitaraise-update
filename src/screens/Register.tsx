@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, {useCallback, useEffect, useState} from 'react';
 import {Linking, Platform} from 'react-native';
 import {useNavigation} from '@react-navigation/core';
@@ -5,6 +6,10 @@ import {useNavigation} from '@react-navigation/core';
 import {useData, useTheme, useTranslation} from '../hooks/';
 import * as regex from '../constants/regex';
 import {Block, Button, Input, Image, Text, Checkbox} from '../components/';
+import { GoogleAuthNew } from '../components/GoogleAuthNew';
+import { ActivityIndicator } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import api from '../../api';
 
 const isAndroid = Platform.OS === 'android';
 
@@ -62,6 +67,81 @@ const Register = () => {
       agreed: registration.agreed,
     }));
   }, [registration, setIsValid]);
+
+  const [loading, setLoading] = useState(false);
+  const handleUserLogin = async (userInfo) => {
+    // Access the userInfo in the LoginPageNew component
+    console.log('User Info in LoginPageNew:', userInfo);
+
+    // Add your logic to handle the userInfo in LoginPageNew
+    // For example, you can set the user information in the state
+  
+
+    // You can also perform other actions with the user information here
+    // For example, make an API call and navigate to another screen
+
+    try {
+      setLoading(true);
+
+      // Extract the necessary information from the Google sign-in userInfo
+      const { id, email, givenName ,familyName,photo} = userInfo.user;
+
+      // Make the login request to the specified API endpoint
+      const response = await api.post("login_with_google", {
+        google_customer_id:id,
+        email,
+        name:givenName,
+      });
+
+      console.log(response.data, 'data of login');
+
+      if (response.data.success === true) {
+        // If the server responds with a successful login message
+        const { token, user_id, customer_id } = response.data.data;
+        console.log(token, "token set from google authentication");
+        
+
+        // Create an object that combines token and formData
+        const authData = {
+          token,
+          formData: {
+            user_id,
+            customer_id,
+            first_name:givenName,
+           
+            last_name:familyName,
+            image:photo
+            // Add other formData properties here
+          },
+        };
+
+        // Store the authData object as a JSON string in AsyncStorage
+        await AsyncStorage.setItem("authData", JSON.stringify(authData));
+        await AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
+        
+        setAuthToken(token);
+        SetCustomerIdLogin(customer_id);
+        googleloginSuccess(userInfo);
+        // Navigate to 'FirstPage' with the formData
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'Frstpage', params: {formData: authData.formData}}],
+        });
+        // navigation.navigate("SignOutPage", { userInfo });
+      } else {
+        // If the server responds with a failed login message
+        const errorMessage = response.data.message;
+        alert(errorMessage);
+
+        // Handle other cases as needed
+      }
+    } catch (error) {
+      // Handle login errors here
+      console.error('Login Error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Block safe marginTop={sizes.md}>
@@ -122,7 +202,7 @@ const Register = () => {
               </Text>
               {/* social buttons */}
               <Block row center justify="space-evenly" marginVertical={sizes.m}>
-                <Button outlined gray shadow={!isAndroid}>
+                {/* <Button outlined gray shadow={!isAndroid}>
                   <Image
                     source={assets.facebook}
                     height={sizes.m}
@@ -137,15 +217,12 @@ const Register = () => {
                     width={sizes.m}
                     color={isDark ? colors.icon : undefined}
                   />
-                </Button>
-                <Button outlined gray shadow={!isAndroid}>
-                  <Image
-                    source={assets.google}
-                    height={sizes.m}
-                    width={sizes.m}
-                    color={isDark ? colors.icon : undefined}
-                  />
-                </Button>
+                </Button> */}
+              {loading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : (
+        <GoogleAuthNew onUserLogin={handleUserLogin} />
+      )}
               </Block>
               <Block
                 row

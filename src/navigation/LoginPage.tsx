@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useRef, useState} from 'react';
 import api, {setAuthToken} from '../../api';
 import {BASE_URL} from '@env';
 import {
@@ -19,6 +19,10 @@ import {TextInput} from 'react-native-paper';
 import axios from 'axios';
 import {Animated, Easing} from 'react-native';
 import Lottie from 'lottie-react-native';
+import { GoogleAuthNew } from '../components/GoogleAuthNew';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import LoginContext from '../hooks/LoginContext';
+import GoogleContext from '../hooks/GoogleContext';
 
 const isAndroid = Platform.OS === 'android';
 
@@ -40,6 +44,8 @@ interface IRegistrationValidation {
 const LoginPage = ({route}) => {
   const {country} = route.params;
   // console.log(country);
+  const {SetCustomerIdLogin}=useContext(LoginContext)
+  const {googleloginSuccess} = useContext(GoogleContext);
 
   const {isDark} = useData();
   const {t} = useTranslation();
@@ -217,7 +223,80 @@ const LoginPage = ({route}) => {
     duration: 200, // Animation duration in milliseconds
     useNativeDriver: false, // Important for Android
   }).start();
+  const [loading, setLoading] = useState(false);
+  const handleUserLogin = async (userInfo) => {
+    // Access the userInfo in the LoginPageNew component
+    console.log('User Info in LoginPageNew:', userInfo);
 
+    // Add your logic to handle the userInfo in LoginPageNew
+    // For example, you can set the user information in the state
+  
+
+    // You can also perform other actions with the user information here
+    // For example, make an API call and navigate to another screen
+
+    try {
+      setLoading(true);
+
+      // Extract the necessary information from the Google sign-in userInfo
+      const { id, email, givenName ,familyName,photo} = userInfo.user;
+
+      // Make the login request to the specified API endpoint
+      const response = await api.post("login_with_google", {
+        google_customer_id:id,
+        email,
+        name:givenName,
+      });
+
+      console.log(response.data, 'data of login');
+
+      if (response.data.success === true) {
+        // If the server responds with a successful login message
+        const { token, user_id, customer_id } = response.data.data;
+        console.log(token, "token set from google authentication");
+        
+
+        // Create an object that combines token and formData
+        const authData = {
+          token,
+          formData: {
+            user_id,
+            customer_id,
+            first_name:givenName,
+           
+            last_name:familyName,
+            image:photo
+            // Add other formData properties here
+          },
+        };
+
+        // Store the authData object as a JSON string in AsyncStorage
+        await AsyncStorage.setItem("authData", JSON.stringify(authData));
+        await AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
+        
+        setAuthToken(token);
+        SetCustomerIdLogin(customer_id);
+        googleloginSuccess(userInfo);
+        // Navigate to 'FirstPage' with the formData
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'Frstpage', params: {formData: authData.formData}}],
+        });
+        // navigation.navigate("SignOutPage", { userInfo });
+      } else {
+        // If the server responds with a failed login message
+        const errorMessage = response.data.message;
+        alert(errorMessage);
+
+        // Handle other cases as needed
+      }
+    } catch (error) {
+      // Handle login errors here
+      console.error('Login Error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <Block safe marginTop={sizes.xl}>
       <Block paddingHorizontal={sizes.s}>
@@ -263,7 +342,7 @@ const LoginPage = ({route}) => {
               </Text>
               {/* social buttons */}
               <Block row center justify="space-evenly" marginVertical={sizes.m}>
-                <Button outlined gray shadow={!isAndroid}>
+                {/* <Button outlined gray shadow={!isAndroid}>
                   <Image
                     source={assets.facebook}
                     height={sizes.m}
@@ -278,15 +357,12 @@ const LoginPage = ({route}) => {
                     width={sizes.m}
                     color={isDark ? colors.icon : undefined}
                   />
-                </Button>
-                <Button outlined gray shadow={!isAndroid}>
-                  <Image
-                    source={assets.google}
-                    height={sizes.m}
-                    width={sizes.m}
-                    color={isDark ? colors.icon : undefined}
-                  />
-                </Button>
+                </Button> */}
+                {loading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : (
+        <GoogleAuthNew onUserLogin={handleUserLogin} />
+      )}
               </Block>
               <Block
                 row
