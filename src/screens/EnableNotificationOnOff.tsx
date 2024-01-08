@@ -1,9 +1,8 @@
 /* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
-import { View, Switch } from 'react-native';
+import { View, Switch, Alert } from 'react-native';
 import { requestUserPermission, onMessageReceived } from './FirebaseMessaging';
 import { Block, Image, Text } from '../components';
-import { TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const EnableNotificationOnOff = () => {
@@ -57,12 +56,34 @@ const EnableNotificationOnOff = () => {
   }, [notificationsEnabled]); // Run effect when notificationsEnabled changes
 
   const toggleNotifications = () => {
-    setNotificationsEnabled((prevStatus) => {
-      // Store the updated enabled status in AsyncStorage
-      AsyncStorage.setItem('notificationsEnabled', JSON.stringify(!prevStatus));
+    if (!notificationsEnabled) {
+      Alert.alert(
+        'Notification Alert',
+        'Are you sure you want to turn off notifications ?',
+        [
+          { text: 'Cancel', onPress: () => {}, style: 'cancel' },
+          {
+            text: 'OK',
+            onPress: () => {
+              setNotificationsEnabled((prevStatus) => {
+                // Store the updated enabled status in AsyncStorage
+                AsyncStorage.setItem('notificationsEnabled', JSON.stringify(!prevStatus));
+  
+                return !prevStatus;
+              });
+            },
+          },
+        ],
+        { cancelable: false }
+      );
+    } else {
+      setNotificationsEnabled((prevStatus) => {
+        // Store the updated enabled status in AsyncStorage
+        AsyncStorage.setItem('notificationsEnabled', JSON.stringify(!prevStatus));
 
-      return !prevStatus;
-    });
+        return !prevStatus;
+      });
+    }
   };
 
   return (
@@ -77,8 +98,6 @@ const EnableNotificationOnOff = () => {
           <Text>Notifications:</Text>
           <Switch value={notificationsEnabled} onValueChange={toggleNotifications} />
         </View>
-
-       
       </View>
     </Block>
   );

@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, {useCallback, useContext, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {Platform, Linking, Modal, Alert, Pressable} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/core';
@@ -24,14 +24,27 @@ const TrackProgress = () => {
     logout, // You can access the logout function
   } = useContext(LoginContext);
   console.log(customerId, "customerId");
-  
-  const [isKg, setIsKg] = useState(true);
+  const today = new Date();
+  const day = today.getDate();
+  const month = today.getMonth() + 1; // Months are zero-based, so we add 1
+  const year = today.getFullYear();
+
+  // Function to add a leading zero if the digit is less than 10
+  const addLeadingZero = (value) => (value < 10 ? `0${value}` : value);
+
+  const formattedDate = `${addLeadingZero(day)}-${addLeadingZero(month)}-${year}`;
+
+   const [isKg, setIsKg] = useState(true);
   const [inputValueLbs, setInputValueLbs] = useState('');
   const [inputValueKg, setInputValueKg] = useState('');
   const [showModalKg, setModalKg] = useState(false);
   const [formData, setFormData] = useState(null);
   const [showView, setShowView] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [weightTransformationData, setWeightTransformationData] = useState(null);
+console.log('====================================');
+console.log(weightTransformationData, "weight ");
+console.log('====================================');
   const {user} = useData();
   const {t} = useTranslation();
   const navigation = useNavigation();
@@ -76,8 +89,8 @@ const TrackProgress = () => {
       const updatedFormData = {
         ...formData,
         customer_id:customerId,
-        weight: '',
-        weight_unit: 'kg',
+        todays_weight: '',
+        todays_weight_unit: 'kg',
       };
       setFormData(updatedFormData)
       console.log(updatedFormData, 'weight unit check');
@@ -90,8 +103,8 @@ const TrackProgress = () => {
         const updatedFormData = {
           ...formData,
           customer_id:customerId,
-          weight: numericValue,
-          weight_unit: 'kg',
+          todays_weight: numericValue,
+          todays_weight_unit: 'kg',
         };
         setFormData(updatedFormData)
         console.log(updatedFormData, 'weight unit check');
@@ -108,8 +121,8 @@ const TrackProgress = () => {
     const updatedFormData = {
       ...formData,
       customer_id:customerId,
-      weight: '',
-      weight_unit: 'kg',
+      todays_weight: '',
+      todays_weight_unit: 'kg',
     };
     navigation.setParams({formData: updatedFormData});
   };
@@ -119,8 +132,8 @@ const TrackProgress = () => {
     const updatedFormData = {
       ...formData,
       customer_id:customerId,
-      weight: '',
-      weight_unit: 'lbs',
+      todays_weight: '',
+      todays_weight_unit: 'lbs',
     };
     navigation.setParams({formData: updatedFormData});
   };
@@ -136,8 +149,8 @@ const TrackProgress = () => {
       const updatedFormData = {
         ...formData,
         customer_id:customerId,
-        weight: numericValue,
-        weight_unit: 'lbs',
+        todays_weight: numericValue,
+        todays_weight_unit: 'lbs',
       };
       console.log(updatedFormData, 'weight unit check');
       navigation.setParams({formData: updatedFormData});
@@ -152,8 +165,8 @@ const TrackProgress = () => {
         const updatedFormData = {
           ...formData,
           customer_id:customerId,
-          weight: numericValue,
-          weight_unit: 'lbs',
+          todays_weight: numericValue,
+          todays_weight_unit: 'lbs',
         };
         setFormData(updatedFormData)
         console.log(updatedFormData, 'weight unit check');
@@ -171,7 +184,7 @@ const TrackProgress = () => {
   async function checkPage() {
     try {
       // Check if required fields are filled
-      if (formData.weight) {
+      if (formData.todays_weight) {
         // Create a copy of the formData object excluding null values
         const formDataCopy = Object.fromEntries(
           Object.entries(formData).filter(([key, value]) => value !== null),
@@ -192,6 +205,7 @@ const TrackProgress = () => {
           // Do something with the second API response
           const data = secondApiResponse.data.data;
           console.log(data, 'the data of second api');
+          setWeightTransformationData(data);
   
           if (data === null) {
             console.log('second API call failed');
@@ -207,7 +221,7 @@ const TrackProgress = () => {
         }
       } else {
         // Alert the user to fill in all required fields
-        alert('Please enter all details');
+        alert('Please enter the Weight');
       }
     } catch (error) {
       // Handle errors that occur during API calls
@@ -215,6 +229,22 @@ const TrackProgress = () => {
       alert('An error occurred. Please try again.');
     }
   }
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const secondApiResponse = await api.get('get_customer_weight_transformation');
+        const data = secondApiResponse.data.data;
+
+        // Set the API response data to the state
+        setWeightTransformationData(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    // Call the fetchData function
+    fetchData();
+  }, []);
   
 
   return (
@@ -248,7 +278,7 @@ const TrackProgress = () => {
                 <Text bold primary>
                   Today
                 </Text>
-                <Text>16-12-2023</Text>
+                <Text>{formattedDate}</Text>
               </Block>
               <Block align="center" paddingTop={10}>
                 {/* <Text h5>{(user?.stats?.followers || 0) / 1000}k</Text> */}
@@ -293,51 +323,66 @@ const TrackProgress = () => {
               </Block>
             </Block>
           )}
-
-         
-          <Block flex={0} marginHorizontal={20} card marginTop={10}>
-            <Block row center>
-              <Block
-                flex={0}
-                center
-                width={60}
-                height={60}
-                radius={50}
-                color={'#f0f0f8'}
-                paddingLeft={18}
-                marginTop={10}>
-                <Image
-                  color={'green'}
-                  width={25}
-                  height={25}
-                  source={require('../assets/icons/track.png')}></Image>
-              </Block>
-              <Block flex={1} paddingLeft={20} paddingTop={15}>
-                <Block flex={0} center>
-                  <Text p semibold>
-                    85.85 kg
-                  </Text>
-                  <Text
-                    semibold
-                    secondary
-                    opacity={0.5}
-                    paddingTop={5}
-                    size={12}>
-                    16-12-2023
-                  </Text>
-                </Block>
-              </Block>
-              <Block flex={0} center paddingRight={10}>
-                <TouchableOpacity>
-                  <Image
-                    // color={'green'}
-                    width={8}
-                    height={35}
-                    source={require('../assets/icons/dot.png')}></Image>
-                </TouchableOpacity>
-              </Block>
-            </Block>
+{weightTransformationData ? (
+  <>
+    {weightTransformationData.map((item) => (
+    <Block flex={0} marginHorizontal={20} card marginTop={10}>
+      <Block row center>
+        <Block
+          flex={0}
+          center
+          width={60}
+          height={60}
+          radius={50}
+          color={'#f0f0f8'}
+          paddingLeft={18}
+          marginTop={10}>
+          <Image
+            color={'green'}
+            width={25}
+            height={25}
+            source={require('../assets/icons/track.png')}></Image>
+        </Block>
+        <Block flex={1} paddingLeft={20} paddingTop={15}>
+          <Block flex={0} center>
+            <Text p semibold>
+              {item.weight} {item.weight_unit}
+            </Text>
+            <Text
+              semibold
+              secondary
+              opacity={0.5}
+              paddingTop={5}
+              size={12}>
+              {item.date}
+            </Text>
           </Block>
+        </Block>
+        <Block flex={0} center paddingRight={10}>
+          <TouchableOpacity>
+            <Image
+              // color={'green'}
+              width={8}
+              height={35}
+              source={require('../assets/icons/dot.png')}></Image>
+          </TouchableOpacity>
+        </Block>
+      </Block>
+    </Block>
+))}
+  </>
+
+
+):(
+
+<>
+<Block>
+  <Text>Loading...</Text>
+</Block>
+
+</>
+)}
+
         </Block>
       </Block>
       <View style={styles.centeredView}>

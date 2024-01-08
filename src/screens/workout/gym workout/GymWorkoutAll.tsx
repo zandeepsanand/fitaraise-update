@@ -16,6 +16,7 @@ import {Block, Button, Image, Text} from '../../../components';
 import {useData, useTheme, useTranslation} from '../../../hooks';
 import { View } from 'react-native';
 import api from '../../../../api';
+import { usegymData } from '../../../hooks/GymData';
 
 const isAndroid = Platform.OS === 'android';
 
@@ -25,6 +26,7 @@ const isAndroid = Platform.OS === 'android';
 
 const GymWorkoutAll = ({route}) => {
   const {workout, completedWorkouts = []} = route.params;
+  const { exerciseData, setGymData } = usegymData();
   const [isLoading, setIsLoading] = useState(false);
   // const [exerciseData, setExerciseData] = useState([]);
 
@@ -85,6 +87,7 @@ const GymWorkoutAll = ({route}) => {
       .get(`get_gym_workout_excercises/${workout.id}`)
       .then((response) => {
         setExerciseAll(response.data.data);
+
       })
       .catch((error) => {
         console.error('Error fetching exercise data:', error);
@@ -94,6 +97,7 @@ const GymWorkoutAll = ({route}) => {
       .get(`get_gym_workout_excercises_recommended/${workout.id}`)
       .then((response) => {
         setExerciseRecommended(response.data.data);
+        setGymData(response.data.data);
       })
       .catch((error) => {
         console.error('Error fetching exercise data:', error);
@@ -523,9 +527,10 @@ const GymWorkoutAll = ({route}) => {
         <TouchableWithoutFeedback
           onPress={() => {
             navigation.navigate('GymWorkoutStart', {
-              exerciseData: exerciseRecommended,
+              exerciseData: exerciseData,
               completedWorkouts: completedWorkouts,
               index: workout.id, // Include the 'index' value here
+              workout
             });
           }}>
           <Block style={styles.stickyButton} center justify="center">

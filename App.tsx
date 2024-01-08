@@ -16,16 +16,18 @@ import {Text, Block, Image} from './src/components';
 import {HomeWorkoutProvider} from './src/hooks/HomeWorkoutContext';
 import SplashScreen from 'react-native-splash-screen';
 import {ChallengeDataProvider} from './src/hooks/ChallengeData';
+import { GymDataProvider } from './src/hooks/GymData';
 
 export default function App() {
   const [token1, setToken1] = useState(null);
+ 
   const {customerId} = useContext(LoginContext);
 
   console.log(customerId, 'from main app.tsx');
 
   useEffect(() => {
     getDeviceToken();
-    //  requestPermission();
+     requestPermission();
   }, []);
   const getDeviceToken = async () => {
     let token = await messaging().getToken();
@@ -37,6 +39,8 @@ export default function App() {
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
       Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    
+    
     });
 
     return unsubscribe;
@@ -57,15 +61,19 @@ export default function App() {
   return (
     <GoogleProvider>
       <LoginProvider>
-        <ChallengeDataProvider>
+      <GymDataProvider>
+      <ChallengeDataProvider>
           <FavoritesProvider>
             <HomeWorkoutProvider>
               <DataProvider>
+                
                 <AppNavigation />
               </DataProvider>
             </HomeWorkoutProvider>
           </FavoritesProvider>
         </ChallengeDataProvider>
+      </GymDataProvider>
+       
       </LoginProvider>
     </GoogleProvider>
   );

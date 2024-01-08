@@ -19,6 +19,7 @@ import api, {setAuthToken} from '../../api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LoginContext from '../hooks/LoginContext';
 import { ActivityIndicator } from 'react-native';
+import { MealContext } from '../hooks/useMeal';
 
 // const data=
 // {calories: 1648, carb_g: 206, carb_percent: "50%", fat_g: 37, fat_percent: "20%", protien_g: 124, protien_percent: "30%"}
@@ -26,6 +27,20 @@ import { ActivityIndicator } from 'react-native';
 const CirclePage = ({route, navigation}) => {
   const {data, formDataCopy, dietPlan} = route.params;
   console.log(data, formDataCopy, dietPlan, 'formdata check');
+  const {
+    breakfastItems,
+    lunchItems,
+    eveningSnackItems,
+    dinnerItems,
+    deleteItem,
+    morningSnackItems,
+    mealItems1,
+    mealItems2,
+  
+    addWater,
+    setWater,
+    water,
+  } = useContext(MealContext);
   // const donutData = data.map((item) => ({
   //   name: item.key,
   //   value: Number(item.value.replace('%', '')),
@@ -201,14 +216,22 @@ const CirclePage = ({route, navigation}) => {
           const requiredCalorie = requiredCalorieResponse.data.data;
 
           const dietPlan = diet_List.data.data.recommended_diet_list;
+
           console.log(requiredCalorie, 'calorie required');
           console.log(authData.formData, 'for workout example');
+          const apiUrl = `get_daily_required_calories/${customerId}`;
+          // Make the API request to get data
+          const response = await api.get(apiUrl);
+          const responseData = response.data;
+          console.log(responseData.data, 'for water usemeal single ');
+          // Move the setWater line here
+          setWater(responseData.data.water_datas);
 
           // setIsLoading(false);
 
           if (
             requiredCalorieResponse.data.success === true &&
-            authData.formData
+            authData.formData && responseData.data.water_datas
           ) {
             setIsLoading(false);
             navigation.reset({

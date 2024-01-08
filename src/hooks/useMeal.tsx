@@ -30,6 +30,7 @@ interface MealContextType {
   addMealItem1: (food: any) => void;
   addMealItem2: (food: any) => void;
   addWater: (plus: any) => void;
+  setWater:(item:any)=>void;
   deleteItem: (items: any[], mealType: string) => void;
   clearContextData: () => void;
   totalCalories: number;
@@ -54,6 +55,7 @@ export const MealContext = createContext<MealContextType>({
   addMealItem1: () => {},
   addMealItem2: () => {},
   addWater: () => {},
+  setWater:()=>{},
   deleteItem: () => {},
   clearContextData: () => {},
   isLoading: false,
@@ -1992,6 +1994,7 @@ const MealContextProvider: React.FC = ({children}) => {
     addDinnerItem,
     addMealItem1,
     addMealItem2,
+    setWater,
     addWater,
     clearContextData,
     deleteItem,

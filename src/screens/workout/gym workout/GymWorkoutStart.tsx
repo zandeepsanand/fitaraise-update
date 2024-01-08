@@ -25,6 +25,7 @@ import GymWorkoutDetailsPage from './GymWorkoutDetailsPage';
 import GymWorkoutDetailsPageTwo from './GymWorkoutDetailsPageTwo';
 import api from '../../../../api';
 import LoginContext from '../../../hooks/LoginContext';
+import { usegymData } from '../../../hooks/GymData';
 
 const isAndroid = Platform.OS === 'android';
 function PopupPage() {
@@ -44,10 +45,12 @@ function PopupPage() {
 const GymWorkoutStart = () => {
   const route = useRoute();
   const {
-    exerciseData,
+    // exerciseData,
+    workout,
     completedWorkouts: initialCompletedWorkouts = [],
     index,
   } = route.params;
+  const { exerciseData, setGymData } = usegymData();
   const {customerId}=useContext(LoginContext);
 
   const {user} = useData();
@@ -99,6 +102,27 @@ const GymWorkoutStart = () => {
   const toggleTimerPause = () => {
     setIsTimerPaused((prevIsTimerPaused) => !prevIsTimerPaused);
   };
+
+
+  const fetchData = () => {
+    // api
+    //   .get(`get_gym_workout_excercises/${workout.id}`)
+    //   .then((response) => {
+    //     setExerciseAll(response.data.data);
+    //   })
+    //   .catch((error) => {
+    //     console.error('Error fetching exercise data:', error);
+    //   });
+  
+    api
+      .get(`get_gym_workout_excercises_recommended/${workout.id}`)
+      .then((response) => {
+        setGymData(response.data.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching exercise data:', error);
+      });
+  };
   const goToPreviousWorkout = () => {
     setIsTimerRunning(false);
     setTimerText('Start');
@@ -111,6 +135,8 @@ const GymWorkoutStart = () => {
       );
       setIsTimerPaused(false); // Reset pause state to false
     }
+    fetchData();
+
   };
 
   // const goToNextWorkout = () => {
@@ -259,36 +285,7 @@ const GymWorkoutStart = () => {
   };
 
 
-  const handleFinish = (currentWorkout) => {
-    api
-      .post(
-        `add_gym_workout_excercises_done`,
-        {
-          customer_id,
-          workout_id,
-          excercise_id,
-          home_workout_excercise,
-          completed_date,
-        },
-       
-        
-      )
-      .then((response) => {
-        if (response.data.success) {
-          console.log(response.data , "saved or not");
-          
-          setShowNextButton(true);
-          setCompletedDate([completed_date]);
-          setCompletedWorkouts([
-            ...completedWorkouts,
-            currentWorkout.excercise,
-          ]);
-        }
-      })
-      .catch((error) => {
-        console.error('Error fetching exercise data:', error);
-      });
-  };
+
   const uniqueCompletedWorkouts = [...new Set(completedWorkouts)];
   const firstUnfinishedWorkoutIndex = exerciseData.findIndex(
     (workout) => !uniqueCompletedWorkouts.includes(workout.excercise),
@@ -358,7 +355,37 @@ const GymWorkoutStart = () => {
     setRepsInputValuesLbs(Array(currentWorkout.sets).fill(''));
     setRepsInputValuesKg(Array(currentWorkout.sets).fill(''));
   }, [currentWorkout]);
-
+  const handleFinish = (currentWorkout) => {
+    api
+      .post(
+        `add_gym_workout_excercises_done`,
+        {
+          customer_id,
+          workout_id,
+          excercise_id,
+          home_workout_excercise,
+          completed_date,
+          weight_vs_reps
+        },
+       
+        
+      )
+      .then((response) => {
+        if (response.data.success) {
+          console.log(response.data , "saved or not");
+          
+          setShowNextButton(true);
+          setCompletedDate([completed_date]);
+          setCompletedWorkouts([
+            ...completedWorkouts,
+            currentWorkout.excercise,
+          ]);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching exercise data:', error);
+      });
+  };
   return (
     <Block safe marginTop={sizes.md}>
       <Block

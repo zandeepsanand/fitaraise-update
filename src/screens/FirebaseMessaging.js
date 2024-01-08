@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import messaging from '@react-native-firebase/messaging';
 import { useNavigation } from '@react-navigation/native';
+import { Linking } from 'react-native';
 let navigation; // Define a variable to store the navigation object
 
 export const setNavigationReference = (nav) => {
@@ -33,7 +34,7 @@ export const onMessageReceived = (callback) => {
       // Example using react-navigation:
       navigation.navigate('NotificationPage', { actionUrl });
       // Example using Linking:
-      // Linking.openURL(actionUrl);
+      Linking.openURL(actionUrl);
     }
 
     // Invoke the user-provided callback, if any
