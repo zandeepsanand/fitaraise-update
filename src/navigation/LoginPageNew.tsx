@@ -277,75 +277,63 @@ const LoginScreenNew = ({navigation, route}) => {
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const handleUserLogin = async (userInfo) => {
-    // Access the userInfo in the LoginPageNew component
+  const handleUserLogin = async (userInfo, retryCount = 0) => {
     console.log('User Info in LoginPageNew:', userInfo);
-
-    // Add your logic to handle the userInfo in LoginPageNew
-    // For example, you can set the user information in the state
   
-
-    // You can also perform other actions with the user information here
-    // For example, make an API call and navigate to another screen
-
     try {
       setLoading(true);
-
-      // Extract the necessary information from the Google sign-in userInfo
-      const { id, email, givenName ,familyName,photo} = userInfo.user;
-
-      // Make the login request to the specified API endpoint
+  
+      const { id, email, givenName, familyName, photo } = userInfo.user;
+  
       const response = await api.post("login_with_google", {
-        google_customer_id:id,
+        google_customer_id: id,
         email,
-        name:givenName,
+        name: givenName,
       });
-
+  
       console.log(response.data, 'data of login');
-
+  
       if (response.data.success === true) {
-        // If the server responds with a successful login message
         const { token, user_id, customer_id } = response.data.data;
-        console.log(token, "token set from google authentication");
-        
-
-        // Create an object that combines token and formData
+  
         const authData = {
           token,
           formData: {
             user_id,
             customer_id,
-            first_name:givenName,
-           
-            last_name:familyName,
-            image:photo
-            // Add other formData properties here
+            first_name: givenName,
+            last_name: familyName,
+            image: photo
           },
         };
-
-        // Store the authData object as a JSON string in AsyncStorage
+  
         await AsyncStorage.setItem("authData", JSON.stringify(authData));
         await AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
-        
+  
         setAuthToken(token);
         SetCustomerIdLogin(customer_id);
         googleloginSuccess(userInfo);
-        // Navigate to 'FirstPage' with the formData
+  
         navigation.reset({
           index: 0,
-          routes: [{name: 'Frstpage', params: {formData: authData.formData}}],
+          routes: [{ name: 'Frstpage', params: { formData: authData.formData } }],
         });
-        // navigation.navigate("SignOutPage", { userInfo });
       } else {
-        // If the server responds with a failed login message
         const errorMessage = response.data.message;
         alert(errorMessage);
-
         // Handle other cases as needed
       }
     } catch (error) {
-      // Handle login errors here
       console.error('Login Error:', error);
+      
+      // Retry mechanism
+      if (retryCount < 1) {
+        console.log('Retrying login...');
+        handleUserLogin(userInfo, retryCount + 1);
+      } else {
+        console.error('Maximum retry count reached. Stopping login.');
+        // Handle the situation where the maximum retry count is reached
+      }
     } finally {
       setLoading(false);
     }

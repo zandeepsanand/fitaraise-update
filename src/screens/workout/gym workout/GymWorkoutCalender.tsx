@@ -135,7 +135,7 @@ export default function GymWorkoutCalender({formDataCopy, onDateChange,savedDate
     return dateObject;
   });
   
-  console.log(workoutFinishDates);
+  console.log(workoutFinishDates , "finished workout dates ");
   // const workoutFinishDates = [
   //   new Date('2023-09-12'),
   //   new Date('2023-09-15'),

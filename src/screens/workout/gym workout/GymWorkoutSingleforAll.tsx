@@ -21,46 +21,46 @@ import moment from 'moment-timezone';
 import {usegymData} from '../../../hooks/GymData';
 const isAndroid = Platform.OS === 'android';
 
-const GymWorkoutSingle = () => {
+const GymWorkoutSingleforAll = () => {
   const route = useRoute();
   const {exerciseDataSingle,  index} = route.params;
   const {customerId} = useContext(LoginContext);
-  const {exerciseData, setGymData} = usegymData();
+  const {exerciseData, setGymData,setGymDataAll,exerciseDataAll} = usegymData();
   const {user} = useData();
   const {t} = useTranslation();
   const navigation = useNavigation();
   const {assets, colors, sizes} = useTheme();
   const [currentWorkoutIndex, setCurrentWorkoutIndex] = useState(
-    exerciseData.findIndex((exercise) => exercise.id === exerciseDataSingle.id),
+    exerciseDataAll.findIndex((exercise) => exercise.id === exerciseDataSingle.id),
   );
   const fetchData = () => {
     api
       .get(`get_gym_workout_excercises/${index}`)
       .then((response) => {
         // setExerciseAll(response.data.data);
-        setGymData(response.data.data);
+        setGymDataAll(response.data.data);
       })
       .catch((error) => {
         console.error('Error fetching exercise data:', error);
       });
 
-    api
-      .get(`get_gym_workout_excercises_recommended/${index}`)
-      .then((response) => {
-        setGymData(response.data.data);
-      })
-      .catch((error) => {
-        console.error('Error fetching exercise data:', error);
-      });
+    // api
+    //   .get(`get_gym_workout_excercises_recommended/${index}`)
+    //   .then((response) => {
+    //     setGymData(response.data.data);
+    //   })
+    //   .catch((error) => {
+    //     console.error('Error fetching exercise data:', error);
+    //   });
   };
   const goToPreviousWorkout = () => {
     setIsTimerRunning(false);
     setTimerText('Start');
-    if (exerciseData && currentWorkoutIndex > 0) {
+    if (exerciseDataAll && currentWorkoutIndex > 0) {
       setCurrentWorkoutIndex(currentWorkoutIndex - 1);
       setTimeLeft(
-        exerciseData[currentWorkoutIndex - 1].time_or_sets === 'time'
-          ? exerciseData[currentWorkoutIndex - 1].time_in_seconds
+        exerciseDataAll[currentWorkoutIndex - 1].time_or_sets === 'time'
+          ? exerciseDataAll[currentWorkoutIndex - 1].time_in_seconds
           : 0,
       );
       setIsTimerPaused(false); // Reset pause state to false
@@ -68,11 +68,11 @@ const GymWorkoutSingle = () => {
     fetchData();
   };
   const goToNextWorkout = () => {
-    if (currentWorkoutIndex < exerciseData.length - 1) {
+    if (currentWorkoutIndex < exerciseDataAll.length - 1) {
       setCurrentWorkoutIndex(currentWorkoutIndex + 1);
     }
   };
-  const currentWorkout = exerciseData[currentWorkoutIndex];
+  const currentWorkout = exerciseDataAll[currentWorkoutIndex];
   // const restTimeInSeconds = currentWorkout.rest_time_in_seconds;
   const [timeLeft, setTimeLeft] = useState(
     currentWorkout.time_or_sets === 'time' ? currentWorkout.time_in_seconds : 0,
@@ -229,7 +229,7 @@ const GymWorkoutSingle = () => {
         console.error('Error fetching exercise data:', error);
       });
   };
-  const isLastWorkout = currentWorkoutIndex === exerciseData.length - 1;
+  const isLastWorkout = currentWorkoutIndex === exerciseDataAll.length - 1;
   return (
     <Block safe marginTop={sizes.md}>
       <Block
@@ -275,10 +275,7 @@ const GymWorkoutSingle = () => {
 
                         if (isLastWorkout) {
                           handleFinish(currentWorkout);
-                          navigation.navigate('GymCongratsPage', {
-                            savedDate,
-                            completedWorkouts,
-                          });
+                          navigation.navigate('GymCongratsPage');
                           // Replace 'YourNewPage' with the actual page name
                         } else {
                           // Show a message or handle the error
@@ -302,10 +299,7 @@ const GymWorkoutSingle = () => {
                       setShowNextButton(false);
 
                       if (isLastWorkout) {
-                        navigation.navigate('GymCongratsPage', {
-                          savedDate,
-                          completedWorkouts,
-                        });
+                        navigation.navigate('GymCongratsPage');
                         // Replace 'YourNewPage' with the actual page name
                       }
                     }}
@@ -345,7 +339,7 @@ const GymWorkoutSingle = () => {
                 </Button>
                 <Button
                   onPress={goToNextWorkout}
-                  disabled={currentWorkoutIndex === exerciseData.length - 1}>
+                  disabled={currentWorkoutIndex === exerciseDataAll.length - 1}>
                   <Image
                     radius={0}
                     width={30}
@@ -393,4 +387,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GymWorkoutSingle;
+export default GymWorkoutSingleforAll;

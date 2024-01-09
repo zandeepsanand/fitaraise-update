@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
+import Animated from 'react-native-reanimated';
 
 import SelectDropdown from 'react-native-select-dropdown';
 import HomeWorkoutCalender from './HomeWorkoutCalender';
@@ -237,44 +238,46 @@ const HomeWorkoutMain = ({navigation, route}) => {
           //   center
           //   style={{justifyContent: 'center', flex: 1, marginTop: 10}}
           >
-            <Block
-              row
-              justify="space-around"
-              paddingBottom={10}
-              style={{borderBottomWidth: 10, borderBottomColor: '#2FD87269'}}>
-              <Block paddingLeft={10}>
-                <Block>
-                  <Text bold>Home Workout</Text>
-                </Block>
-                <Block row>
-                  <Text>Your program :</Text>
-                  <Text bold>
-                    {' '}
-                    {workoutData.home_workout_level.charAt(0).toUpperCase() +
-                      workoutData.home_workout_level.slice(1)}
-                  </Text>
-                </Block>
-              </Block>
-              <Block >
-                <Block center>
-                  <SelectDropdown
-                    defaultValue={'one'}
-                    dropdownStyle={{borderRadius: 20}}
-                    buttonStyle={{
-                      height: 50,
-                      width: 160,
-                      backgroundColor: 'white',
-                      borderRadius: 20,
-                      marginLeft: 10,
-                    }}
-                    data={['Gym workout', 'Workout Challenge']} // Provide your options here
-                    // defaultButtonText={formDataCopy.workout_level}
-                    defaultButtonText={'Select Workout'}
-                    onSelect={handleLevelChange}
-                  />
-                </Block>
-              </Block>
-            </Block>
+           <Block
+  row
+  style={{
+    justifyContent: 'space-between',
+    paddingBottom: 10,
+    borderBottomWidth: 10,
+    borderBottomColor: '#2FD87269',
+  }}
+>
+  <Block>
+    <Block>
+      <Text bold>Home Workout</Text>
+    </Block>
+    <Block row>
+      <Text>Your program :</Text>
+      <Text bold>
+        {workoutData.home_workout_level.charAt(0).toUpperCase() +
+          workoutData.home_workout_level.slice(1)}
+      </Text>
+    </Block>
+  </Block>
+
+  <Block style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'flex-end' }}>
+  <SelectDropdown
+    defaultValue={'one'}
+    dropdownStyle={{ borderRadius: 20 }}
+    buttonStyle={{
+      height: 50,
+      width: 160,
+      backgroundColor: 'white',
+      borderRadius: 20,
+      marginLeft: 10,
+    }}
+    data={['Gym workout', 'Workout Challenge']}
+    defaultButtonText={'Select Workout'}
+    onSelect={handleLevelChange}
+  />
+</Block>
+</Block>
+
             <Block
           
             ></Block>
@@ -282,7 +285,7 @@ const HomeWorkoutMain = ({navigation, route}) => {
               {/* <HomeWorkoutCalender savedDate={savedDate} /> */}
               <CalendarHomeWorkout  savedDate={completedDates}/>
             </View>
-
+{/* 
             {workout.map((workout) => (
               <TouchableOpacity
                 key={workout.id}
@@ -320,7 +323,92 @@ const HomeWorkoutMain = ({navigation, route}) => {
                   </Block>
                 </Block>
               </TouchableOpacity>
-            ))}
+            ))} */}
+
+            {workout.map((workout) => (
+                <TouchableOpacity
+                  key={workout.id}
+                  onPress={() => handleWorkoutClick(workout)}>
+                  <Block
+                    flex={1}
+                    marginHorizontal={10}
+                    marginVertical={10}
+                    style={styles.container}>
+                    <Block>
+                      <Text
+                        // white
+                        // left={40}
+                        // top={20}
+                        padding={30}
+                        size={20}
+                        color={'lightgreen'}
+                        bold
+                        style={{
+                          position: 'absolute',
+                          zIndex: 10,
+                        }}>
+                        {workout.name}
+                      </Text>
+                      {/* <Text
+                        white
+                        // left={40}
+                        top={60}
+                        paddingLeft={25}
+                        size={20}
+                        bold
+                        style={{
+                          position: 'absolute',
+                          zIndex: 10,
+                        }}>
+                        {workout.start_quote}
+                      </Text> */}
+                      <Text
+                        white
+                        // left={40}
+                        top={60}
+                        paddingLeft={30}
+                        size={15}
+                        
+                        style={{
+                          position: 'absolute',
+                          zIndex: 10,
+                        }}>
+                        Total Minutes : {workout.total_minutes}
+                      </Text>
+                      <Animated.Image
+                        style={styles.coverImage}
+                        source={{uri: `${workout.image}`}}
+                        // style={{ width: 300, height: 300 }}
+                        sharedTransitionTag="tag"></Animated.Image>
+
+                      {/* <ImageBackground
+                    style={styles.coverImage}
+                    source={{
+                      uri: `${workout.image}`,
+                    }}
+                    > */}
+                      <View style={styles.darkness} />
+                      {/* </ImageBackground> */}
+                    </Block>
+                    <Block
+                      right={20}
+                      bottom={20}
+                      style={{
+                        position: 'absolute',
+                        zIndex: 10,
+                        justifyContent: 'flex-end',
+                      }}>
+                      <Button
+                        color={'#A7F432'}
+                        onPress={() => handleWorkoutClick(workout)}>
+                        <Text  paddingHorizontal={25} size={15} bold>
+                          Try
+                        </Text>
+                      </Button>
+                    </Block>
+                  </Block>
+                </TouchableOpacity>
+              ))}
           </Block>
         </Block>
       )}
@@ -407,6 +495,30 @@ const styles = StyleSheet.create({
   customText: {
     fontSize: 50,
     fontWeight: 'bold',
+  },
+  container: {
+    borderRadius: 15,
+    overflow: 'hidden',
+  },
+  coverImage: {
+    flex: 1,
+    resizeMode: 'cover',
+    width: '100%',
+    height: 200,
+    position: 'absolute',
+  },
+  darkness: {
+    backgroundColor: 'rgba(0,0,0,0.64)',
+    width: '100%',
+    height: 200,
+    borderRadius: 15,
+  },
+  darkness1: {
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    width: '100%',
+    height: 200,
+    borderRadius: 15,
+    zIndex: 20,
   },
 });
 

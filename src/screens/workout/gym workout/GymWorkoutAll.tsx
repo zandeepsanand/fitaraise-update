@@ -26,7 +26,7 @@ const isAndroid = Platform.OS === 'android';
 
 const GymWorkoutAll = ({route}) => {
   const {workout, completedWorkouts = []} = route.params;
-  const { exerciseData, setGymData } = usegymData();
+  const { exerciseData, setGymData,exerciseDataAll, setGymDataAll } = usegymData();
   const [isLoading, setIsLoading] = useState(false);
   // const [exerciseData, setExerciseData] = useState([]);
 
@@ -87,7 +87,7 @@ const GymWorkoutAll = ({route}) => {
       .get(`get_gym_workout_excercises/${workout.id}`)
       .then((response) => {
         setExerciseAll(response.data.data);
-
+        setGymDataAll(response.data.data);
       })
       .catch((error) => {
         console.error('Error fetching exercise data:', error);
@@ -371,7 +371,7 @@ const GymWorkoutAll = ({route}) => {
                   key={exercise.id}
                   onPress={() => {
                     console.log('Navigating with exercise:', exercise.completed_today);
-                    navigation.navigate('GymWorkoutSingle', {
+                    navigation.navigate('GymWorkoutSingleforAll', {
                       exerciseDataSingle: exercise,
                       exerciseData: exerciseAll,
                       index: workout.id,

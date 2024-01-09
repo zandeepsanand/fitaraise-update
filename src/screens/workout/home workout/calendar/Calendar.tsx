@@ -4,7 +4,10 @@ import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import moment from 'moment-timezone';
 import Date1 from './Date';
 
-const CalendarHomeWorkout = ({onSelectDate, selected, savedDate = []}) => {
+const CalendarHomeWorkout = ({
+  // onSelectDate,
+  //  selected,
+    savedDate = []}) => {
   const [dates, setDates] = useState([]);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [currentMonth, setCurrentMonth] = useState();
@@ -65,8 +68,8 @@ const CalendarHomeWorkout = ({onSelectDate, selected, savedDate = []}) => {
             <Date1
               key={index}
               date={date}
-              onSelectDate={onSelectDate}
-              selected={selected}
+              // onSelectDate={onSelectDate}
+              // selected={selected}
               savedDate={savedDate}
             />
           ))}

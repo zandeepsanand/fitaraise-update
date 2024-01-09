@@ -103,6 +103,7 @@ import NotificationPage from '../screens/NotificationPage';
 import EnableNotificationOnOff from '../screens/EnableNotificationOnOff';
 import NutritionFactsSearch from '../screens/nutritionFacts/NutritionFactsSearch';
 import SingleNutritionPage from '../screens/nutritionFacts/SingleNutritionPage';
+import GymWorkoutSingleforAll from '../screens/workout/gym workout/GymWorkoutSingleforAll';
 
 // Keep the splash screen visible while we fetch resources
 // SplashScreen.hideAsync();
@@ -633,6 +634,15 @@ export default () => {
                 <Stack.Screen
                   name="GymWorkoutSingle"
                   component={GymWorkoutSingle}
+                  options={{
+                    // title: 'Height And Weight', // Change the header title
+                    headerBackTitle: 'Back', // Change the back button title
+                    headerShown: false, // Show the header (you can omit this line if not needed)
+                  }}
+                />
+                    <Stack.Screen
+                  name="GymWorkoutSingleforAll"
+                  component={GymWorkoutSingleforAll}
                   options={{
                     // title: 'Height And Weight', // Change the header title
                     headerBackTitle: 'Back', // Change the back button title

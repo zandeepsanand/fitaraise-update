@@ -2,7 +2,11 @@
 import { StyleSheet, Text, View, TouchableOpacity , Image } from 'react-native'
 import moment from 'moment-timezone';
 
-const Date1 = ({ date, onSelectDate, selected, savedDate = []   }) => {
+const Date1 = ({ 
+  date,
+  //  onSelectDate,
+    selected, 
+    savedDate = []   }) => {
   
   const day = moment.tz(date, 'Asia/Kolkata').format('DD-MM-YYYY');
   const dayText = moment.tz(date, 'Asia/Kolkata').format('ddd');
@@ -11,7 +15,9 @@ const Date1 = ({ date, onSelectDate, selected, savedDate = []   }) => {
   const fullDate = moment.tz(date, 'Asia/Kolkata').format('YYYY-MM-DD');
   return (
     <TouchableOpacity
-      onPress={() => onSelectDate(fullDate)}
+      // onPress={() => 
+      //   onSelectDate(fullDate)
+      // }
       style={[styles.card, selected === fullDate && { backgroundColor: "#6146c6" }]}
     >
       <Text style={[styles.big, selected === fullDate && { color: "#fff" }]}>{dayText}</Text>

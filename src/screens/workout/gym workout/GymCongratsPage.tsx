@@ -23,8 +23,8 @@ const isAndroid = Platform.OS === 'android';
 const screenHeight = Dimensions.get('window').height;
 
 const GymCongratsPage = ({route}) => {
-  const {savedDate, completedWorkouts} = route.params;
-  console.log(completedWorkouts, 'saved date from');
+  // const {savedDate, completedWorkouts} = route.params;
+  // console.log(completedWorkouts, 'saved date from');
 
   const {user} = useData();
   const {t} = useTranslation();
@@ -63,7 +63,7 @@ const GymCongratsPage = ({route}) => {
               onPress={() => {
                 navigation.navigate('GymTabNavigator', {
                   screen: 'GymWorkoutMain', // Screen name within the TabNavigator
-                  params: {savedDate, completedWorkouts}, // Pass your parameters here
+                  // params: {savedDate, completedWorkouts}, // Pass your parameters here
                 });
               }}>
               <Block style={styles.stickyButton} center justify="center" row>

@@ -225,16 +225,10 @@ const LoginPage = ({route}) => {
   }).start();
   const [loading, setLoading] = useState(false);
   const handleUserLogin = async (userInfo) => {
-    // Access the userInfo in the LoginPageNew component
+ 
     console.log('User Info in LoginPageNew:', userInfo);
 
-    // Add your logic to handle the userInfo in LoginPageNew
-    // For example, you can set the user information in the state
   
-
-    // You can also perform other actions with the user information here
-    // For example, make an API call and navigate to another screen
-
     try {
       setLoading(true);
 
