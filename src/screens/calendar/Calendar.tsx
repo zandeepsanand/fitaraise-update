@@ -1,13 +1,17 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable prettier/prettier */
+import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import moment from 'moment-timezone';
 import Date1 from './Date'; // Assuming you've imported Date1 correctly
+import { Block } from '../../components';
 
-const Calendar = ({ onSelectDate, selected }) => {
+const Calendar = ({ onSelectDate, selected   }) => {
   const [dates, setDates] = useState([]);
-  const [scrollPosition, setScrollPosition] = useState(0); // Added missing state
+  const [scrollPosition, setScrollPosition] = useState(0);
   const [currentMonth, setCurrentMonth] = useState();
+  const [newDate, setNewDate] = useState('');
 
+  // get the dates from today to 10 days from now, format them as strings and store them in state
   const getDates = () => {
     const _dates = [];
     for (let i = 29; i >= 0; i--) {
@@ -16,7 +20,7 @@ const Calendar = ({ onSelectDate, selected }) => {
         _dates.push(date);
       }
     }
-    for (let i = 0; i < 28; i++) {
+    for (let i = 0; i < 10; i++) {
       const date = moment().add(i, 'days');
       if (!_dates.find(d => d.isSame(date, 'day'))) {
         _dates.push(date);
@@ -29,29 +33,25 @@ const Calendar = ({ onSelectDate, selected }) => {
     getDates();
   }, []);
 
-  const findTodayIndex = () => {
-    return dates.findIndex(date => moment(date).isSame(moment(), 'day'));
-  };
-
-  useEffect(() => {
-    const todayIndex = findTodayIndex();
-    const initialScrollPosition = todayIndex * 60;
-    setScrollPosition(initialScrollPosition);
-    updateMonth(todayIndex);
-  }, [dates]);
-
-  const updateMonth = (index) => {
-    const month = moment(dates[index]).format('MMMM');
+  const getCurrentMonth = () => {
+    const month = moment(dates[0]).add(scrollPosition / 60, 'days').format('MMMM');
     setCurrentMonth(month);
   };
 
-  const handleScroll = (event) => {
-    const scrollX = event.nativeEvent.contentOffset.x;
-    const centerIndex = Math.floor(scrollX / 60);
-    setScrollPosition(scrollX);
-    updateMonth(centerIndex);
-  };
-
+  useEffect(() => {
+    getCurrentMonth();
+  }, [scrollPosition]);
+  
+  useEffect(() => {
+    // Find the index of today's date in the dates array
+    const todayIndex = dates.findIndex((d) => moment(d).isSame(moment(), 'day'));
+  
+    // Calculate the initial scroll position to center today's date
+    const initialScrollPosition = todayIndex * 60 - (dates.length / 2) * 60;
+  
+    // Set the initial scroll position
+    setScrollPosition(initialScrollPosition);
+  }, [dates]);
   return (
     <>
       <View style={styles.centered}>
@@ -62,24 +62,26 @@ const Calendar = ({ onSelectDate, selected }) => {
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            onScroll={handleScroll}
+            // onScroll is a native event that returns the number of pixels the user has scrolled
+            onScroll={(e) => setScrollPosition(e.nativeEvent.contentOffset.x)}
             scrollEventThrottle={16}
-            contentOffset={{ x: scrollPosition, y: 0 }}
           >
             {dates.map((date, index) => (
               <Date1
                 key={index}
                 date={date}
                 onSelectDate={onSelectDate}
+                // onSelectDate={handleDateSelection} 
                 selected={selected}
+                
               />
             ))}
           </ScrollView>
         </View>
       </View>
     </>
-  );
-};
+  )
+}
 
 export default Calendar;
 
