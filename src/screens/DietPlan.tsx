@@ -17,10 +17,10 @@ import Lottie from 'lottie-react-native';
 import {StyleSheet, Platform, TouchableOpacity} from 'react-native';
 import CircularProgress from 'react-native-circular-progress-indicator';
 import ScrollCalender from './ScrollCalender';
-import ProgressBar from 'react-native-progress-step-bar';
+
 import * as Progress from 'react-native-progress';
 import {MealContext} from '../hooks/useMeal';
-import Axios from 'axios';
+
 import PreviousDietDetails from './foodPage/PreviousDietDetails';
 const isAndroid = Platform.OS === 'android';
 import {useRoute} from '@react-navigation/native';
@@ -30,7 +30,7 @@ import LoginContext from '../hooks/LoginContext';
 import {TouchableWithoutFeedback} from 'react-native';
 import Loader from './alert/loader/Loader';
 import Calendar from './calendar/Calendar';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { colors } from '../../app/res/colors';
 // import AnimatableProgressBar from 'animateprogress';
@@ -77,12 +77,11 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
   const {customerId} = useContext(LoginContext);
   const [isLoadingScroll, setIsLoadingScroll] = useState(true);
   const [isDietPlanUnlocked, setDietPlanUnlocked] = useState(true); // Initially set to true
-  
 
   const handleUnlockDietPlan = async () => {
     // Check if the diet plan is unlocked in AsyncStorage
     const unlocked = await AsyncStorage.getItem('isDietPlanUnlocked');
-    
+
     if (!unlocked) {
       // Perform actions to unlock the diet plan, e.g., make an API call
       // ...
@@ -111,7 +110,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
         // Update state to permanently set it to DIET PLAN
         setDietPlanUnlocked(true);
       }
-    }, [])
+    }, []),
   );
   useEffect(() => {
     const loadingTimeout = setTimeout(() => {
@@ -121,7 +120,6 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
     // To clear the timeout when the component unmounts
     return () => clearTimeout(loadingTimeout);
   }, []);
-
 
   const {authenticated} = useContext(LoginContext);
 
@@ -560,7 +558,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
           `get_diet_list_wrt_date/${formDataCopy.customer_id}/${selectedDate}`,
         );
         const responseData = response.data.data;
-        // console.log(responseData, 'diet data');
+        console.log(responseData, 'diet data for selected date');
         setApiData(responseData);
       } catch (error) {
         console.log(error);
@@ -791,19 +789,20 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                   marginHorizontal="8%"
                   color="rgba(255,255,255,0.2)">
                   <TouchableWithoutFeedback
-      onPress={handleUnlockDietPlan}
-      disabled={!dietPlan}
-    >
-      <Block padding={sizes.padding} card>
-        <Block row>
-          <Block>
-            <Text bold center primary>
-              {isDietPlanUnlocked ? 'DIET PLAN' : 'UNLOCK YOUR FREE DIET PLAN'}
-            </Text>
-          </Block>
-        </Block>
-      </Block>
-    </TouchableWithoutFeedback>
+                    onPress={handleUnlockDietPlan}
+                    disabled={!dietPlan}>
+                    <Block padding={sizes.padding} card>
+                      <Block row>
+                        <Block>
+                          <Text bold center primary>
+                            {isDietPlanUnlocked
+                              ? 'DIET PLAN'
+                              : 'UNLOCK YOUR FREE DIET PLAN'}
+                          </Text>
+                        </Block>
+                      </Block>
+                    </Block>
+                  </TouchableWithoutFeedback>
                 </Block>
 
                 {/* profile: about me */}
@@ -922,100 +921,71 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                             </Block>
                           </TouchableOpacity>
                         </Block>
-                        <Block margin={0} flex={1} centerContent>
-                          <Block style={styles.container} margin={0}>
-                            {/* Header */}
-                            <Block style={styles.row} flex={1}>
-                              <Text
-                                style={styles.header2}
-                                size={12}
-                                bold></Text>
-                              <Text style={styles.header} bold size={12}>
-                                Protein
-                              </Text>
-                              <Text style={styles.header} bold size={12}>
-                                Carbs
-                              </Text>
-                              <Text style={styles.header} bold size={12}>
-                                Fat
-                              </Text>
-                              <Text style={styles.header} bold size={12}>
-                                KCAL
-                              </Text>
-                              <Text style={styles.header}></Text>
-                            </Block>
-
+                        <Block flex={1} center>
+                          <DataTable style={styles.container}>
+                            <DataTable.Header style={styles.tableHeader}>
+                              <DataTable.Cell
+                                style={{flex: 1.4}}></DataTable.Cell>
+                              <DataTable.Cell style={{flex: 1.3}}>
+                                Protien
+                              </DataTable.Cell>
+                              <DataTable.Cell style={{flex: 1.3}}>
+                                Carb
+                              </DataTable.Cell>
+                              <DataTable.Cell>Fat</DataTable.Cell>
+                              <DataTable.Cell>KCAL</DataTable.Cell>
+                              <DataTable.Cell></DataTable.Cell>
+                            </DataTable.Header>
                             {breakfastItems.map((item, index) => (
-                              <Block style={styles.row} flex={1}>
-                                <View
-                                  key={index}
-                                  style={{flexDirection: 'row'}}>
-                                  <Text
-                                    style={styles.header2}
-                                    size={12}
-                                    bold
-                                    numberOfLines={
-                                      expandedItems.includes(index) ? 0 : 1
-                                    }>
-                                    {item.food_name}
-                                  </Text>
-
-                                  <Text
-                                    style={styles.header}
-                                    semibold
-                                    size={12}>
-                                    {item.details.totalProtein}
-                                  </Text>
-                                  <Text
-                                    style={styles.header}
-                                    semibold
-                                    size={12}>
-                                    {item.details.totalCarb}
-                                  </Text>
-                                  <Text
-                                    style={styles.header}
-                                    semibold
-                                    size={12}>
-                                    {item.details.totalFat}
-                                  </Text>
-                                  <Text
-                                    style={styles.header}
-                                    semibold
-                                    size={12}>
-                                    {item.details.totalCalorie}
-                                  </Text>
-                                  <Text
-                                    style={styles.header}
-                                    semibold
-                                    size={12}>
-                                    <TouchableOpacity
-                                      onPress={() => {
-                                        handleDelete(index, 'breakfast');
-                                        handleDeleteApi(item);
-                                      }}>
-                                      <Image
-                                        source={require('../assets/icons/close1.png')}
-                                        color={'#fa9579'}
-                                        style={
-                                          (styles.data,
-                                          {
-                                            width: 20,
-                                            height: 20,
-                                            // alignContent: 'center',
-                                            justifyContent: 'center',
-                                          })
-                                        }
-                                        marginTop={sizes.s}
-                                      />
-                                    </TouchableOpacity>
-                                  </Text>
-                                  <Text style={styles.header}></Text>
-                                </View>
-                              </Block>
+                              <DataTable.Row key={index}>
+                                <DataTable.Cell
+                                  style={{flex: 1.4}}
+                                  numberOfLines={
+                                    expandedItems.includes(index) ? 0 : 1
+                                  }>
+                                  {item.food_name}
+                                </DataTable.Cell>
+                                <DataTable.Cell style={{flex: 1.3}}>
+                                  {item.details.totalProtein}
+                                </DataTable.Cell>
+                                <DataTable.Cell style={{flex: 1.3}}>
+                                  {item.details.totalCarb}
+                                </DataTable.Cell>
+                                <DataTable.Cell>
+                                  {item.details.totalFat}
+                                </DataTable.Cell>
+                                <DataTable.Cell>
+                                  {item.details.totalCalorie}
+                                </DataTable.Cell>
+                                <DataTable.Cell
+                                  style={{
+                                    alignSelf: 'center',
+                                    justifyContent: 'flex-end',
+                                  }}>
+                                  {' '}
+                                  <TouchableOpacity
+                                    onPress={() => {
+                                      handleDelete(index, 'breakfast');
+                                      handleDeleteApi(item);
+                                    }}>
+                                    <Image
+                                      source={require('../assets/icons/close1.png')}
+                                      color={'#fa9579'}
+                                      style={
+                                        (styles.data,
+                                        {
+                                          width: 20,
+                                          height: 20,
+                                          alignContent: 'center',
+                                        })
+                                      }
+                                      margin={sizes.s}
+                                    />
+                                  </TouchableOpacity>
+                                </DataTable.Cell>
+                              </DataTable.Row>
                             ))}
-
-                            {/* Data Rows */}
-                          </Block>
+                          </DataTable>
                         </Block>
                       </Block>
                     ) : (
@@ -1193,102 +1163,76 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                             </Block>
                           </TouchableOpacity>
                         </Block>
-                        <Block>
-                          <Block style={styles.container}>
+                      
                             {/* Header */}
-                            <Block style={styles.row} flex={1}>
-                              <Text
-                                style={styles.header2}
-                                size={12}
-                                bold></Text>
-                              <Text style={styles.header} bold size={12}>
-                                Protein
-                              </Text>
-                              <Text style={styles.header} bold size={12}>
-                                Carbs
-                              </Text>
-                              <Text style={styles.header} bold size={12}>
-                                Fat
-                              </Text>
-                              <Text style={styles.header} bold size={12}>
-                                KCAL
-                              </Text>
-                              <Text style={styles.header}></Text>
-                            </Block>
-
-                            {/* Data Rows */}
-
-                            <Block>
-                              {morningSnackItems.map((item, index) => (
-                                <View
-                                  key={index}
-                                  style={{flexDirection: 'row'}}>
-                                  <Text
-                                    style={styles.header2}
-                                    size={12}
-                                    bold
-                                    numberOfLines={
-                                      expandedItems.includes(index) ? 0 : 1
-                                    }>
-                                    {item.food_name}
-                                  </Text>
-
-                                  <Text
-                                    style={styles.header}
-                                    semibold
-                                    size={12}>
-                                    {item.details.totalProtein}
-                                  </Text>
-                                  <Text
-                                    style={styles.header}
-                                    semibold
-                                    size={12}>
-                                    {item.details.totalCarb}
-                                  </Text>
-                                  <Text
-                                    style={styles.header}
-                                    semibold
-                                    size={12}>
-                                    {item.details.totalFat}
-                                  </Text>
-                                  <Text
-                                    style={styles.header}
-                                    semibold
-                                    size={12}>
-                                    {item.details.totalCalorie}
-                                  </Text>
-                                  <Text
-                                    style={styles.header}
-                                    semibold
-                                    size={12}>
-                                    <TouchableOpacity
-                                      onPress={() => {
-                                        handleDelete(
-                                          index,
-                                          'morningSnackItems',
-                                        );
-                                        handleDeleteApi(item);
-                                      }}>
-                                      <Image
-                                        source={require('../assets/icons/close1.png')}
-                                        color={'#fa9579'}
-                                        style={
-                                          (styles.data,
-                                          {
-                                            width: 20,
-                                            height: 20,
-                                            alignContent: 'center',
-                                          })
-                                        }
-                                        margin={sizes.s}
-                                      />
-                                    </TouchableOpacity>
-                                  </Text>
-                                </View>
-                              ))}
-                            </Block>
-                          </Block>
+                           
+                            <Block flex={1} center>
+                          <DataTable style={styles.container}>
+                            <DataTable.Header style={styles.tableHeader}>
+                              <DataTable.Cell
+                                style={{flex: 1.4}}></DataTable.Cell>
+                              <DataTable.Cell style={{flex: 1.3}}>
+                                Protien
+                              </DataTable.Cell>
+                              <DataTable.Cell style={{flex: 1.3}}>
+                                Carb
+                              </DataTable.Cell>
+                              <DataTable.Cell>Fat</DataTable.Cell>
+                              <DataTable.Cell>KCAL</DataTable.Cell>
+                              <DataTable.Cell></DataTable.Cell>
+                            </DataTable.Header>
+                            {morningSnackItems.map((item, index) => (
+                              <DataTable.Row key={index}>
+                                <DataTable.Cell
+                                  style={{flex: 1.4}}
+                                  numberOfLines={
+                                    expandedItems.includes(index) ? 0 : 1
+                                  }>
+                                  {item.food_name}
+                                </DataTable.Cell>
+                                <DataTable.Cell style={{flex: 1.3}}>
+                                  {item.details.totalProtein}
+                                </DataTable.Cell>
+                                <DataTable.Cell style={{flex: 1.3}}>
+                                  {item.details.totalCarb}
+                                </DataTable.Cell>
+                                <DataTable.Cell>
+                                  {item.details.totalFat}
+                                </DataTable.Cell>
+                                <DataTable.Cell>
+                                  {item.details.totalCalorie}
+                                </DataTable.Cell>
+                                <DataTable.Cell
+                                  style={{
+                                    alignSelf: 'center',
+                                    justifyContent: 'flex-end',
+                                  }}>
+                                  {' '}
+                                  <TouchableOpacity
+                                    onPress={() => {
+                                      handleDelete(index, 'morningSnackItems');
+                                      handleDeleteApi(item);
+                                    }}>
+                                    <Image
+                                      source={require('../assets/icons/close1.png')}
+                                      color={'#fa9579'}
+                                      style={
+                                        (styles.data,
+                                        {
+                                          width: 20,
+                                          height: 20,
+                                          alignContent: 'center',
+                                        })
+                                      }
+                                      margin={sizes.s}
+                                    />
+                                  </TouchableOpacity>
+                                </DataTable.Cell>
+                              </DataTable.Row>
+                            ))}
+                          </DataTable>
                         </Block>
+                        
                       </Block>
                     ) : (
                       <Block
@@ -1456,98 +1400,71 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                             </Block>
                           </TouchableOpacity>
                         </Block>
-                        <Block>
-                          <Block style={styles.container}>
-                            {/* Header */}
-                            <Block style={styles.row} flex={1}>
-                              <Text
-                                style={styles.header2}
-                                size={12}
-                                bold></Text>
-                              <Text style={styles.header} bold size={12}>
-                                Protein
-                              </Text>
-                              <Text style={styles.header} bold size={12}>
-                                Carbs
-                              </Text>
-                              <Text style={styles.header} bold size={12}>
-                                Fat
-                              </Text>
-                              <Text style={styles.header} bold size={12}>
-                                KCAL
-                              </Text>
-                              <Text style={styles.header}></Text>
-                            </Block>
-
-                            {/* Data Rows */}
-
-                            <Block>
-                              {lunchItems.map((item, index) => (
-                                <View
-                                  key={index}
-                                  style={{flexDirection: 'row'}}>
-                                  <Text
-                                    style={styles.header2}
-                                    size={12}
-                                    bold
-                                    numberOfLines={
-                                      expandedItems.includes(index) ? 0 : 1
-                                    }>
-                                    {item.food_name}
-                                  </Text>
-
-                                  <Text
-                                    style={styles.header}
-                                    semibold
-                                    size={12}>
-                                    {item.details.totalProtein}
-                                  </Text>
-                                  <Text
-                                    style={styles.header}
-                                    semibold
-                                    size={12}>
-                                    {item.details.totalCarb}
-                                  </Text>
-                                  <Text
-                                    style={styles.header}
-                                    semibold
-                                    size={12}>
-                                    {item.details.totalFat}
-                                  </Text>
-                                  <Text
-                                    style={styles.header}
-                                    semibold
-                                    size={12}>
-                                    {item.details.totalCalorie}
-                                  </Text>
-                                  <Text
-                                    style={styles.header}
-                                    semibold
-                                    size={12}>
-                                    <TouchableOpacity
-                                      onPress={() => {
-                                        handleDelete(index, 'lunch');
-                                        handleDeleteApi(item);
-                                      }}>
-                                      <Image
-                                        source={require('../assets/icons/close1.png')}
-                                        color={'#fa9579'}
-                                        style={
-                                          (styles.data,
-                                          {
-                                            width: 20,
-                                            height: 20,
-                                            alignContent: 'center',
-                                          })
-                                        }
-                                        margin={sizes.s}
-                                      />
-                                    </TouchableOpacity>
-                                  </Text>
-                                </View>
-                              ))}
-                            </Block>
-                          </Block>
+                        <Block flex={1} center>
+                          <DataTable style={styles.container}>
+                            <DataTable.Header style={styles.tableHeader}>
+                              <DataTable.Cell
+                                style={{flex: 1.4}}></DataTable.Cell>
+                              <DataTable.Cell style={{flex: 1.3}}>
+                                Protien
+                              </DataTable.Cell>
+                              <DataTable.Cell style={{flex: 1.3}}>
+                                Carb
+                              </DataTable.Cell>
+                              <DataTable.Cell>Fat</DataTable.Cell>
+                              <DataTable.Cell>KCAL</DataTable.Cell>
+                              <DataTable.Cell></DataTable.Cell>
+                            </DataTable.Header>
+                            {lunchItems.map((item, index) => (
+                              <DataTable.Row key={index}>
+                                <DataTable.Cell
+                                  style={{flex: 1.4}}
+                                  numberOfLines={
+                                    expandedItems.includes(index) ? 0 : 1
+                                  }>
+                                  {item.food_name}
+                                </DataTable.Cell>
+                                <DataTable.Cell style={{flex: 1.3}}>
+                                  {item.details.totalProtein}
+                                </DataTable.Cell>
+                                <DataTable.Cell style={{flex: 1.3}}>
+                                  {item.details.totalCarb}
+                                </DataTable.Cell>
+                                <DataTable.Cell>
+                                  {item.details.totalFat}
+                                </DataTable.Cell>
+                                <DataTable.Cell>
+                                  {item.details.totalCalorie}
+                                </DataTable.Cell>
+                                <DataTable.Cell
+                                  style={{
+                                    alignSelf: 'center',
+                                    justifyContent: 'flex-end',
+                                  }}>
+                                  {' '}
+                                  <TouchableOpacity
+                                    onPress={() => {
+                                      handleDelete(index, 'lunch');
+                                      handleDeleteApi(item);
+                                    }}>
+                                    <Image
+                                      source={require('../assets/icons/close1.png')}
+                                      color={'#fa9579'}
+                                      style={
+                                        (styles.data,
+                                        {
+                                          width: 20,
+                                          height: 20,
+                                          alignContent: 'center',
+                                        })
+                                      }
+                                      margin={sizes.s}
+                                    />
+                                  </TouchableOpacity>
+                                </DataTable.Cell>
+                              </DataTable.Row>
+                            ))}
+                          </DataTable>
                         </Block>
                       </Block>
                     ) : (
@@ -1718,98 +1635,71 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                             </Block>
                           </TouchableOpacity>
                         </Block>
-                        <Block>
-                          <Block style={styles.container}>
-                            {/* Header */}
-                            <Block style={styles.row} flex={1}>
-                              <Text
-                                style={styles.header2}
-                                size={12}
-                                bold></Text>
-                              <Text style={styles.header} bold size={12}>
-                                Protein
-                              </Text>
-                              <Text style={styles.header} bold size={12}>
-                                Carbs
-                              </Text>
-                              <Text style={styles.header} bold size={12}>
-                                Fat
-                              </Text>
-                              <Text style={styles.header} bold size={12}>
-                                KCAL
-                              </Text>
-                              <Text style={styles.header}></Text>
-                            </Block>
-
-                            {/* Data Rows */}
-
-                            <Block>
-                              {eveningSnackItems.map((item, index) => (
-                                <View
-                                  key={index}
-                                  style={{flexDirection: 'row'}}>
-                                  <Text
-                                    style={styles.header2}
-                                    size={12}
-                                    bold
-                                    numberOfLines={
-                                      expandedItems.includes(index) ? 0 : 1
-                                    }>
-                                    {item.food_name}
-                                  </Text>
-
-                                  <Text
-                                    style={styles.header}
-                                    semibold
-                                    size={12}>
-                                    {item.details.totalProtein}
-                                  </Text>
-                                  <Text
-                                    style={styles.header}
-                                    semibold
-                                    size={12}>
-                                    {item.details.totalCarb}
-                                  </Text>
-                                  <Text
-                                    style={styles.header}
-                                    semibold
-                                    size={12}>
-                                    {item.details.totalFat}
-                                  </Text>
-                                  <Text
-                                    style={styles.header}
-                                    semibold
-                                    size={12}>
-                                    {item.details.totalCalorie}
-                                  </Text>
-                                  <Text
-                                    style={styles.header}
-                                    semibold
-                                    size={12}>
-                                    <TouchableOpacity
-                                      onPress={() => {
-                                        handleDelete(index, 'evening');
-                                        handleDeleteApi(item);
-                                      }}>
-                                      <Image
-                                        source={require('../assets/icons/close1.png')}
-                                        color={'#fa9579'}
-                                        style={
-                                          (styles.data,
-                                          {
-                                            width: 20,
-                                            height: 20,
-                                            alignContent: 'center',
-                                          })
-                                        }
-                                        margin={sizes.s}
-                                      />
-                                    </TouchableOpacity>
-                                  </Text>
-                                </View>
-                              ))}
-                            </Block>
-                          </Block>
+                        <Block flex={1} center>
+                          <DataTable style={styles.container}>
+                            <DataTable.Header style={styles.tableHeader}>
+                              <DataTable.Cell
+                                style={{flex: 1.4}}></DataTable.Cell>
+                              <DataTable.Cell style={{flex: 1.3}}>
+                                Protien
+                              </DataTable.Cell>
+                              <DataTable.Cell style={{flex: 1.3}}>
+                                Carb
+                              </DataTable.Cell>
+                              <DataTable.Cell>Fat</DataTable.Cell>
+                              <DataTable.Cell>KCAL</DataTable.Cell>
+                              <DataTable.Cell></DataTable.Cell>
+                            </DataTable.Header>
+                            {eveningSnackItems.map((item, index) => (
+                              <DataTable.Row key={index}>
+                                <DataTable.Cell
+                                  style={{flex: 1.4}}
+                                  numberOfLines={
+                                    expandedItems.includes(index) ? 0 : 1
+                                  }>
+                                  {item.food_name}
+                                </DataTable.Cell>
+                                <DataTable.Cell style={{flex: 1.3}}>
+                                  {item.details.totalProtein}
+                                </DataTable.Cell>
+                                <DataTable.Cell style={{flex: 1.3}}>
+                                  {item.details.totalCarb}
+                                </DataTable.Cell>
+                                <DataTable.Cell>
+                                  {item.details.totalFat}
+                                </DataTable.Cell>
+                                <DataTable.Cell>
+                                  {item.details.totalCalorie}
+                                </DataTable.Cell>
+                                <DataTable.Cell
+                                  style={{
+                                    alignSelf: 'center',
+                                    justifyContent: 'flex-end',
+                                  }}>
+                                  {' '}
+                                  <TouchableOpacity
+                                    onPress={() => {
+                                      handleDelete(index, 'evening');
+                                      handleDeleteApi(item);
+                                    }}>
+                                    <Image
+                                      source={require('../assets/icons/close1.png')}
+                                      color={'#fa9579'}
+                                      style={
+                                        (styles.data,
+                                        {
+                                          width: 20,
+                                          height: 20,
+                                          alignContent: 'center',
+                                        })
+                                      }
+                                      margin={sizes.s}
+                                    />
+                                  </TouchableOpacity>
+                                </DataTable.Cell>
+                              </DataTable.Row>
+                            ))}
+                          </DataTable>
                         </Block>
                       </Block>
                     ) : (
@@ -1979,98 +1869,72 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                             </Block>
                           </TouchableOpacity>
                         </Block>
-                        <Block>
-                          <Block style={styles.container}>
-                            {/* Header */}
-                            <Block style={styles.row} flex={1}>
-                              <Text
-                                style={styles.header2}
-                                size={12}
-                                bold></Text>
-                              <Text style={styles.header} bold size={12}>
-                                Protein
-                              </Text>
-                              <Text style={styles.header} bold size={12}>
-                                Carbs
-                              </Text>
-                              <Text style={styles.header} bold size={12}>
-                                Fat
-                              </Text>
-                              <Text style={styles.header} bold size={12}>
-                                KCAL
-                              </Text>
-                              <Text style={styles.header}></Text>
-                            </Block>
-
-                            {/* Data Rows */}
-
-                            <Block>
-                              {dinnerItems.map((item, index) => (
-                                <View
-                                  key={index}
-                                  style={{flexDirection: 'row'}}>
-                                  <Text
-                                    style={styles.header2}
-                                    size={12}
-                                    bold
-                                    numberOfLines={
-                                      expandedItems.includes(index) ? 0 : 1
-                                    }>
-                                    {item.food_name}
-                                  </Text>
-
-                                  <Text
-                                    style={styles.header}
-                                    semibold
-                                    size={12}>
-                                    {item.details.totalProtein}
-                                  </Text>
-                                  <Text
-                                    style={styles.header}
-                                    semibold
-                                    size={12}>
-                                    {item.details.totalCarb}
-                                  </Text>
-                                  <Text
-                                    style={styles.header}
-                                    semibold
-                                    size={12}>
-                                    {item.details.totalFat}
-                                  </Text>
-                                  <Text
-                                    style={styles.header}
-                                    semibold
-                                    size={12}>
-                                    {item.details.totalCalorie}
-                                  </Text>
-                                  <Text
-                                    style={styles.header}
-                                    semibold
-                                    size={12}>
-                                    <TouchableOpacity
-                                      onPress={() => {
-                                        handleDelete(index, 'dinner');
-                                        handleDeleteApi(item);
-                                      }}>
-                                      <Image
-                                        source={require('../assets/icons/close1.png')}
-                                        color={'#fa9579'}
-                                        style={
-                                          (styles.data,
-                                          {
-                                            width: 20,
-                                            height: 20,
-                                            alignContent: 'center',
-                                          })
-                                        }
-                                        margin={sizes.s}
-                                      />
-                                    </TouchableOpacity>
-                                  </Text>
-                                </View>
-                              ))}
-                            </Block>
-                          </Block>
+                     
+                        <Block flex={1} center>
+                          <DataTable style={styles.container}>
+                            <DataTable.Header style={styles.tableHeader}>
+                              <DataTable.Cell
+                                style={{flex: 1.4}}></DataTable.Cell>
+                              <DataTable.Cell style={{flex: 1.3}}>
+                                Protien
+                              </DataTable.Cell>
+                              <DataTable.Cell style={{flex: 1.3}}>
+                                Carb
+                              </DataTable.Cell>
+                              <DataTable.Cell>Fat</DataTable.Cell>
+                              <DataTable.Cell>KCAL</DataTable.Cell>
+                              <DataTable.Cell></DataTable.Cell>
+                            </DataTable.Header>
+                            {dinnerItems.map((item, index) => (
+                              <DataTable.Row key={index}>
+                                <DataTable.Cell
+                                  style={{flex: 1.4}}
+                                  numberOfLines={
+                                    expandedItems.includes(index) ? 0 : 1
+                                  }>
+                                  {item.food_name}
+                                </DataTable.Cell>
+                                <DataTable.Cell style={{flex: 1.3}}>
+                                  {item.details.totalProtein}
+                                </DataTable.Cell>
+                                <DataTable.Cell style={{flex: 1.3}}>
+                                  {item.details.totalCarb}
+                                </DataTable.Cell>
+                                <DataTable.Cell>
+                                  {item.details.totalFat}
+                                </DataTable.Cell>
+                                <DataTable.Cell>
+                                  {item.details.totalCalorie}
+                                </DataTable.Cell>
+                                <DataTable.Cell
+                                  style={{
+                                    alignSelf: 'center',
+                                    justifyContent: 'flex-end',
+                                  }}>
+                                  {' '}
+                                  <TouchableOpacity
+                                    onPress={() => {
+                                      handleDelete(index, 'dinner');
+                                      handleDeleteApi(item);
+                                    }}>
+                                    <Image
+                                      source={require('../assets/icons/close1.png')}
+                                      color={'#fa9579'}
+                                      style={
+                                        (styles.data,
+                                        {
+                                          width: 20,
+                                          height: 20,
+                                          alignContent: 'center',
+                                        })
+                                      }
+                                      margin={sizes.s}
+                                    />
+                                  </TouchableOpacity>
+                                </DataTable.Cell>
+                              </DataTable.Row>
+                            ))}
+                          </DataTable>
                         </Block>
                       </Block>
                     ) : (
@@ -2242,98 +2106,72 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                             </Block>
                           </TouchableOpacity>
                         </Block>
-                        <Block>
-                          <Block style={styles.container}>
-                            {/* Header */}
-                            <Block style={styles.row} flex={1}>
-                              <Text
-                                style={styles.header2}
-                                size={12}
-                                bold></Text>
-                              <Text style={styles.header} bold size={12}>
-                                Protein
-                              </Text>
-                              <Text style={styles.header} bold size={12}>
-                                Carbs
-                              </Text>
-                              <Text style={styles.header} bold size={12}>
-                                Fat
-                              </Text>
-                              <Text style={styles.header} bold size={12}>
-                                KCAL
-                              </Text>
-                              <Text style={styles.header}></Text>
-                            </Block>
-
-                            {/* Data Rows */}
-
-                            <Block>
-                              {mealItems1.map((item, index) => (
-                                <View
-                                  key={index}
-                                  style={{flexDirection: 'row'}}>
-                                  <Text
-                                    style={styles.header2}
-                                    size={12}
-                                    bold
-                                    numberOfLines={
-                                      expandedItems.includes(index) ? 0 : 1
-                                    }>
-                                    {item.food_name}
-                                  </Text>
-
-                                  <Text
-                                    style={styles.header}
-                                    semibold
-                                    size={12}>
-                                    {item.details.totalProtein}
-                                  </Text>
-                                  <Text
-                                    style={styles.header}
-                                    semibold
-                                    size={12}>
-                                    {item.details.totalCarb}
-                                  </Text>
-                                  <Text
-                                    style={styles.header}
-                                    semibold
-                                    size={12}>
-                                    {item.details.totalFat}
-                                  </Text>
-                                  <Text
-                                    style={styles.header}
-                                    semibold
-                                    size={12}>
-                                    {item.details.totalCalorie}
-                                  </Text>
-                                  <Text
-                                    style={styles.header}
-                                    semibold
-                                    size={12}>
-                                    <TouchableOpacity
-                                      onPress={() => {
-                                        handleDelete(index, 'meal1');
-                                        handleDeleteApi(item);
-                                      }}>
-                                      <Image
-                                        source={require('../assets/icons/close1.png')}
-                                        color={'#fa9579'}
-                                        style={
-                                          (styles.data,
-                                          {
-                                            width: 20,
-                                            height: 20,
-                                            alignContent: 'center',
-                                          })
-                                        }
-                                        margin={sizes.s}
-                                      />
-                                    </TouchableOpacity>
-                                  </Text>
-                                </View>
-                              ))}
-                            </Block>
-                          </Block>
+                       
+                        <Block flex={1} center>
+                          <DataTable style={styles.container}>
+                            <DataTable.Header style={styles.tableHeader}>
+                              <DataTable.Cell
+                                style={{flex: 1.4}}></DataTable.Cell>
+                              <DataTable.Cell style={{flex: 1.3}}>
+                                Protien
+                              </DataTable.Cell>
+                              <DataTable.Cell style={{flex: 1.3}}>
+                                Carb
+                              </DataTable.Cell>
+                              <DataTable.Cell>Fat</DataTable.Cell>
+                              <DataTable.Cell>KCAL</DataTable.Cell>
+                              <DataTable.Cell></DataTable.Cell>
+                            </DataTable.Header>
+                            {mealItems1.map((item, index) => (
+                              <DataTable.Row key={index}>
+                                <DataTable.Cell
+                                  style={{flex: 1.4}}
+                                  numberOfLines={
+                                    expandedItems.includes(index) ? 0 : 1
+                                  }>
+                                  {item.food_name}
+                                </DataTable.Cell>
+                                <DataTable.Cell style={{flex: 1.3}}>
+                                  {item.details.totalProtein}
+                                </DataTable.Cell>
+                                <DataTable.Cell style={{flex: 1.3}}>
+                                  {item.details.totalCarb}
+                                </DataTable.Cell>
+                                <DataTable.Cell>
+                                  {item.details.totalFat}
+                                </DataTable.Cell>
+                                <DataTable.Cell>
+                                  {item.details.totalCalorie}
+                                </DataTable.Cell>
+                                <DataTable.Cell
+                                  style={{
+                                    alignSelf: 'center',
+                                    justifyContent: 'flex-end',
+                                  }}>
+                                  {' '}
+                                  <TouchableOpacity
+                                    onPress={() => {
+                                      handleDelete(index, 'meal1');
+                                      handleDeleteApi(item);
+                                    }}>
+                                    <Image
+                                      source={require('../assets/icons/close1.png')}
+                                      color={'#fa9579'}
+                                      style={
+                                        (styles.data,
+                                        {
+                                          width: 20,
+                                          height: 20,
+                                          alignContent: 'center',
+                                        })
+                                      }
+                                      margin={sizes.s}
+                                    />
+                                  </TouchableOpacity>
+                                </DataTable.Cell>
+                              </DataTable.Row>
+                            ))}
+                          </DataTable>
                         </Block>
                       </Block>
                     ) : (
@@ -2895,9 +2733,9 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                       </Block> */}
                             {water ? (
                               // Render content when water data is present
-                              <Block row centerContent>
+                              <Block row style={{ justifyContent: 'space-between',paddingTop:20}}>
                                 <Block
-                                  flex={0}
+                                  flex={1.8}
                                   width={160}
                                   height={80}
                                   card
@@ -2907,7 +2745,8 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                                     center
                                     flex={0}
                                     marginBottom={10}
-                                    marginRight={20}>
+                                    marginRight={20}
+                                    >
                                     <Lottie
                                       width={44}
                                       height={54}
@@ -2929,12 +2768,12 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                                   </Block>
                                 </Block>
                                 <Block
-                                  flex={0}
+                                  flex={1.1}
                                   // card
                                   width={130}
                                   marginHorizontal={10}
                                   center
-                                  padding={10}>
+                                  padding={30}>
                                   <Block
                                     flex={1}
                                     centerContent
@@ -2943,14 +2782,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                                       justifyContent: 'center',
                                       alignSelf: 'center',
                                     }}>
-                                    {/* <Block center marginBottom={10}>
-      <Lottie
-        width={64}
-        height={64}
-        source={require('../assets/json/water.json')}
-        progress={animationProgress.current}
-      />
-    </Block> */}
+                                  
                                     <Image
                                       center
                                       source={require('../assets/icons/glass.png')}
@@ -2994,18 +2826,12 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                                     flex={0}
                                     width={100}
                                     margin={-20}>
-                                    {/* <Lottie
-       source={require('../assets/json/water2.json')} // Replace with the path to your fill animation JSON file
-       autoPlay={false}
-       loop={false}
-       style={{ width: 50, height: 100, position: 'absolute', bottom: 0 }}
-      >
-
-      </Lottie> */}
+                                 
                                     <Progress.Bar
                                       progress={waterProgress}
                                       width={120}
                                       height={15}
+                                      borderRadius={10}
                                       color="skyblue"></Progress.Bar>
                                   </Block>
                                 </Block>
@@ -3020,6 +2846,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                   </>
                 ) : (
                   <PreviousDietDetails data={apiData} />
+        
                 )}
               </Block>
             </Block>
@@ -3039,7 +2866,7 @@ const styles = StyleSheet.create({
     // Other style properties you want to apply, such as fontSize, color, etc.
   },
   tableHeader: {
-    // borderBottomColor: 'gray',
+    // borderBottomColor: 'lightgreen',
     // borderBottomWidth: 0.9,
     //  marginTop:0,
   },
@@ -3075,12 +2902,13 @@ const styles = StyleSheet.create({
   container: {
     // flex: 1,
     // flexDirection: 'row', // set elements horizontally, try column.
-    padding: 10,
+    paddingHorizontal: 10,
+    
   },
   // container: {
   //   flex: 3,
   //   // backgroundColor: '#f9f6ee',
-  //   padding: 10,
+    // padding: 10,
   // },
   mainCardView: {
     height: 150,
