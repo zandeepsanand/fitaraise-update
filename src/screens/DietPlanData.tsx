@@ -769,7 +769,7 @@ const DietPlanData = ({route, navigation}) => {
                           <Text bold>Calories: {totalCalorie} </Text>
                         </Block>
                       </Block>
-                      <Block></Block>
+                    
                     </Block>
                   </Block>
                   <Block row>
@@ -788,7 +788,7 @@ const DietPlanData = ({route, navigation}) => {
                           <Text bold>Carbs: {totalCarb}</Text>
                         </Block>
                       </Block>
-                      <Block></Block>
+                    
                     </Block>
                     <Block
                       card
@@ -800,7 +800,7 @@ const DietPlanData = ({route, navigation}) => {
                           <Text bold>Fat: {totalFat}</Text>
                         </Block>
                       </Block>
-                      <Block></Block>
+                   
                     </Block>
                   </Block>
                 </Block>
