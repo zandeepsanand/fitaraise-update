@@ -19,14 +19,17 @@ import api from '../../../../api';
 import CalendarHomeWorkout from './calendar/Calendar';
 import LoginContext from '../../../hooks/LoginContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useFavorites } from '../../../hooks/HomeWorkoutContext';
+import {useFavorites} from '../../../hooks/HomeWorkoutContext';
 
 const HomeWorkoutMain = ({navigation, route}) => {
   const {t} = useTranslation();
   const {workout, workoutData} = route.params;
   // const {workout} = useFavorites();
   const homeWorkout = workout;
-  const {authenticated,customerId} = useContext(LoginContext);
+  const {authenticated, customerId} = useContext(LoginContext);
+  console.log('====================================');
+  console.log(customerId, "homeworkout check");
+  console.log('====================================');
   const [tab, setTab] = useState<number>(0);
   const {following, trending} = useData();
   const [products, setProducts] = useState(following);
@@ -46,7 +49,7 @@ const HomeWorkoutMain = ({navigation, route}) => {
   const handleWorkoutClick = (workout) => {
     // Call the API with workoutId and fetch exercise details
     // Once you have the exercise data, navigate to the 'HomeWorkoutAll' screen
-    navigation.navigate('HomeWorkoutAll', {workout ,workoutData});
+    navigation.navigate('HomeWorkoutAll', {workout, workoutData});
     // console.log(workout);
   };
   const handleLevelChange = async (level) => {
@@ -54,29 +57,33 @@ const HomeWorkoutMain = ({navigation, route}) => {
     if (['Gym workout', 'Workout Challenge'].includes(level)) {
       if (level === 'Gym workout') {
         try {
-          const userData = await api.get(`get_personal_datas/${workoutData.customer_id}`);
+          const userData = await api.get(
+            `get_personal_datas/${workoutData.customer_id}`,
+          );
           const user = userData.data.data;
-          console.log(user, "user data home workout loading");
-  
+          console.log(user, 'user data home workout loading');
+
           if (user.gender && user.gym_workout_level) {
-            const homeWorkout = await api.get(`get_gym_workouts?gender=${user.gender}&level=${user.gym_workout_level}`);
+            const homeWorkout = await api.get(
+              `get_gym_workouts?gender=${user.gender}&level=${user.gym_workout_level}`,
+            );
             const gymWorkoutJSON = homeWorkout.data.data;
             console.log(gymWorkoutJSON);
-  
+
             if (gymWorkoutJSON) {
-              console.log(gymWorkoutJSON, "workout data gym");
-  
+              console.log(gymWorkoutJSON, 'workout data gym');
+
               // Navigate to 'GymTabNavigator' with gymWorkoutJSON and user data
               navigation.navigate('GymTabNavigator', {
                 screen: 'GymWorkoutMain',
-                params: { data: gymWorkoutJSON, formDataCopy: user },
+                params: {data: gymWorkoutJSON, formDataCopy: user},
               });
             }
           } else {
             console.log('workout page');
             // Navigate to 'GymGenderPage' with workoutData
             navigation.navigate('GymGenderPage', {
-              workoutData
+              workoutData,
             });
           }
         } catch (error) {
@@ -85,99 +92,92 @@ const HomeWorkoutMain = ({navigation, route}) => {
       } else if (level === 'Workout Challenge') {
         // navigation.navigate('ChallengeGenderPage', { workoutData });
         try {
-          const authDataJSON = await AsyncStorage.getItem('authData');
-         
-          if (authDataJSON) {
-           
-            const authData = JSON.parse(authDataJSON);
+          // Fetch user data
+          setIsLoading(true);
+          const userData = await api.get(`get_personal_datas/${customerId}`);
+          const user = userData.data.data;
+          console.log(user, 'user data challenge workout loading');
     
-            const authToken = authData.token;
-            // console.log('token');
+          if (user.gender && user.workout_challenge_level) {
+            // Check if user has gender and workout challenge level set
+            console.log('entered');
     
-            if (authToken) {
-             
-              setIsLoading(true);
-              // setAuthToken(authToken);
-              // console.log(authToken, "token preview");
+            // Fetch home workout data based on user's gender and workout level
+            const homeWorkout = await api.get(
+              `get_workout_challenges?gender=${user.gender}&level=${user.workout_challenge_level}`,
+            );
+            console.log(homeWorkout, 'entered');
     
-              try {
-               
-                const authData = JSON.parse(authDataJSON);
-                const workoutDataJSON = authData.formData;
-                console.log(customerId , "id");
-                const userData = await api.get(`get_personal_datas/${customerId}`);
-              
-                const user = userData.data.data;
-                console.log(user, 'user data challenge workout loading');
-               
-                if (user.gender && user.workout_challenge_level) {
-                
-                  const homeWorkout = await api.get(
-                    `get_workout_challenges?gender=${user.gender}&level=${user.workout_challenge_level}`,
-                  );
-                  const challengeMonthJSON = homeWorkout.data.data;
-                  console.log(challengeMonthJSON);
-                  if (challengeMonthJSON) {
-                    const activeChallenges = challengeMonthJSON.filter(
-                      (challenge) => challenge.currently_using,
-                    );
+            const challengeMonthJSON = homeWorkout.data.data;
+            console.log('====================================');
+            console.log(challengeMonthJSON, 'months');
+            console.log('====================================');
+            console.log(challengeMonthJSON);
     
-                    if (activeChallenges.length > 0) {
-                      // You can choose to navigate with the first active challenge here
-                      const firstActiveChallenge = activeChallenges[0];
+            if (challengeMonthJSON) {
+              // Check if there are active challenges
+              const activeChallenges = challengeMonthJSON.filter(
+                (challenge) => challenge.currently_using,
+              );
+              console.log(activeChallenges, 'active challenge?');
     
-                      // Use the navigation.navigate function to pass the data to the next screen
-                      // navigation.navigate('ChallengeMain', { workoutData, challenge: firstActiveChallenge });
-    
-                      navigation.navigate('ChallengeTabNavigator', {
-                        screen: 'ChallengeMain',
-                        params: {challenge: firstActiveChallenge},
-                      });
-                      // navigation.navigate('ChallengeMenu', {
-                      //   workoutData ,
-                      //   challenge:firstActiveChallenge,
-                      //   formDataCopy: authData.formData,
-                      // });
-                    }
-                    else {
-                      console.log('workout page');
-                      // Navigate to 'Gender' screen with workoutData
-                      navigation.navigate('ChallengeGenderPage', {
-                        workoutData: user,
-                      });
-                    }
-                  }
+              if (activeChallenges.length > 0) {
+                // If there are active challenges, find the currently active one
+                const currentlyActiveChallenge = activeChallenges.find(
+                  (challenge) => challenge.currently_using,
+                );
+                console.log('====================================');
+                console.log(currentlyActiveChallenge, 'check active');
+                console.log('====================================');
+                if (currentlyActiveChallenge) {
+                  // Navigate to the main challenge screen with the active challenge
+                  navigation.navigate('ChallengeTabNavigator', {
+                    screen: 'ChallengeMain',
+                    params: {challenge: currentlyActiveChallenge},
+                  });
+                 
                 } else {
                   console.log('workout page');
-                  // Navigate to 'Gender' screen with workoutData
+                  // If no active challenge, navigate to the gender page with workout data
                   navigation.navigate('ChallengeGenderPage', {
                     workoutData: user,
                   });
                 }
-    
-                // console.log(homeWorkoutJSON.data.data);
-              } catch (error) {
-                console.error('Error fetching stored data:', error);
-              } finally {
-                setIsLoading(false);
+              } else {
+                // If no active challenge, navigate to the gender page with workout data
+                navigation.navigate('ChallengeGenderPage', {
+                  workoutData: user,
+                });
               }
+            } else {
+              // If no challenge data, navigate to the gender page with workout data
+              navigation.navigate('ChallengeGenderPage', {
+                workoutData: user,
+              });
             }
           } else {
-            console.log('Token not available');
-            navigation.reset({
-              index: 0,
-              routes: [{name: 'loginNew'}],
+            // If gender or workout challenge level is not set, log a message
+            console.log('set user gender weight height');
+    
+            navigation.navigate('ChallengeGenderPage', {
+              workoutData: user,
             });
           }
         } catch (error) {
-          console.error('Authentication Status Error:', error);
+          // Handle errors during API calls
+          if (error.response && error.response.data) {
+            console.error('Error fetching stored data 1:', error.response.data);
+          } else {
+            console.error('Error fetching stored data:', error.message);
+          }
         } finally {
+          // Set loading state to false
           setIsLoading(false);
         }
       }
     }
   };
-  
+
   const [isLoading, setIsLoading] = useState(true); // Loading state
 
   useEffect(() => {
@@ -189,11 +189,15 @@ const HomeWorkoutMain = ({navigation, route}) => {
 
   const fetchData = async () => {
     try {
-      const response = await api.get(`get_customer_done_home_workouts/${customerId}`);
+      const response = await api.get(
+        `get_customer_done_home_workouts/${customerId}`,
+      );
       if (response.data.success) {
         // Handle the data and update your calendar with the results
-        const completedDates = response.data.data.map((item) => item.completed_date);
-        console.log(completedDates, "dates");
+        const completedDates = response.data.data.map(
+          (item) => item.completed_date,
+        );
+        console.log(completedDates, 'dates');
         setCompletedDates(completedDates);
         // Set completedDates in your state or props
       } else {
@@ -203,89 +207,84 @@ const HomeWorkoutMain = ({navigation, route}) => {
       // Handle errors from the API call
     }
   };
-  
+
   useEffect(() => {
     fetchData();
   }, []);
   return (
     <Block safe paddingTop={10}>
-
-    
-    <Block
-     scroll
-     paddingHorizontal={sizes.s}
-     showsVerticalScrollIndicator={false}
-     contentContainerStyle={{paddingBottom: sizes.padding}}
-    
-    >
-      {isLoading && (
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginTop:140}}>
-          <ActivityIndicator size="large" color="blue" />
-        </View>
-      )}
-      {!isLoading && (
-        <Block
-          // scroll
-          paddingTop={50}
-          // paddingHorizontal={sizes.padding}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{paddingBottom: sizes.l}}
-          paddingBottom={50}
-          // centerContent
-        >
+      <Block
+        scroll
+        paddingHorizontal={sizes.s}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{paddingBottom: sizes.padding}}>
+        {isLoading && (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: 140,
+            }}>
+            <ActivityIndicator size="large" color="blue" />
+          </View>
+        )}
+        {!isLoading && (
           <Block
-          //   centerContent
-          //   center
-          //   style={{justifyContent: 'center', flex: 1, marginTop: 10}}
+            // scroll
+            paddingTop={50}
+            // paddingHorizontal={sizes.padding}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{paddingBottom: sizes.l}}
+            paddingBottom={50}
+            // centerContent
           >
-           <Block
-  row
-  style={{
-    justifyContent: 'space-between',
-    paddingBottom: 10,
-    borderBottomWidth: 10,
-    borderBottomColor: '#2FD87269',
-  }}
->
-  <Block>
-    <Block>
-      <Text bold>Home Workout</Text>
-    </Block>
-    <Block row>
-      <Text>Your program :</Text>
-      <Text bold>
-        {workoutData.home_workout_level.charAt(0).toUpperCase() +
-          workoutData.home_workout_level.slice(1)}
-      </Text>
-    </Block>
-  </Block>
-
-  <Block style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'flex-end' }}>
-  <SelectDropdown
-    defaultValue={'one'}
-    dropdownStyle={{ borderRadius: 20 }}
-    buttonStyle={{
-      height: 50,
-      width: 160,
-      backgroundColor: 'white',
-      borderRadius: 20,
-      marginLeft: 10,
-    }}
-    data={['Gym workout', 'Workout Challenge']}
-    defaultButtonText={'Select Workout'}
-    onSelect={handleLevelChange}
-  />
-</Block>
-</Block>
-
             <Block
-          
-            ></Block>
-            <View style={{paddingBottom: 20}}>
-              {/* <HomeWorkoutCalender savedDate={savedDate} /> */}
-              <CalendarHomeWorkout  savedDate={completedDates}/>
-            </View>
-{/* 
+            //   centerContent
+            //   center
+            //   style={{justifyContent: 'center', flex: 1, marginTop: 10}}
+            >
+              <Block
+                row
+                style={{
+                  justifyContent: 'space-between',
+                  paddingBottom: 10,
+                  borderBottomWidth: 10,
+                  borderBottomColor: '#2FD87269',
+                }}>
+                <Block center paddingLeft={10}>
+                  <Text bold>Home Workout</Text>
+                </Block>
+
+                <Block
+                  style={{
+                    flex: 1,
+                    justifyContent: 'flex-end',
+                    alignItems: 'flex-end',
+                  }}>
+                  <SelectDropdown
+                    // defaultValue={'one'}
+                    dropdownStyle={{borderRadius: 20}}
+                    buttonStyle={{
+                      height: 50,
+                      width: 160,
+                      backgroundColor: 'white',
+                      borderRadius: 20,
+                      marginLeft: 10,
+                    }}
+                    data={['Gym workout', 'Workout Challenge']}
+                    defaultButtonText={'Select Workout'}
+                    onSelect={handleLevelChange}
+                  />
+                </Block>
+              </Block>
+
+              <Block></Block>
+              <View style={{paddingBottom: 20}}>
+                {/* <HomeWorkoutCalender savedDate={savedDate} /> */}
+                <CalendarHomeWorkout savedDate={completedDates} />
+              </View>
+              {/* 
             {workout.map((workout) => (
               <TouchableOpacity
                 key={workout.id}
@@ -325,7 +324,7 @@ const HomeWorkoutMain = ({navigation, route}) => {
               </TouchableOpacity>
             ))} */}
 
-            {workout.map((workout) => (
+              {workout.map((workout) => (
                 <TouchableOpacity
                   key={workout.id}
                   onPress={() => handleWorkoutClick(workout)}>
@@ -368,12 +367,28 @@ const HomeWorkoutMain = ({navigation, route}) => {
                         top={60}
                         paddingLeft={30}
                         size={15}
-                        
                         style={{
                           position: 'absolute',
                           zIndex: 10,
                         }}>
-                        Total Minutes : {workout.total_minutes}
+                        Total Minutes : {workout.total_minutes}{' '}
+                       
+                      </Text>
+                      <Text
+                        white
+                        // left={40}
+                        top={90}
+                        paddingLeft={30}
+                        size={15}
+                        bold
+                        style={{
+                          position: 'absolute',
+                          zIndex: 10,
+                        }}>
+                        {workoutData.home_workout_level
+                          .charAt(0)
+                          .toUpperCase() +
+                          workoutData.home_workout_level.slice(1)}
                       </Text>
                       <Animated.Image
                         style={styles.coverImage}
@@ -401,7 +416,7 @@ const HomeWorkoutMain = ({navigation, route}) => {
                       <Button
                         color={'#A7F432'}
                         onPress={() => handleWorkoutClick(workout)}>
-                        <Text  paddingHorizontal={25} size={15} bold>
+                        <Text paddingHorizontal={25} size={15} bold>
                           Try
                         </Text>
                       </Button>
@@ -409,10 +424,10 @@ const HomeWorkoutMain = ({navigation, route}) => {
                   </Block>
                 </TouchableOpacity>
               ))}
+            </Block>
           </Block>
-        </Block>
-      )}
-    </Block>
+        )}
+      </Block>
     </Block>
   );
 };

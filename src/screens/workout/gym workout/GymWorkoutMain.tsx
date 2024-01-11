@@ -228,28 +228,26 @@ const GymWorkoutMain = ({navigation, route}) => {
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{paddingBottom: sizes.padding}}>
             <Block>
-              <Block
+            <Block
                 row
-                justify="space-around"
-                paddingBottom={10}
-                style={{borderBottomWidth: 10, borderBottomColor: '#2FD87269'}}>
-                <Block paddingLeft={10}>
-                  <Block>
-                    <Text bold>Gym Workout</Text>
-                  </Block>
-                  <Block row>
-                    <Text>Your program :</Text>
-                    <Text bold>
-                      {' '}
-                      {formDataCopy.gym_workout_level.charAt(0).toUpperCase() +
-                        formDataCopy.gym_workout_level.slice(1)}
-                    </Text>
-                  </Block>
+                style={{
+                  justifyContent: 'space-between',
+                  paddingBottom: 10,
+                  borderBottomWidth: 10,
+                  borderBottomColor: '#2FD87269',
+                }}>
+                <Block center paddingLeft={10}>
+                  <Text bold>Gym Workout</Text>
                 </Block>
                 <Block>
-                  <Block center>
+                <Block
+                  style={{
+                    flex: 1,
+                    justifyContent: 'flex-end',
+                    alignItems: 'flex-end',
+                  }}>
                     <SelectDropdown
-                      defaultValue={'one'}
+                      // defaultValue={'one'}
                       dropdownStyle={{borderRadius: 20}}
                       buttonStyle={{
                         height: 50,
@@ -266,6 +264,7 @@ const GymWorkoutMain = ({navigation, route}) => {
                   </Block>
                 </Block>
               </Block>
+         
               <Block
               // style={{
               //   borderBottomColor: 'black',
@@ -336,6 +335,21 @@ const GymWorkoutMain = ({navigation, route}) => {
                         }}>
                         Total Minutes : {workout.total_minutes}
                       </Text>
+                      <Text
+                        white
+                        // left={40}
+                        top={90}
+                        paddingLeft={30}
+                        size={15}
+                        bold
+                        
+                        style={{
+                          position: 'absolute',
+                          zIndex: 10,
+                        }}>
+                        {formDataCopy.gym_workout_level.charAt(0).toUpperCase() +
+                        formDataCopy.gym_workout_level.slice(1)}
+                      </Text>
                       <Animated.Image
                         style={styles.coverImage}
                         source={{uri: `${workout.image}`}}
@@ -371,6 +385,7 @@ const GymWorkoutMain = ({navigation, route}) => {
                 </TouchableOpacity>
               ))}
             </Block>
+            
           </Block>
         </Block>
       )}
