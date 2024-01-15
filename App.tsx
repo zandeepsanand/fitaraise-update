@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, {useContext, useEffect, useState} from 'react';
 import 'react-native-gesture-handler';
+import Toast from 'react-native-toast-message'; 
 
 import {DataProvider} from './src/hooks';
 import AppNavigation from './src/navigation/App';
@@ -25,10 +26,7 @@ export default function App() {
 
   console.log(customerId, 'from main app.tsx');
 
-  useEffect(() => {
-    getDeviceToken();
-     requestPermission();
-  }, []);
+
   const getDeviceToken = async () => {
     let token = await messaging().getToken();
     console.log(token, 'token1');
@@ -38,7 +36,13 @@ export default function App() {
 
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+     
+      Toast.show({
+        type: 'success',
+        position: 'top',
+        // text1: 'A new FCM message arrived!',
+        text2: JSON.stringify(remoteMessage),
+      });
     
     
     });
@@ -55,10 +59,15 @@ export default function App() {
     }
   };
   useEffect(() => {
+    getDeviceToken();
+    requestPermission();
+  }, []);
+  useEffect(() => {
     if (Platform.OS === 'android') SplashScreen.hide();
   }, []);
 
   return (
+    <>
     <GoogleProvider>
       <LoginProvider>
       <GymDataProvider>
@@ -66,7 +75,7 @@ export default function App() {
           <FavoritesProvider>
             <HomeWorkoutProvider>
               <DataProvider>
-                
+             
                 <AppNavigation />
               </DataProvider>
             </HomeWorkoutProvider>
@@ -76,5 +85,9 @@ export default function App() {
        
       </LoginProvider>
     </GoogleProvider>
+    <Toast />
+    </>
+    
+   
   );
 }

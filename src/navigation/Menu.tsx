@@ -252,7 +252,7 @@ const DrawerContent = (
           FITARAISE
         </Text>
 
-        <Button
+        {/* <Button
           //  color={colors.info}
 
           row
@@ -287,7 +287,7 @@ const DrawerContent = (
           <Text p color={labelColor} center>
             Logout
           </Text>
-        </Button>
+        </Button> */}
 
         <Block row justify="space-between" marginTop={sizes.sm}>
           <Text color={labelColor}>{t('darkMode')}</Text>

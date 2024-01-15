@@ -81,7 +81,7 @@ export const GoogleAuthNew = ({ onUserLogin }) => {
                 source={assets.google}
                 height={sizes.m}
                 width={sizes.m}
-                color={colors.icon}
+                // color={colors.icon}
               />
             )}
           </Button>

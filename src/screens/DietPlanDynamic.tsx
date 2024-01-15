@@ -137,7 +137,7 @@ const DietPlanDynamic = ({route, navigation}) => {
               <TextInput
                 style={styles.input}
                 autoCapitalize="none"
-                placeholder="Search"
+                placeholder="Search Food , Meals or Brand"
                 // onChangeText={handleSearch}
                 // value={searchTerm}
                 onChangeText={fetchResults}

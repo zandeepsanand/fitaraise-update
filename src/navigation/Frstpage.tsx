@@ -16,7 +16,7 @@ import {Block, Button, Image, Input, Product, Text} from '../components/';
 import {StatusBar as ExpoStatusBar} from 'expo-status-bar';
 import Lottie from 'lottie-react-native';
 import {Alert, Animated, Easing, TouchableWithoutFeedback} from 'react-native';
-
+import Toast from 'react-native-toast-message'; 
 
 import {
   StyleSheet,
@@ -116,7 +116,28 @@ export default function Frstpage({
    
    useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
-      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+      const { title, body } = remoteMessage.notification;
+      const imageUrl = remoteMessage.notification.android.smallIcon;
+  
+      // Show toast notification
+      Toast.show({
+        onPress() {
+            navigation.navigate('NotificationPage');
+        },
+        swipeable:true,
+       props:imageUrl,
+        
+        type: 'success',
+        position: 'top',
+        text1: title || 'Default Title', // Provide a default title if not present
+        text2: body || 'Default Body',   // Provide a default body if not present
+        visibilityTime: 4000,             // Adjust visibility time as needed
+        autoHide: true,                   // Auto-hide the toast after visibilityTime
+        topOffset: 30,                    // Adjust the top offset as needed
+        // Add an image to the toast if imageUrl is available
+        // You may need to adjust the styling based on the library you are using
+        
+      });
     });
 
     return unsubscribe;
@@ -221,6 +242,8 @@ export default function Frstpage({
       {isLoading ? (
         <Loader />
       ) : (
+        <>
+
         <Block>
           <Block style={styles.container1} gradient={gradients.success}>
             <Text
@@ -229,6 +252,7 @@ export default function Frstpage({
               style={{top: 40, padding: 16}}>
               Welcome {formData.first_name} ,
             </Text>
+           
             <View style={styles.img}>
               <Image
                 source={require('../assets/images/fitter-bg.png')}
@@ -416,6 +440,7 @@ export default function Frstpage({
             {/* <Text>{expoNotification}</Text> */}
           </View>
         </Block>
+        </>
       )}
     </>
   );

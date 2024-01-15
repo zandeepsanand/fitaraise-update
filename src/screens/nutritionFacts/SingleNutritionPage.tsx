@@ -790,22 +790,7 @@ const SingleNutritionPage = ({route, navigation}) => {
                             {totalTransFat}
                           </Text>
                         </Block>
-                        <Block style={styles.row} flex={0} card margin={1}>
-                          <Text style={styles.data} center semibold>
-                            Monounsaturated Fat :
-                          </Text>
-                          <Text style={styles.data} center>
-                            {totalMonounsaturatedFat}
-                          </Text>
-                        </Block>
-                        <Block style={styles.row} flex={0} card margin={1}>
-                          <Text style={styles.data} center semibold>
-                            Polyunsaturated Fat :
-                          </Text>
-                          <Text style={styles.data} center>
-                            {totalPolyunsaturatedFat}
-                          </Text>
-                        </Block>
+                      
                         <Block style={styles.row} flex={0} card margin={1}>
                           <Text style={styles.data} center semibold>
                             Vitamin A :
@@ -814,14 +799,7 @@ const SingleNutritionPage = ({route, navigation}) => {
                             {totalVitaminAIU}
                           </Text>
                         </Block>
-                        {/* <Block style={styles.row} flex={0} card margin={1}>
-                          <Text style={styles.data} center semibold>
-                            Vitamin A Retinol Activity Equivalents (RAE) :
-                          </Text>
-                          <Text style={styles.data} center>
-                            {totalVitaminARAE}
-                          </Text>
-                        </Block> */}
+                       
                         <Block style={styles.row} flex={0} card margin={1}>
                           <Text style={styles.data} center semibold>
                             Vitamin C :
@@ -852,6 +830,22 @@ const SingleNutritionPage = ({route, navigation}) => {
                           </Text>
                           <Text style={styles.data} center>
                             {totalIron}
+                          </Text>
+                        </Block>
+                        <Block style={styles.row} flex={0} card margin={1}>
+                          <Text style={styles.data} center semibold>
+                            Monounsaturated Fat :
+                          </Text>
+                          <Text style={styles.data} center>
+                            {totalMonounsaturatedFat}
+                          </Text>
+                        </Block>
+                        <Block style={styles.row} flex={0} card margin={1}>
+                          <Text style={styles.data} center semibold>
+                            Polyunsaturated Fat :
+                          </Text>
+                          <Text style={styles.data} center>
+                            {totalPolyunsaturatedFat}
                           </Text>
                         </Block>
                       </Block>

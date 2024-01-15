@@ -104,6 +104,7 @@
     "react-native-svg": "^13.4.0",
     "react-native-svg-charts": "^5.4.0",
     "react-native-table-component": "^1.2.2",
+    "react-native-toast-message": "^2.2.0",
     "react-native-typing-text": "^0.0.3",
     "react-native-vector-icons": "^9.2.0",
     "react-native-waveview": "^1.1.0",

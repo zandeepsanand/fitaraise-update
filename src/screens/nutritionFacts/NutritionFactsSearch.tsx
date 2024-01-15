@@ -139,7 +139,7 @@ const NutritionFactsSearch = ({route, navigation}) => {
           <TextInput
             style={styles.input}
             autoCapitalize="none"
-            placeholder="Search"
+            placeholder="Search Food , Meals or Brand"
             // onChangeText={handleSearch}
             // value={searchTerm}
             onChangeText={fetchResults}
@@ -224,6 +224,7 @@ const NutritionFactsSearch = ({route, navigation}) => {
       ) : (
         <>
           <Block flex={0} paddingHorizontal={20}>
+            <Text center padding={10}>Save the foods you love and track them in a flash.</Text>
             <Text padding={10} bold>
               Favorites
             </Text>

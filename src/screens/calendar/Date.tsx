@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     alignItems: 'center',
     height: 70,
-    width: 58,
+    width: 65,
     marginHorizontal: 5,
   },
   big: {

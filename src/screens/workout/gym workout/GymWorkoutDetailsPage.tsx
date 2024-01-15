@@ -173,7 +173,7 @@ const GymWorkoutDetailsPage = ({
               </Text> */}
         </Button>
         <Block >
-        <Text center h5 bold marginLeft={-30} marginTop={sizes.s}>
+        <Text center  bold marginLeft={-30} marginTop={sizes.s}>
           {workout.name}
         </Text>
         </Block>

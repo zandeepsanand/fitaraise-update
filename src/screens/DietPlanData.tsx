@@ -887,22 +887,7 @@ const DietPlanData = ({route, navigation}) => {
                             {totalTransFat}
                           </Text>
                         </Block>
-                        <Block style={styles.row} flex={0} card margin={1}>
-                          <Text style={styles.data} center semibold>
-                            Monounsaturated Fat :
-                          </Text>
-                          <Text style={styles.data} center>
-                            {totalMonounsaturatedFat}
-                          </Text>
-                        </Block>
-                        <Block style={styles.row} flex={0} card margin={1}>
-                          <Text style={styles.data} center semibold>
-                            Polyunsaturated Fat :
-                          </Text>
-                          <Text style={styles.data} center>
-                            {totalPolyunsaturatedFat}
-                          </Text>
-                        </Block>
+                      
                         <Block style={styles.row} flex={0} card margin={1}>
                           <Text style={styles.data} center semibold>
                             Vitamin A :
@@ -949,6 +934,22 @@ const DietPlanData = ({route, navigation}) => {
                           </Text>
                           <Text style={styles.data} center>
                             {totalIron}
+                          </Text>
+                        </Block>
+                        <Block style={styles.row} flex={0} card margin={1}>
+                          <Text style={styles.data} center semibold>
+                            Monounsaturated Fat :
+                          </Text>
+                          <Text style={styles.data} center>
+                            {totalMonounsaturatedFat}
+                          </Text>
+                        </Block>
+                        <Block style={styles.row} flex={0} card margin={1}>
+                          <Text style={styles.data} center semibold>
+                            Polyunsaturated Fat :
+                          </Text>
+                          <Text style={styles.data} center>
+                            {totalPolyunsaturatedFat}
                           </Text>
                         </Block>
                       </Block>

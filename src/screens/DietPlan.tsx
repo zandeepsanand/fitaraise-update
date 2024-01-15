@@ -373,7 +373,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
     totalMeal1Calorie +
     totalMeal2Calorie;
   console.log(totalCaloriesOfAllFoods, 'total calorie');
-  const totalCaloriesRounded = totalCaloriesOfAllFoods.toFixed(2);
+  const totalCaloriesRounded = totalCaloriesOfAllFoods.toFixed(0);
   console.log(totalCaloriesRounded, 'total calorie');
 
   const ProgressCalorie = totalCaloriesOfAllFoods;
@@ -416,6 +416,9 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
   const ProgressCarb = totalCarbfAllFoods;
   const ProgressCarbs = ProgressCarb.toFixed(0);
   // console.log(ProgressCarbs, 'total Carbs');
+  console.log('====================================');
+  console.log(data.calories);
+  console.log('====================================');
 
   const initialValueWithoutDecimals = Math.floor(
     data.calories - totalCaloriesOfAllFoods >= 1
@@ -633,15 +636,15 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                       maxValue={data.calories}
                       circleBackgroundColor={'#353353'}
                       title={
-                        totalCaloriesOfAllFoods.toFixed(2) >= data.calories
-                          ? 'KCAL OVER'
-                          : `${data.calories - totalCaloriesOfAllFoods}`
+                        totalCaloriesRounded >= data.calories
+                          ? `${-(data.calories - totalCaloriesOfAllFoods)}`
+                          : `${data.calories - totalCaloriesRounded}`
                       }
                       titleColor={'white'}
                       titleStyle={{fontWeight: 'bold', fontSize: 22}}
                       subtitle={
                         totalCaloriesOfAllFoods >= data.calories
-                          ? `${-(data.calories - totalCaloriesOfAllFoods)} KCAL`
+                          ? `KCAL OVER`
                           : `KCAL LEFT 🔥`
                       }
                       subtitleStyle={{

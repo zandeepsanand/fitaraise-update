@@ -15,7 +15,7 @@ const HomeWorkoutDetailsPageTwo = ({workout}) => {
       <Block card paddingHorizontal={sizes.sm} marginHorizontal={10} row>
         <Block row>
           <Block center>
-            <Text h5 bold center>
+            <Text  bold center>
               Focus Area
             </Text>
           </Block>
@@ -46,7 +46,7 @@ const HomeWorkoutDetailsPageTwo = ({workout}) => {
         paddingTop={30}
         paddingBottom={30}>
         <Block style={{borderBottomColor: '#2FD872', borderBottomWidth: 2}}>
-          <Text center h5 primary bold paddingBottom={10}>
+          <Text center  primary bold paddingBottom={10}>
             EXECUTION
           </Text>
         </Block>
@@ -71,7 +71,7 @@ const HomeWorkoutDetailsPageTwo = ({workout}) => {
         paddingTop={30}
         paddingBottom={30}>
         <Block style={{borderBottomColor: '#95ADFE', borderBottomWidth: 2}}>
-          <Text center h5 primary bold paddingBottom={10}>
+          <Text center primary bold paddingBottom={10}>
             KEY TIPS
           </Text>
         </Block>

@@ -91,17 +91,17 @@ const HomeWorkoutDetailsPage = ({workout, timeLeft}) => {
           alignItems: 'center',
           paddingTop: 30,
         }}>
-        <Text center h4 bold margin={sizes.sm} marginTop={sizes.s}>
+        <Text center  bold margin={sizes.sm} marginTop={sizes.s}>
           {workout.name}
         </Text>
         {workout.time_or_sets === 'time' ? (
           <>
-            <Text padding={10} paddingTop={40} bold size={30}>
+            <Text padding={10}  bold >
               00 : {timeLeft < 10 ? `0${timeLeft}` : timeLeft}
             </Text>
           </>
         ) : (
-          <Text padding={10} paddingTop={40} bold size={30}>
+          <Text padding={10}  bold >
             {workout.sets} X {workout.reps}
           </Text>
         )}
