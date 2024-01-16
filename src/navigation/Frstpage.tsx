@@ -152,88 +152,226 @@ export default function Frstpage({
     }
   };
 
+  // const redirectTo = async () => {
+  //   try {
+  //     console.log('clicked');
+
+  //     const authDataJSON = await AsyncStorage.getItem('authData');
+  //     console.log(authDataJSON, 'authdata first page');
+
+  //     if (authDataJSON) {
+  //       const authData = JSON.parse(authDataJSON);
+
+  //       const authToken = authData.token;
+  //       const customerId = authData.formData.customer_id;
+  //       const formData = authData.formData;
+  //       const token = authData.token;
+
+  //       loginSuccess(customerId, formData, token);
+  //       console.log(authToken, 'auth Data');
+  //       if (authToken) {
+  //         setAuthToken(authToken);
+  //         setIsLoading(true);
+  //         const requiredCalorieResponse = await api.get(
+  //           `get_daily_required_calories/${formData.customer_id}`,
+  //         );
+  //         const diet_List = await api.get(
+  //           `get_recommended_diet/${formData.customer_id}`,
+  //         );
+
+  //         const requiredCalorie = requiredCalorieResponse.data.data;
+
+  //         const dietPlan = diet_List.data.data.recommended_diet_list;
+  //         console.log(requiredCalorie, 'calorie required');
+  //         console.log(authData.formData, 'for workout example');
+
+  //         setIsLoading(false);
+
+  //         if (
+  //           requiredCalorieResponse.data.success === true &&
+  //           authData.formData
+  //         ) {
+  //           //   navigation.reset({
+  //           //   index: 0,
+  //           //   routes: [{ name: 'Menu', params: { data: requiredCalorie, formDataCopy: authData.formData, dietPlan } }],
+  //           // });
+  //           navigation.navigate('Menu', {
+  //             data: requiredCalorie,
+  //             formDataCopy: authData.formData,
+  //             dietPlan,
+  //           });
+  //         } else if (authData.formData) {
+  //           navigation.navigate('Details', {formData: authData.formData});
+  //         } else {
+  //           navigation.reset({
+  //             index: 0,
+  //             routes: [{name: 'loginNew'}],
+  //           });
+  //         }
+  //         // Replace 2000 with the desired loading duration (in milliseconds)
+  //       } else {
+  //         // No authToken, navigate to 'loginNew'
+  //         navigation.reset({
+  //           index: 0,
+  //           routes: [{name: 'loginNew'}],
+  //         });
+  //       }
+  //     } else {
+  //       // authData JSON doesn't exist, navigate to 'loginNew'
+  //       navigation.reset({
+  //         index: 0,
+  //         routes: [{name: 'loginNew'}],
+  //       });
+  //     }
+  //     setIsLoading(false);
+  //   } catch (error) {
+  //     console.error('Authentication Status Error:', error);
+  //     setIsLoading(false);
+  //     navigation.reset({
+  //       index: 0,
+  //       routes: [{name: 'FirstPageCountrySelect'}],
+  //     });
+  //   }
+  // };
+
+  // for loading Dietplan easily asyncStorage implemented
   const redirectTo = async () => {
     try {
       console.log('clicked');
-
-      const authDataJSON = await AsyncStorage.getItem('authData');
-      console.log(authDataJSON, 'authdata first page');
-
-      if (authDataJSON) {
-        const authData = JSON.parse(authDataJSON);
-
+  
+      // Check if cached data exists
+      const cachedDataJSON = await AsyncStorage.getItem('cachedData');
+      console.log(cachedDataJSON, 'cached data');
+  
+      if (cachedDataJSON) {
+        // If cached data exists, use it instead of making the API call
+        const cachedData = JSON.parse(cachedDataJSON);
+  
+        const authData = JSON.parse(await AsyncStorage.getItem('authData'));
         const authToken = authData.token;
         const customerId = authData.formData.customer_id;
         const formData = authData.formData;
         const token = authData.token;
-
+  
         loginSuccess(customerId, formData, token);
         console.log(authToken, 'auth Data');
+  
         if (authToken) {
           setAuthToken(authToken);
           setIsLoading(true);
-          const requiredCalorieResponse = await api.get(
-            `get_daily_required_calories/${formData.customer_id}`,
-          );
-          const diet_List = await api.get(
-            `get_recommended_diet/${formData.customer_id}`,
-          );
-
-          const requiredCalorie = requiredCalorieResponse.data.data;
-
-          const dietPlan = diet_List.data.data.recommended_diet_list;
-          console.log(requiredCalorie, 'calorie required');
-          console.log(authData.formData, 'for workout example');
-
+  
+          // Use the cached data
+          const requiredCalorie = cachedData.requiredCalorie;
+          const dietPlan = cachedData.dietPlan;
+  
           setIsLoading(false);
-
-          if (
-            requiredCalorieResponse.data.success === true &&
-            authData.formData
-          ) {
-            //   navigation.reset({
-            //   index: 0,
-            //   routes: [{ name: 'Menu', params: { data: requiredCalorie, formDataCopy: authData.formData, dietPlan } }],
-            // });
+  
+          if (requiredCalorie && authData.formData) {
             navigation.navigate('Menu', {
               data: requiredCalorie,
               formDataCopy: authData.formData,
               dietPlan,
             });
           } else if (authData.formData) {
-            navigation.navigate('Details', {formData: authData.formData});
+            navigation.navigate('Details', { formData: authData.formData });
           } else {
             navigation.reset({
               index: 0,
-              routes: [{name: 'loginNew'}],
+              routes: [{ name: 'loginNew' }],
             });
           }
-          // Replace 2000 with the desired loading duration (in milliseconds)
         } else {
           // No authToken, navigate to 'loginNew'
           navigation.reset({
             index: 0,
-            routes: [{name: 'loginNew'}],
+            routes: [{ name: 'loginNew' }],
           });
         }
       } else {
-        // authData JSON doesn't exist, navigate to 'loginNew'
-        navigation.reset({
-          index: 0,
-          routes: [{name: 'loginNew'}],
-        });
+        // No cached data, fetch data from the API
+        const authDataJSON = await AsyncStorage.getItem('authData');
+        console.log(authDataJSON, 'authdata first page');
+  
+        if (authDataJSON) {
+          const authData = JSON.parse(authDataJSON);
+  
+          const authToken = authData.token;
+          const customerId = authData.formData.customer_id;
+          const formData = authData.formData;
+          const token = authData.token;
+  
+          loginSuccess(customerId, formData, token);
+          console.log(authToken, 'auth Data');
+  
+          if (authToken) {
+            setAuthToken(authToken);
+            setIsLoading(true);
+            const requiredCalorieResponse = await api.get(
+              `get_daily_required_calories/${formData.customer_id}`,
+            );
+            const diet_List = await api.get(
+              `get_recommended_diet/${formData.customer_id}`,
+            );
+  
+            const requiredCalorie = requiredCalorieResponse.data.data;
+            const dietPlan = diet_List.data.data.recommended_diet_list;
+            console.log(requiredCalorie, 'calorie required');
+            console.log(authData.formData, 'for workout example');
+  
+            setIsLoading(false);
+  
+            if (
+              requiredCalorieResponse.data.success === true &&
+              authData.formData
+            ) {
+              // navigation.reset({
+              //   index: 0,
+              //   routes: [{ name: 'Menu', params: { data: requiredCalorie, formDataCopy: authData.formData, dietPlan } }],
+              // });
+              navigation.navigate('Menu', {
+                data: requiredCalorie,
+                formDataCopy: authData.formData,
+                dietPlan,
+              });
+            } else if (authData.formData) {
+              navigation.navigate('Details', { formData: authData.formData });
+            } else {
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'loginNew' }],
+              });
+            }
+  
+            // Cache the API response
+            await AsyncStorage.setItem(
+              'cachedData',
+              JSON.stringify({ requiredCalorie, dietPlan })
+            );
+          } else {
+            // No authToken, navigate to 'loginNew'
+            navigation.reset({
+              index: 0,
+              routes: [{ name: 'loginNew' }],
+            });
+          }
+        } else {
+          // authData JSON doesn't exist, navigate to 'loginNew'
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'loginNew' }],
+          });
+        }
+        setIsLoading(false);
       }
-      setIsLoading(false);
     } catch (error) {
-      console.error('Authentication Status Error:', error);
+      console.error('Error:', error);
       setIsLoading(false);
       navigation.reset({
         index: 0,
-        routes: [{name: 'FirstPageCountrySelect'}],
+        routes: [{ name: 'FirstPageCountrySelect' }],
       });
     }
   };
-
 
 
 
