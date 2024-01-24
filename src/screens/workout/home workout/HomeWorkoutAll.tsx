@@ -19,6 +19,7 @@ import api from '../../../../api';
 import {isAuthTokenSet} from '../../../../api';
 import {useFavorites} from '../../../hooks/HomeWorkoutContext';
 import {useFocusEffect} from '@react-navigation/native';
+import FastImage from 'react-native-fast-image';
 
 const isAndroid = Platform.OS === 'android';
 
@@ -306,18 +307,25 @@ const HomeWorkoutAll = ({route}) => {
                 key={exercise.id}
                 marginTop={5}
                 color={exercise.completed_today ? 'skyblue' : 'white'}>
-                <Image
+                {/* <Image
                   width={75}
                   height={75}
                   radius={10}
                   source={{
                     uri: `${exercise.image}`,
-                  }}></Image>
+                  }}></Image> */}
+                    <FastImage
+                style={{ width: 75, height: 75, borderRadius: 10 }}
+                source={{
+                  uri: exercise.image,
+                  priority: FastImage.priority.high,
+                }}
+              />
 
                 <Block center>
                   <Block>
                     <Text center bold top={10}>
-                      {exercise.name}
+                      {exercise.name} sandeep
                     </Text>
                   </Block>
                   {exercise.time_or_sets === 'time' ? (

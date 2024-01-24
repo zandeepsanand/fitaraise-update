@@ -33,6 +33,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import api, {setAuthToken} from '../../api';
 import Loader from '../screens/alert/loader/Loader';
 import messaging from '@react-native-firebase/messaging';
+import { useWorkoutPathContext } from '../hooks/WorkoutPathContext';
 
 const {height, width} = Dimensions.get('window');
 
@@ -46,6 +47,12 @@ export default function Frstpage({
 }) {
   console.log(formData);
   const {loginSuccess} = useContext(LoginContext);
+  const { selectedWorkoutPath, setWorkoutPath } = useWorkoutPathContext();
+
+
+  console.log('====================================');
+  console.log(selectedWorkoutPath ,"first page");
+  console.log('====================================');
 
 
   const {assets, colors, fonts, gradients, sizes} = useTheme();
@@ -70,6 +77,79 @@ export default function Frstpage({
     // Call the logout function to log the user out
     logout();
     navigation.navigate('FirstPageCountrySelect');
+  };
+  const handlePressOut = async () => {
+    try {
+      if (selectedWorkoutPath === 'HomeTabNavigator') {
+        let homeWorkoutData = null;
+        let userData = null;
+  
+        // Retrieve homeWorkoutData from AsyncStorage
+        const storedHomeWorkoutData = await AsyncStorage.getItem('homeWorkoutData');
+        const storeduserDataHomeWorkout = await AsyncStorage.getItem('userDataHomeWorkout');
+        if (storedHomeWorkoutData && storeduserDataHomeWorkout) {
+          homeWorkoutData = JSON.parse(storedHomeWorkoutData);
+          userData = JSON.parse(storeduserDataHomeWorkout);
+          navigation.navigate(selectedWorkoutPath, {
+            screen: 'HomeWorkoutMain',
+            params: {workout: homeWorkoutData, workoutData: userData},
+          });
+
+        }
+  
+        // If there's a selectedWorkoutPath, navigate to that path
+        // navigation.navigate(selectedWorkoutPath, {
+        //   workoutData: formData,
+        //   workout: homeWorkoutData,
+        // });
+    
+      }else if(selectedWorkoutPath === 'GymTabNavigator'){
+        let gymWorkoutData = null;
+        let userData = null;
+  
+        // Retrieve homeWorkoutData from AsyncStorage
+        const storedGymWorkoutData = await AsyncStorage.getItem('gymWorkoutData');
+        const storeduserDataGymWorkout = await AsyncStorage.getItem('userDataGymWorkout');
+        if (storedGymWorkoutData && storeduserDataGymWorkout) {
+          gymWorkoutData = JSON.parse(storedGymWorkoutData);
+          userData = JSON.parse(storeduserDataGymWorkout);
+        
+          navigation.navigate('GymTabNavigator', {
+            screen: 'GymWorkoutMain',
+            params: {data: gymWorkoutData, formDataCopy:userData},
+          });
+        }
+
+      }
+      else if(selectedWorkoutPath === 'ChallengeTabNavigator'){
+        let challengeWorkoutData = null;
+        let userData = null;
+  
+        // Retrieve homeWorkoutData from AsyncStorage
+        const storedChallengeWorkoutData = await AsyncStorage.getItem('challengeWorkoutData');
+        const storeduserDataChallengeWorkout = await AsyncStorage.getItem('userDataChallengeWorkout');
+        if (storedChallengeWorkoutData && storeduserDataChallengeWorkout) {
+          challengeWorkoutData = JSON.parse(storedChallengeWorkoutData);
+          userData = JSON.parse(storeduserDataChallengeWorkout);
+        
+          // navigation.navigate('GymTabNavigator', {
+          //   screen: 'GymWorkoutMain',
+          //   params: {data: gymWorkoutData, formDataCopy:userData},
+          // });
+
+          navigation.navigate('ChallengeTabNavigator', {
+            screen: 'ChallengeMain',
+            params: {challenge: challengeWorkoutData},
+          });
+        }
+
+      } else {
+        // If there's no selectedWorkoutPath, navigate to the default 'fitness' route
+        navigation.navigate('fitness', { workoutData: formData });
+      }
+    } catch (error) {
+      console.error('Error retrieving stored data:', error);
+    }
   };
 
   const handleProducts = useCallback(
@@ -239,102 +319,70 @@ export default function Frstpage({
     try {
       console.log('clicked');
   
-      // Check if cached data exists
       const cachedDataJSON = await AsyncStorage.getItem('cachedData');
       console.log(cachedDataJSON, 'cached data');
   
       if (cachedDataJSON) {
-        // If cached data exists, use it instead of making the API call
         const cachedData = JSON.parse(cachedDataJSON);
   
         const authData = JSON.parse(await AsyncStorage.getItem('authData'));
-        const authToken = authData.token;
-        const customerId = authData.formData.customer_id;
-        const formData = authData.formData;
-        const token = authData.token;
+        const { token, formData } = authData;
   
-        loginSuccess(customerId, formData, token);
-        console.log(authToken, 'auth Data');
+        loginSuccess(formData.customer_id, formData, token);
+        console.log(token, 'auth Data');
   
-        if (authToken) {
-          setAuthToken(authToken);
-          setIsLoading(true);
+        const { requiredCalorie, dietPlan } = cachedData;
   
-          // Use the cached data
-          const requiredCalorie = cachedData.requiredCalorie;
-          const dietPlan = cachedData.dietPlan;
+        setIsLoading(false);
   
-          setIsLoading(false);
-  
-          if (requiredCalorie && authData.formData) {
-            navigation.navigate('Menu', {
-              data: requiredCalorie,
-              formDataCopy: authData.formData,
-              dietPlan,
-            });
-          } else if (authData.formData) {
-            navigation.navigate('Details', { formData: authData.formData });
-          } else {
-            navigation.reset({
-              index: 0,
-              routes: [{ name: 'loginNew' }],
-            });
-          }
-        } else {
-          // No authToken, navigate to 'loginNew'
-          navigation.reset({
-            index: 0,
-            routes: [{ name: 'loginNew' }],
+        if (requiredCalorie && formData) {
+          navigation.navigate('Menu', {
+            data: requiredCalorie,
+            formDataCopy: formData,
+            dietPlan,
           });
         }
       } else {
-        // No cached data, fetch data from the API
         const authDataJSON = await AsyncStorage.getItem('authData');
         console.log(authDataJSON, 'authdata first page');
   
         if (authDataJSON) {
           const authData = JSON.parse(authDataJSON);
+          const { token, formData } = authData;
   
-          const authToken = authData.token;
-          const customerId = authData.formData.customer_id;
-          const formData = authData.formData;
-          const token = authData.token;
+          loginSuccess(formData.customer_id, formData, token);
+          console.log(token, 'auth Data');
   
-          loginSuccess(customerId, formData, token);
-          console.log(authToken, 'auth Data');
-  
-          if (authToken) {
-            setAuthToken(authToken);
+          if (token) {
+            setAuthToken(token);
             setIsLoading(true);
+  
             const requiredCalorieResponse = await api.get(
               `get_daily_required_calories/${formData.customer_id}`,
             );
-            const diet_List = await api.get(
+            const dietListResponse = await api.get(
               `get_recommended_diet/${formData.customer_id}`,
             );
   
             const requiredCalorie = requiredCalorieResponse.data.data;
-            const dietPlan = diet_List.data.data.recommended_diet_list;
+            const dietPlan = dietListResponse.data.data.recommended_diet_list;
+  
             console.log(requiredCalorie, 'calorie required');
-            console.log(authData.formData, 'for workout example');
+            console.log(formData, 'for workout example');
   
             setIsLoading(false);
   
             if (
               requiredCalorieResponse.data.success === true &&
-              authData.formData
+              formData
             ) {
-              // navigation.reset({
-              //   index: 0,
-              //   routes: [{ name: 'Menu', params: { data: requiredCalorie, formDataCopy: authData.formData, dietPlan } }],
-              // });
               navigation.navigate('Menu', {
                 data: requiredCalorie,
-                formDataCopy: authData.formData,
+                formDataCopy: formData,
                 dietPlan,
               });
-            } else if (authData.formData) {
-              navigation.navigate('Details', { formData: authData.formData });
+            } else if (formData) {
+              navigation.navigate('Details', { formData });
             } else {
               navigation.reset({
                 index: 0,
@@ -342,20 +390,17 @@ export default function Frstpage({
               });
             }
   
-            // Cache the API response
             await AsyncStorage.setItem(
               'cachedData',
               JSON.stringify({ requiredCalorie, dietPlan })
             );
           } else {
-            // No authToken, navigate to 'loginNew'
             navigation.reset({
               index: 0,
               routes: [{ name: 'loginNew' }],
             });
           }
         } else {
-          // authData JSON doesn't exist, navigate to 'loginNew'
           navigation.reset({
             index: 0,
             routes: [{ name: 'loginNew' }],
@@ -372,6 +417,7 @@ export default function Frstpage({
       });
     }
   };
+  
 
 
 
@@ -469,10 +515,14 @@ export default function Frstpage({
               </Block>
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback
-              onPress={() => handleProducts(3)}
-              onPressOut={() =>
-                navigation.navigate('fitness', {workoutData: formData})
-              }>
+              onPress={() => {handleProducts(3);
+                handlePressOut();
+              }
+              }
+              // onPressOut={() =>
+              //   navigation.navigate('fitness', {workoutData: formData})
+              // }
+              >
               <Block
                 style={styles.mainCardView}
                 flex={0}

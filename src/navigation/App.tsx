@@ -104,6 +104,7 @@ import EnableNotificationOnOff from '../screens/EnableNotificationOnOff';
 import NutritionFactsSearch from '../screens/nutritionFacts/NutritionFactsSearch';
 import SingleNutritionPage from '../screens/nutritionFacts/SingleNutritionPage';
 import GymWorkoutSingleforAll from '../screens/workout/gym workout/GymWorkoutSingleforAll';
+import { WorkoutPathProvider } from '../hooks/WorkoutPathContext';
 
 // Keep the splash screen visible while we fetch resources
 // SplashScreen.hideAsync();
@@ -148,7 +149,8 @@ export default () => {
   };
 
   return (
-    <AuthProvider>
+    <WorkoutPathProvider>
+ <AuthProvider>
       <MealContextProvider>
         <TranslationProvider>
           <ThemeProvider theme={theme} setTheme={setTheme}>
@@ -757,5 +759,7 @@ export default () => {
         </TranslationProvider>
       </MealContextProvider>
     </AuthProvider>
+    </WorkoutPathProvider>
+   
   );
 };

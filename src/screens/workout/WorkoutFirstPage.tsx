@@ -9,6 +9,7 @@ import LoginContext from '../../hooks/LoginContext';
 import api, {setAuthToken} from '../../../api';
 import axios from 'axios';
 import {ActivityIndicator} from 'react-native';
+import { WorkoutPathProvider, useWorkoutPathContext } from '../../hooks/WorkoutPathContext';
 
 const WorkoutFirstPage = ({navigation, route}) => {
   const {workoutData} = route.params;
@@ -24,8 +25,9 @@ const WorkoutFirstPage = ({navigation, route}) => {
   const [isLoadingGym, setIsLoadingGym] = useState(false);
   const [isLoading, setIsLoading] = useState(false); // State to track loading status
   const {authenticated, customerId} = useContext(LoginContext);
+  const { selectedWorkoutPath, setWorkoutPath } = useWorkoutPathContext();
   console.log('====================================');
-  console.log(customerId);
+  console.log(selectedWorkoutPath);
   console.log('====================================');
   const handleProducts = useCallback(
     (tab: number) => {
@@ -36,6 +38,86 @@ const WorkoutFirstPage = ({navigation, route}) => {
   );
 
   // Function to handle the challenge page
+  // useEffect(() => {
+  //   const fetchDataAndNavigate = async () => {
+  //     try {
+  //       if (selectedWorkoutPath === 'HomeTabNavigator') {
+  //         let homeWorkoutData = null;
+  //         let userData = null;
+    
+  //         // Retrieve homeWorkoutData from AsyncStorage
+  //         const storedHomeWorkoutData = await AsyncStorage.getItem('homeWorkoutData');
+  //         const storeduserDataHomeWorkout = await AsyncStorage.getItem('userDataHomeWorkout');
+  //         if (storedHomeWorkoutData && storeduserDataHomeWorkout) {
+  //           homeWorkoutData = JSON.parse(storedHomeWorkoutData);
+  //           userData = JSON.parse(storeduserDataHomeWorkout);
+  //           navigation.navigate(selectedWorkoutPath, {
+  //             screen: 'HomeWorkoutMain',
+  //             params: {workout: homeWorkoutData, workoutData: userData},
+  //           });
+  
+  //         }
+    
+  //         // If there's a selectedWorkoutPath, navigate to that path
+  //         // navigation.navigate(selectedWorkoutPath, {
+  //         //   workoutData: formData,
+  //         //   workout: homeWorkoutData,
+  //         // });
+      
+  //       }else if(selectedWorkoutPath === 'GymTabNavigator'){
+  //         let gymWorkoutData = null;
+  //         let userData = null;
+    
+  //         // Retrieve homeWorkoutData from AsyncStorage
+  //         const storedGymWorkoutData = await AsyncStorage.getItem('gymWorkoutData');
+  //         const storeduserDataGymWorkout = await AsyncStorage.getItem('userDataGymWorkout');
+  //         if (storedGymWorkoutData && storeduserDataGymWorkout) {
+  //           gymWorkoutData = JSON.parse(storedGymWorkoutData);
+  //           userData = JSON.parse(storeduserDataGymWorkout);
+          
+  //           navigation.navigate('GymTabNavigator', {
+  //             screen: 'GymWorkoutMain',
+  //             params: {data: gymWorkoutData, formDataCopy:userData},
+  //           });
+  //         }
+  
+  //       }
+  //       else if(selectedWorkoutPath === 'ChallengeTabNavigator'){
+  //         let challengeWorkoutData = null;
+  //         let userData = null;
+    
+  //         // Retrieve homeWorkoutData from AsyncStorage
+  //         const storedChallengeWorkoutData = await AsyncStorage.getItem('challengeWorkoutData');
+  //         const storeduserDataChallengeWorkout = await AsyncStorage.getItem('userDataChallengeWorkout');
+  //         if (storedChallengeWorkoutData && storeduserDataChallengeWorkout) {
+  //           challengeWorkoutData = JSON.parse(storedChallengeWorkoutData);
+  //           userData = JSON.parse(storeduserDataChallengeWorkout);
+          
+  //           // navigation.navigate('GymTabNavigator', {
+  //           //   screen: 'GymWorkoutMain',
+  //           //   params: {data: gymWorkoutData, formDataCopy:userData},
+  //           // });
+  
+  //           navigation.navigate('ChallengeTabNavigator', {
+  //             screen: 'ChallengeMain',
+  //             params: {challenge: challengeWorkoutData},
+  //           });
+  //         }
+  
+  //       } else {
+  //         // If there's no selectedWorkoutPath, navigate to the default 'fitness' route
+  //        console.log("page reached")
+  //       }
+  //     } catch (error) {
+  //       console.error('Error in useEffect:', error);
+  //     }
+  //   };
+
+  //   // Call the function when the component mounts or when selectedWorkoutPath changes
+  //   fetchDataAndNavigate();
+  // }, [selectedWorkoutPath, navigation]);
+
+
   const handleChallengePage = async () => {
     try {
       // Fetch user data
@@ -76,6 +158,12 @@ const WorkoutFirstPage = ({navigation, route}) => {
             console.log(currentlyActiveChallenge, 'check active');
             console.log('====================================');
             if (currentlyActiveChallenge) {
+
+              await AsyncStorage.setItem('challengeWorkoutData', JSON.stringify(currentlyActiveChallenge));
+              await AsyncStorage.setItem('userDataChallengeWorkout', JSON.stringify(user));
+              await AsyncStorage.setItem('WorkoutPath', JSON.stringify('ChallengeTabNavigator'));
+
+              setWorkoutPath('ChallengeTabNavigator');
               // Navigate to the main challenge screen with the active challenge
               navigation.navigate('ChallengeTabNavigator', {
                 screen: 'ChallengeMain',
@@ -142,10 +230,16 @@ const WorkoutFirstPage = ({navigation, route}) => {
 
         if (homeWorkoutJSON) {
           // Navigate to 'HomeTabNavigator' with homeWorkout and workoutData
+          await AsyncStorage.setItem('homeWorkoutData', JSON.stringify(homeWorkoutJSON));
+          await AsyncStorage.setItem('userDataHomeWorkout', JSON.stringify(user));
+          await AsyncStorage.setItem('WorkoutPath', JSON.stringify('HomeTabNavigator'));
+          
+          setWorkoutPath('HomeTabNavigator');
           navigation.navigate('HomeTabNavigator', {
             screen: 'HomeWorkoutMain',
             params: {workout: homeWorkoutJSON, workoutData: user},
           });
+
      
        
         }
@@ -177,7 +271,11 @@ const WorkoutFirstPage = ({navigation, route}) => {
         console.log(gymWorkoutJSON);
         if (gymWorkoutJSON) {
           console.log(gymWorkoutJSON, 'workout data gym');
-
+          await AsyncStorage.setItem('gymWorkoutData', JSON.stringify(gymWorkoutJSON));
+          await AsyncStorage.setItem('userDataGymWorkout', JSON.stringify(user));
+          await AsyncStorage.setItem('WorkoutPath', JSON.stringify('GymTabNavigator'));
+         
+          setWorkoutPath('GymTabNavigator')
           // Navigate to 'HomeTabNavigator' with homeWorkout and workoutData
           navigation.navigate('GymTabNavigator', {
             screen: 'GymWorkoutMain',
