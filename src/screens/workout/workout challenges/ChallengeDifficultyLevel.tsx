@@ -88,6 +88,7 @@ const ChallengeDifficultyLevel = ({
               alert('turn on network and re-try');
             } else {
               console.log('success');
+              
               setTimeout(() => {
                 navigation.navigate('ChallengeMonth', {workoutData});
                 // navigation.navigate('HomeWorkoutMain', { data, formDataCopy });

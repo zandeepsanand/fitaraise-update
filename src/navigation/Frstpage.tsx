@@ -143,7 +143,8 @@ export default function Frstpage({
           });
         }
 
-      } else {
+      } 
+      else {
         // If there's no selectedWorkoutPath, navigate to the default 'fitness' route
         navigation.navigate('fitness', { workoutData: formData });
       }

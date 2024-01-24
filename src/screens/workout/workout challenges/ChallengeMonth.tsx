@@ -12,6 +12,8 @@ import {
 } from 'react-native';
 
 import api from '../../../../api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useWorkoutPathContext } from '../../../hooks/WorkoutPathContext';
 
 const ChallengeMonth = ({
   navigation,
@@ -20,6 +22,7 @@ const ChallengeMonth = ({
   },
 }) => {
   console.log(workoutData);
+  const { selectedWorkoutPath, setWorkoutPath } = useWorkoutPathContext();
 
   const {t} = useTranslation();
   const [tab, setTab] = useState<number>(0);
@@ -85,6 +88,20 @@ const ChallengeMonth = ({
       </View>
     );
   }
+  const handleChallengePress = async (challenge, workoutData) => {
+    await AsyncStorage.setItem('challengeWorkoutData', JSON.stringify(challenge));
+    await AsyncStorage.setItem('userDataChallengeWorkout', JSON.stringify(workoutData));
+    await AsyncStorage.setItem('WorkoutPath', JSON.stringify('ChallengeTabNavigator'));
+  
+    setWorkoutPath('ChallengeTabNavigator');
+  
+    navigation.navigate('ChallengeTabNavigator', {
+      screen: 'ChallengeMain',
+      params: {challenge},
+    });
+  
+    handleProducts(challenge.number_of_days);
+  };
  
   return (
     <Block>
@@ -106,61 +123,60 @@ const ChallengeMonth = ({
           </View>
 
           <View style={styles.container}>
-            {months.map((challenge, index) => (
-              <TouchableWithoutFeedback
-                onPress={() => {
-                  // navigation.navigate('ChallengeMain', {workoutData, challenge });
-                  navigation.navigate('ChallengeTabNavigator', {
-                    screen: 'ChallengeMain',
-                    params: {  workoutData ,challenge},
-                  });
-                  handleProducts(challenge.number_of_days);
-                }}>
-                <Block
-                  style={styles.mainCardView}
-                  gradient={gradients?.[tab === challenge.number_of_days ? 'success' : '#ffff']}
-                
-                  >
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <View style={styles.subCardView}></View>
-                    <View style={{marginLeft: 12}}>
-                      <Text
-                        style={{
-                          fontSize: 14,
-                          color: 'black',
-                          fontWeight: 'bold',
-                        }}
-                        bold>
-                        {challenge.challenge_name}
-                      </Text>
-                      <View
-                        style={{
-                          marginTop: 4,
-                          borderWidth: 0,
-                          width: '85%',
-                        }}></View>
-                    </View>
-                  </View>
-                  <View
-                    style={{
-                      height: 25,
-                      backgroundColor: 'pink',
-                      borderWidth: 0,
-                      width: 25,
-                      marginLeft: -26,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      borderRadius: 50,
-                    }}>
-                    <Image
-                      source={assets.arrow}
-                      color={colors.white}
-                      radius={0}
-                    />
-                  </View>
-                </Block>
-              </TouchableWithoutFeedback>
-            ))}
+          {months.map((challenge, index) => (
+  <TouchableWithoutFeedback
+    onPress={async () => {
+      await handleChallengePress(challenge, workoutData);
+    }}
+  >
+    <Block
+      style={styles.mainCardView}
+      gradient={gradients?.[tab === challenge.number_of_days ? 'success' : '#ffff']}
+    >
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <View style={styles.subCardView}></View>
+        <View style={{marginLeft: 12}}>
+          <Text
+            style={{
+              fontSize: 14,
+              color: 'black',
+              fontWeight: 'bold',
+            }}
+            bold
+          >
+            {challenge.challenge_name}
+          </Text>
+          <View
+            style={{
+              marginTop: 4,
+              borderWidth: 0,
+              width: '85%',
+            }}
+          ></View>
+        </View>
+      </View>
+      <View
+        style={{
+          height: 25,
+          backgroundColor: 'pink',
+          borderWidth: 0,
+          width: 25,
+          marginLeft: -26,
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderRadius: 50,
+        }}
+      >
+        <Image
+          source={assets.arrow}
+          color={colors.white}
+          radius={0}
+        />
+      </View>
+    </Block>
+  </TouchableWithoutFeedback>
+))}
+
 
             {/* <TouchableWithoutFeedback
               onPress={() => {

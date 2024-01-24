@@ -31,8 +31,10 @@ import {BASE_URL} from '@env';
   import {useHeaderHeight} from '@react-navigation/stack';
 import api from '../../../../api';
 import { log } from 'react-native-reanimated';
+import { useWorkoutPathContext } from '../../../hooks/WorkoutPathContext';
   
   export default function AnimationPageWorkout({navigation, route}) {
+    const { selectedWorkoutPath, setWorkoutPath } = useWorkoutPathContext();
     const {assets, fonts, sizes, gradients, colors} = useTheme();
     const {workoutData} = route.params;
     console.log(workoutData);
@@ -155,7 +157,11 @@ import { log } from 'react-native-reanimated';
             // Store workoutData and homeWorkout in AsyncStorage
             await AsyncStorage.setItem('workoutData', JSON.stringify(workoutData));
             // await AsyncStorage.setItem('homeWorkout', JSON.stringify(homeWorkout));
-  
+            await AsyncStorage.setItem('homeWorkoutData', JSON.stringify(homeWorkout));
+            await AsyncStorage.setItem('userDataHomeWorkout', JSON.stringify(workoutData));
+            await AsyncStorage.setItem('WorkoutPath', JSON.stringify('HomeTabNavigator'));
+            
+            setWorkoutPath('HomeTabNavigator');
             console.log('success');
             setTimeout(() => {
               navigation.navigate('HomeTabNavigator', {

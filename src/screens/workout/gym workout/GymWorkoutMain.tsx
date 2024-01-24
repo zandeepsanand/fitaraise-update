@@ -20,8 +20,11 @@ import LoginContext from '../../../hooks/LoginContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {ActivityIndicator} from 'react-native';
 import {ImageBackground} from 'react-native';
+import { useWorkoutPathContext } from '../../../hooks/WorkoutPathContext';
+
 
 const GymWorkoutMain = ({navigation, route}) => {
+  const { selectedWorkoutPath, setWorkoutPath } = useWorkoutPathContext();
   const {t} = useTranslation();
   const {data, formDataCopy, savedDate, completedWorkouts} = route.params;
   const {authenticated, customerId} = useContext(LoginContext);
@@ -53,134 +56,321 @@ const GymWorkoutMain = ({navigation, route}) => {
     navigation.navigate('GymWorkoutAll', {workout, data, completedWorkouts});
     console.log(completedWorkouts, 'completed workout list');
   };
+  // const handleLevelChange = async (level) => {
+  //   setSelectedLevel(level);
+    
+  //   if (['Home workout', 'Workout Challenge'].includes(level)) {
+  //     if (level === 'Home workout') {
+  //       if (selectedWorkoutPath === 'HomeTabNavigator') {
+  //         let homeWorkoutData = null;
+  //         let userData = null;
+    
+  //         // Retrieve homeWorkoutData from AsyncStorage
+  //         const storedHomeWorkoutData = await AsyncStorage.getItem('homeWorkoutData');
+  //         const storeduserDataHomeWorkout = await AsyncStorage.getItem('userDataHomeWorkout');
+          
+  //         if (storedHomeWorkoutData && storeduserDataHomeWorkout) {
+  //           homeWorkoutData = JSON.parse(storedHomeWorkoutData);
+  //           userData = JSON.parse(storeduserDataHomeWorkout);
+  //           navigation.navigate(selectedWorkoutPath, {
+  //             screen: 'HomeWorkoutMain',
+  //             params: { workout: homeWorkoutData, workoutData: userData },
+  //           });
+  //         }
+  //       }
+        
+  //       const userData = await api.get(`get_personal_datas/${formDataCopy.customer_id}`);
+  //       const user = userData.data.data;
+  //       console.log(user, 'user data home workout loading');
+  
+  //       if (user.gender && user.home_workout_level) {
+  //         const homeWorkout = await api.get(`get_home_workouts?gender=${user.gender}&level=${user.home_workout_level}`);
+  //         const homeWorkoutJSON = homeWorkout.data.data;
+          
+  //         if (homeWorkoutJSON) {
+  //           console.log(homeWorkoutJSON, 'workout data home');
+  //           await AsyncStorage.setItem('homeWorkoutData', JSON.stringify(homeWorkoutJSON));
+  //           await AsyncStorage.setItem('userDataHomeWorkout', JSON.stringify(user));
+  //           await AsyncStorage.setItem('WorkoutPath', JSON.stringify('HomeTabNavigator'));
+            
+  //           setWorkoutPath('HomeTabNavigator');
+  
+  //           // Navigate to 'HomeTabNavigator' with homeWorkout and workoutData
+  //           navigation.navigate('HomeTabNavigator', {
+  //             screen: 'HomeWorkoutMain',
+  //             params: { homeWorkout: homeWorkoutJSON, workoutData: user },
+  //           });
+  //         }
+  //       } else {
+  //         console.log('workout page');
+  //         // Navigate to 'Gender' screen with workoutData
+  //         navigation.navigate('Gender', {
+  //           workoutData: formDataCopy,
+  //         });
+  //       }
+  //     } else if (level === 'Workout Challenge') {
+  //       if(selectedWorkoutPath === 'ChallengeTabNavigator'){
+  //         let challengeWorkoutData = null;
+  //         let userData = null;
+    
+  //         // Retrieve homeWorkoutData from AsyncStorage
+  //         const storedChallengeWorkoutData = await AsyncStorage.getItem('challengeWorkoutData');
+  //         const storeduserDataChallengeWorkout = await AsyncStorage.getItem('userDataChallengeWorkout');
+  //         if (storedChallengeWorkoutData && storeduserDataChallengeWorkout) {
+  //           challengeWorkoutData = JSON.parse(storedChallengeWorkoutData);
+  //           userData = JSON.parse(storeduserDataChallengeWorkout);
+          
+  //           // navigation.navigate('GymTabNavigator', {
+  //           //   screen: 'GymWorkoutMain',
+  //           //   params: {data: gymWorkoutData, formDataCopy:userData},
+  //           // });
+  
+  //           navigation.navigate('ChallengeTabNavigator', {
+  //             screen: 'ChallengeMain',
+  //             params: {challenge: challengeWorkoutData},
+  //           });
+  //         }
+  
+  //       } 
+
+        
+  //       try {
+  //         const authDataJSON = await AsyncStorage.getItem('authData');
+  
+  //         if (authDataJSON) {
+  //           const authData = JSON.parse(authDataJSON);
+  //           const authToken = authData.token;
+  
+  //           if (authToken) {
+  //             setIsLoading(true);
+  
+  //             const authData = JSON.parse(authDataJSON);
+  //             const workoutDataJSON = authData.formData;
+  //             console.log(customerId, 'id');
+  //             const userData = await api.get(`get_personal_datas/${customerId}`);
+  //             const user = userData.data.data;
+  //             console.log(user, 'user data challenge workout loading');
+  
+  //             if (user.gender && user.workout_challenge_level) {
+  //               const homeWorkout = await api.get(`get_workout_challenges?gender=${user.gender}&level=${user.workout_challenge_level}`);
+  //               const challengeMonthJSON = homeWorkout.data.data;
+  //               console.log(challengeMonthJSON);
+  //               if (challengeMonthJSON) {
+  //                 const activeChallenges = challengeMonthJSON.filter((challenge) => challenge.currently_using);
+  
+  //                 if (activeChallenges.length > 0) {
+  //                   const currentlyActiveChallenge = activeChallenges.find(
+  //                     (challenge) => challenge.currently_using,
+  //                   );
+  //                   console.log('====================================');
+  //                   console.log(currentlyActiveChallenge, 'check active');
+  //                   console.log('====================================');
+                    
+  //             await AsyncStorage.setItem('challengeWorkoutData', JSON.stringify(currentlyActiveChallenge));
+  //             await AsyncStorage.setItem('userDataChallengeWorkout', JSON.stringify(user));
+  //             await AsyncStorage.setItem('WorkoutPath', JSON.stringify('ChallengeTabNavigator'));
+
+  //             setWorkoutPath('ChallengeTabNavigator');
+  
+  //                   // Use the navigation.navigate function to pass the data to the next screen
+  //                   navigation.navigate('ChallengeTabNavigator', {
+  //                     screen: 'ChallengeMain',
+  //                     params: { challenge: currentlyActiveChallenge },
+  //                   });
+  //                 } else {
+  //                   console.log('workout page');
+  //                   // Navigate to 'Gender' screen with workoutData
+  //                   navigation.navigate('ChallengeGenderPage', {
+  //                     workoutData: user,
+  //                   });
+  //                 }
+  //               }
+  //             } else {
+  //               console.log('workout page');
+  //               // Navigate to 'Gender' screen with workoutData
+  //               navigation.navigate('ChallengeGenderPage', {
+  //                 workoutData: user,
+  //               });
+  //             }
+  //           }
+  //         } else {
+  //           console.log('Token not available');
+  //           navigation.reset({
+  //             index: 0,
+  //             routes: [{ name: 'loginNew' }],
+  //           });
+  //         }
+  //       } catch (error) {
+  //         console.error('Authentication Status Error:', error);
+  //       } finally {
+  //         setIsLoading(false);
+  //       }
+  //     }
+  //   }
+  // };
   const handleLevelChange = async (level) => {
     setSelectedLevel(level);
+  
     if (['Home workout', 'Workout Challenge'].includes(level)) {
-      // Make an Axios API call here with the selected level
       if (level === 'Home workout') {
-        // console.log('clicked');
-
-        // navigation.navigate('HomeWorkoutLoadingScreen');
-        const userData = await api.get(
-          `get_personal_datas/${formDataCopy.customer_id}`,
-        );
-        const user = userData.data.data;
-        console.log(user, 'user data home workout loading');
-
-        if (user.gender && user.home_workout_level) {
-          const homeWorkout = await api.get(
-            `get_home_workouts?gender=${user.gender}&level=${user.home_workout_level}`,
-          );
-          const homeWorkoutJSON = homeWorkout.data.data;
-          console.log(homeWorkoutJSON);
-          if (homeWorkoutJSON) {
-            console.log(homeWorkoutJSON, 'workout data home');
-
-            // Navigate to 'HomeTabNavigator' with homeWorkout and workoutData
-            navigation.navigate('HomeTabNavigator', {
-              screen: 'HomeWorkoutMain',
-              params: {homeWorkout: homeWorkoutJSON, workoutData: user},
-            });
-          }
-        } else {
-          console.log('workout page');
-          // Navigate to 'Gender' screen with workoutData
-          navigation.navigate('Gender', {
-            workoutData: formDataCopy,
-          });
+        const navigationHandled = await handleHomeWorkoutNavigation();
+        if (!navigationHandled) {
+          await handleHomeWorkoutApiCall();
         }
       } else if (level === 'Workout Challenge') {
-        // navigation.navigate('ChallengeGenderPage',{workoutData :formDataCopy});
-        try {
-          const authDataJSON = await AsyncStorage.getItem('authData');
-
-          if (authDataJSON) {
-            const authData = JSON.parse(authDataJSON);
-
-            const authToken = authData.token;
-            // console.log('token');
-
-            if (authToken) {
-              setIsLoading(true);
-              // setAuthToken(authToken);
-              // console.log(authToken, "token preview");
-
-              try {
-                const authData = JSON.parse(authDataJSON);
-                const workoutDataJSON = authData.formData;
-                console.log(customerId, 'id');
-                const userData = await api.get(
-                  `get_personal_datas/${customerId}`,
-                );
-
-                const user = userData.data.data;
-                console.log(user, 'user data challenge workout loading');
-
-                if (user.gender && user.workout_challenge_level) {
-                  const homeWorkout = await api.get(
-                    `get_workout_challenges?gender=${user.gender}&level=${user.workout_challenge_level}`,
-                  );
-                  const challengeMonthJSON = homeWorkout.data.data;
-                  console.log(challengeMonthJSON);
-                  if (challengeMonthJSON) {
-                    const activeChallenges = challengeMonthJSON.filter(
-                      (challenge) => challenge.currently_using,
-                    );
-
-                    if (activeChallenges.length > 0) {
-                      // You can choose to navigate with the first active challenge here
-                      const firstActiveChallenge = activeChallenges[0];
-
-                      // Use the navigation.navigate function to pass the data to the next screen
-                      // navigation.navigate('ChallengeMain', { workoutData, challenge: firstActiveChallenge });
-
-                      navigation.navigate('ChallengeTabNavigator', {
-                        screen: 'ChallengeMain',
-                        params: {challenge: firstActiveChallenge},
-                      });
-                      // navigation.navigate('ChallengeMenu', {
-                      //   workoutData ,
-                      //   challenge:firstActiveChallenge,
-                      //   formDataCopy: authData.formData,
-                      // });
-                    } else {
-                      console.log('workout page');
-                      // Navigate to 'Gender' screen with workoutData
-                      navigation.navigate('ChallengeGenderPage', {
-                        workoutData: user,
-                      });
-                    }
-                  }
-                } else {
-                  console.log('workout page');
-                  // Navigate to 'Gender' screen with workoutData
-                  navigation.navigate('ChallengeGenderPage', {
-                    workoutData: user,
-                  });
-                }
-
-                // console.log(homeWorkoutJSON.data.data);
-              } catch (error) {
-                console.error('Error fetching stored data:', error);
-              } finally {
-                setIsLoading(false);
-              }
-            }
-          } else {
-            console.log('Token not available');
-            navigation.reset({
-              index: 0,
-              routes: [{name: 'loginNew'}],
-            });
-          }
-        } catch (error) {
-          console.error('Authentication Status Error:', error);
-        } finally {
-          setIsLoading(false);
+        const navigationHandled = await handleChallengeTabNavigation();
+        if (!navigationHandled) {
+          await handleChallengeTabApiCall();
         }
       }
     }
   };
+  
+  const handleHomeWorkoutNavigation = async () => {
+    if (selectedWorkoutPath === 'HomeTabNavigator') {
+      const storedHomeWorkoutData = await AsyncStorage.getItem('homeWorkoutData');
+      const storeduserDataHomeWorkout = await AsyncStorage.getItem('userDataHomeWorkout');
+  
+      if (storedHomeWorkoutData && storeduserDataHomeWorkout) {
+        const homeWorkoutData = JSON.parse(storedHomeWorkoutData);
+        const userData = JSON.parse(storeduserDataHomeWorkout);
+        
+        navigation.navigate(selectedWorkoutPath, {
+          screen: 'HomeWorkoutMain',
+          params: { workout: homeWorkoutData, workoutData: userData },
+        });
+        return true; // Navigation handled
+      }
+    }
+    return false; // Navigation not handled
+  };
+  
+  const handleHomeWorkoutApiCall = async () => {
+    try {
+      const userData = await api.get(`get_personal_datas/${formDataCopy.customer_id}`);
+      const user = userData.data.data;
+  
+      if (user.gender && user.home_workout_level) {
+        const homeWorkout = await api.get(`get_home_workouts?gender=${user.gender}&level=${user.home_workout_level}`);
+        const homeWorkoutJSON = homeWorkout.data.data;
+  
+        if (homeWorkoutJSON) {
+          await AsyncStorage.setItem('homeWorkoutData', JSON.stringify(homeWorkoutJSON));
+          await AsyncStorage.setItem('userDataHomeWorkout', JSON.stringify(user));
+          await AsyncStorage.setItem('WorkoutPath', JSON.stringify('HomeTabNavigator'));
+          
+          setWorkoutPath('HomeTabNavigator');
+  
+          navigation.navigate('HomeTabNavigator', {
+            screen: 'HomeWorkoutMain',
+            params: { homeWorkout: homeWorkoutJSON, workoutData: user },
+          });
+        }
+      } else {
+        console.log('workout page');
+        // Navigate to 'Gender' screen with workoutData
+        navigation.navigate('Gender', {
+          workoutData: formDataCopy,
+        });
+      }
+    } catch (error) {
+      console.error('Error in handleHomeWorkoutApiCall:', error);
+    }
+  };
+  
+  const handleChallengeTabNavigation = async () => {
+    if (selectedWorkoutPath === 'ChallengeTabNavigator') {
+      const storedChallengeWorkoutData = await AsyncStorage.getItem('challengeWorkoutData');
+      const storeduserDataChallengeWorkout = await AsyncStorage.getItem('userDataChallengeWorkout');
+  
+      if (storedChallengeWorkoutData && storeduserDataChallengeWorkout) {
+        const challengeWorkoutData = JSON.parse(storedChallengeWorkoutData);
+        const userData = JSON.parse(storeduserDataChallengeWorkout);
+  
+        navigation.navigate('ChallengeTabNavigator', {
+          screen: 'ChallengeMain',
+          params: { challenge: challengeWorkoutData },
+        });
+        return true; // Navigation handled
+      }
+    }
+    return false; // Navigation not handled
+  };
+  
+  const handleChallengeTabApiCall = async () => {
+    try {
+      const authDataJSON = await AsyncStorage.getItem('authData');
+  
+      if (authDataJSON) {
+        const authData = JSON.parse(authDataJSON);
+        const authToken = authData.token;
+  
+        if (authToken) {
+          setIsLoading(true);
+  
+          const authData = JSON.parse(authDataJSON);
+          const workoutDataJSON = authData.formData;
+          console.log(customerId, 'id');
+          const userData = await api.get(`get_personal_datas/${customerId}`);
+          const user = userData.data.data;
+          console.log(user, 'user data challenge workout loading');
+  
+          if (user.gender && user.workout_challenge_level) {
+            const homeWorkout = await api.get(`get_workout_challenges?gender=${user.gender}&level=${user.workout_challenge_level}`);
+            const challengeMonthJSON = homeWorkout.data.data;
+            console.log(challengeMonthJSON);
+  
+            if (challengeMonthJSON) {
+              const activeChallenges = challengeMonthJSON.filter((challenge) => challenge.currently_using);
+  
+              if (activeChallenges.length > 0) {
+                const currentlyActiveChallenge = activeChallenges.find(
+                  (challenge) => challenge.currently_using,
+                );
+                console.log('====================================');
+                console.log(currentlyActiveChallenge, 'check active');
+                console.log('====================================');
+                
+                await AsyncStorage.setItem('challengeWorkoutData', JSON.stringify(currentlyActiveChallenge));
+                await AsyncStorage.setItem('userDataChallengeWorkout', JSON.stringify(user));
+                await AsyncStorage.setItem('WorkoutPath', JSON.stringify('ChallengeTabNavigator'));
+  
+                setWorkoutPath('ChallengeTabNavigator');
+  
+                navigation.navigate('ChallengeTabNavigator', {
+                  screen: 'ChallengeMain',
+                  params: { challenge: currentlyActiveChallenge },
+                });
+              } else {
+                console.log('workout page');
+                // Navigate to 'Gender' screen with workoutData
+                navigation.navigate('ChallengeGenderPage', {
+                  workoutData: user,
+                });
+              }
+            }
+          } else {
+            console.log('workout page');
+            // Navigate to 'Gender' screen with workoutData
+            navigation.navigate('ChallengeGenderPage', {
+              workoutData: user,
+            });
+          }
+        }
+      } else {
+        console.log('Token not available');
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'loginNew' }],
+        });
+      }
+    } catch (error) {
+      console.error('Authentication Status Error:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
   const fetchData = async () => {
     try {
       const response = await api.get(

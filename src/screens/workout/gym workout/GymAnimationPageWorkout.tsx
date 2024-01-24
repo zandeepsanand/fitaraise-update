@@ -26,9 +26,12 @@ import {
 import {useNavigation} from '@react-navigation/core';
 import {useHeaderHeight} from '@react-navigation/stack';
 import api from '../../../../api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useWorkoutPathContext } from '../../../hooks/WorkoutPathContext';
 
 export default function GymAnimationPageWorkout({navigation, route}) {
   const {assets, fonts, sizes, gradients, colors} = useTheme();
+  const { selectedWorkoutPath, setWorkoutPath } = useWorkoutPathContext();
   const {workoutData} = route.params;
   const animationProgress = useRef(new Animated.Value(0));
   useEffect(() => {}, []);
@@ -52,9 +55,8 @@ export default function GymAnimationPageWorkout({navigation, route}) {
             `set_personal_datas`,
             formDataWithoutEmptyFields,
           );
-          console.log(response.data ,"posted");
-          
-
+          console.log(response.data, "posted");
+      
           if (response.data.success) {
             console.log('success posted');
             
@@ -70,15 +72,24 @@ export default function GymAnimationPageWorkout({navigation, route}) {
               alert('turn on network and re-try');
             } else {
               console.log('success');
-              setTimeout(() => {
-                // navigation.navigate('HomeWorkoutMain', { data, formDataCopy });
-                navigation.navigate('GymTabNavigator', {
-                  screen: 'GymWorkoutMain', // Screen name within the TabNavigator
-                  params: {data, formDataCopy}, // Pass your parameters here
-                });
+              setTimeout(async () => {
+                // Create an async function and call it immediately
+                const navigateToGymTab = async () => {
+                  await AsyncStorage.setItem('gymWorkoutData', JSON.stringify(data));
+                  await AsyncStorage.setItem('userDataGymWorkout', JSON.stringify(formDataCopy));
+                  await AsyncStorage.setItem('WorkoutPath', JSON.stringify('GymTabNavigator'));
+                 
+                  setWorkoutPath('GymTabNavigator')
+      
+                  navigation.navigate('GymTabNavigator', {
+                    screen: 'GymWorkoutMain', // Screen name within the TabNavigator
+                    params: { data, formDataCopy }, // Pass your parameters here
+                  });
+                };
+      
+                navigateToGymTab();
               }, 2000);
             }
-            // navigation.navigate('donutchart', { data });
           }
           // Do something with the first API response
           // console.log(response.data);
@@ -95,6 +106,7 @@ export default function GymAnimationPageWorkout({navigation, route}) {
           }
         }
       };
+      
       fetchData();
     } else {
       // console.log(formData.gender, formData.weight , formData.feet ,formData.inches , formData.acitivity_level,formData.height);

@@ -19,7 +19,7 @@ import api from '../../../../api';
 import {isAuthTokenSet} from '../../../../api';
 import {useFavorites} from '../../../hooks/HomeWorkoutContext';
 import {useFocusEffect} from '@react-navigation/native';
-import FastImage from 'react-native-fast-image';
+
 
 const isAndroid = Platform.OS === 'android';
 
@@ -314,13 +314,7 @@ const HomeWorkoutAll = ({route}) => {
                   source={{
                     uri: `${exercise.image}`,
                   }}></Image> */}
-                    <FastImage
-                style={{ width: 75, height: 75, borderRadius: 10 }}
-                source={{
-                  uri: exercise.image,
-                  priority: FastImage.priority.high,
-                }}
-              />
+                 
 
                 <Block center>
                   <Block>
