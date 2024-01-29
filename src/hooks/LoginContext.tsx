@@ -116,8 +116,10 @@ export const LoginProvider = ({children}) => {
     try {
       // Clear the stored authentication data from AsyncStorage
       await AsyncStorage.multiRemove(['authData', 'workoutData', 'homeWorkout', 'customerId', 'formData','expoPushToken']);
-
+      await AsyncStorage.clear();
+      console.log('AsyncStorage cleared successfully');
       setCustomerId(null);
+      setWorkout
       // Clear any other necessary data or states
   
       // Optionally, you can clear the token if you have a setAuthToken function

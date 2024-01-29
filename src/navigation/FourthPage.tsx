@@ -451,6 +451,10 @@ async function checkPage() {
         const secondApiResponse = await api.get(
           `get_daily_required_calories/${formDataCopy.customer_id}`
         );
+        const dietListResponse = await api.get(
+          `get_recommended_diet/${formData.customer_id}`,
+        );
+        const dietPlan = dietListResponse.data.data.recommended_diet_list;
         // Do something with the second API response
         const data = secondApiResponse.data.data;
         console.log(data, 'the data of second apifffff');
@@ -460,6 +464,10 @@ async function checkPage() {
           // checkPage();
         } else {
           console.log('success');
+          await AsyncStorage.setItem(
+            'cachedData',
+            JSON.stringify({ requiredCalorie:data, dietPlan })
+          );
           navigation.navigate('AnimationPage', { data, formDataCopy });
         }
       }

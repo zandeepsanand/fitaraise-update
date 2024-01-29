@@ -336,12 +336,14 @@ export default function Frstpage({
   
         setIsLoading(false);
   
-        if (requiredCalorie && formData) {
+        if ((requiredCalorie !=="weight,Weight Unit, height, age, height_unit, gender, acitivity level some of these are missing") && formData) {
           navigation.navigate('Menu', {
             data: requiredCalorie,
             formDataCopy: formData,
             dietPlan,
           });
+        }else{
+          navigation.navigate('Details', { formData });
         }
       } else {
         const authDataJSON = await AsyncStorage.getItem('authData');
@@ -367,6 +369,10 @@ export default function Frstpage({
   
             const requiredCalorie = requiredCalorieResponse.data.data;
             const dietPlan = dietListResponse.data.data.recommended_diet_list;
+            await AsyncStorage.setItem(
+              'cachedData',
+              JSON.stringify({ requiredCalorie, dietPlan })
+            );
   
             console.log(requiredCalorie, 'calorie required');
             console.log(formData, 'for workout example');
