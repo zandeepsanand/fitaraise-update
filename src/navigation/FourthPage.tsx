@@ -464,10 +464,14 @@ async function checkPage() {
           // checkPage();
         } else {
           console.log('success');
-          await AsyncStorage.setItem(
-            'cachedData',
-            JSON.stringify({ requiredCalorie:data, dietPlan })
-          );
+          if(secondApiResponse.data.success){
+            await AsyncStorage.setItem(
+              'cachedData',
+              JSON.stringify({ requiredCalorie:data, dietPlan })
+            );
+
+          }
+        
           navigation.navigate('AnimationPage', { data, formDataCopy });
         }
       }

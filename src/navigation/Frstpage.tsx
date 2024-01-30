@@ -329,14 +329,14 @@ export default function Frstpage({
         const authData = JSON.parse(await AsyncStorage.getItem('authData'));
         const { token, formData } = authData;
   
-        loginSuccess(formData.customer_id, formData, token);
-        console.log(token, 'auth Data');
+        // loginSuccess(formData.customer_id, formData, token);
+        // console.log(token, 'auth Data');
   
         const { requiredCalorie, dietPlan } = cachedData;
   
         setIsLoading(false);
   
-        if ((requiredCalorie !=="weight,Weight Unit, height, age, height_unit, gender, acitivity level some of these are missing") && formData) {
+        if ((requiredCalorie) && formData) {
           navigation.navigate('Menu', {
             data: requiredCalorie,
             formDataCopy: formData,
@@ -369,10 +369,14 @@ export default function Frstpage({
   
             const requiredCalorie = requiredCalorieResponse.data.data;
             const dietPlan = dietListResponse.data.data.recommended_diet_list;
-            await AsyncStorage.setItem(
-              'cachedData',
-              JSON.stringify({ requiredCalorie, dietPlan })
-            );
+
+            if (requiredCalorieResponse.data.success){
+              await AsyncStorage.setItem(
+                'cachedData',
+                JSON.stringify({ requiredCalorie, dietPlan })
+              );
+            }
+         
   
             console.log(requiredCalorie, 'calorie required');
             console.log(formData, 'for workout example');
@@ -380,7 +384,7 @@ export default function Frstpage({
             setIsLoading(false);
   
             if (
-              requiredCalorieResponse.data.success === true &&
+              requiredCalorieResponse.data.success &&
               formData
             ) {
               navigation.navigate('Menu', {
@@ -397,10 +401,7 @@ export default function Frstpage({
               });
             }
   
-            await AsyncStorage.setItem(
-              'cachedData',
-              JSON.stringify({ requiredCalorie, dietPlan })
-            );
+          
           } else {
             navigation.reset({
               index: 0,
@@ -420,7 +421,7 @@ export default function Frstpage({
       setIsLoading(false);
       navigation.reset({
         index: 0,
-        routes: [{ name: 'FirstPageCountrySelect' }],
+        routes: [{ name: 'loginNew' }],
       });
     }
   };
