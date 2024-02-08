@@ -8,6 +8,7 @@ import React, {
     useLayoutEffect,
     useEffect,
     useRef,
+    useContext,
   } from 'react';
   import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage
   import axios from 'axios';
@@ -32,10 +33,13 @@ import {BASE_URL} from '@env';
 import api from '../../../../api';
 import { log } from 'react-native-reanimated';
 import { useWorkoutPathContext } from '../../../hooks/WorkoutPathContext';
+import LoginContext from '../../../hooks/LoginContext';
   
   export default function AnimationPageWorkout({navigation, route}) {
     const { selectedWorkoutPath, setWorkoutPath } = useWorkoutPathContext();
+    const {authenticated, customerId} = useContext(LoginContext);
     const {assets, fonts, sizes, gradients, colors} = useTheme();
+    const [workoutDataDB,setWorkoutDataDB]=useState('');
     const {workoutData} = route.params;
     console.log(workoutData);
     
@@ -132,8 +136,17 @@ import { useWorkoutPathContext } from '../../../hooks/WorkoutPathContext';
       const fetchData = async () => {
         try {
           // First API call to set personal data
+        
           const response = await api.post(`set_personal_datas`, workoutData);
           console.log(response.data, "post data use workout");
+          const userDataResponse = await api.get(
+            `get_personal_datas/${customerId}`,
+          );
+          const user = userDataResponse.data.data;
+    console.log(user, "user Animation");
+    
+
+          setWorkoutDataDB(user);
     
          
         } catch (error) {
@@ -142,10 +155,10 @@ import { useWorkoutPathContext } from '../../../hooks/WorkoutPathContext';
       };
       const nextPage =async ()=>{
         
-        if (workoutData.home_workout_level) {
+        if (workoutDataDB.home_workout_level) {
           // Call the second API to get home workouts
           const secondApiResponse = await api.get(
-            `get_home_workouts?gender=${workoutData.gender}&level=${workoutData.home_workout_level}`
+            `get_home_workouts?gender=${workoutDataDB.gender}&level=${workoutDataDB.home_workout_level}`
           );
   
           // Process the second API response

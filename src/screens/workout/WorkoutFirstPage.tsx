@@ -9,7 +9,10 @@ import LoginContext from '../../hooks/LoginContext';
 import api, {setAuthToken} from '../../../api';
 import axios from 'axios';
 import {ActivityIndicator} from 'react-native';
-import { WorkoutPathProvider, useWorkoutPathContext } from '../../hooks/WorkoutPathContext';
+import {
+  WorkoutPathProvider,
+  useWorkoutPathContext,
+} from '../../hooks/WorkoutPathContext';
 
 const WorkoutFirstPage = ({navigation, route}) => {
   const {workoutData} = route.params;
@@ -25,7 +28,7 @@ const WorkoutFirstPage = ({navigation, route}) => {
   const [isLoadingGym, setIsLoadingGym] = useState(false);
   const [isLoading, setIsLoading] = useState(false); // State to track loading status
   const {authenticated, customerId} = useContext(LoginContext);
-  const { selectedWorkoutPath, setWorkoutPath } = useWorkoutPathContext();
+  const {selectedWorkoutPath, setWorkoutPath} = useWorkoutPathContext();
   console.log('====================================');
   console.log(selectedWorkoutPath);
   console.log('====================================');
@@ -44,7 +47,7 @@ const WorkoutFirstPage = ({navigation, route}) => {
   //       if (selectedWorkoutPath === 'HomeTabNavigator') {
   //         let homeWorkoutData = null;
   //         let userData = null;
-    
+
   //         // Retrieve homeWorkoutData from AsyncStorage
   //         const storedHomeWorkoutData = await AsyncStorage.getItem('homeWorkoutData');
   //         const storeduserDataHomeWorkout = await AsyncStorage.getItem('userDataHomeWorkout');
@@ -55,55 +58,55 @@ const WorkoutFirstPage = ({navigation, route}) => {
   //             screen: 'HomeWorkoutMain',
   //             params: {workout: homeWorkoutData, workoutData: userData},
   //           });
-  
+
   //         }
-    
+
   //         // If there's a selectedWorkoutPath, navigate to that path
   //         // navigation.navigate(selectedWorkoutPath, {
   //         //   workoutData: formData,
   //         //   workout: homeWorkoutData,
   //         // });
-      
+
   //       }else if(selectedWorkoutPath === 'GymTabNavigator'){
   //         let gymWorkoutData = null;
   //         let userData = null;
-    
+
   //         // Retrieve homeWorkoutData from AsyncStorage
   //         const storedGymWorkoutData = await AsyncStorage.getItem('gymWorkoutData');
   //         const storeduserDataGymWorkout = await AsyncStorage.getItem('userDataGymWorkout');
   //         if (storedGymWorkoutData && storeduserDataGymWorkout) {
   //           gymWorkoutData = JSON.parse(storedGymWorkoutData);
   //           userData = JSON.parse(storeduserDataGymWorkout);
-          
+
   //           navigation.navigate('GymTabNavigator', {
   //             screen: 'GymWorkoutMain',
   //             params: {data: gymWorkoutData, formDataCopy:userData},
   //           });
   //         }
-  
+
   //       }
   //       else if(selectedWorkoutPath === 'ChallengeTabNavigator'){
   //         let challengeWorkoutData = null;
   //         let userData = null;
-    
+
   //         // Retrieve homeWorkoutData from AsyncStorage
   //         const storedChallengeWorkoutData = await AsyncStorage.getItem('challengeWorkoutData');
   //         const storeduserDataChallengeWorkout = await AsyncStorage.getItem('userDataChallengeWorkout');
   //         if (storedChallengeWorkoutData && storeduserDataChallengeWorkout) {
   //           challengeWorkoutData = JSON.parse(storedChallengeWorkoutData);
   //           userData = JSON.parse(storeduserDataChallengeWorkout);
-          
+
   //           // navigation.navigate('GymTabNavigator', {
   //           //   screen: 'GymWorkoutMain',
   //           //   params: {data: gymWorkoutData, formDataCopy:userData},
   //           // });
-  
+
   //           navigation.navigate('ChallengeTabNavigator', {
   //             screen: 'ChallengeMain',
   //             params: {challenge: challengeWorkoutData},
   //           });
   //         }
-  
+
   //       } else {
   //         // If there's no selectedWorkoutPath, navigate to the default 'fitness' route
   //        console.log("page reached")
@@ -116,7 +119,6 @@ const WorkoutFirstPage = ({navigation, route}) => {
   //   // Call the function when the component mounts or when selectedWorkoutPath changes
   //   fetchDataAndNavigate();
   // }, [selectedWorkoutPath, navigation]);
-
 
   const handleChallengePage = async () => {
     try {
@@ -158,10 +160,18 @@ const WorkoutFirstPage = ({navigation, route}) => {
             console.log(currentlyActiveChallenge, 'check active');
             console.log('====================================');
             if (currentlyActiveChallenge) {
-
-              await AsyncStorage.setItem('challengeWorkoutData', JSON.stringify(currentlyActiveChallenge));
-              await AsyncStorage.setItem('userDataChallengeWorkout', JSON.stringify(user));
-              await AsyncStorage.setItem('WorkoutPath', JSON.stringify('ChallengeTabNavigator'));
+              await AsyncStorage.setItem(
+                'challengeWorkoutData',
+                JSON.stringify(currentlyActiveChallenge),
+              );
+              await AsyncStorage.setItem(
+                'userDataChallengeWorkout',
+                JSON.stringify(user),
+              );
+              await AsyncStorage.setItem(
+                'WorkoutPath',
+                JSON.stringify('ChallengeTabNavigator'),
+              );
 
               setWorkoutPath('ChallengeTabNavigator');
               // Navigate to the main challenge screen with the active challenge
@@ -169,7 +179,6 @@ const WorkoutFirstPage = ({navigation, route}) => {
                 screen: 'ChallengeMain',
                 params: {challenge: currentlyActiveChallenge},
               });
-             
             } else {
               console.log('workout page');
               // If no active challenge, navigate to the gender page with workout data
@@ -230,19 +239,31 @@ const WorkoutFirstPage = ({navigation, route}) => {
 
         if (homeWorkoutJSON) {
           // Navigate to 'HomeTabNavigator' with homeWorkout and workoutData
-          await AsyncStorage.setItem('homeWorkoutData', JSON.stringify(homeWorkoutJSON));
-          await AsyncStorage.setItem('userDataHomeWorkout', JSON.stringify(user));
-          await AsyncStorage.setItem('WorkoutPath', JSON.stringify('HomeTabNavigator'));
-          
+          await AsyncStorage.setItem(
+            'homeWorkoutData',
+            JSON.stringify(homeWorkoutJSON),
+          );
+          await AsyncStorage.setItem(
+            'userDataHomeWorkout',
+            JSON.stringify(user),
+          );
+          await AsyncStorage.setItem(
+            'WorkoutPath',
+            JSON.stringify('HomeTabNavigator'),
+          );
+
           setWorkoutPath('HomeTabNavigator');
           navigation.navigate('HomeTabNavigator', {
             screen: 'HomeWorkoutMain',
             params: {workout: homeWorkoutJSON, workoutData: user},
           });
-
-     
-       
         }
+      }
+      else if (user.gender) {
+        console.log(
+          'only gender is available and the home workout difficulty is not exsisting ',
+        );
+        navigation.navigate('DifficultyLevel', {workoutData});
       } else {
         console.log('workout page');
         // Navigate to 'Gender' screen with workoutData
@@ -271,17 +292,25 @@ const WorkoutFirstPage = ({navigation, route}) => {
         console.log(gymWorkoutJSON);
         if (gymWorkoutJSON) {
           console.log(gymWorkoutJSON, 'workout data gym');
-          await AsyncStorage.setItem('gymWorkoutData', JSON.stringify(gymWorkoutJSON));
-          await AsyncStorage.setItem('userDataGymWorkout', JSON.stringify(user));
-          await AsyncStorage.setItem('WorkoutPath', JSON.stringify('GymTabNavigator'));
-         
-          setWorkoutPath('GymTabNavigator')
+          await AsyncStorage.setItem(
+            'gymWorkoutData',
+            JSON.stringify(gymWorkoutJSON),
+          );
+          await AsyncStorage.setItem(
+            'userDataGymWorkout',
+            JSON.stringify(user),
+          );
+          await AsyncStorage.setItem(
+            'WorkoutPath',
+            JSON.stringify('GymTabNavigator'),
+          );
+
+          setWorkoutPath('GymTabNavigator');
           // Navigate to 'HomeTabNavigator' with homeWorkout and workoutData
           navigation.navigate('GymTabNavigator', {
             screen: 'GymWorkoutMain',
             params: {data: gymWorkoutJSON, formDataCopy: user},
           });
-          
         }
       } else {
         console.log('workout page');
@@ -328,7 +357,6 @@ const WorkoutFirstPage = ({navigation, route}) => {
                 gradient={gradients?.[tab === 2 ? 'success' : '#ffff']}>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                   <View style={styles.subCardView}></View>
-                
 
                   <View style={{marginLeft: 12}}>
                     <Text
@@ -361,7 +389,6 @@ const WorkoutFirstPage = ({navigation, route}) => {
                   }}>
                   {isLoadingHome ? (
                     <ActivityIndicator size="large" color="#ffffff" />
-                    
                   ) : (
                     <Image
                       source={assets.arrow}
@@ -383,7 +410,7 @@ const WorkoutFirstPage = ({navigation, route}) => {
                 gradient={gradients?.[tab === 3 ? 'success' : '#ffff']}>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                   <View style={styles.subCardView}></View>
-               
+
                   <View style={{marginLeft: 12}}>
                     <Text
                       style={{
@@ -415,7 +442,6 @@ const WorkoutFirstPage = ({navigation, route}) => {
                   }}>
                   {isLoadingGym ? (
                     <ActivityIndicator size="large" color="#ffffff" />
-                    
                   ) : (
                     <Image
                       source={assets.arrow}
@@ -436,9 +462,9 @@ const WorkoutFirstPage = ({navigation, route}) => {
                 gradient={gradients?.[tab === 4 ? 'success' : '#ffff']}>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                   <View style={styles.subCardView}></View>
-               
+
                   <View style={{marginLeft: 12}}>
-                  <Text
+                    <Text
                       style={{
                         fontSize: 14,
                         color: 'black',
@@ -482,7 +508,6 @@ const WorkoutFirstPage = ({navigation, route}) => {
                   }}>
                   {isLoading ? (
                     <ActivityIndicator size="large" color="#ffffff" />
-                    
                   ) : (
                     <Image
                       source={assets.arrow}
