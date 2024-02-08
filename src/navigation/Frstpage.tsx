@@ -16,7 +16,7 @@ import {Block, Button, Image, Input, Product, Text} from '../components/';
 import {StatusBar as ExpoStatusBar} from 'expo-status-bar';
 import Lottie from 'lottie-react-native';
 import {Alert, Animated, Easing, TouchableWithoutFeedback} from 'react-native';
-import Toast from 'react-native-toast-message'; 
+import Toast from 'react-native-toast-message';
 
 import {
   StyleSheet,
@@ -33,7 +33,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import api, {setAuthToken} from '../../api';
 import Loader from '../screens/alert/loader/Loader';
 import messaging from '@react-native-firebase/messaging';
-import { useWorkoutPathContext } from '../hooks/WorkoutPathContext';
+import {useWorkoutPathContext} from '../hooks/WorkoutPathContext';
 
 const {height, width} = Dimensions.get('window');
 
@@ -47,13 +47,11 @@ export default function Frstpage({
 }) {
   console.log(formData);
   const {loginSuccess} = useContext(LoginContext);
-  const { selectedWorkoutPath, setWorkoutPath } = useWorkoutPathContext();
-
+  const {selectedWorkoutPath, setWorkoutPath} = useWorkoutPathContext();
 
   console.log('====================================');
-  console.log(selectedWorkoutPath ,"first page");
+  console.log(selectedWorkoutPath, 'first page');
   console.log('====================================');
-
 
   const {assets, colors, fonts, gradients, sizes} = useTheme();
   const {t} = useTranslation();
@@ -69,7 +67,7 @@ export default function Frstpage({
     token,
     logout, // You can access the logout function
   } = useContext(LoginContext);
-  console.log(customerId , "idddd");
+  console.log(customerId, 'idddd');
 
   const handleLogout = () => {
     console.log('clicked');
@@ -83,10 +81,14 @@ export default function Frstpage({
       if (selectedWorkoutPath === 'HomeTabNavigator') {
         let homeWorkoutData = null;
         let userData = null;
-  
+
         // Retrieve homeWorkoutData from AsyncStorage
-        const storedHomeWorkoutData = await AsyncStorage.getItem('homeWorkoutData');
-        const storeduserDataHomeWorkout = await AsyncStorage.getItem('userDataHomeWorkout');
+        const storedHomeWorkoutData = await AsyncStorage.getItem(
+          'homeWorkoutData',
+        );
+        const storeduserDataHomeWorkout = await AsyncStorage.getItem(
+          'userDataHomeWorkout',
+        );
         if (storedHomeWorkoutData && storeduserDataHomeWorkout) {
           homeWorkoutData = JSON.parse(storedHomeWorkoutData);
           userData = JSON.parse(storeduserDataHomeWorkout);
@@ -94,44 +96,48 @@ export default function Frstpage({
             screen: 'HomeWorkoutMain',
             params: {workout: homeWorkoutData, workoutData: userData},
           });
-
         }
-  
+
         // If there's a selectedWorkoutPath, navigate to that path
         // navigation.navigate(selectedWorkoutPath, {
         //   workoutData: formData,
         //   workout: homeWorkoutData,
         // });
-    
-      }else if(selectedWorkoutPath === 'GymTabNavigator'){
+      } else if (selectedWorkoutPath === 'GymTabNavigator') {
         let gymWorkoutData = null;
         let userData = null;
-  
+
         // Retrieve homeWorkoutData from AsyncStorage
-        const storedGymWorkoutData = await AsyncStorage.getItem('gymWorkoutData');
-        const storeduserDataGymWorkout = await AsyncStorage.getItem('userDataGymWorkout');
+        const storedGymWorkoutData = await AsyncStorage.getItem(
+          'gymWorkoutData',
+        );
+        const storeduserDataGymWorkout = await AsyncStorage.getItem(
+          'userDataGymWorkout',
+        );
         if (storedGymWorkoutData && storeduserDataGymWorkout) {
           gymWorkoutData = JSON.parse(storedGymWorkoutData);
           userData = JSON.parse(storeduserDataGymWorkout);
-        
+
           navigation.navigate('GymTabNavigator', {
             screen: 'GymWorkoutMain',
-            params: {data: gymWorkoutData, formDataCopy:userData},
+            params: {data: gymWorkoutData, formDataCopy: userData},
           });
         }
-
-      }
-      else if(selectedWorkoutPath === 'ChallengeTabNavigator'){
+      } else if (selectedWorkoutPath === 'ChallengeTabNavigator') {
         let challengeWorkoutData = null;
         let userData = null;
-  
+
         // Retrieve homeWorkoutData from AsyncStorage
-        const storedChallengeWorkoutData = await AsyncStorage.getItem('challengeWorkoutData');
-        const storeduserDataChallengeWorkout = await AsyncStorage.getItem('userDataChallengeWorkout');
+        const storedChallengeWorkoutData = await AsyncStorage.getItem(
+          'challengeWorkoutData',
+        );
+        const storeduserDataChallengeWorkout = await AsyncStorage.getItem(
+          'userDataChallengeWorkout',
+        );
         if (storedChallengeWorkoutData && storeduserDataChallengeWorkout) {
           challengeWorkoutData = JSON.parse(storedChallengeWorkoutData);
           userData = JSON.parse(storeduserDataChallengeWorkout);
-        
+
           // navigation.navigate('GymTabNavigator', {
           //   screen: 'GymWorkoutMain',
           //   params: {data: gymWorkoutData, formDataCopy:userData},
@@ -142,11 +148,9 @@ export default function Frstpage({
             params: {challenge: challengeWorkoutData},
           });
         }
-
-      } 
-      else {
+      } else {
         // If there's no selectedWorkoutPath, navigate to the default 'fitness' route
-        navigation.navigate('fitness', { workoutData: formData });
+        navigation.navigate('fitness', {workoutData: formData});
       }
     } catch (error) {
       console.error('Error retrieving stored data:', error);
@@ -163,16 +167,18 @@ export default function Frstpage({
   useEffect(() => {
     getDeviceToken();
     requestPermission();
-     
-   }, [customerId]);
-   const getDeviceToken = async () => {
+  }, [customerId]);
+  const getDeviceToken = async () => {
     try {
       const token = await messaging().getToken();
       console.log(token, 'token12');
-  
+
       if (token && customerId) {
         try {
-          const response = await api.post('set_personal_datas', { device_token: token,customer_id:customerId });
+          const response = await api.post('set_personal_datas', {
+            device_token: token,
+            customer_id: customerId,
+          });
           console.log(response.data, 'set data');
         } catch (error) {
           console.error('Error making API request:', error);
@@ -194,30 +200,29 @@ export default function Frstpage({
       console.error('Error getting device token:', error);
     }
   };
-   
-   useEffect(() => {
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
-      const { title, body } = remoteMessage.notification;
+
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
+      const {title, body} = remoteMessage.notification;
       const imageUrl = remoteMessage.notification.android.smallIcon;
-  
+
       // Show toast notification
       Toast.show({
         onPress() {
-            navigation.navigate('NotificationPage');
+          navigation.navigate('NotificationPage');
         },
-        swipeable:true,
-       props:imageUrl,
-        
+        swipeable: true,
+        props: imageUrl,
+
         type: 'success',
         position: 'top',
         text1: title || 'Default Title', // Provide a default title if not present
-        text2: body || 'Default Body',   // Provide a default body if not present
-        visibilityTime: 4000,             // Adjust visibility time as needed
-        autoHide: true,                   // Auto-hide the toast after visibilityTime
-        topOffset: 30,                    // Adjust the top offset as needed
+        text2: body || 'Default Body', // Provide a default body if not present
+        visibilityTime: 4000, // Adjust visibility time as needed
+        autoHide: true, // Auto-hide the toast after visibilityTime
+        topOffset: 30, // Adjust the top offset as needed
         // Add an image to the toast if imageUrl is available
         // You may need to adjust the styling based on the library you are using
-        
       });
     });
 
@@ -316,118 +321,175 @@ export default function Frstpage({
   // };
 
   // for loading Dietplan easily asyncStorage implemented
+  // const redirectTo = async () => {
+  //   try {
+  //     const cachedDataJSON = await AsyncStorage.getItem('cachedData');
+
+  //     const authData = JSON.parse(await AsyncStorage.getItem('authData'));
+  //     const {token, formData} = authData;
+  //     console.log(cachedDataJSON, 'cached data');
+
+  //     if (cachedDataJSON) {
+  //       // alert('hi');
+  //       console.log('cache 1');
+  //       const cachedData = JSON.parse(cachedDataJSON);
+  //       const {requiredCalorie, dietPlan} = cachedData;
+  //       setIsLoading(false);
+  //       if (requiredCalorie && formData) {
+  //         navigation.navigate('Menu', {
+  //           data: requiredCalorie,
+  //           formDataCopy: formData,
+  //           dietPlan,
+  //         });
+  //       } else {
+  //         navigation.navigate('Details', {formData});
+  //       }
+  //     } else {
+  //       const authDataJSON = await AsyncStorage.getItem('authData');
+  //       console.log(authDataJSON, 'authdata first page');
+
+  //       if (authDataJSON) {
+  //         const authData = JSON.parse(authDataJSON);
+  //         const {token, formData} = authData;
+
+  //         loginSuccess(formData.customer_id, formData, token);
+  //         console.log(token, 'auth Data');
+
+  //         if (token) {
+  //           setAuthToken(token);
+  //           setIsLoading(true);
+
+  //           const requiredCalorieResponse = await api.get(
+  //             `get_daily_required_calories/${formData.customer_id}`,
+  //           );
+  //           const dietListResponse = await api.get(
+  //             `get_recommended_diet/${formData.customer_id}`,
+  //           );
+
+  //           const requiredCalorie = requiredCalorieResponse.data.data;
+  //           const dietPlan = dietListResponse.data.data.recommended_diet_list;
+
+  //           if (requiredCalorieResponse.data.success) {
+  //             await AsyncStorage.setItem(
+  //               'cachedData',
+  //               JSON.stringify({requiredCalorie, dietPlan}),
+  //             );
+  //           }
+
+  //           console.log(requiredCalorie, 'calorie required');
+  //           console.log(formData, 'for workout example');
+
+  //           setIsLoading(false);
+
+  //           if (requiredCalorieResponse.data.success && formData) {
+  //             navigation.navigate('Menu', {
+  //               data: requiredCalorie,
+  //               formDataCopy: formData,
+  //               dietPlan,
+  //             });
+  //           } else if (formData) {
+  //             navigation.navigate('Details', {formData});
+  //           } else {
+  //             navigation.reset({
+  //               index: 0,
+  //               routes: [{name: 'loginNew'}],
+  //             });
+  //           }
+  //         } else {
+  //           navigation.reset({
+  //             index: 0,
+  //             routes: [{name: 'loginNew'}],
+  //           });
+  //         }
+  //       } else {
+  //         navigation.reset({
+  //           index: 0,
+  //           routes: [{name: 'loginNew'}],
+  //         });
+  //       }
+  //       setIsLoading(false);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error:', error);
+  //     setIsLoading(false);
+  //     navigation.reset({
+  //       index: 0,
+  //       routes: [{name: 'loginNew'}],
+  //     });
+  //   }
+  // };
   const redirectTo = async () => {
     try {
-      console.log('clicked');
+      const [cachedDataJSON, authDataJSON] = await Promise.all([
+        AsyncStorage.getItem('cachedData'),
+        AsyncStorage.getItem('authData'),
+      ]);
   
-      const cachedDataJSON = await AsyncStorage.getItem('cachedData');
-      console.log(cachedDataJSON, 'cached data');
+      const authData = JSON.parse(authDataJSON || '{}');
+      const { token, formData } = authData;
   
       if (cachedDataJSON) {
         const cachedData = JSON.parse(cachedDataJSON);
-  
-        const authData = JSON.parse(await AsyncStorage.getItem('authData'));
-        const { token, formData } = authData;
-  
-        // loginSuccess(formData.customer_id, formData, token);
-        // console.log(token, 'auth Data');
-  
         const { requiredCalorie, dietPlan } = cachedData;
   
         setIsLoading(false);
-  
-        if ((requiredCalorie) && formData) {
-          navigation.navigate('Menu', {
+        if (requiredCalorie && formData) {
+         
+          return navigation.navigate('Menu', {
             data: requiredCalorie,
             formDataCopy: formData,
             dietPlan,
           });
-        }else{
-          navigation.navigate('Details', { formData });
         }
+      }
+  
+      if (!token) {
+        return navigateToLogin();
+      }
+  
+      loginSuccess(formData.customer_id, formData, token);
+      setAuthToken(token);
+      setIsLoading(true);
+  
+      const [requiredCalorieResponse, dietListResponse] = await Promise.all([
+        api.get(`get_daily_required_calories/${formData.customer_id}`),
+        api.get(`get_recommended_diet/${formData.customer_id}`),
+      ]);
+  
+      const requiredCalorie = requiredCalorieResponse.data.data;
+      const dietPlan = dietListResponse.data.data.recommended_diet_list;
+  
+      if (requiredCalorieResponse.data.success) {
+        await AsyncStorage.setItem('cachedData', JSON.stringify({ requiredCalorie, dietPlan }));
+      }
+  
+      setIsLoading(false);
+  
+      if (requiredCalorieResponse.data.success && formData) {
+        navigation.navigate('Menu', {
+          data: requiredCalorie,
+          formDataCopy: formData,
+          dietPlan,
+        });
+      } else if (formData) {
+        navigation.navigate('Details', { formData });
       } else {
-        const authDataJSON = await AsyncStorage.getItem('authData');
-        console.log(authDataJSON, 'authdata first page');
-  
-        if (authDataJSON) {
-          const authData = JSON.parse(authDataJSON);
-          const { token, formData } = authData;
-  
-          loginSuccess(formData.customer_id, formData, token);
-          console.log(token, 'auth Data');
-  
-          if (token) {
-            setAuthToken(token);
-            setIsLoading(true);
-  
-            const requiredCalorieResponse = await api.get(
-              `get_daily_required_calories/${formData.customer_id}`,
-            );
-            const dietListResponse = await api.get(
-              `get_recommended_diet/${formData.customer_id}`,
-            );
-  
-            const requiredCalorie = requiredCalorieResponse.data.data;
-            const dietPlan = dietListResponse.data.data.recommended_diet_list;
-
-            if (requiredCalorieResponse.data.success){
-              await AsyncStorage.setItem(
-                'cachedData',
-                JSON.stringify({ requiredCalorie, dietPlan })
-              );
-            }
-         
-  
-            console.log(requiredCalorie, 'calorie required');
-            console.log(formData, 'for workout example');
-  
-            setIsLoading(false);
-  
-            if (
-              requiredCalorieResponse.data.success &&
-              formData
-            ) {
-              navigation.navigate('Menu', {
-                data: requiredCalorie,
-                formDataCopy: formData,
-                dietPlan,
-              });
-            } else if (formData) {
-              navigation.navigate('Details', { formData });
-            } else {
-              navigation.reset({
-                index: 0,
-                routes: [{ name: 'loginNew' }],
-              });
-            }
-  
-          
-          } else {
-            navigation.reset({
-              index: 0,
-              routes: [{ name: 'loginNew' }],
-            });
-          }
-        } else {
-          navigation.reset({
-            index: 0,
-            routes: [{ name: 'loginNew' }],
-          });
-        }
-        setIsLoading(false);
+        navigateToLogin();
       }
     } catch (error) {
       console.error('Error:', error);
       setIsLoading(false);
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'loginNew' }],
-      });
+      navigateToLogin();
     }
   };
   
-
-
+  const navigateToLogin = () => {
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'loginNew' }],
+    });
+  };
+  
 
   return (
     <>
@@ -435,207 +497,206 @@ export default function Frstpage({
         <Loader />
       ) : (
         <>
+          <Block>
+            <Block style={styles.container1} gradient={gradients.success}>
+              <Text
+                bold
+                //  font="Pacifico"
+                style={{top: 40, padding: 16}}>
+                Welcome {formData.first_name} ,
+              </Text>
 
-        <Block>
-          <Block style={styles.container1} gradient={gradients.success}>
-            <Text
-              bold
-              //  font="Pacifico"
-              style={{top: 40, padding: 16}}>
-              Welcome {formData.first_name} ,
-            </Text>
-           
-            <View style={styles.img}>
-              <Image
-                source={require('../assets/images/fitter-bg.png')}
-                style={{width: '40%', height: '45%', top: 40}}
-              />
-            </View>
-            <ExpoStatusBar style="auto" />
-          </Block>
+              <View style={styles.img}>
+                <Image
+                  source={require('../assets/images/fitter-bg.png')}
+                  style={{width: '40%', height: '45%', top: 40}}
+                />
+              </View>
+              <ExpoStatusBar style="auto" />
+            </Block>
 
-          <View style={styles.container}>
-            <TouchableWithoutFeedback
-              // onPress={() => navigation.navigate('Details')}
-              activeOpacity={0.1}
-              onPress={() => {
-                handleProducts(2);
-                redirectTo();
-              }}
-              // onPressOut={() => navigation.navigate('Details', {formData})}
-            >
-              <Block
-                style={styles.mainCardView}
-                flex={0}
-                marginTop={50}
-                //  radius={30}
-                gradient={gradients?.[tab === 2 ? 'success' : '#fffff']}>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <View flex={2}>
-                    <Image
-                      //  source={require('../../../assets/fruit2.png')}
-                      source={assets.fruit2}
-                      resizeMode="contain"
-                    />
-                    {/* <Lottie
+            <View style={styles.container}>
+              <TouchableWithoutFeedback
+                // onPress={() => navigation.navigate('Details')}
+                activeOpacity={0.1}
+                onPress={() => {
+                  handleProducts(2);
+                  redirectTo();
+                }}
+                // onPressOut={() => navigation.navigate('Details', {formData})}
+              >
+                <Block
+                  style={styles.mainCardView}
+                  flex={0}
+                  marginTop={50}
+                  //  radius={30}
+                  gradient={gradients?.[tab === 2 ? 'success' : '#fffff']}>
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <View flex={2}>
+                      <Image
+                        //  source={require('../../../assets/fruit2.png')}
+                        source={assets.fruit2}
+                        resizeMode="contain"
+                      />
+                      {/* <Lottie
                     width={64}
                     height={64}
                     marginBottom={sizes.sm}
                     source={require('../assets/json/diet1.json')}
                     progress={animationProgress.current}
                   /> */}
+                    </View>
+                    <View flex={4} style={{alignSelf: 'center'}}>
+                      <Text
+                        bold
+                        primary
+                        style={{
+                          fontSize: 14,
+                          color: 'black',
+                        }}>
+                        {'DIET PLANS'}
+                      </Text>
+                      <View
+                        style={{
+                          marginTop: 4,
+                          borderWidth: 0,
+                          width: '85%',
+                        }}></View>
+                    </View>
                   </View>
-                  <View flex={4} style={{alignSelf: 'center'}}>
-                    <Text
-                      bold
-                      primary
-                      style={{
-                        fontSize: 14,
-                        color: 'black',
-                      }}>
-                      {'DIET PLANS'}
-                    </Text>
-                    <View
-                      style={{
-                        marginTop: 4,
-                        borderWidth: 0,
-                        width: '85%',
-                      }}></View>
+                  <View
+                    style={{
+                      height: 25,
+                      backgroundColor: 'pink',
+                      borderWidth: 0,
+                      width: 25,
+                      marginLeft: -26,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      borderRadius: 50,
+                    }}>
+                    <Image
+                      source={assets.arrow}
+                      color={colors.white}
+                      radius={0}
+                    />
                   </View>
-                </View>
-                <View
-                  style={{
-                    height: 25,
-                    backgroundColor: 'pink',
-                    borderWidth: 0,
-                    width: 25,
-                    marginLeft: -26,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    borderRadius: 50,
-                  }}>
-                  <Image
-                    source={assets.arrow}
-                    color={colors.white}
-                    radius={0}
-                  />
-                </View>
-              </Block>
-            </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback
-              onPress={() => {handleProducts(3);
-                handlePressOut();
-              }
-              }
-              // onPressOut={() =>
-              //   navigation.navigate('fitness', {workoutData: formData})
-              // }
+                </Block>
+              </TouchableWithoutFeedback>
+              <TouchableWithoutFeedback
+                onPress={() => {
+                  handleProducts(3);
+                  handlePressOut();
+                }}
+                // onPressOut={() =>
+                //   navigation.navigate('fitness', {workoutData: formData})
+                // }
               >
-              <Block
-                style={styles.mainCardView}
-                flex={0}
-                //  radius={6}
-                gradient={gradients?.[tab === 3 ? 'success' : '#fffff']}>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <View flex={2}>
+                <Block
+                  style={styles.mainCardView}
+                  flex={0}
+                  //  radius={6}
+                  gradient={gradients?.[tab === 3 ? 'success' : '#fffff']}>
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <View flex={2}>
+                      <Image
+                        // source={require('../../../assets/fitness2.png')}
+                        source={assets.fitness2}
+                        resizeMode="contain"
+                      />
+                    </View>
+                    <View flex={4} style={{alignSelf: 'center'}}>
+                      <Text bold primary>
+                        {'WORKOUT'}
+                      </Text>
+                      <View
+                        style={{
+                          marginTop: 4,
+                          borderWidth: 0,
+                          width: '85%',
+                        }}></View>
+                    </View>
+                  </View>
+                  <View
+                    style={{
+                      height: 25,
+                      backgroundColor: 'pink',
+                      borderWidth: 0,
+                      width: 25,
+                      marginLeft: -26,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      borderRadius: 50,
+                    }}>
                     <Image
-                      // source={require('../../../assets/fitness2.png')}
-                      source={assets.fitness2}
-                      resizeMode="contain"
+                      source={assets.arrow}
+                      color={colors.white}
+                      radius={0}
                     />
                   </View>
-                  <View flex={4} style={{alignSelf: 'center'}}>
-                    <Text bold primary>
-                      {'WORKOUT'}
-                    </Text>
-                    <View
-                      style={{
-                        marginTop: 4,
-                        borderWidth: 0,
-                        width: '85%',
-                      }}></View>
+                </Block>
+              </TouchableWithoutFeedback>
+              <TouchableWithoutFeedback
+                // onPressOut={() => navigation.navigate('NutritionFactsSearch')}
+                onPress={() => {
+                  navigation.navigate('NutritionFactsSearch');
+                  handleProducts(4);
+                  // handleLogout();
+                }}>
+                <Block
+                  style={styles.mainCardView}
+                  flex={0}
+                  //  radius={6}
+                  gradient={gradients?.[tab === 4 ? 'success' : '#fffff']}>
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <View flex={2}>
+                      <Image
+                        //  source={require('../../../assets/book2.png')}
+                        source={assets.book2}
+                        resizeMode="contain"
+                      />
+                    </View>
+                    <View flex={4} style={{alignContent: 'center'}}>
+                      <Text
+                        bold
+                        primary
+                        style={{
+                          fontSize: 14,
+                          color: 'black',
+                          fontWeight: 'bold',
+                        }}>
+                        {'NUTRITION FACTS'}
+                      </Text>
+                      <View
+                        style={{
+                          marginTop: 4,
+                          borderWidth: 0,
+                          width: '85%',
+                        }}></View>
+                    </View>
                   </View>
-                </View>
-                <View
-                  style={{
-                    height: 25,
-                    backgroundColor: 'pink',
-                    borderWidth: 0,
-                    width: 25,
-                    marginLeft: -26,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    borderRadius: 50,
-                  }}>
-                  <Image
-                    source={assets.arrow}
-                    color={colors.white}
-                    radius={0}
-                  />
-                </View>
-              </Block>
-            </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback
-              // onPressOut={() => navigation.navigate('NutritionFactsSearch')}
-              onPress={() => {
-                navigation.navigate('NutritionFactsSearch');
-                handleProducts(4);
-                // handleLogout();
-              }}>
-              <Block
-                style={styles.mainCardView}
-                flex={0}
-                //  radius={6}
-                gradient={gradients?.[tab === 4 ? 'success' : '#fffff']}>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <View flex={2}>
+                  <View
+                    style={{
+                      height: 25,
+                      backgroundColor: 'pink',
+                      borderWidth: 0,
+                      width: 25,
+                      marginLeft: -26,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      borderRadius: 50,
+                    }}>
                     <Image
-                      //  source={require('../../../assets/book2.png')}
-                      source={assets.book2}
-                      resizeMode="contain"
+                      source={assets.arrow}
+                      color={colors.white}
+                      radius={0}
                     />
                   </View>
-                  <View flex={4} style={{alignContent: 'center'}}>
-                    <Text
-                      bold
-                      primary
-                      style={{
-                        fontSize: 14,
-                        color: 'black',
-                        fontWeight: 'bold',
-                      }}>
-                      {'NUTRITION FACTS'}
-                    </Text>
-                    <View
-                      style={{
-                        marginTop: 4,
-                        borderWidth: 0,
-                        width: '85%',
-                      }}></View>
-                  </View>
-                </View>
-                <View
-                  style={{
-                    height: 25,
-                    backgroundColor: 'pink',
-                    borderWidth: 0,
-                    width: 25,
-                    marginLeft: -26,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    borderRadius: 50,
-                  }}>
-                  <Image
-                    source={assets.arrow}
-                    color={colors.white}
-                    radius={0}
-                  />
-                </View>
-              </Block>
-            </TouchableWithoutFeedback>
-            {/* <Text>{expoNotification}</Text> */}
-          </View>
-        </Block>
+                </Block>
+              </TouchableWithoutFeedback>
+              {/* <Text>{expoNotification}</Text> */}
+            </View>
+          </Block>
         </>
       )}
     </>

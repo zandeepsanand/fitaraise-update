@@ -17,7 +17,6 @@ import Lottie from 'lottie-react-native';
 import {StyleSheet, Platform, TouchableOpacity} from 'react-native';
 import CircularProgress from 'react-native-circular-progress-indicator';
 import ScrollCalender from './ScrollCalender';
-
 import * as Progress from 'react-native-progress';
 import {MealContext} from '../hooks/useMeal';
 
@@ -74,6 +73,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
     addWater,
     water,
   } = useContext(MealContext);
+
   const {customerId} = useContext(LoginContext);
   const [isLoadingScroll, setIsLoadingScroll] = useState(true);
   const [isDietPlanUnlocked, setDietPlanUnlocked] = useState(true); // Initially set to true
@@ -149,17 +149,18 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
         waterTracker.normal_water_count_ml
       : 0;
 
+
   console.log(waterProgress, 'progress water');
 
   const increaseWater = () => {
     const plus = 'plus';
-    // setWaterAmount(Math.min(waterAmount + 0.1, 1.0));
+
     addWater(plus);
   };
 
   const decreaseWater = () => {
     const plus = 'minus';
-    // setWaterAmount(Math.max(waterAmount - 0.1, 0.0));
+
     addWater(plus);
   };
   const handleAddFood = () => {};
@@ -1166,10 +1167,10 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                             </Block>
                           </TouchableOpacity>
                         </Block>
-                      
-                            {/* Header */}
-                           
-                            <Block flex={1} center>
+
+                        {/* Header */}
+
+                        <Block flex={1} center>
                           <DataTable style={styles.container}>
                             <DataTable.Header style={styles.tableHeader}>
                               <DataTable.Cell
@@ -1235,7 +1236,6 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                             ))}
                           </DataTable>
                         </Block>
-                        
                       </Block>
                     ) : (
                       <Block
@@ -1872,7 +1872,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                             </Block>
                           </TouchableOpacity>
                         </Block>
-                     
+
                         <Block flex={1} center>
                           <DataTable style={styles.container}>
                             <DataTable.Header style={styles.tableHeader}>
@@ -2017,469 +2017,12 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                         </Block>
                       </Block>
                     )}
-                    {mealItems1.length > 0 ? (
-                      <Block
-                        radius={sizes.sm}
-                        shadow={!isAndroid} // disabled shadow on Android due to blur overlay + elevation issue
-                        marginTop={sizes.s}
-                        card
-                        color="#f5e8fa">
-                        <Block row align="center">
-                          <Block flex={0}>
-                            <Image
-                              source={require('../assets/icons/meal.png')}
-                              style={{
-                                width: sizes.xl,
-                                height: sizes.xl,
-                              }}
-                              marginLeft={sizes.s}
-                            />
-                          </Block>
-                          <Block flex={3} style={{alignSelf: 'center'}}>
-                            {mealItems1.length > 1 ? (
-                              <TouchableOpacity
-                                onPress={() => {
-                                  navigation.navigate('meal1', {
-                                    mealType: 'meal1',
-                                    meal_type: 7,
-                                    data,
-                                    formDataCopy,
-                                  });
-                                }}>
-                                <Text p black semibold center padding={10}>
-                                  {' '}
-                                  Meals 1 ({totalMeal1Calorie}) kcal
-                                </Text>
-                              </TouchableOpacity>
-                            ) : (
-                              <TouchableOpacity
-                                onPress={() => {
-                                  navigation.navigate('meal1', {
-                                    mealType: 'meal1',
-                                    meal_type: 7,
-                                    data,
-                                    formDataCopy,
-                                  });
-                                }}>
-                                <Text p black semibold center padding={10}>
-                                  Meal 1 ({totalMeal1Calorie}) kcal
-                                </Text>
-                              </TouchableOpacity>
-                            )}
-
-                            <Block row flex={0} align="center" justify="center">
-                              <Block
-                                flex={0}
-                                height={1}
-                                width="50%"
-                                end={[1, 0]}
-                                start={[0, 1]}
-                                gradient={gradients.divider}
-                              />
-                              <Text center marginHorizontal={sizes.s}></Text>
-                              <Block
-                                flex={0}
-                                height={1}
-                                width="50%"
-                                end={[0, 1]}
-                                start={[1, 0]}
-                                gradient={gradients.divider}
-                              />
-                            </Block>
-                          </Block>
-                          <TouchableOpacity
-                            onPress={() =>
-                              navigation.navigate('searchfood', {
-                                mealType: 'meal1',
-                                meal_type: 7,
-                                data,
-                                formDataCopy,
-                              })
-                            }>
-                            <Block flex={0} style={{alignSelf: 'center'}}>
-                              <Image
-                                radius={0}
-                                width={25}
-                                height={25}
-                                color={'#c58bf2'}
-                                source={assets.plus}
-                                transform={[{rotate: '360deg'}]}
-                                margin={sizes.s}
-                              />
-                            </Block>
-                          </TouchableOpacity>
-                        </Block>
-                       
-                        <Block flex={1} center>
-                          <DataTable style={styles.container}>
-                            <DataTable.Header style={styles.tableHeader}>
-                              <DataTable.Cell
-                                style={{flex: 1.4}}></DataTable.Cell>
-                              <DataTable.Cell style={{flex: 1.3}}>
-                                Protien
-                              </DataTable.Cell>
-                              <DataTable.Cell style={{flex: 1.3}}>
-                                Carb
-                              </DataTable.Cell>
-                              <DataTable.Cell>Fat</DataTable.Cell>
-                              <DataTable.Cell>KCAL</DataTable.Cell>
-                              <DataTable.Cell></DataTable.Cell>
-                            </DataTable.Header>
-                            {mealItems1.map((item, index) => (
-                              <DataTable.Row key={index}>
-                                <DataTable.Cell
-                                  style={{flex: 1.4}}
-                                  numberOfLines={
-                                    expandedItems.includes(index) ? 0 : 1
-                                  }>
-                                  {item.food_name}
-                                </DataTable.Cell>
-                                <DataTable.Cell style={{flex: 1.3}}>
-                                  {item.details.totalProtein}
-                                </DataTable.Cell>
-                                <DataTable.Cell style={{flex: 1.3}}>
-                                  {item.details.totalCarb}
-                                </DataTable.Cell>
-                                <DataTable.Cell>
-                                  {item.details.totalFat}
-                                </DataTable.Cell>
-                                <DataTable.Cell>
-                                  {item.details.totalCalorie}
-                                </DataTable.Cell>
-                                <DataTable.Cell
-                                  style={{
-                                    alignSelf: 'center',
-                                    justifyContent: 'flex-end',
-                                  }}>
-                                  {' '}
-                                  <TouchableOpacity
-                                    onPress={() => {
-                                      handleDelete(index, 'meal1');
-                                      handleDeleteApi(item);
-                                    }}>
-                                    <Image
-                                      source={require('../assets/icons/close1.png')}
-                                      color={'#fa9579'}
-                                      style={
-                                        (styles.data,
-                                        {
-                                          width: 20,
-                                          height: 20,
-                                          alignContent: 'center',
-                                        })
-                                      }
-                                      margin={sizes.s}
-                                    />
-                                  </TouchableOpacity>
-                                </DataTable.Cell>
-                              </DataTable.Row>
-                            ))}
-                          </DataTable>
-                        </Block>
-                      </Block>
-                    ) : (
-                      <Block
-                        flex={0}
-                        radius={sizes.sm}
-                        shadow={!isAndroid} // disabled shadow on Android due to blur overlay + elevation issue
-                        marginTop={sizes.m}
-                        marginHorizontal={10}
-                        card
-                        color="rgb(245,232,250)"
-                        center>
-                        <Block row align="center">
-                          <Block flex={0}>
-                            <Image
-                              source={require('../assets/icons/meal.png')}
-                              style={{
-                                width: sizes.xl,
-                                height: sizes.xl,
-                              }}
-                              marginLeft={sizes.s}
-                            />
-                          </Block>
-                          <Block flex={3} style={{alignSelf: 'center'}}>
-                            <Text
-                              p
-                              black
-                              semibold
-                              center
-                              padding={10}
-                              onPress={() =>
-                                navigation.navigate('searchfood', {
-                                  mealType: 'meal1',
-                                  meal_type: 7,
-                                  formDataCopy,
-                                  data,
-                                })
-                              }>
-                              Add Meal 1
-                            </Text>
-                          </Block>
-                          <TouchableOpacity
-                            onPress={() =>
-                              navigation.navigate('searchfood', {
-                                mealType: 'meal1',
-                                meal_type: 7,
-                                formDataCopy,
-                                data,
-                              })
-                            }>
-                            <Block flex={0} style={{alignSelf: 'center'}}>
-                              <Image
-                                radius={0}
-                                width={25}
-                                height={25}
-                                color={'#c58bf2'}
-                                source={assets.plus}
-                                transform={[{rotate: '360deg'}]}
-                                margin={sizes.s}
-                              />
-                            </Block>
-                          </TouchableOpacity>
-                        </Block>
-                      </Block>
-                    )}
-                    {mealItems2.length > 0 ? (
-                      <Block
-                        radius={sizes.sm}
-                        shadow={!isAndroid} // disabled shadow on Android due to blur overlay + elevation issue
-                        marginTop={sizes.s}
-                        card
-                        color="#f5e8fa">
-                        <Block row align="center">
-                          <Block flex={0}>
-                            <Image
-                              source={require('../assets/icons/meal2.png')}
-                              style={{
-                                width: sizes.xl,
-                                height: sizes.xl,
-                              }}
-                              marginLeft={sizes.s}
-                            />
-                          </Block>
-                          <Block flex={3} style={{alignSelf: 'center'}}>
-                            {mealItems1.length > 1 ? (
-                              <TouchableOpacity
-                                onPress={() =>
-                                  navigation.navigate('meal2', {
-                                    mealType: 'meal2',
-                                    meal_type: 8,
-                                    data,
-                                    formDataCopy,
-                                  })
-                                }>
-                                <Text p black semibold center padding={10}>
-                                  {' '}
-                                  Meals 2 ({totalMeal2Calorie}) kcal
-                                </Text>
-                              </TouchableOpacity>
-                            ) : (
-                              <TouchableOpacity
-                                onPress={() =>
-                                  navigation.navigate('meal2', {
-                                    mealType: 'meal2',
-                                    meal_type: 8,
-                                    data,
-                                    formDataCopy,
-                                  })
-                                }>
-                                <Text p black semibold center padding={10}>
-                                  Meal 2 ({totalMeal2Calorie}) kcal
-                                </Text>
-                              </TouchableOpacity>
-                            )}
-
-                            <Block
-                              row
-                              flex={0}
-                              align="center"
-                              justify="center"
-                              paddingBottom={0}>
-                              <Block
-                                flex={0}
-                                height={1}
-                                width="50%"
-                                end={[1, 0]}
-                                start={[0, 1]}
-                                gradient={gradients.divider}
-                              />
-                              <Text center marginHorizontal={sizes.s}></Text>
-                              <Block
-                                flex={0}
-                                height={1}
-                                width="50%"
-                                end={[0, 1]}
-                                start={[1, 0]}
-                                gradient={gradients.divider}
-                              />
-                            </Block>
-                          </Block>
-                          <TouchableOpacity
-                            onPress={() =>
-                              navigation.navigate('searchfood', {
-                                mealType: 'meal2',
-                                meal_type: 8,
-                                formDataCopy,
-                                data,
-                              })
-                            }>
-                            <Block flex={0} style={{alignSelf: 'center'}}>
-                              <Image
-                                radius={0}
-                                width={25}
-                                height={25}
-                                color={'#c58bf2'}
-                                source={assets.plus}
-                                transform={[{rotate: '360deg'}]}
-                                margin={sizes.s}
-                              />
-                            </Block>
-                          </TouchableOpacity>
-                        </Block>
-
-                        {/* testing  */}
-                        <Block flex={1} center>
-                          <DataTable style={styles.container}>
-                            <DataTable.Header style={styles.tableHeader}>
-                              <DataTable.Cell
-                                style={{flex: 1.4}}></DataTable.Cell>
-                              <DataTable.Cell style={{flex: 1.3}}>
-                                Protien
-                              </DataTable.Cell>
-                              <DataTable.Cell style={{flex: 1.3}}>
-                                Carb
-                              </DataTable.Cell>
-                              <DataTable.Cell>Fat</DataTable.Cell>
-                              <DataTable.Cell>KCAL</DataTable.Cell>
-                              <DataTable.Cell></DataTable.Cell>
-                            </DataTable.Header>
-                            {mealItems2.map((item, index) => (
-                              <DataTable.Row key={index}>
-                                <DataTable.Cell
-                                  style={{flex: 1.4}}
-                                  numberOfLines={
-                                    expandedItems.includes(index) ? 0 : 1
-                                  }>
-                                  {item.food_name}
-                                </DataTable.Cell>
-                                <DataTable.Cell style={{flex: 1.3}}>
-                                  {item.details.totalProtein}
-                                </DataTable.Cell>
-                                <DataTable.Cell style={{flex: 1.3}}>
-                                  {item.details.totalCarb}
-                                </DataTable.Cell>
-                                <DataTable.Cell>
-                                  {item.details.totalFat}
-                                </DataTable.Cell>
-                                <DataTable.Cell>
-                                  {item.details.totalCalorie}
-                                </DataTable.Cell>
-                                <DataTable.Cell
-                                  style={{
-                                    alignSelf: 'center',
-                                    justifyContent: 'flex-end',
-                                  }}>
-                                  {' '}
-                                  <TouchableOpacity
-                                    onPress={() => {
-                                      handleDelete(index, 'meal2');
-                                      handleDeleteApi(item);
-                                    }}>
-                                    <Image
-                                      source={require('../assets/icons/close1.png')}
-                                      color={'#fa9579'}
-                                      style={
-                                        (styles.data,
-                                        {
-                                          width: 20,
-                                          height: 20,
-                                          alignContent: 'center',
-                                        })
-                                      }
-                                      margin={sizes.s}
-                                    />
-                                  </TouchableOpacity>
-                                </DataTable.Cell>
-                              </DataTable.Row>
-                            ))}
-                          </DataTable>
-                        </Block>
-
-                        {/* test ends  */}
-                      </Block>
-                    ) : (
-                      <Block
-                        flex={0}
-                        radius={sizes.sm}
-                        shadow={!isAndroid} // disabled shadow on Android due to blur overlay + elevation issue
-                        marginTop={sizes.m}
-                        marginHorizontal={10}
-                        card
-                        color="rgb(245,232,250)"
-                        center>
-                        <Block row align="center">
-                          <Block flex={0}>
-                            <Image
-                              source={require('../assets/icons/meal2.png')}
-                              style={{
-                                width: sizes.xl,
-                                height: sizes.xl,
-                              }}
-                              marginLeft={sizes.s}
-                            />
-                          </Block>
-                          <Block flex={3} style={{alignSelf: 'center'}}>
-                            <Text
-                              p
-                              black
-                              semibold
-                              center
-                              padding={10}
-                              onPress={() =>
-                                navigation.navigate('searchfood', {
-                                  mealType: 'meal2',
-                                  meal_type: 8,
-                                  formDataCopy,
-                                  data,
-                                })
-                              }>
-                              Add Meal 2
-                            </Text>
-                          </Block>
-                          <TouchableOpacity
-                            onPress={() =>
-                              navigation.navigate('searchfood', {
-                                mealType: 'meal2',
-                                meal_type: 8,
-                                formDataCopy,
-                                data,
-                              })
-                            }>
-                            <Block flex={0} style={{alignSelf: 'center'}}>
-                              <Image
-                                radius={0}
-                                width={25}
-                                height={25}
-                                color={'#c58bf2'}
-                                source={assets.plus}
-                                transform={[{rotate: '360deg'}]}
-                                margin={sizes.s}
-                              />
-                            </Block>
-                          </TouchableOpacity>
-                        </Block>
-                      </Block>
-                    )}
-                    <Button flex={2} marginTop={sizes.m}>
-                      {/* <Text black bold>
-                    Water Tracker
-                  </Text> */}
-                    </Button>
+                  {/* meal 1 and 2 area is here */}
+               
 
                     {/* <Progress.Bar progress={0.3}  width={100}  /> */}
                     {water.length > 0 ? (
-                      <Block flex={0}>
+                      <Block flex={0} marginTop={10}>
                         <Image
                           background
                           resizeMode="cover"
@@ -2666,7 +2209,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                         </Image>
                       </Block>
                     ) : (
-                      <Block flex={0}>
+                      <Block flex={0} marginTop={10}>
                         <Image
                           background
                           resizeMode="cover"
@@ -2677,66 +2220,23 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                           blurRadius={10}>
                           <Block flex={0}>
                             <Image source={{uri: user?.avatar}} />
-                            {/* <Lottie
-                            width={64}
-                            height={64}
-                            marginBottom={sizes.sm}
-                            source={require('../assets/json/water.json')}
-                            progress={animationProgress.current}
-                          /> */}
+                          
                             <Text h5 center white>
-                              {/* {user?.name} */}
+                           
                               Water Tracker
                             </Text>
                             <Text p center white>
                               Target {waterTracker.normal_water_count_ml} ml
                             </Text>
-                            {/* <Block flex={0} align="center" padding={sizes.xl}>
-                        <ProgressBar
-                          steps={6}
-                          ranges={[
-                            '0',
-                            '150',
-                            '400',
-                            '600',
-                            '800',
-                            '1000',
-                            '1200',
-                          ]}
-                          dotDiameter={10}
-                          width={325}
-                          height={3}
-                          currentStep={currentStep}
-                          stepToStepAnimationDuration={1000}
-                          withDots
-                        />
-                      </Block> */}
-                            {/* <Block
-                        row
-                        justify="space-between"
-                        marginBottom={sizes.base}
-                        marginTop={sizes.sm}>
-                        <Button
-                          flex={2}
-                          gradient={gradients.dark}
-                          marginHorizontal={sizes.s}>
-                          <TouchableOpacity onPress={handlePrevStep}>
-                            <Text white bold marginHorizontal={sizes.s}>
-                              -
-                            </Text>
-                          </TouchableOpacity>
-                        </Button>
-                        <Button flex={2} gradient={gradients.dark}>
-                          <TouchableOpacity onPress={handleNextStep}>
-                            <Text white bold marginHorizontal={sizes.sm}>
-                              +
-                            </Text>
-                          </TouchableOpacity>
-                        </Button>
-                      </Block> */}
+
                             {water ? (
-                              // Render content when water data is present
-                              <Block row style={{ justifyContent: 'space-between',paddingTop:20}}>
+                            
+                              <Block
+                                row
+                                style={{
+                                  justifyContent: 'space-between',
+                                  paddingTop: 20,
+                                }}>
                                 <Block
                                   flex={1.8}
                                   width={160}
@@ -2748,8 +2248,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                                     center
                                     flex={0}
                                     marginBottom={10}
-                                    marginRight={20}
-                                    >
+                                    marginRight={20}>
                                     <Lottie
                                       width={44}
                                       height={54}
@@ -2785,7 +2284,6 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                                       justifyContent: 'center',
                                       alignSelf: 'center',
                                     }}>
-                                  
                                     <Image
                                       center
                                       source={require('../assets/icons/glass.png')}
@@ -2829,7 +2327,6 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                                     flex={0}
                                     width={100}
                                     margin={-20}>
-                                 
                                     <Progress.Bar
                                       progress={waterProgress}
                                       width={120}
@@ -2849,7 +2346,6 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                   </>
                 ) : (
                   <PreviousDietDetails data={apiData} />
-        
                 )}
               </Block>
             </Block>
@@ -2906,12 +2402,11 @@ const styles = StyleSheet.create({
     // flex: 1,
     // flexDirection: 'row', // set elements horizontally, try column.
     paddingHorizontal: 10,
-    
   },
   // container: {
   //   flex: 3,
   //   // backgroundColor: '#f9f6ee',
-    // padding: 10,
+  // padding: 10,
   // },
   mainCardView: {
     height: 150,

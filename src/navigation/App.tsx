@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Platform, StatusBar} from 'react-native';
 import {useFonts} from 'expo-font';
 import AppLoading from 'expo-app-loading';
@@ -104,21 +104,55 @@ import EnableNotificationOnOff from '../screens/EnableNotificationOnOff';
 import NutritionFactsSearch from '../screens/nutritionFacts/NutritionFactsSearch';
 import SingleNutritionPage from '../screens/nutritionFacts/SingleNutritionPage';
 import GymWorkoutSingleforAll from '../screens/workout/gym workout/GymWorkoutSingleforAll';
-import { WorkoutPathProvider } from '../hooks/WorkoutPathContext';
+import {WorkoutPathProvider} from '../hooks/WorkoutPathContext';
 
 // Keep the splash screen visible while we fetch resources
 // SplashScreen.hideAsync();
 
 export default () => {
   const {isDark, theme, setTheme} = useData();
+  const [initialRoute, setInitialRoute] = useState('Loading');
+  console.log(initialRoute, "check initial");
+  
+  const [initialParams, setInitialParams] = useState(null);
+  useEffect(() => {
+    const checkInitialParams = async () => {
+      console.log("in");
+      
+      try {
+        const cachedDataJSON = await AsyncStorage.getItem('cachedData');
+        if (cachedDataJSON) {
+          console.log("in2");
+          const cachedData = JSON.parse(cachedDataJSON);
+          const { requiredCalorie, formData, dietPlan } = cachedData;
+          if (requiredCalorie && formData && dietPlan) {
+            setInitialRoute("Menu");
+            setInitialParams({
+              data: requiredCalorie,
+              formDataCopy: formData,
+              dietPlan: dietPlan,
+            });
+          }
+        }
+      } catch (error) {
+        console.error('Error retrieving initial params:', error);
+      }
+    };
+
+    checkInitialParams();
+  }, []);
+
   const Stack = createStackNavigator();
   useEffect(() => {
     Platform.OS === 'android' && StatusBar.setTranslucent(true);
     StatusBar.setBarStyle(isDark ? 'light-content' : 'dark-content');
+    
     return () => {
       StatusBar.setBarStyle('default');
     };
+
   }, [isDark]);
+
 
   // load custom fonts
   const [fontsLoaded] = useFonts({
@@ -150,616 +184,618 @@ export default () => {
 
   return (
     <WorkoutPathProvider>
- <AuthProvider>
-      <MealContextProvider>
-        <TranslationProvider>
-          <ThemeProvider theme={theme} setTheme={setTheme}>
-            <NavigationContainer theme={navigationTheme}>
-              <Stack.Navigator initialRouteName="Loading">
-                <Stack.Screen
-                  name="ChallengeMenu"
-                  component={ChallengeMenu}
-                  options={{headerShown: false}}
-                />
-                <Stack.Screen
-                  name="ChallengeTabNavigator"
-                  component={ChallengeTabNavigator}
-                  options={{headerShown: false}}
-                />
-                <Stack.Screen
-                  name="SingleNutritionPage"
-                  component={SingleNutritionPage}
-                  options={{title: 'Nutrition', headerTitleAlign: 'center'}}
-                />
-                <Stack.Screen
-                  name="NutritionFactsSearch"
-                  component={NutritionFactsSearch}
-                  options={{title: 'Nutrition', headerTitleAlign: 'center'}}
-                />
-                <Stack.Screen
-                  name="EnableNotificationOnOff"
-                  component={EnableNotificationOnOff}
-                  options={{
-                    title: 'Notification Settings',
-                    headerTitleAlign: 'center',
-                  }}
-                />
-                <Stack.Screen
-                  name="NotificationPage"
-                  component={NotificationPage}
-                  options={{headerShown: false}}
-                />
-                <Stack.Screen
-                  name="TrackProgress"
-                  component={TrackProgress}
-                  options={{
-                    title: 'Track Progress', // Change the header title
-                    headerBackTitle: 'Back', // Change the back button title
-                    headerShown: true, // Show the header (you can omit this line if not needed)
-                  }}
-                />
-                <Stack.Screen
-                  name="EditProfile"
-                  component={EditProfile}
-                  options={{headerShown: false}}
-                />
+      <AuthProvider>
+        <MealContextProvider>
+          <TranslationProvider>
+            <ThemeProvider theme={theme} setTheme={setTheme}>
+              <NavigationContainer theme={navigationTheme}>
+                <Stack.Navigator initialRouteName={initialRoute}>
+                  <Stack.Screen
+                    name="ChallengeMenu"
+                    component={ChallengeMenu}
+                    options={{headerShown: false}}
+                  />
+                  <Stack.Screen
+                    name="ChallengeTabNavigator"
+                    component={ChallengeTabNavigator}
+                    options={{headerShown: false}}
+                  />
+                  <Stack.Screen
+                    name="SingleNutritionPage"
+                    component={SingleNutritionPage}
+                    options={{title: 'Nutrition', headerTitleAlign: 'center'}}
+                  />
+                  <Stack.Screen
+                    name="NutritionFactsSearch"
+                    component={NutritionFactsSearch}
+                    options={{title: 'Nutrition', headerTitleAlign: 'center'}}
+                  />
+                  <Stack.Screen
+                    name="EnableNotificationOnOff"
+                    component={EnableNotificationOnOff}
+                    options={{
+                      title: 'Notification Settings',
+                      headerTitleAlign: 'center',
+                    }}
+                  />
+                  <Stack.Screen
+                    name="NotificationPage"
+                    component={NotificationPage}
+                    options={{headerShown: false}}
+                  />
+                  <Stack.Screen
+                    name="TrackProgress"
+                    component={TrackProgress}
+                    options={{
+                      title: 'Track Progress', // Change the header title
+                      headerBackTitle: 'Back', // Change the back button title
+                      headerShown: true, // Show the header (you can omit this line if not needed)
+                    }}
+                  />
+                  <Stack.Screen
+                    name="EditProfile"
+                    component={EditProfile}
+                    options={{headerShown: false}}
+                  />
 
-                <Stack.Screen
-                  name="FirstPageCountrySelect"
-                  component={FirstPageCountrySelect}
-                  options={{headerShown: false}}
-                />
-                <Stack.Screen
-                  name="Menu"
-                  component={Menu}
-                  options={{headerShown: false}}
-                />
-                <Stack.Screen
-                  name="NameLastName"
-                  component={NameLastName}
-                  options={{headerShown: false}}
-                />
+                  <Stack.Screen
+                    name="FirstPageCountrySelect"
+                    component={FirstPageCountrySelect}
+                    options={{headerShown: false}}
+                  />
+                  <Stack.Screen
+                    name="Menu"
+                    component={Menu}
+                    options={{headerShown: false}}
+                  />
+                  <Stack.Screen
+                    name="NameLastName"
+                    component={NameLastName}
+                    options={{headerShown: false}}
+                  />
 
-                <Stack.Screen
-                  name="Account"
-                  component={Account}
-                  options={{headerShown: false}}
-                />
-                <Stack.Screen
-                  name="HomeWorkoutLoadingScreen"
-                  component={HomeWorkoutLoadingScreen}
-                  options={{headerShown: false}}
-                />
-                <Stack.Screen
-                  name="GymWorkoutLoadingScreen"
-                  component={GymWorkoutLoadingScreen}
-                  options={{headerShown: false}}
-                />
-                <Stack.Screen
-                  name="Alert"
-                  component={AlertCustom}
-                  options={{headerShown: false}}
-                />
-                <Stack.Screen
-                  name="DemoAlert"
-                  component={DemoAlert}
-                  options={{headerShown: false}}
-                />
-                <Stack.Screen
-                  name="Loading"
-                  component={LoadingScreen}
-                  options={{headerShown: false}}
-                />
-                <Stack.Screen
-                  name="loginNew"
-                  component={LoginScreenNew}
-                  options={{headerShown: false}}
-                />
-                <Stack.Screen
-                  name="fitness"
-                  component={WorkoutFirstPage}
-                  options={{
-                    title: 'Workouts', // Change the header title
-                    headerBackTitle: 'Back', // Change the back button title
-                    headerShown: true, // Show the header (you can omit this line if not needed)
-                  }}
-                />
-                <Stack.Screen
-                  name="PhoneNumber"
-                  component={PhoneNumber}
-                  options={{
-                    title: 'Number', // Change the header title
-                    headerBackTitle: 'Back', // Change the back button title
-                    headerShown: true, // Show the header (you can omit this line if not needed)
-                  }}
-                />
-                <Stack.Screen
-                  name="OtpPage"
-                  component={OtpPageNew}
-                  options={{
-                    title: 'Signup', // Change the header title
-                    headerBackTitle: 'Back', // Change the back button title
-                    headerShown: true, // Show the header (you can omit this line if not needed)
-                  }}
-                />
+                  <Stack.Screen
+                    name="Account"
+                    component={Account}
+                    options={{headerShown: false}}
+                  />
+                  <Stack.Screen
+                    name="HomeWorkoutLoadingScreen"
+                    component={HomeWorkoutLoadingScreen}
+                    options={{headerShown: false}}
+                  />
+                  <Stack.Screen
+                    name="GymWorkoutLoadingScreen"
+                    component={GymWorkoutLoadingScreen}
+                    options={{headerShown: false}}
+                  />
+                  <Stack.Screen
+                    name="Alert"
+                    component={AlertCustom}
+                    options={{headerShown: false}}
+                  />
+                  <Stack.Screen
+                    name="DemoAlert"
+                    component={DemoAlert}
+                    options={{headerShown: false}}
+                  />
+                  <Stack.Screen
+                    name="Loading"
+                    component={LoadingScreen}
+                    options={{headerShown: false}}
+                  />
+                  <Stack.Screen
+                    name="loginNew"
+                    component={LoginScreenNew}
+                    options={{headerShown: false}}
+                  />
+                  <Stack.Screen
+                    name="fitness"
+                    component={WorkoutFirstPage}
+                    options={{
+                      title: 'Workouts', // Change the header title
+                      headerBackTitle: 'Back', // Change the back button title
+                      headerShown: true, // Show the header (you can omit this line if not needed)
+                    }}
+                  />
+                  <Stack.Screen
+                    name="PhoneNumber"
+                    component={PhoneNumber}
+                    options={{
+                      title: 'Number', // Change the header title
+                      headerBackTitle: 'Back', // Change the back button title
+                      headerShown: true, // Show the header (you can omit this line if not needed)
+                    }}
+                  />
+                  <Stack.Screen
+                    name="OtpPage"
+                    component={OtpPageNew}
+                    options={{
+                      title: 'Signup', // Change the header title
+                      headerBackTitle: 'Back', // Change the back button title
+                      headerShown: true, // Show the header (you can omit this line if not needed)
+                    }}
+                  />
 
-                <Stack.Screen
-                  name="country"
-                  component={CountrySelect}
-                  options={{headerShown: false}}
-                />
-                <Stack.Screen
-                  name="donutchart"
-                  component={DonutChart1}
-                  options={{headerShown: false}}
-                />
-                <Stack.Screen
-                  name="foodPage"
-                  component={FoodPage}
-                  options={{headerShown: false}}
-                />
-                <Stack.Screen
-                  name="Frstpage"
-                  component={Frstpage}
-                  options={{headerShown: false}}
-                />
+                  <Stack.Screen
+                    name="country"
+                    component={CountrySelect}
+                    options={{headerShown: false}}
+                  />
+                  <Stack.Screen
+                    name="donutchart"
+                    component={DonutChart1}
+                    options={{headerShown: false}}
+                  />
+                  <Stack.Screen
+                    name="foodPage"
+                    component={FoodPage}
+                    options={{headerShown: false}}
+                  />
+                  <Stack.Screen
+                    name="Frstpage"
+                    component={Frstpage}
+                    options={{headerShown: false}}
+                  />
 
-                {/* <Stack.Screen
+                  {/* <Stack.Screen
         name="searchfoodData"
         component={DietPlanData}
         options={{title: 'Nutriotion' , headerTitleAlign:'left'}}
       /> */}
-                <Stack.Screen
-                  name="card"
-                  component={CardPage}
-                  options={{headerShown: false}}
-                />
-                <Stack.Screen
-                  name="AnimationPage"
-                  component={AnimationPage}
-                  options={{headerShown: false}}
-                />
-                <Stack.Screen
-                  name="gain"
-                  component={SixthPage}
-                  options={{headerShown: false}}
-                />
-                <Stack.Screen
-                  name="accordion"
-                  component={AccordionPage}
-                  options={{headerShown: false}}
-                />
-                <Stack.Screen
-                  name="Progress"
-                  component={CirclePage}
-                  options={{headerShown: false}}
-                />
-                <Stack.Screen
-                  name="Switch"
-                  component={ToggleSwitchButton}
-                  options={{headerShown: false}}
-                />
-                <Stack.Screen
-                  name="Ageandheight"
-                  component={AgeAndHeightPage}
-                  options={{headerShown: false}}
-                />
-                <Stack.Screen
-                  name="Next"
-                  component={NextButton}
-                  options={{headerShown: false}}
-                />
-                <Stack.Screen
-                  name="Demo1"
-                  component={DemoPage}
-                  options={{title: 'I am a'}}
-                />
-                <Stack.Screen
-                  name="TypingScreen"
-                  component={TypingScreen}
-                  options={{headerShown: false}}
-                />
-                <Stack.Screen
-                  name="Welcome"
-                  component={WelcomePage}
-                  options={{headerShown: false}}
-                />
+                  <Stack.Screen
+                    name="card"
+                    component={CardPage}
+                    options={{headerShown: false}}
+                  />
+                  <Stack.Screen
+                    name="AnimationPage"
+                    component={AnimationPage}
+                    options={{headerShown: false}}
+                  />
+                  <Stack.Screen
+                    name="gain"
+                    component={SixthPage}
+                    options={{headerShown: false}}
+                  />
+                  <Stack.Screen
+                    name="accordion"
+                    component={AccordionPage}
+                    options={{headerShown: false}}
+                  />
+                  <Stack.Screen
+                    name="Progress"
+                    component={CirclePage}
+                    options={{headerShown: false}}
+                  />
+                  <Stack.Screen
+                    name="Switch"
+                    component={ToggleSwitchButton}
+                    options={{headerShown: false}}
+                  />
+                  <Stack.Screen
+                    name="Ageandheight"
+                    component={AgeAndHeightPage}
+                    options={{headerShown: false}}
+                  />
+                  <Stack.Screen
+                    name="Next"
+                    component={NextButton}
+                    options={{headerShown: false}}
+                  />
+                  <Stack.Screen
+                    name="Demo1"
+                    component={DemoPage}
+                    options={{title: 'I am a'}}
+                  />
+                  <Stack.Screen
+                    name="TypingScreen"
+                    component={TypingScreen}
+                    options={{headerShown: false}}
+                  />
+                  <Stack.Screen
+                    name="Welcome"
+                    component={WelcomePage}
+                    options={{headerShown: false}}
+                  />
 
-                <Stack.Screen
-                  name="Details"
-                  component={SecondPage}
-                  options={{title: 'I want to'}}
-                />
-                <Stack.Screen
-                  name="Veg"
-                  component={ThirdPage}
-                  options={{title: "I'am a"}}
-                />
-                <Stack.Screen
-                  name="dietcalculation"
-                  component={FourthPage}
-                  options={{title: 'Calculate Daily Required Calories'}}
-                />
-                <Stack.Screen
-                  name="goal"
-                  component={FifthPage}
-                  options={{title: 'Select your goal'}}
-                />
-                <Stack.Screen
-                  name="gainweight"
-                  component={GainWeight}
-                  options={{title: 'Select your goal'}}
-                />
+                  <Stack.Screen
+                    name="Details"
+                    component={SecondPage}
+                    options={{title: 'I want to'}}
+                  />
+                  <Stack.Screen
+                    name="Veg"
+                    component={ThirdPage}
+                    options={{title: "I'am a"}}
+                  />
+                  <Stack.Screen
+                    name="dietcalculation"
+                    component={FourthPage}
+                    options={{title: 'Calculate Daily Required Calories'}}
+                  />
+                  <Stack.Screen
+                    name="goal"
+                    component={FifthPage}
+                    options={{title: 'Select your goal'}}
+                  />
+                  <Stack.Screen
+                    name="gainweight"
+                    component={GainWeight}
+                    options={{title: 'Select your goal'}}
+                  />
 
-                {/* <Stack.Screen
+                  {/* <Stack.Screen
               name="chart"
               component={SeventhPage}
               options={{title: 'Chart'}}
             /> */}
-                {/* <Stack.Screen
+                  {/* <Stack.Screen
                 name="pie"
                 component={DietPlan}
                 options={{
                   headerShown: false,
                 }}
               /> */}
-                <Stack.Screen
-                  name="login"
-                  component={LoginPage}
-                  options={{
-                    headerShown: false,
-                  }}
-                />
-                <Stack.Screen
-                  name="OtpPageold"
-                  component={OtpPage}
-                  options={{
-                    headerShown: false,
-                  }}
-                />
-                <Stack.Screen
-                  name="searchfood"
-                  component={DietPlanDynamic}
-                  options={{title: 'Search food', headerBackTitle: ''}}
-                />
-                <Stack.Screen
-                  name="searchfoodData"
-                  component={DietPlanData}
-                  options={{title: 'Nutrition', headerTitleAlign: 'left'}}
-                />
-                <Stack.Screen
-                  name="morngSnack"
-                  component={MorningSnackSingle}
-                  options={{
-                    headerShown: false,
-                  }}
-                />
-                <Stack.Screen
-                  name="lunch"
-                  component={LunchSingle}
-                  options={{headerShown: false}}
-                />
-                <Stack.Screen
-                  name="evening"
-                  component={EveningSingle}
-                  options={{headerShown: false}}
-                />
-                <Stack.Screen
-                  name="dinner"
-                  component={DinnerSingle}
-                  options={{headerShown: false}}
-                />
-                <Stack.Screen
-                  name="meal1"
-                  component={Meal1Single}
-                  options={{headerShown: false}}
-                />
-                <Stack.Screen
-                  name="meal2"
-                  component={Meal2Single}
-                  options={{headerShown: false}}
-                />
-                <Stack.Screen
-                  name="unlockDiet"
-                  component={UnlockDietPlan}
-                  options={{title: 'Diet Plan', headerTitleAlign: 'center'}}
-                />
-                <Stack.Screen
-                  name="previous"
-                  component={PreviousDietDetails}
-                  options={{title: 'Diet Details', headerTitleAlign: 'center'}}
-                />
-                <Stack.Screen
-                  name="tabNavigator"
-                  component={TabNavigator}
-                  options={{headerShown: false}}
-                />
-                <Stack.Screen
-                  name="Gender"
-                  component={GenderPage}
-                  options={{
-                    title: 'Gender', // Change the header title
-                    headerBackTitle: 'Back', // Change the back button title
-                    headerShown: true, // Show the header (you can omit this line if not needed)
-                  }}
-                />
-                <Stack.Screen
-                  name="HeightAndWeight"
-                  component={HeightAndWeight}
-                  options={{
-                    title: 'Height And Weight', // Change the header title
-                    headerBackTitle: 'Back', // Change the back button title
-                    headerShown: true, // Show the header (you can omit this line if not needed)
-                  }}
-                />
-                <Stack.Screen
-                  name="DifficultyLevel"
-                  component={DifficultyLevel}
-                  options={{
-                    title: 'Difficulty Level', // Change the header title
-                    headerBackTitle: 'Back', // Change the back button title
-                    headerShown: true, // Show the header (you can omit this line if not needed)
-                  }}
-                />
-                <Stack.Screen
-                  name="HomeWorkoutMain"
-                  component={HomeWorkoutMain}
-                  options={{
-                    // title: 'Height And Weight', // Change the header title
-                    headerBackTitle: 'Back', // Change the back button title
-                    headerShown: false, // Show the header (you can omit this line if not needed)
-                  }}
-                />
-                <Stack.Screen
-                  name="HomeWorkoutAll"
-                  component={HomeWorkoutAll}
-                  options={{
-                    // title: 'Height And Weight', // Change the header title
-                    headerBackTitle: 'Back', // Change the back button title
-                    headerShown: false, // Show the header (you can omit this line if not needed)
-                  }}
-                />
-                <Stack.Screen
-                  name="HomeWorkoutSingle"
-                  component={HomeWorkoutSingle}
-                  options={{
-                    // title: 'Height And Weight', // Change the header title
-                    headerBackTitle: 'Back', // Change the back button title
-                    headerShown: false, // Show the header (you can omit this line if not needed)
-                  }}
-                />
-                <Stack.Screen
-                  name="Timer"
-                  component={Timer}
-                  options={{
-                    // title: 'Height And Weight', // Change the header title
-                    headerBackTitle: 'Back', // Change the back button title
-                    headerShown: false, // Show the header (you can omit this line if not needed)
-                  }}
-                />
-                <Stack.Screen
-                  name="TimerIntermediatePage"
-                  component={TimerIntermediatePage}
-                  options={{
-                    // title: 'Height And Weight', // Change the header title
-                    headerBackTitle: 'Back', // Change the back button title
-                    headerShown: false, // Show the header (you can omit this line if not needed)
-                  }}
-                />
-                <Stack.Screen
-                  name="CongratsPage"
-                  component={CongratsPage}
-                  options={{
-                    // title: 'Height And Weight', // Change the header title
-                    headerBackTitle: 'Back', // Change the back button title
-                    headerShown: false, // Show the header (you can omit this line if not needed)
-                  }}
-                />
-                <Stack.Screen
-                  name="AnimationPageWorkout"
-                  component={AnimationPageWorkout}
-                  options={{
-                    // title: 'Height And Weight', // Change the header title
-                    headerBackTitle: 'Back', // Change the back button title
-                    headerShown: false, // Show the header (you can omit this line if not needed)
-                  }}
-                />
-                <Stack.Screen
-                  name="HomeWorkoutStart"
-                  component={HomeWorkoutStart}
-                  options={{
-                    // title: 'Height And Weight', // Change the header title
-                    headerBackTitle: 'Back', // Change the back button title
-                    headerShown: false, // Show the header (you can omit this line if not needed)
-                  }}
-                />
-                <Stack.Screen
-                  name="HomeTabNavigator"
-                  component={HomeTabNavigator}
-                  options={{headerShown: false}}
-                />
-                <Stack.Screen
-                  name="GymGenderPage"
-                  component={GymGenderPage}
-                  options={{
-                    title: 'Gender',
-                    headerBackTitle: 'Back',
-                    headerShown: true,
-                  }}
-                />
-                <Stack.Screen
-                  name="GymHeightAndWeight"
-                  component={GymWeightAndHeight}
-                  options={{
-                    title: 'Height And Weight',
-                    headerBackTitle: 'Back',
-                    headerShown: true,
-                  }}
-                />
-                <Stack.Screen
-                  name="GymDifficultyLevel"
-                  component={GymDifficultyLevel}
-                  options={{
-                    title: 'Level',
-                    headerBackTitle: 'Back',
-                    headerShown: true,
-                  }}
-                />
-                <Stack.Screen
-                  name="GymAnimationPageWorkout"
-                  component={GymAnimationPageWorkout}
-                  options={{
-                    // title: 'Height And Weight', // Change the header title
-                    headerBackTitle: 'Back', // Change the back button title
-                    headerShown: false, // Show the header (you can omit this line if not needed)
-                  }}
-                />
-                <Stack.Screen
-                  name="GymTabNavigator"
-                  component={GymTabNavigator}
-                  options={{headerShown: false}}
-                />
-                <Stack.Screen
-                  name="home1"
-                  component={Home}
-                  options={{headerShown: false}}
-                />
-                <Stack.Screen
-                  name="GymWorkoutAll"
-                  component={GymWorkoutAll}
-                  options={{
-                    // title: 'Height And Weight', // Change the header title
-                    headerBackTitle: 'Back', // Change the back button title
-                    headerShown: false, // Show the header (you can omit this line if not needed)
-                  }}
-                />
-                <Stack.Screen
-                  name="GymWorkoutSingle"
-                  component={GymWorkoutSingle}
-                  options={{
-                    // title: 'Height And Weight', // Change the header title
-                    headerBackTitle: 'Back', // Change the back button title
-                    headerShown: false, // Show the header (you can omit this line if not needed)
-                  }}
-                />
-                    <Stack.Screen
-                  name="GymWorkoutSingleforAll"
-                  component={GymWorkoutSingleforAll}
-                  options={{
-                    // title: 'Height And Weight', // Change the header title
-                    headerBackTitle: 'Back', // Change the back button title
-                    headerShown: false, // Show the header (you can omit this line if not needed)
-                  }}
-                />
-                <Stack.Screen
-                  name="GymWorkoutStart"
-                  component={GymWorkoutStart}
-                  options={{
-                    // title: 'Height And Weight', // Change the header title
-                    headerBackTitle: 'Back', // Change the back button title
-                    headerShown: false, // Show the header (you can omit this line if not needed)
-                  }}
-                />
-                <Stack.Screen
-                  name="GymCongratsPage"
-                  component={GymCongratsPage}
-                  options={{
-                    // title: 'Height And Weight',
-                    headerBackTitle: 'Back',
-                    headerShown: false,
-                  }}
-                />
-                <Stack.Screen
-                  name="ChallengeCongratsPage"
-                  component={ChallengeCongratsPage}
-                  options={{
-                    // title: 'Height And Weight',
-                    headerBackTitle: 'Back',
-                    headerShown: false,
-                  }}
-                />
-                <Stack.Screen
-                  name="ChallengeGenderPage"
-                  component={ChallengeGenderPage}
-                  options={{
-                    title: 'Gender',
-                    headerBackTitle: 'Back',
-                    headerShown: true,
-                  }}
-                />
-                <Stack.Screen
-                  name="ChallengeWeightAndHeight"
-                  component={ChallengeWeightAndHeight}
-                  options={{
-                    title: 'Height And Weight',
-                    headerBackTitle: 'Back',
-                    headerShown: true,
-                  }}
-                />
-                <Stack.Screen
-                  name="ChallengeDifficultyLevel"
-                  component={ChallengeDifficultyLevel}
-                  options={{
-                    title: 'Difficulty Level',
-                    headerBackTitle: 'Back',
-                    headerShown: true,
-                  }}
-                />
-                <Stack.Screen
-                  name="ChallengeMonth"
-                  component={ChallengeMonth}
-                  options={{
-                    title: 'Workout Challenge',
-                    headerBackTitle: 'Back',
-                    headerShown: true,
-                  }}
-                />
-                <Stack.Screen
-                  name="ChallengeMain"
-                  component={ChallengeMain}
-                  options={{
-                    title: 'Workout Challenge',
-                    headerBackTitle: 'Back',
-                    headerShown: false,
-                  }}
-                />
-                <Stack.Screen
-                  name="ChallengeDayAll"
-                  component={ChallengeDayAll}
-                  options={{
-                    title: 'Workout Challenge',
-                    headerBackTitle: 'Back',
-                    headerShown: false,
-                  }}
-                />
-                <Stack.Screen
-                  name="ChallengeWorkoutStart"
-                  component={ChallengeWorkoutStart}
-                  options={{
-                    title: 'Workout Challenge',
-                    headerBackTitle: 'Back',
-                    headerShown: false,
-                  }}
-                />
-                <Stack.Screen
-                  name="LoginScreenNewRegister"
-                  component={LoginScreenNewRegister}
-                  options={{
-                    title: 'Workout Challenge',
-                    headerBackTitle: 'Back',
-                    headerShown: false,
-                  }}
-                />
-              </Stack.Navigator>
+                  <Stack.Screen
+                    name="login"
+                    component={LoginPage}
+                    options={{
+                      headerShown: false,
+                    }}
+                  />
+                  <Stack.Screen
+                    name="OtpPageold"
+                    component={OtpPage}
+                    options={{
+                      headerShown: false,
+                    }}
+                  />
+                  <Stack.Screen
+                    name="searchfood"
+                    component={DietPlanDynamic}
+                    options={{title: 'Search food', headerBackTitle: ''}}
+                  />
+                  <Stack.Screen
+                    name="searchfoodData"
+                    component={DietPlanData}
+                    options={{title: 'Nutrition', headerTitleAlign: 'left'}}
+                  />
+                  <Stack.Screen
+                    name="morngSnack"
+                    component={MorningSnackSingle}
+                    options={{
+                      headerShown: false,
+                    }}
+                  />
+                  <Stack.Screen
+                    name="lunch"
+                    component={LunchSingle}
+                    options={{headerShown: false}}
+                  />
+                  <Stack.Screen
+                    name="evening"
+                    component={EveningSingle}
+                    options={{headerShown: false}}
+                  />
+                  <Stack.Screen
+                    name="dinner"
+                    component={DinnerSingle}
+                    options={{headerShown: false}}
+                  />
+                  <Stack.Screen
+                    name="meal1"
+                    component={Meal1Single}
+                    options={{headerShown: false}}
+                  />
+                  <Stack.Screen
+                    name="meal2"
+                    component={Meal2Single}
+                    options={{headerShown: false}}
+                  />
+                  <Stack.Screen
+                    name="unlockDiet"
+                    component={UnlockDietPlan}
+                    options={{title: 'Diet Plan', headerTitleAlign: 'center'}}
+                  />
+                  <Stack.Screen
+                    name="previous"
+                    component={PreviousDietDetails}
+                    options={{
+                      title: 'Diet Details',
+                      headerTitleAlign: 'center',
+                    }}
+                  />
+                  <Stack.Screen
+                    name="tabNavigator"
+                    component={TabNavigator}
+                    options={{headerShown: false}}
+                  />
+                  <Stack.Screen
+                    name="Gender"
+                    component={GenderPage}
+                    options={{
+                      title: 'Gender', // Change the header title
+                      headerBackTitle: 'Back', // Change the back button title
+                      headerShown: true, // Show the header (you can omit this line if not needed)
+                    }}
+                  />
+                  <Stack.Screen
+                    name="HeightAndWeight"
+                    component={HeightAndWeight}
+                    options={{
+                      title: 'Height And Weight', // Change the header title
+                      headerBackTitle: 'Back', // Change the back button title
+                      headerShown: true, // Show the header (you can omit this line if not needed)
+                    }}
+                  />
+                  <Stack.Screen
+                    name="DifficultyLevel"
+                    component={DifficultyLevel}
+                    options={{
+                      title: 'Difficulty Level', // Change the header title
+                      headerBackTitle: 'Back', // Change the back button title
+                      headerShown: true, // Show the header (you can omit this line if not needed)
+                    }}
+                  />
+                  <Stack.Screen
+                    name="HomeWorkoutMain"
+                    component={HomeWorkoutMain}
+                    options={{
+                      // title: 'Height And Weight', // Change the header title
+                      headerBackTitle: 'Back', // Change the back button title
+                      headerShown: false, // Show the header (you can omit this line if not needed)
+                    }}
+                  />
+                  <Stack.Screen
+                    name="HomeWorkoutAll"
+                    component={HomeWorkoutAll}
+                    options={{
+                      // title: 'Height And Weight', // Change the header title
+                      headerBackTitle: 'Back', // Change the back button title
+                      headerShown: false, // Show the header (you can omit this line if not needed)
+                    }}
+                  />
+                  <Stack.Screen
+                    name="HomeWorkoutSingle"
+                    component={HomeWorkoutSingle}
+                    options={{
+                      // title: 'Height And Weight', // Change the header title
+                      headerBackTitle: 'Back', // Change the back button title
+                      headerShown: false, // Show the header (you can omit this line if not needed)
+                    }}
+                  />
+                  <Stack.Screen
+                    name="Timer"
+                    component={Timer}
+                    options={{
+                      // title: 'Height And Weight', // Change the header title
+                      headerBackTitle: 'Back', // Change the back button title
+                      headerShown: false, // Show the header (you can omit this line if not needed)
+                    }}
+                  />
+                  <Stack.Screen
+                    name="TimerIntermediatePage"
+                    component={TimerIntermediatePage}
+                    options={{
+                      // title: 'Height And Weight', // Change the header title
+                      headerBackTitle: 'Back', // Change the back button title
+                      headerShown: false, // Show the header (you can omit this line if not needed)
+                    }}
+                  />
+                  <Stack.Screen
+                    name="CongratsPage"
+                    component={CongratsPage}
+                    options={{
+                      // title: 'Height And Weight', // Change the header title
+                      headerBackTitle: 'Back', // Change the back button title
+                      headerShown: false, // Show the header (you can omit this line if not needed)
+                    }}
+                  />
+                  <Stack.Screen
+                    name="AnimationPageWorkout"
+                    component={AnimationPageWorkout}
+                    options={{
+                      // title: 'Height And Weight', // Change the header title
+                      headerBackTitle: 'Back', // Change the back button title
+                      headerShown: false, // Show the header (you can omit this line if not needed)
+                    }}
+                  />
+                  <Stack.Screen
+                    name="HomeWorkoutStart"
+                    component={HomeWorkoutStart}
+                    options={{
+                      // title: 'Height And Weight', // Change the header title
+                      headerBackTitle: 'Back', // Change the back button title
+                      headerShown: false, // Show the header (you can omit this line if not needed)
+                    }}
+                  />
+                  <Stack.Screen
+                    name="HomeTabNavigator"
+                    component={HomeTabNavigator}
+                    options={{headerShown: false}}
+                  />
+                  <Stack.Screen
+                    name="GymGenderPage"
+                    component={GymGenderPage}
+                    options={{
+                      title: 'Gender',
+                      headerBackTitle: 'Back',
+                      headerShown: true,
+                    }}
+                  />
+                  <Stack.Screen
+                    name="GymHeightAndWeight"
+                    component={GymWeightAndHeight}
+                    options={{
+                      title: 'Height And Weight',
+                      headerBackTitle: 'Back',
+                      headerShown: true,
+                    }}
+                  />
+                  <Stack.Screen
+                    name="GymDifficultyLevel"
+                    component={GymDifficultyLevel}
+                    options={{
+                      title: 'Level',
+                      headerBackTitle: 'Back',
+                      headerShown: true,
+                    }}
+                  />
+                  <Stack.Screen
+                    name="GymAnimationPageWorkout"
+                    component={GymAnimationPageWorkout}
+                    options={{
+                      // title: 'Height And Weight', // Change the header title
+                      headerBackTitle: 'Back', // Change the back button title
+                      headerShown: false, // Show the header (you can omit this line if not needed)
+                    }}
+                  />
+                  <Stack.Screen
+                    name="GymTabNavigator"
+                    component={GymTabNavigator}
+                    options={{headerShown: false}}
+                  />
+                  <Stack.Screen
+                    name="home1"
+                    component={Home}
+                    options={{headerShown: false}}
+                  />
+                  <Stack.Screen
+                    name="GymWorkoutAll"
+                    component={GymWorkoutAll}
+                    options={{
+                      // title: 'Height And Weight', // Change the header title
+                      headerBackTitle: 'Back', // Change the back button title
+                      headerShown: false, // Show the header (you can omit this line if not needed)
+                    }}
+                  />
+                  <Stack.Screen
+                    name="GymWorkoutSingle"
+                    component={GymWorkoutSingle}
+                    options={{
+                      // title: 'Height And Weight', // Change the header title
+                      headerBackTitle: 'Back', // Change the back button title
+                      headerShown: false, // Show the header (you can omit this line if not needed)
+                    }}
+                  />
+                  <Stack.Screen
+                    name="GymWorkoutSingleforAll"
+                    component={GymWorkoutSingleforAll}
+                    options={{
+                      // title: 'Height And Weight', // Change the header title
+                      headerBackTitle: 'Back', // Change the back button title
+                      headerShown: false, // Show the header (you can omit this line if not needed)
+                    }}
+                  />
+                  <Stack.Screen
+                    name="GymWorkoutStart"
+                    component={GymWorkoutStart}
+                    options={{
+                      // title: 'Height And Weight', // Change the header title
+                      headerBackTitle: 'Back', // Change the back button title
+                      headerShown: false, // Show the header (you can omit this line if not needed)
+                    }}
+                  />
+                  <Stack.Screen
+                    name="GymCongratsPage"
+                    component={GymCongratsPage}
+                    options={{
+                      // title: 'Height And Weight',
+                      headerBackTitle: 'Back',
+                      headerShown: false,
+                    }}
+                  />
+                  <Stack.Screen
+                    name="ChallengeCongratsPage"
+                    component={ChallengeCongratsPage}
+                    options={{
+                      // title: 'Height And Weight',
+                      headerBackTitle: 'Back',
+                      headerShown: false,
+                    }}
+                  />
+                  <Stack.Screen
+                    name="ChallengeGenderPage"
+                    component={ChallengeGenderPage}
+                    options={{
+                      title: 'Gender',
+                      headerBackTitle: 'Back',
+                      headerShown: true,
+                    }}
+                  />
+                  <Stack.Screen
+                    name="ChallengeWeightAndHeight"
+                    component={ChallengeWeightAndHeight}
+                    options={{
+                      title: 'Height And Weight',
+                      headerBackTitle: 'Back',
+                      headerShown: true,
+                    }}
+                  />
+                  <Stack.Screen
+                    name="ChallengeDifficultyLevel"
+                    component={ChallengeDifficultyLevel}
+                    options={{
+                      title: 'Difficulty Level',
+                      headerBackTitle: 'Back',
+                      headerShown: true,
+                    }}
+                  />
+                  <Stack.Screen
+                    name="ChallengeMonth"
+                    component={ChallengeMonth}
+                    options={{
+                      title: 'Workout Challenge',
+                      headerBackTitle: 'Back',
+                      headerShown: true,
+                    }}
+                  />
+                  <Stack.Screen
+                    name="ChallengeMain"
+                    component={ChallengeMain}
+                    options={{
+                      title: 'Workout Challenge',
+                      headerBackTitle: 'Back',
+                      headerShown: false,
+                    }}
+                  />
+                  <Stack.Screen
+                    name="ChallengeDayAll"
+                    component={ChallengeDayAll}
+                    options={{
+                      title: 'Workout Challenge',
+                      headerBackTitle: 'Back',
+                      headerShown: false,
+                    }}
+                  />
+                  <Stack.Screen
+                    name="ChallengeWorkoutStart"
+                    component={ChallengeWorkoutStart}
+                    options={{
+                      title: 'Workout Challenge',
+                      headerBackTitle: 'Back',
+                      headerShown: false,
+                    }}
+                  />
+                  <Stack.Screen
+                    name="LoginScreenNewRegister"
+                    component={LoginScreenNewRegister}
+                    options={{
+                      title: 'Workout Challenge',
+                      headerBackTitle: 'Back',
+                      headerShown: false,
+                    }}
+                  />
+                </Stack.Navigator>
 
-              {/* <Menu /> */}
-              {/* <Frstpage /> */}
-            </NavigationContainer>
-          </ThemeProvider>
-        </TranslationProvider>
-      </MealContextProvider>
-    </AuthProvider>
+                {/* <Menu /> */}
+                {/* <Frstpage /> */}
+              </NavigationContainer>
+            </ThemeProvider>
+          </TranslationProvider>
+        </MealContextProvider>
+      </AuthProvider>
     </WorkoutPathProvider>
-   
   );
 };

@@ -759,7 +759,11 @@ const MealContextProvider: React.FC = ({children}) => {
           const responseData = response.data;
           console.log(responseData.data, 'for water usemeal single ');
           // Move the setWater line here
-          setWater(responseData.data.water_datas);
+          if(response.data.success){
+            setWater(responseData.data.water_datas);
+          }
+
+         
         } catch (error) {
           console.error('Error:', error);
           if (error.response && error.response.data) {
