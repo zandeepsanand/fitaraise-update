@@ -5,6 +5,7 @@ import React, {
   useLayoutEffect,
   useEffect,
   useRef,
+  useContext,
 } from 'react';
 import axios from 'axios';
 import {BASE_URL} from '@env';
@@ -28,99 +29,160 @@ import {useHeaderHeight} from '@react-navigation/stack';
 import api from '../../../../api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useWorkoutPathContext } from '../../../hooks/WorkoutPathContext';
+import LoginContext from '../../../hooks/LoginContext';
 
 export default function GymAnimationPageWorkout({navigation, route}) {
   const {assets, fonts, sizes, gradients, colors} = useTheme();
+  const {authenticated, customerId} = useContext(LoginContext);
   const { selectedWorkoutPath, setWorkoutPath } = useWorkoutPathContext();
+  const [workoutDataDB,setWorkoutDataDB]=useState('');
   const {workoutData} = route.params;
   const animationProgress = useRef(new Animated.Value(0));
   useEffect(() => {}, []);
-  useEffect(() => {
-    if (workoutData.gym_workout_level) {
-      // Create a copy of the formData object
-      const formDataCopy = {...workoutData};
-      const formDataWithoutEmptyFields = Object.keys(formDataCopy).reduce((obj, key) => {
-        if (formDataCopy[key] !== null && formDataCopy[key] !== undefined && formDataCopy[key] !== '') {
-          obj[key] = formDataCopy[key];
-        }
-        return obj;
-      }, {});
-      console.log(formDataWithoutEmptyFields, 'form data empty');
 
+  useEffect(() => {
       const fetchData = async () => {
-        console.log('clicked');
-        
         try {
-          const response = await api.post(
-            `set_personal_datas`,
-            formDataWithoutEmptyFields,
-          );
-          console.log(response.data, "posted");
-      
-          if (response.data.success) {
-            console.log('success posted');
-            
-            // Call the second API
+          // First API call to get user data
+          const userDataResponse = await api.get(`get_personal_datas/${customerId}`);
+          const user = userDataResponse.data.data;
+          console.log(user, "user Animation");
+    
+          setWorkoutDataDB(user);
+          console.log(user, "user useState");
+        } catch (error) {
+          console.error(error, 'errorsss');
+        }
+      };
+    
+      fetchData();
+    }, [customerId]);
+    useEffect(() => {
+      const nextPage = async () => {
+        try {
+          if (workoutDataDB.gym_workout_level) {
+            // Call the second API to get home workouts
             const secondApiResponse = await api.get(
-              `get_gym_workouts?gender=${formDataCopy.gender}&level=${formDataCopy.gym_workout_level}`,
+              `get_gym_workouts?gender=${workoutDataDB.gender}&level=${workoutDataDB.gym_workout_level}`
             );
-            // Do something with the second API response
-            const data = secondApiResponse.data.data;
-            // setData(secondApiResponse.data.data);
-            console.log(data, 'the data of second apifffff');
-            if (data === null) {
-              alert('turn on network and re-try');
+    
+            // Process the second API response
+            const gymWorkout = secondApiResponse.data.data;
+            console.log(gymWorkout, "response");
+            if (gymWorkout === null) {
+              alert('Network error occurred');
             } else {
+              // Store workoutData and homeWorkout in AsyncStorage
+              await AsyncStorage.setItem('workoutData', JSON.stringify(workoutData));
+              await AsyncStorage.setItem('gymWorkoutData', JSON.stringify(gymWorkout));
+              await AsyncStorage.setItem('userDataGymWorkout', JSON.stringify(workoutData));
+              await AsyncStorage.setItem('WorkoutPath', JSON.stringify('GymTabNavigator'));
+    
+              setWorkoutPath('GymTabNavigator');
               console.log('success');
-              setTimeout(async () => {
-                // Create an async function and call it immediately
-                const navigateToGymTab = async () => {
-                  await AsyncStorage.setItem('gymWorkoutData', JSON.stringify(data));
-                  await AsyncStorage.setItem('userDataGymWorkout', JSON.stringify(formDataCopy));
-                  await AsyncStorage.setItem('WorkoutPath', JSON.stringify('GymTabNavigator'));
-                 
-                  setWorkoutPath('GymTabNavigator')
-      
-                  navigation.navigate('GymTabNavigator', {
-                    screen: 'GymWorkoutMain', // Screen name within the TabNavigator
-                    params: { data, formDataCopy }, // Pass your parameters here
-                  });
-                };
-      
-                navigateToGymTab();
+              setTimeout(() => {
+                navigation.navigate('GymTabNavigator', {
+                  screen: 'GymWorkoutMain',
+                  params: { data: gymWorkout, formDataCopy: workoutData },
+                });
               }, 2000);
             }
           }
-          // Do something with the first API response
-          // console.log(response.data);
         } catch (error) {
-          if (error.response) {
-            // The request was made, but the server responded with a status code that falls out of the range of 2xx
-            console.error('Response Error:', error.response.data);
-          } else if (error.request) {
-            // The request was made, but no response was received
-            console.error('Request Error:', error.request);
-          } else {
-            // Something happened in setting up the request that triggered an error
-            console.error('Request Setup Error:', error.message);
-          }
+          console.error(error, 'Error fetching home workouts');
         }
       };
+    
+      nextPage();
+   
+    }, [workoutDataDB]);
+
+  // useEffect(() => {
+  //   if (workoutData.gym_workout_level) {
+  //     // Create a copy of the formData object
+  //     const formDataCopy = {...workoutData};
+  //     const formDataWithoutEmptyFields = Object.keys(formDataCopy).reduce((obj, key) => {
+  //       if (formDataCopy[key] !== null && formDataCopy[key] !== undefined && formDataCopy[key] !== '') {
+  //         obj[key] = formDataCopy[key];
+  //       }
+  //       return obj;
+  //     }, {});
+  //     console.log(formDataWithoutEmptyFields, 'form data empty');
+
+  //     const fetchData = async () => {
+  //       console.log('clicked');
+        
+  //       try {
+  //         const response = await api.post(
+  //           `set_personal_datas`,
+  //           formDataWithoutEmptyFields,
+  //         );
+  //         console.log(response.data, "posted");
       
-      fetchData();
-    } else {
-      // console.log(formData.gender, formData.weight , formData.feet ,formData.inches , formData.acitivity_level,formData.height);
+  //         if (response.data.success) {
+  //           console.log('success posted');
+            
+  //           // Call the second API
+  //           const secondApiResponse = await api.get(
+  //             `get_gym_workouts?gender=${formDataCopy.gender}&level=${formDataCopy.gym_workout_level}`,
+  //           );
+  //           // Do something with the second API response
+  //           const data = secondApiResponse.data.data;
+  //           // setData(secondApiResponse.data.data);
+  //           console.log(data, 'the data of second apifffff');
+  //           if (data === null) {
+  //             alert('turn on network and re-try');
+  //           } else {
+  //             console.log('success');
+  //             setTimeout(async () => {
+  //               // Create an async function and call it immediately
+  //               const navigateToGymTab = async () => {
+  //                 await AsyncStorage.setItem('gymWorkoutData', JSON.stringify(data));
+  //                 await AsyncStorage.setItem('userDataGymWorkout', JSON.stringify(formDataCopy));
+  //                 await AsyncStorage.setItem('WorkoutPath', JSON.stringify('GymTabNavigator'));
+                 
+  //                 setWorkoutPath('GymTabNavigator')
+      
+  //                 navigation.navigate('GymTabNavigator', {
+  //                   screen: 'GymWorkoutMain', // Screen name within the TabNavigator
+  //                   params: { data, formDataCopy }, // Pass your parameters here
+  //                 });
+  //               };
+      
+  //               navigateToGymTab();
+  //             }, 2000);
+  //           }
+  //         }
+  //         // Do something with the first API response
+  //         // console.log(response.data);
+  //       } catch (error) {
+  //         if (error.response) {
+  //           // The request was made, but the server responded with a status code that falls out of the range of 2xx
+  //           console.error('Response Error:', error.response.data);
+  //         } else if (error.request) {
+  //           // The request was made, but no response was received
+  //           console.error('Request Error:', error.request);
+  //         } else {
+  //           // Something happened in setting up the request that triggered an error
+  //           console.error('Request Setup Error:', error.message);
+  //         }
+  //       }
+  //     };
+      
+  //     fetchData();
+  //   } else {
+  //     // console.log(formData.gender, formData.weight , formData.feet ,formData.inches , formData.acitivity_level,formData.height);
 
-      alert('Please enter all details');
-    }
+  //     alert('Please enter all details');
+  //   }
 
-    Animated.timing(animationProgress.current, {
-      toValue: 1,
-      duration: 15000,
-      easing: Easing.linear,
-      useNativeDriver: false,
-    }).start();
-  });
+  //   Animated.timing(animationProgress.current, {
+  //     toValue: 1,
+  //     duration: 15000,
+  //     easing: Easing.linear,
+  //     useNativeDriver: false,
+  //   }).start();
+  // });
 
   // console.log(dietPlan , "new diet plan");
 

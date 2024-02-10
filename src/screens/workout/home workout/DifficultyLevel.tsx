@@ -6,6 +6,7 @@ import {StatusBar as ExpoStatusBar} from 'expo-status-bar';
 import {StyleSheet, View, TouchableWithoutFeedback} from 'react-native';
 import DuoToggleSwitch from 'react-native-duo-toggle-switch';
 import Ripple from 'react-native-material-ripple';
+import api from '../../../../api';
 // import ErrorModal from './ErrorModal';
 // const formData = {
 //   acitivity_level: 'sedentary',
@@ -204,11 +205,26 @@ const DifficultyLevel = ({
       <Block paddingTop={140}>
         <Block style={styles.bottom}>
           <TouchableWithoutFeedback
-            onPress={() => {
+            onPress={async () => {
               // handleProducts(4);
               // navigation.navigate('HomeWorkoutMain');
               if (workoutData.home_workout_level) {
-                navigation.navigate('AnimationPageWorkout', {workoutData});
+                const formDataCopy = Object.fromEntries(
+                  Object.entries(workoutData).filter(([key, value]) => value !== null)
+                );
+                try {
+                  const response = await api.post(`set_personal_datas`, formDataCopy);
+                  console.log(response.data, "post data use workout");
+                  if(response.data.success){
+ navigation.navigate('AnimationPageWorkout', {workoutData});
+                  }else{
+                    alert("Network Error")
+                  }
+                 
+                } catch (error) {
+                  console.error("Error while posting data:", error);
+                  // Handle error cases here if needed
+                }
               } else {
                 alert('please select your fitness level');
               }

@@ -40,6 +40,8 @@ import LoginContext from '../../../hooks/LoginContext';
     const {authenticated, customerId} = useContext(LoginContext);
     const {assets, fonts, sizes, gradients, colors} = useTheme();
     const [workoutDataDB,setWorkoutDataDB]=useState('');
+    console.log(workoutDataDB, "data of user updated ");
+    
     const {workoutData} = route.params;
     console.log(workoutData);
     
@@ -51,148 +53,61 @@ import LoginContext from '../../../hooks/LoginContext';
     const animationProgress = useRef(new Animated.Value(0));
   
 
-    // useEffect(() => {
-
-     
-    //     if (workoutData.workout_level  
-    //       // && workoutData.weight && ((workoutData.feet && workoutData.inches) || workoutData.height) 
-    //       ) {
-    //       // Create a copy of the formData object
-    //       const formDataCopy = {...workoutData};
-    //       console.log(formDataCopy, 'form data');
-    
-    //       const fetchData = async () => {
-    //         try {
-    //           const response = await api.post(
-    //             `set_personal_datas`,
-    //             workoutData,
-    //           );
-    //           console.log(response , "what");
-              
-                
-    
-    //           if (response.data.success) {
-               
-                
-    //             // Call the second API
-    //             const secondApiResponse = await api.get(
-    //               `get_home_workouts?gender=${workoutData.gender}&level=${workoutData.workout_level}`,
-    //             );
-    //             // Do something with the second API response
-    //             const homeWorkout = secondApiResponse.data.data;
-    //             // setData(secondApiResponse.data.data);
-    //             console.log(homeWorkout, 'the data of second apifffff');
-    //             if (homeWorkout === null) {
-    //                alert('Network error occur');
-    //             } else {
-    //               console.log('success');
-    //               setTimeout(() => {
-                   
-    //                 // navigation.navigate('HomeWorkoutMain', { data, formDataCopy });
-    //                 navigation.navigate('HomeTabNavigator', {
-    //                   screen: 'HomeWorkoutMain', // Screen name within the TabNavigator
-    //                   params: { homeWorkout, workoutData}, // Pass your parameters here
-    //                 });
-    //               }, 2000);
-    //             }
-    //             // navigation.navigate('donutchart', { data });
-    //           }
-    //           // Do something with the first API response
-    //           // console.log(response.data);
-    //         } catch (error) {
-    //           console.error(error, 'errorsss');
-    //         }
-    //       };
-    //       fetchData();
-    //     } else {
-    //       // console.log(formData.gender, formData.weight , formData.feet ,formData.inches , formData.acitivity_level,formData.height);
-          
-    //       alert('Please enter all details');
-    //     }
-
-    //     Animated.timing(animationProgress.current, {
-    //         toValue: 1,
-    //         duration: 15000,
-    //         easing: Easing.linear,
-    //         useNativeDriver: false,
-    //       }).start();
-    //     // Wait for 2 seconds before showing the next page
-    //     if(dietPlan !== null){
-    //       const timeout = setTimeout(() => {
-    //         // Navigate to the next page n
-    //         // navigation.navigate('Progress', {workoutData});
-    //       }, 5000);
-    //       return () => clearTimeout(timeout);
-    //     }else{
-    //       console.log("not ok");
-          
-    //     }
-    
-    
-    //     // Clean up the timeout when the component unmounts
-     
-    //   });
     useEffect(() => {
       const fetchData = async () => {
         try {
-          // First API call to set personal data
-        
-          const response = await api.post(`set_personal_datas`, workoutData);
-          console.log(response.data, "post data use workout");
-          const userDataResponse = await api.get(
-            `get_personal_datas/${customerId}`,
-          );
+          // First API call to get user data
+          const userDataResponse = await api.get(`get_personal_datas/${customerId}`);
           const user = userDataResponse.data.data;
-    console.log(user, "user Animation");
+          console.log(user, "user Animation");
     
-
           setWorkoutDataDB(user);
-    
-         
+          console.log(user, "user useState");
         } catch (error) {
           console.error(error, 'errorsss');
         }
       };
-      const nextPage =async ()=>{
-        
-        if (workoutDataDB.home_workout_level) {
-          // Call the second API to get home workouts
-          const secondApiResponse = await api.get(
-            `get_home_workouts?gender=${workoutDataDB.gender}&level=${workoutDataDB.home_workout_level}`
-          );
-  
-          // Process the second API response
-          const homeWorkout = secondApiResponse.data.data;
-          console.log(homeWorkout, "response");
-          if (homeWorkout === null) {
-            alert('Network error occurred');
-          } else {
-            // Store workoutData and homeWorkout in AsyncStorage
-            await AsyncStorage.setItem('workoutData', JSON.stringify(workoutData));
-            // await AsyncStorage.setItem('homeWorkout', JSON.stringify(homeWorkout));
-            await AsyncStorage.setItem('homeWorkoutData', JSON.stringify(homeWorkout));
-            await AsyncStorage.setItem('userDataHomeWorkout', JSON.stringify(workoutData));
-            await AsyncStorage.setItem('WorkoutPath', JSON.stringify('HomeTabNavigator'));
-            
-            setWorkoutPath('HomeTabNavigator');
-            console.log('success');
-            setTimeout(() => {
-              navigation.navigate('HomeTabNavigator', {
-                screen: 'HomeWorkoutMain',
-                params: { workout:homeWorkout, workoutData },
-               
-              });
-            }, 2000);
-          }
-        }
-      }
     
-      if (workoutData.home_workout_level) {
-        fetchData();
-        nextPage();
-      } else {
-        alert('Please enter all details');
-      }
+      fetchData();
+    }, [customerId]); // Run only once on mount to fetch user data
+    
+    useEffect(() => {
+      const nextPage = async () => {
+        try {
+          if (workoutDataDB.home_workout_level) {
+            // Call the second API to get home workouts
+            const secondApiResponse = await api.get(
+              `get_home_workouts?gender=${workoutDataDB.gender}&level=${workoutDataDB.home_workout_level}`
+            );
+    
+            // Process the second API response
+            const homeWorkout = secondApiResponse.data.data;
+            console.log(homeWorkout, "response");
+            if (homeWorkout === null) {
+              alert('Network error occurred');
+            } else {
+              // Store workoutData and homeWorkout in AsyncStorage
+              await AsyncStorage.setItem('workoutData', JSON.stringify(workoutData));
+              await AsyncStorage.setItem('homeWorkoutData', JSON.stringify(homeWorkout));
+              await AsyncStorage.setItem('userDataHomeWorkout', JSON.stringify(workoutData));
+              await AsyncStorage.setItem('WorkoutPath', JSON.stringify('HomeTabNavigator'));
+    
+              setWorkoutPath('HomeTabNavigator');
+              console.log('success');
+              setTimeout(() => {
+                navigation.navigate('HomeTabNavigator', {
+                  screen: 'HomeWorkoutMain',
+                  params: { workout: homeWorkout, workoutData },
+                });
+              }, 2000);
+            }
+          }
+        } catch (error) {
+          console.error(error, 'Error fetching home workouts');
+        }
+      };
+    
+      nextPage();
     
       Animated.timing(animationProgress.current, {
         toValue: 1,
@@ -211,7 +126,8 @@ import LoginContext from '../../../hooks/LoginContext';
       } else {
         console.log("dietPlan is null");
       }
-    }, []);
+    }, [workoutDataDB]);
+    
     
     
   

@@ -312,6 +312,11 @@ const WorkoutFirstPage = ({navigation, route}) => {
             params: {data: gymWorkoutJSON, formDataCopy: user},
           });
         }
+      }else if (user.gender) {
+        console.log(
+          'only gender is available and the gym workout difficulty is not exsisting ',
+        );
+        navigation.navigate('GymDifficultyLevel', {workoutData});
       } else {
         console.log('workout page');
         // Navigate to 'Gender' screen with workoutData
