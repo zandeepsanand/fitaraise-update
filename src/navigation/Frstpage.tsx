@@ -53,6 +53,20 @@ export default function Frstpage({
   console.log(selectedWorkoutPath, 'first page');
   console.log('====================================');
 
+
+  useEffect(()=>{
+    AsyncStorage.getItem('userDataHomeWorkout')
+    .then(value => {
+      if (value !== null) {
+        console.log('Value retrieved successfully:', value);
+      } else {
+        console.log('No value stored for this key sandeep');
+      }
+    })
+    .catch(error => {
+      console.error('Error retrieving value: ', error);
+    });
+  });
   const {assets, colors, fonts, gradients, sizes} = useTheme();
   const {t} = useTranslation();
   const [tab, setTab] = useState<number>(0);
@@ -156,6 +170,99 @@ export default function Frstpage({
       console.error('Error retrieving stored data:', error);
     }
   };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        
+        
+        if (selectedWorkoutPath) {
+          // Now you can use the logic from handlePressOut function here
+          if (selectedWorkoutPath === 'HomeTabNavigator') {
+            console.log("inside im");
+            
+            let homeWorkoutData = null;
+            let userData = null;
+  
+            // Retrieve homeWorkoutData from AsyncStorage
+            const storedHomeWorkoutData = await AsyncStorage.getItem(
+              'homeWorkoutData',
+            );
+            const storeduserDataHomeWorkout = await AsyncStorage.getItem(
+              'userDataHomeWorkout',
+            );
+            if (storedHomeWorkoutData && storeduserDataHomeWorkout) {
+             
+              homeWorkoutData = JSON.parse(storedHomeWorkoutData);
+              userData = JSON.parse(storeduserDataHomeWorkout);
+              navigation.navigate(selectedWorkoutPath, {
+                screen: 'HomeWorkoutMain',
+                params: {workout: homeWorkoutData, workoutData: userData},
+              });
+              setIsLoading(false);
+            }
+          } else if (selectedWorkoutPath === 'GymTabNavigator') {
+            let gymWorkoutData = null;
+            let userData = null;
+    
+            // Retrieve homeWorkoutData from AsyncStorage
+            const storedGymWorkoutData = await AsyncStorage.getItem(
+              'gymWorkoutData',
+            );
+            const storeduserDataGymWorkout = await AsyncStorage.getItem(
+              'userDataGymWorkout',
+            );
+            if (storedGymWorkoutData && storeduserDataGymWorkout) {
+              gymWorkoutData = JSON.parse(storedGymWorkoutData);
+              userData = JSON.parse(storeduserDataGymWorkout);
+    
+              navigation.navigate('GymTabNavigator', {
+                screen: 'GymWorkoutMain',
+                params: {data: gymWorkoutData, formDataCopy: userData},
+              });
+            }
+          } else if (selectedWorkoutPath === 'ChallengeTabNavigator') {
+            let challengeWorkoutData = null;
+            let userData = null;
+    
+            // Retrieve homeWorkoutData from AsyncStorage
+            const storedChallengeWorkoutData = await AsyncStorage.getItem(
+              'challengeWorkoutData',
+            );
+            const storeduserDataChallengeWorkout = await AsyncStorage.getItem(
+              'userDataChallengeWorkout',
+            );
+            if (storedChallengeWorkoutData && storeduserDataChallengeWorkout) {
+              challengeWorkoutData = JSON.parse(storedChallengeWorkoutData);
+              userData = JSON.parse(storeduserDataChallengeWorkout);
+    
+              // navigation.navigate('GymTabNavigator', {
+              //   screen: 'GymWorkoutMain',
+              //   params: {data: gymWorkoutData, formDataCopy:userData},
+              // });
+    
+              navigation.navigate('ChallengeTabNavigator', {
+                screen: 'ChallengeMain',
+                params: {challenge: challengeWorkoutData},
+              });
+            }
+          } else {
+            // Default logic
+            // navigation.navigate('fitness', {workoutData: formData});
+            setIsLoading(false);
+          }
+        } else {
+          setIsLoading(false);
+          console.log('No value stored for this key');
+        }
+      } catch (error) {
+        setIsLoading(false);
+        console.error('Error retrieving stored data:', error);
+      }
+    };
+  
+    fetchData();
+  }, []);
 
   const handleProducts = useCallback(
     (tab: number) => {
@@ -238,186 +345,6 @@ export default function Frstpage({
     }
   };
 
-  // const redirectTo = async () => {
-  //   try {
-  //     console.log('clicked');
-
-  //     const authDataJSON = await AsyncStorage.getItem('authData');
-  //     console.log(authDataJSON, 'authdata first page');
-
-  //     if (authDataJSON) {
-  //       const authData = JSON.parse(authDataJSON);
-
-  //       const authToken = authData.token;
-  //       const customerId = authData.formData.customer_id;
-  //       const formData = authData.formData;
-  //       const token = authData.token;
-
-  //       loginSuccess(customerId, formData, token);
-  //       console.log(authToken, 'auth Data');
-  //       if (authToken) {
-  //         setAuthToken(authToken);
-  //         setIsLoading(true);
-  //         const requiredCalorieResponse = await api.get(
-  //           `get_daily_required_calories/${formData.customer_id}`,
-  //         );
-  //         const diet_List = await api.get(
-  //           `get_recommended_diet/${formData.customer_id}`,
-  //         );
-
-  //         const requiredCalorie = requiredCalorieResponse.data.data;
-
-  //         const dietPlan = diet_List.data.data.recommended_diet_list;
-  //         console.log(requiredCalorie, 'calorie required');
-  //         console.log(authData.formData, 'for workout example');
-
-  //         setIsLoading(false);
-
-  //         if (
-  //           requiredCalorieResponse.data.success === true &&
-  //           authData.formData
-  //         ) {
-  //           //   navigation.reset({
-  //           //   index: 0,
-  //           //   routes: [{ name: 'Menu', params: { data: requiredCalorie, formDataCopy: authData.formData, dietPlan } }],
-  //           // });
-  //           navigation.navigate('Menu', {
-  //             data: requiredCalorie,
-  //             formDataCopy: authData.formData,
-  //             dietPlan,
-  //           });
-  //         } else if (authData.formData) {
-  //           navigation.navigate('Details', {formData: authData.formData});
-  //         } else {
-  //           navigation.reset({
-  //             index: 0,
-  //             routes: [{name: 'loginNew'}],
-  //           });
-  //         }
-  //         // Replace 2000 with the desired loading duration (in milliseconds)
-  //       } else {
-  //         // No authToken, navigate to 'loginNew'
-  //         navigation.reset({
-  //           index: 0,
-  //           routes: [{name: 'loginNew'}],
-  //         });
-  //       }
-  //     } else {
-  //       // authData JSON doesn't exist, navigate to 'loginNew'
-  //       navigation.reset({
-  //         index: 0,
-  //         routes: [{name: 'loginNew'}],
-  //       });
-  //     }
-  //     setIsLoading(false);
-  //   } catch (error) {
-  //     console.error('Authentication Status Error:', error);
-  //     setIsLoading(false);
-  //     navigation.reset({
-  //       index: 0,
-  //       routes: [{name: 'FirstPageCountrySelect'}],
-  //     });
-  //   }
-  // };
-
-  // for loading Dietplan easily asyncStorage implemented
-  // const redirectTo = async () => {
-  //   try {
-  //     const cachedDataJSON = await AsyncStorage.getItem('cachedData');
-
-  //     const authData = JSON.parse(await AsyncStorage.getItem('authData'));
-  //     const {token, formData} = authData;
-  //     console.log(cachedDataJSON, 'cached data');
-
-  //     if (cachedDataJSON) {
-  //       // alert('hi');
-  //       console.log('cache 1');
-  //       const cachedData = JSON.parse(cachedDataJSON);
-  //       const {requiredCalorie, dietPlan} = cachedData;
-  //       setIsLoading(false);
-  //       if (requiredCalorie && formData) {
-  //         navigation.navigate('Menu', {
-  //           data: requiredCalorie,
-  //           formDataCopy: formData,
-  //           dietPlan,
-  //         });
-  //       } else {
-  //         navigation.navigate('Details', {formData});
-  //       }
-  //     } else {
-  //       const authDataJSON = await AsyncStorage.getItem('authData');
-  //       console.log(authDataJSON, 'authdata first page');
-
-  //       if (authDataJSON) {
-  //         const authData = JSON.parse(authDataJSON);
-  //         const {token, formData} = authData;
-
-  //         loginSuccess(formData.customer_id, formData, token);
-  //         console.log(token, 'auth Data');
-
-  //         if (token) {
-  //           setAuthToken(token);
-  //           setIsLoading(true);
-
-  //           const requiredCalorieResponse = await api.get(
-  //             `get_daily_required_calories/${formData.customer_id}`,
-  //           );
-  //           const dietListResponse = await api.get(
-  //             `get_recommended_diet/${formData.customer_id}`,
-  //           );
-
-  //           const requiredCalorie = requiredCalorieResponse.data.data;
-  //           const dietPlan = dietListResponse.data.data.recommended_diet_list;
-
-  //           if (requiredCalorieResponse.data.success) {
-  //             await AsyncStorage.setItem(
-  //               'cachedData',
-  //               JSON.stringify({requiredCalorie, dietPlan}),
-  //             );
-  //           }
-
-  //           console.log(requiredCalorie, 'calorie required');
-  //           console.log(formData, 'for workout example');
-
-  //           setIsLoading(false);
-
-  //           if (requiredCalorieResponse.data.success && formData) {
-  //             navigation.navigate('Menu', {
-  //               data: requiredCalorie,
-  //               formDataCopy: formData,
-  //               dietPlan,
-  //             });
-  //           } else if (formData) {
-  //             navigation.navigate('Details', {formData});
-  //           } else {
-  //             navigation.reset({
-  //               index: 0,
-  //               routes: [{name: 'loginNew'}],
-  //             });
-  //           }
-  //         } else {
-  //           navigation.reset({
-  //             index: 0,
-  //             routes: [{name: 'loginNew'}],
-  //           });
-  //         }
-  //       } else {
-  //         navigation.reset({
-  //           index: 0,
-  //           routes: [{name: 'loginNew'}],
-  //         });
-  //       }
-  //       setIsLoading(false);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error:', error);
-  //     setIsLoading(false);
-  //     navigation.reset({
-  //       index: 0,
-  //       routes: [{name: 'loginNew'}],
-  //     });
-  //   }
-  // };
   const redirectTo = async () => {
     try {
       const [cachedDataJSON, authDataJSON] = await Promise.all([
