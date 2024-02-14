@@ -68,9 +68,9 @@ const ChallengeTabNavigator = ({route}) => {
         component={Account}
         initialParams={{formData}}
         options={{
-          headerShown: false,
-
-          tabBarLabel: '', // Custom tab label
+          headerShown: true,
+          title: '',
+          tabBarLabel: 'User', // Custom tab label
           tabBarIcon: ({color, size}) => (
             <Image
               source={require('../../../assets/icons/user.png')} // Replace with your image source

@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useContext, useState} from 'react';
 import {useData, useTheme, useTranslation} from '../../../hooks';
 import {Block, Button, Image, Input, Product, Text} from '../../../components';
 import {StatusBar as ExpoStatusBar} from 'expo-status-bar';
@@ -7,6 +7,7 @@ import {StyleSheet, View, TouchableWithoutFeedback} from 'react-native';
 import DuoToggleSwitch from 'react-native-duo-toggle-switch';
 import Ripple from 'react-native-material-ripple';
 import api from '../../../../api';
+import LoginContext from '../../../hooks/LoginContext';
 // import ErrorModal from './ErrorModal';
 // const formData = {
 //   acitivity_level: 'sedentary',
@@ -36,6 +37,7 @@ const DifficultyLevel = ({
   },
 }) => {
   console.log(workoutData);
+  const {customerId} = useContext(LoginContext);
 
   const {t} = useTranslation();
   const [tab, setTab] = useState<number>(0);
@@ -57,6 +59,7 @@ const DifficultyLevel = ({
     const updatedFormData = {
       ...workoutData,
       home_workout_level: option,
+      customer_id:customerId
     };
 
     navigation.setParams({workoutData: updatedFormData});

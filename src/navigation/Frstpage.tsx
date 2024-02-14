@@ -170,100 +170,106 @@ export default function Frstpage({
       console.error('Error retrieving stored data:', error);
     }
   };
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setIsLoading(true);
-        
-        
-        if (selectedWorkoutPath) {
-          // Now you can use the logic from handlePressOut function here
-          if (selectedWorkoutPath === 'HomeTabNavigator') {
-            console.log("inside im");
-            
-            let homeWorkoutData = null;
-            let userData = null;
-  
-            // Retrieve homeWorkoutData from AsyncStorage
-            const storedHomeWorkoutData = await AsyncStorage.getItem(
-              'homeWorkoutData',
-            );
-            const storeduserDataHomeWorkout = await AsyncStorage.getItem(
-              'userDataHomeWorkout',
-            );
-            if (storedHomeWorkoutData && storeduserDataHomeWorkout) {
-             
-              homeWorkoutData = JSON.parse(storedHomeWorkoutData);
-              userData = JSON.parse(storeduserDataHomeWorkout);
-              navigation.navigate(selectedWorkoutPath, {
-                screen: 'HomeWorkoutMain',
-                params: {workout: homeWorkoutData, workoutData: userData},
-              });
-              setIsLoading(false);
-            }
-          } else if (selectedWorkoutPath === 'GymTabNavigator') {
-            let gymWorkoutData = null;
-            let userData = null;
-    
-            // Retrieve homeWorkoutData from AsyncStorage
-            const storedGymWorkoutData = await AsyncStorage.getItem(
-              'gymWorkoutData',
-            );
-            const storeduserDataGymWorkout = await AsyncStorage.getItem(
-              'userDataGymWorkout',
-            );
-            if (storedGymWorkoutData && storeduserDataGymWorkout) {
-              gymWorkoutData = JSON.parse(storedGymWorkoutData);
-              userData = JSON.parse(storeduserDataGymWorkout);
-    
-              navigation.navigate('GymTabNavigator', {
-                screen: 'GymWorkoutMain',
-                params: {data: gymWorkoutData, formDataCopy: userData},
-              });
-            }
-          } else if (selectedWorkoutPath === 'ChallengeTabNavigator') {
-            let challengeWorkoutData = null;
-            let userData = null;
-    
-            // Retrieve homeWorkoutData from AsyncStorage
-            const storedChallengeWorkoutData = await AsyncStorage.getItem(
-              'challengeWorkoutData',
-            );
-            const storeduserDataChallengeWorkout = await AsyncStorage.getItem(
-              'userDataChallengeWorkout',
-            );
-            if (storedChallengeWorkoutData && storeduserDataChallengeWorkout) {
-              challengeWorkoutData = JSON.parse(storedChallengeWorkoutData);
-              userData = JSON.parse(storeduserDataChallengeWorkout);
-    
-              // navigation.navigate('GymTabNavigator', {
-              //   screen: 'GymWorkoutMain',
-              //   params: {data: gymWorkoutData, formDataCopy:userData},
-              // });
-    
-              navigation.navigate('ChallengeTabNavigator', {
-                screen: 'ChallengeMain',
-                params: {challenge: challengeWorkoutData},
-              });
-            }
-          } else {
-            // Default logic
-            // navigation.navigate('fitness', {workoutData: formData});
-            setIsLoading(false);
-          }
-        } else {
-          setIsLoading(false);
-          console.log('No value stored for this key');
-        }
-      } catch (error) {
-        setIsLoading(false);
-        console.error('Error retrieving stored data:', error);
-      }
-    };
-  
-    fetchData();
-  }, []);
 
+  // home page set code 
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       setIsLoading(true);
+        
+        
+  //       if (selectedWorkoutPath) {
+  //         // Now you can use the logic from handlePressOut function here
+  //         if (selectedWorkoutPath === 'HomeTabNavigator') {
+  //           console.log("inside im");
+            
+  //           let homeWorkoutData = null;
+  //           let userData = null;
+  
+  //           // Retrieve homeWorkoutData from AsyncStorage
+  //           const storedHomeWorkoutData = await AsyncStorage.getItem(
+  //             'homeWorkoutData',
+  //           );
+  //           const storeduserDataHomeWorkout = await AsyncStorage.getItem(
+  //             'userDataHomeWorkout',
+  //           );
+  //           if (storedHomeWorkoutData && storeduserDataHomeWorkout) {
+             
+  //             homeWorkoutData = JSON.parse(storedHomeWorkoutData);
+  //             userData = JSON.parse(storeduserDataHomeWorkout);
+  //             navigation.navigate(selectedWorkoutPath, {
+  //               screen: 'HomeWorkoutMain',
+  //               params: {workout: homeWorkoutData, workoutData: userData},
+  //             });
+  //             setIsLoading(false);
+  //           }
+  //         } else if (selectedWorkoutPath === 'GymTabNavigator') {
+  //           let gymWorkoutData = null;
+  //           let userData = null;
+    
+  //           // Retrieve homeWorkoutData from AsyncStorage
+  //           const storedGymWorkoutData = await AsyncStorage.getItem(
+  //             'gymWorkoutData',
+  //           );
+  //           const storeduserDataGymWorkout = await AsyncStorage.getItem(
+  //             'userDataGymWorkout',
+  //           );
+  //           if (storedGymWorkoutData && storeduserDataGymWorkout) {
+  //             gymWorkoutData = JSON.parse(storedGymWorkoutData);
+  //             userData = JSON.parse(storeduserDataGymWorkout);
+    
+  //             navigation.navigate('GymTabNavigator', {
+  //               screen: 'GymWorkoutMain',
+  //               params: {data: gymWorkoutData, formDataCopy: userData},
+  //             });
+  //           }
+  //         } else if (selectedWorkoutPath === 'ChallengeTabNavigator') {
+  //           let challengeWorkoutData = null;
+  //           let userData = null;
+    
+  //           // Retrieve homeWorkoutData from AsyncStorage
+  //           const storedChallengeWorkoutData = await AsyncStorage.getItem(
+  //             'challengeWorkoutData',
+  //           );
+  //           const storeduserDataChallengeWorkout = await AsyncStorage.getItem(
+  //             'userDataChallengeWorkout',
+  //           );
+  //           if (storedChallengeWorkoutData && storeduserDataChallengeWorkout) {
+  //             challengeWorkoutData = JSON.parse(storedChallengeWorkoutData);
+  //             userData = JSON.parse(storeduserDataChallengeWorkout);
+    
+  //             // navigation.navigate('GymTabNavigator', {
+  //             //   screen: 'GymWorkoutMain',
+  //             //   params: {data: gymWorkoutData, formDataCopy:userData},
+  //             // });
+    
+  //             navigation.navigate('ChallengeTabNavigator', {
+  //               screen: 'ChallengeMain',
+  //               params: {challenge: challengeWorkoutData},
+  //             });
+  //           }
+  //         } else {
+  //           // Default logic
+  //           // navigation.navigate('fitness', {workoutData: formData});
+  //           setIsLoading(false);
+  //         }
+  //       } else {
+  //         setIsLoading(false);
+  //         console.log('No value stored for this key');
+  //       }
+  //     } catch (error) {
+  //       setIsLoading(false);
+  //       console.error('Error retrieving stored data:', error);
+  //     }
+  //   };
+  
+  //   fetchData();
+  // }, []);
+
+
+
+  
   const handleProducts = useCallback(
     (tab: number) => {
       setTab(tab);

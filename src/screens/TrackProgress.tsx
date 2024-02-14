@@ -12,7 +12,7 @@ import DuoToggleSwitch from 'react-native-duo-toggle-switch';
 import api from '../../api';
 import Ripple from 'react-native-material-ripple';
 import {View} from 'react-native';
-import { COLORS } from '../constants/light';
+import {COLORS} from '../constants/light';
 
 const isAndroid = Platform.OS === 'android';
 
@@ -23,7 +23,7 @@ const TrackProgress = () => {
     token,
     logout, // You can access the logout function
   } = useContext(LoginContext);
-  console.log(customerId, "customerId");
+  console.log(customerId, 'customerId');
   const today = new Date();
   const day = today.getDate();
   const month = today.getMonth() + 1; // Months are zero-based, so we add 1
@@ -32,19 +32,22 @@ const TrackProgress = () => {
   // Function to add a leading zero if the digit is less than 10
   const addLeadingZero = (value) => (value < 10 ? `0${value}` : value);
 
-  const formattedDate = `${addLeadingZero(day)}-${addLeadingZero(month)}-${year}`;
+  const formattedDate = `${addLeadingZero(day)}-${addLeadingZero(
+    month,
+  )}-${year}`;
 
-   const [isKg, setIsKg] = useState(true);
+  const [isKg, setIsKg] = useState(true);
   const [inputValueLbs, setInputValueLbs] = useState('');
   const [inputValueKg, setInputValueKg] = useState('');
   const [showModalKg, setModalKg] = useState(false);
   const [formData, setFormData] = useState(null);
   const [showView, setShowView] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const [weightTransformationData, setWeightTransformationData] = useState(null);
-console.log('====================================');
-console.log(weightTransformationData, "weight ");
-console.log('====================================');
+  const [weightTransformationData, setWeightTransformationData] =
+    useState(null);
+  console.log('====================================');
+  console.log(weightTransformationData, 'weight ');
+  console.log('====================================');
   const {user} = useData();
   const {t} = useTranslation();
   const navigation = useNavigation();
@@ -88,11 +91,11 @@ console.log('====================================');
       setInputValueKg('');
       const updatedFormData = {
         ...formData,
-        customer_id:customerId,
+        customer_id: customerId,
         todays_weight: '',
         todays_weight_unit: 'kg',
       };
-      setFormData(updatedFormData)
+      setFormData(updatedFormData);
       console.log(updatedFormData, 'weight unit check');
       navigation.setParams({formData: updatedFormData});
     } else {
@@ -102,11 +105,11 @@ console.log('====================================');
 
         const updatedFormData = {
           ...formData,
-          customer_id:customerId,
+          customer_id: customerId,
           todays_weight: numericValue,
           todays_weight_unit: 'kg',
         };
-        setFormData(updatedFormData)
+        setFormData(updatedFormData);
         console.log(updatedFormData, 'weight unit check');
         navigation.setParams({formData: updatedFormData});
       } else {
@@ -120,7 +123,7 @@ console.log('====================================');
     setInputValueKg(''); // Clear the kg input field
     const updatedFormData = {
       ...formData,
-      customer_id:customerId,
+      customer_id: customerId,
       todays_weight: '',
       todays_weight_unit: 'kg',
     };
@@ -131,7 +134,7 @@ console.log('====================================');
     setInputValueLbs(''); // Clear the lbs input field
     const updatedFormData = {
       ...formData,
-      customer_id:customerId,
+      customer_id: customerId,
       todays_weight: '',
       todays_weight_unit: 'lbs',
     };
@@ -148,13 +151,13 @@ console.log('====================================');
       setInputValueLbs(numericValue); // Allow backspacing for empty or '.' value
       const updatedFormData = {
         ...formData,
-        customer_id:customerId,
+        customer_id: customerId,
         todays_weight: numericValue,
         todays_weight_unit: 'lbs',
       };
       console.log(updatedFormData, 'weight unit check');
       navigation.setParams({formData: updatedFormData});
-      setFormData(updatedFormData)
+      setFormData(updatedFormData);
     } else {
       // Limit the value to the maximum pounds limit
       if (
@@ -164,11 +167,11 @@ console.log('====================================');
         setInputValueLbs(numericValue);
         const updatedFormData = {
           ...formData,
-          customer_id:customerId,
+          customer_id: customerId,
           todays_weight: numericValue,
           todays_weight_unit: 'lbs',
         };
-        setFormData(updatedFormData)
+        setFormData(updatedFormData);
         console.log(updatedFormData, 'weight unit check');
         navigation.setParams({formData: updatedFormData});
       } else {
@@ -178,8 +181,7 @@ console.log('====================================');
     }
   };
   const MAX_KG_LIMIT = 500; // Set the maximum limit in kilograms
-  console.log(formData,"dataaaa");
-  
+  console.log(formData, 'dataaaa');
 
   async function checkPage() {
     try {
@@ -190,23 +192,25 @@ console.log('====================================');
           Object.entries(formData).filter(([key, value]) => value !== null),
         );
         console.log(formDataCopy, 'form data');
-  
+
         // Make the API call to set personal data
         const response = await api.post('set_personal_datas', formDataCopy);
         console.log(response.data, 'api response');
-  
+
         // Check if the API call was successful
         if (response.data.success) {
           console.log('API call successful');
-  
+
           // Make the second API call
-          const secondApiResponse = await api.get('get_customer_weight_transformation');
-  
+          const secondApiResponse = await api.get(
+            'get_customer_weight_transformation',
+          );
+
           // Do something with the second API response
           const data = secondApiResponse.data.data;
           console.log(data, 'the data of second api');
           setWeightTransformationData(data);
-  
+
           if (data === null) {
             console.log('second API call failed');
             // Depending on your use case, you might want to handle this differently
@@ -232,7 +236,9 @@ console.log('====================================');
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const secondApiResponse = await api.get('get_customer_weight_transformation');
+        const secondApiResponse = await api.get(
+          'get_customer_weight_transformation',
+        );
         const data = secondApiResponse.data.data;
 
         // Set the API response data to the state
@@ -245,11 +251,13 @@ console.log('====================================');
     // Call the fetchData function
     fetchData();
   }, []);
-  
 
   return (
-    <Block safe >
+    <>
+   
+    <Block safe>
       <Block
+      
         scroll
         paddingHorizontal={sizes.s}
         showsVerticalScrollIndicator={false}
@@ -323,197 +331,210 @@ console.log('====================================');
               </Block>
             </Block>
           )}
-{weightTransformationData ? (
-  <>
-    {weightTransformationData.map((item) => (
-    <Block flex={0} marginHorizontal={20} card marginTop={10}>
-      <Block row center>
-        <Block
-          flex={0}
-          center
-          width={60}
-          height={60}
-          radius={50}
-          color={'#f0f0f8'}
-          paddingLeft={18}
-          marginTop={10}>
-          <Image
-            color={'green'}
-            width={25}
-            height={25}
-            source={require('../assets/icons/track.png')}></Image>
-        </Block>
-        <Block flex={1} paddingLeft={20} paddingTop={15}>
-          <Block flex={0} center>
-            <Text p semibold>
-              {item.weight} {item.weight_unit}
-            </Text>
-            <Text
-              semibold
-              secondary
-              opacity={0.5}
-              paddingTop={5}
-              size={12}>
-              {item.date}
-            </Text>
-          </Block>
-        </Block>
-        <Block flex={0} center paddingRight={10}>
-          <TouchableOpacity>
-            <Image
-              // color={'green'}
-              width={8}
-              height={35}
-              source={require('../assets/icons/dot.png')}></Image>
-          </TouchableOpacity>
-        </Block>
-      </Block>
-    </Block>
-))}
-  </>
-
-
-):(
-
-<>
-<Block>
-  <Text>Loading...</Text>
-</Block>
-
-</>
-)}
-
-        </Block>
-      </Block>
-      <View style={styles.centeredView}>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            Alert.alert('Modal has been closed.');
-            setModalVisible(!modalVisible);
-          }}>
-          <Block
-            card
-            flex={0}
-            style={styles.centeredView}
-            marginTop={200}
-            marginHorizontal={15}>
-            <Block
-              row
-              justify="space-between"
-              marginBottom={sizes.base}
-              marginTop={sizes.sm}
-              marginHorizontal={20}>
-              <Button
-                flex={2}
-                row
-                onPress={() => setModalKg(true)}
-                marginRight={sizes.base}>
-                <Block row align="center" justify="space-between">
-                  {/* <Text dark bold transform="uppercase" marginRight={sizes.sm}>
-                {kg} Kg
-              </Text> */}
-                  {isKg ? (
-                    <Input
-                      placeholder={'Kg'}
-                      keyboardType="numeric"
-                      maxLength={6}
-                      value={inputValueKg}
-                      style={{
-                        height: 50,
-                        width: 125,
-                        flex: 1,
-                        borderRadius: 10,
-                        backgroundColor: 'white',
-                        borderWidth: 0,
-                      }}
-                      onChangeText={handleInputChangeKg}
-                    />
-                  ) : (
-                    <Input
-                      placeholder={'Lbs'}
-                      keyboardType="numeric"
-                      maxLength={6}
-                      value={inputValueLbs}
-                      style={{
-                        height: 50,
-                        width: 125,
-                        flex: 1,
-                        borderRadius: 10,
-                        backgroundColor: 'white',
-                        borderWidth: 0,
-                      }}
-                      onChangeText={handleInputChangeLbs}
-                    />
-                  )}
+          <Block flex={1}>
+          {weightTransformationData ? (
+            <>
+              {weightTransformationData.map((item) => (
+                <>
+                    <Block flex={0} marginHorizontal={20} card marginTop={10}>
+                  <Block row center>
+                    <Block
+                      flex={0}
+                      center
+                      width={60}
+                      height={60}
+                      radius={50}
+                      color={'#f0f0f8'}
+                      paddingLeft={18}
+                      marginTop={10}>
+                      <Image
+                        color={'green'}
+                        width={25}
+                        height={25}
+                        source={require('../assets/icons/track.png')}></Image>
+                    </Block>
+                    <Block flex={1} paddingLeft={20} paddingTop={15}>
+                      <Block flex={0} center>
+                        <Text p semibold>
+                          {item.weight} {item.weight_unit}
+                        </Text>
+                        <Text
+                          semibold
+                          secondary
+                          opacity={0.5}
+                          paddingTop={5}
+                          size={12}>
+                          {item.date}
+                        </Text>
+                      </Block>
+                    </Block>
+                    <Block flex={0} center paddingRight={10}>
+                      <TouchableOpacity>
+                        {/* <Image
+                          // color={'green'}
+                          width={8}
+                          height={35}
+                          source={require('../assets/icons/dot.png')}></Image> */}
+                      </TouchableOpacity>
+                    </Block>
+                  </Block>
                 </Block>
-              </Button>
-              <Block
-                flex={2}
-                style={{
-                  alignItems: 'center',
-                  shadowRadius: 8,
-                  shadowOpacity: 0.3,
-                  shadowColor: '#757575',
-                  shadowOffset: {
-                    width: 0,
-                    height: 3,
-                  },
-                }}>
-                <DuoToggleSwitch
-                  primaryText="Kg"
-                  secondaryText="Lbs"
-                  onPrimaryPress={handlePrimaryPress}
-                  onSecondaryPress={handleSecondaryPress}
-                  TouchableComponent={Ripple}
-                  primaryButtonStyle={{width: 125, height: 50}}
-                  secondaryButtonStyle={{width: 90, height: 50}}
-                  primaryTextStyle={{marginRight: 32}}
-                  rippleColor="#fff"
-                  rippleContainerBorderRadius={50}
-                  activeColor="#5f9b4c"
-                />
+           
+                
+                </>
+            
+                
+              ))}
+            </>
+          ) : (
+            <>
+              <Block>
+                <Text>Loading...</Text>
               </Block>
-            </Block>
-
-            <Block flex={0} marginTop={80} row>
-              <Pressable
-                style={[styles.button1, styles.buttonClose1]}
-                onPress={() => {
-                  checkPage();
-                  setModalVisible(!modalVisible);
-                  setShowView(false);
-                }}>
-                <Text style={styles.textStyle} white bold>Update</Text>
-              </Pressable>
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => {
-                  setModalVisible(!modalVisible);
-                  setShowView(false);
-                }}>
-                <Text style={styles.textStyle} bold >Hide </Text>
-              </Pressable>
-            </Block>
+            </>
+          )}
           </Block>
-        </Modal>
-        {/* <Pressable
-          style={[styles.button, styles.buttonOpen]}
-          onPress={() => setModalVisible(true)}>
-          <Text style={styles.textStyle}>Show Modal</Text>
-        </Pressable> */}
-      </View>
+        
+        </Block>
+      </Block>
+      
     </Block>
+    <View >
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={modalVisible}
+      onRequestClose={() => {
+       
+        setModalVisible(!modalVisible);
+      }}>
+      <Block
+        card
+        flex={0}
+        style={styles.centeredView}
+        marginTop={200}
+        marginHorizontal={15}>
+        <Block
+          row
+          justify="space-between"
+          marginBottom={sizes.base}
+          marginTop={sizes.sm}
+          marginHorizontal={20}>
+          <Button
+            flex={2}
+            row
+            onPress={() => setModalKg(true)}
+            marginRight={sizes.base}>
+            <Block row align="center" justify="space-between">
+              {/* <Text dark bold transform="uppercase" marginRight={sizes.sm}>
+            {kg} Kg
+          </Text> */}
+              {isKg ? (
+                <Input
+                  placeholder={'Kg'}
+                  keyboardType="numeric"
+                  maxLength={6}
+                  value={inputValueKg}
+                  style={{
+                    height: 50,
+                    width: 125,
+                    flex: 1,
+                    borderRadius: 10,
+                    backgroundColor: 'white',
+                    borderWidth: 0,
+                  }}
+                  onChangeText={handleInputChangeKg}
+                />
+              ) : (
+                <Input
+                  placeholder={'Lbs'}
+                  keyboardType="numeric"
+                  maxLength={6}
+                  value={inputValueLbs}
+                  style={{
+                    height: 50,
+                    width: 125,
+                    flex: 1,
+                    borderRadius: 10,
+                    backgroundColor: 'white',
+                    borderWidth: 0,
+                  }}
+                  onChangeText={handleInputChangeLbs}
+                />
+              )}
+            </Block>
+          </Button>
+          <Block
+            flex={2}
+            style={{
+              alignItems: 'center',
+              shadowRadius: 8,
+              shadowOpacity: 0.3,
+              shadowColor: '#757575',
+              shadowOffset: {
+                width: 0,
+                height: 3,
+              },
+            }}>
+            <DuoToggleSwitch
+              primaryText="Kg"
+              secondaryText="Lbs"
+              onPrimaryPress={handlePrimaryPress}
+              onSecondaryPress={handleSecondaryPress}
+              TouchableComponent={Ripple}
+              primaryButtonStyle={{width: 125, height: 50}}
+              secondaryButtonStyle={{width: 90, height: 50}}
+              primaryTextStyle={{marginRight: 32}}
+              rippleColor="#fff"
+              rippleContainerBorderRadius={50}
+              activeColor="#5f9b4c"
+            />
+          </Block>
+        </Block>
+
+        <Block flex={0} marginTop={80} row>
+          <Pressable
+           disabled={!inputValueLbs && !inputValueKg}
+            style={[styles.button1, styles.buttonClose1, (!inputValueLbs && !inputValueKg) && styles.disabledButton]}
+            onPress={() => {
+              checkPage();
+              setModalVisible(!modalVisible);
+              setShowView(false);
+            }}>
+            <Text style={styles.textStyle} white bold >
+              Update
+            </Text>
+          </Pressable>
+          <Pressable
+            style={[styles.button, styles.buttonClose]}
+            onPress={() => {
+              setModalVisible(!modalVisible);
+              setShowView(false);
+            }}>
+            <Text style={styles.textStyle} bold>
+              Hide{' '}
+            </Text>
+          </Pressable>
+        </Block>
+      </Block>
+    </Modal>
+    {/* <Pressable
+      style={[styles.button, styles.buttonOpen]}
+      onPress={() => setModalVisible(true)}>
+      <Text style={styles.textStyle}>Show Modal</Text>
+    </Pressable> */}
+  </View>
+  </>
   );
 };
 const styles = StyleSheet.create({
   centeredView: {
-    flex: 1,
+    flex: 2,
     justifyContent: 'center',
     alignItems: 'center',
+    // width:350,
     marginTop: 22,
+    // position:'absolute'
   },
   modalView: {
     margin: 20,
@@ -539,7 +560,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 10,
     elevation: 2,
-   
   },
   buttonOpen: {
     backgroundColor: '#F194FF',
@@ -549,7 +569,7 @@ const styles = StyleSheet.create({
   },
   buttonClose1: {
     backgroundColor: COLORS.primary,
-    marginRight:10,
+    marginRight: 10,
   },
   textStyle: {
     color: 'white',
@@ -560,5 +580,9 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     textAlign: 'center',
   },
+  
+  disabledButton: {
+    backgroundColor: 'gray', // Change to whatever color you want for the disabled state
+  }
 });
 export default TrackProgress;

@@ -64,7 +64,8 @@ const GymTabNavigator = () => {
         name="nutrition"
         component={NutritionFactsSearch}
         options={{
-          headerShown: false,
+          headerShown: true,
+          title: '',
 
           tabBarLabel: 'Nutrition Facts', // Custom tab label
           tabBarIcon: ({color, size}) => (
@@ -79,7 +80,8 @@ const GymTabNavigator = () => {
         name="profile"
         component={Account}
         options={{
-          headerShown: false,
+          headerShown: true,
+          title: '',
           tabBarLabel: 'User', // Custom tab label
           tabBarIcon: ({color, size}) => (
             <Image

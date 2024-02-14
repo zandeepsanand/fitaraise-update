@@ -30,6 +30,7 @@ export const FavoritesProvider = ({ children }) => {
       try {
         const getFavoritesResponse = await api.get('get_customer_fav_food');
         console.log(getFavoritesResponse.data, "get_customer_fav_food response");
+        
 
         setFavorites(getFavoritesResponse.data.data);
       } catch (error) {

@@ -8,6 +8,16 @@ const Date1 = ({ date, onSelectDate, selected }) => {
    * if today, show 'Today'
    * if not today, show day of the week e.g 'Mon', 'Tue', 'Wed'
    */
+  const currentDate = moment().startOf('day'); // Get today's date
+  const selectedDate = moment(date).startOf('day'); 
+  const isAfterToday = selectedDate.isAfter(currentDate);
+  const handlePress = () => {
+    if (isAfterToday) {
+      // Don't perform any action if the selected date is after today's date
+      return;
+    }
+    onSelectDate(fullDate);
+  };
   const day = moment(date).format('YYYY-MM-DD') === moment().format('YYYY-MM-DD') ? 'Today' : moment(date).format('ddd')
   // get the day number e.g 1, 2, 3, 4, 5, 6, 7
   const dayNumber = moment(date).format('D')
@@ -16,7 +26,7 @@ const Date1 = ({ date, onSelectDate, selected }) => {
   const fullDate = moment(date).format('YYYY-MM-DD')
   return (
     <TouchableOpacity
-      onPress={() => onSelectDate(fullDate)}
+    onPress={handlePress}
       style={[styles.card, selected === fullDate && { backgroundColor: "#6146c6" }]}>
       <Text
         style={[styles.big, selected === fullDate && { color: "#fff" }]}

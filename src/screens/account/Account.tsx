@@ -128,7 +128,7 @@ export default function Account({route, navigation}) {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{paddingBottom: 10}}>
         <Block paddingHorizontal={5}>
-          <Text h5>Profile dd</Text>
+          <Text h5>Profile</Text>
         </Block>
         <Block card flex={1} height={100} marginTop={10} color={'lightgreen'}>
           <Block row>
