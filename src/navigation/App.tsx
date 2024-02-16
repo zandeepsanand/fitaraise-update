@@ -105,6 +105,7 @@ import NutritionFactsSearch from '../screens/nutritionFacts/NutritionFactsSearch
 import SingleNutritionPage from '../screens/nutritionFacts/SingleNutritionPage';
 import GymWorkoutSingleforAll from '../screens/workout/gym workout/GymWorkoutSingleforAll';
 import {WorkoutPathProvider} from '../hooks/WorkoutPathContext';
+import MyAds from '../screens/ads/MyAds';
 
 // Keep the splash screen visible while we fetch resources
 // SplashScreen.hideAsync();
@@ -193,6 +194,11 @@ export default () => {
                   <Stack.Screen
                     name="ChallengeMenu"
                     component={ChallengeMenu}
+                    options={{headerShown: false}}
+                  />
+                     <Stack.Screen
+                    name="myads"
+                    component={MyAds}
                     options={{headerShown: false}}
                   />
                   <Stack.Screen
