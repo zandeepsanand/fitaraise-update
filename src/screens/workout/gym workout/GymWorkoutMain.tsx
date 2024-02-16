@@ -279,7 +279,7 @@ const GymWorkoutMain = ({navigation, route}) => {
   };
   
   const handleChallengeTabNavigation = async () => {
-    if (selectedWorkoutPath === 'ChallengeTabNavigator') {
+   
       const storedChallengeWorkoutData = await AsyncStorage.getItem('challengeWorkoutData');
       const storeduserDataChallengeWorkout = await AsyncStorage.getItem('userDataChallengeWorkout');
   
@@ -293,7 +293,7 @@ const GymWorkoutMain = ({navigation, route}) => {
         });
         return true; // Navigation handled
       }
-    }
+    
     return false; // Navigation not handled
   };
   

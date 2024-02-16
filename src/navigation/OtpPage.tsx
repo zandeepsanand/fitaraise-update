@@ -19,9 +19,9 @@ import axios from 'axios';
 import {Animated, Easing} from 'react-native';
 import Lottie from 'lottie-react-native';
 import LoginContext from '../hooks/LoginContext';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import {getHash, startOtpListener, useOtpVerify} from 'react-native-otp-verify';
+
+
 
 
 

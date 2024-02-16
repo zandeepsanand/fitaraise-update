@@ -230,7 +230,7 @@ const ChallengeMain = ({navigation, route}) => {
     console.log('====================================');
     console.log('async home');
     console.log('====================================');
-    if (selectedWorkoutPath === 'HomeTabNavigator') {
+ 
       const storedHomeWorkoutData = await AsyncStorage.getItem(
         'homeWorkoutData',
       );
@@ -239,16 +239,17 @@ const ChallengeMain = ({navigation, route}) => {
       );
 
       if (storedHomeWorkoutData && storeduserDataHomeWorkout) {
+        setWorkoutPath('HomeTabNavigator');
         const homeWorkoutData = JSON.parse(storedHomeWorkoutData);
         const userData = JSON.parse(storeduserDataHomeWorkout);
         console.log(userData, 'home work 2');
 
-        navigation.navigate(selectedWorkoutPath, {
+        navigation.navigate('HomeTabNavigator', {
           screen: 'HomeWorkoutMain',
           params: {workout: homeWorkoutData, workoutData: userData},
         });
         return true; // Navigation handled
-      }
+      
     }
     return false; // Navigation not handled
   };
@@ -257,6 +258,8 @@ const ChallengeMain = ({navigation, route}) => {
     const storeduserDataGymWorkout = await AsyncStorage.getItem('userDataGymWorkout');
 
     if (storedGymWorkoutData && storeduserDataGymWorkout) {
+
+      setWorkoutPath('GymTabNavigator');
       const gymWorkoutData = JSON.parse(storedGymWorkoutData);
       const userData = JSON.parse(storeduserDataGymWorkout);
 

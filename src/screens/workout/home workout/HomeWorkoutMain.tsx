@@ -282,7 +282,7 @@ const HomeWorkoutMain = ({navigation, route}) => {
   
   const handleGymWorkoutNavigation = async () => {
     try {
-      const userData = await api.get(`get_personal_datas/${workoutData.customer_id}`);
+      const userData = await api.get(`get_personal_datas/${customerId}`);
       const user = userData.data.data;
   
       if (user.gender && user.gym_workout_level) {

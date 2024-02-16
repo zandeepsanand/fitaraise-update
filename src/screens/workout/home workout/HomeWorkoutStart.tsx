@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import moment from 'moment-timezone';
 import axios from 'axios';
 import {BASE_URL} from '@env';
@@ -24,6 +24,7 @@ import HomeWorkoutDetailsPageTwo from './HomeWorkoutDetailsPageTwo';
 import Timer from './Timer';
 import TimerIntermediatePage from './TimerIntermediatePage';
 import api from '../../../../api';
+import LoginContext from '../../../hooks/LoginContext';
 
 
 const isAndroid = Platform.OS === 'android';
@@ -44,6 +45,7 @@ function PopupPage() {
 const HomeWorkoutStart = () => {
   const route = useRoute();
   const {exerciseData ,workoutData} = route.params;
+  const {authenticated, customerId} = useContext(LoginContext);
   // console.log(workoutData , "formDAta");
 
   const {user} = useData();
