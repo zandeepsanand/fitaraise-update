@@ -11,6 +11,8 @@ import React, {
   useState,
 } from 'react';
 
+
+
 import {useData, useTheme, useTranslation} from '../hooks/';
 import {Block, Button, Image, Input, Product, Text} from '../components/';
 import {StatusBar as ExpoStatusBar} from 'expo-status-bar';
@@ -35,6 +37,7 @@ import Loader from '../screens/alert/loader/Loader';
 import messaging from '@react-native-firebase/messaging';
 import {useWorkoutPathContext} from '../hooks/WorkoutPathContext';
 
+
 const {height, width} = Dimensions.get('window');
 
 const sizes = ['S', 'M', 'L'];
@@ -52,7 +55,6 @@ export default function Frstpage({
   console.log('====================================');
   console.log(selectedWorkoutPath, 'first page');
   console.log('====================================');
-
 
   useEffect(()=>{
     AsyncStorage.getItem('userDataHomeWorkout')
@@ -422,7 +424,18 @@ export default function Frstpage({
       routes: [{ name: 'loginNew' }],
     });
   };
-  
+  const [playing, setPlaying] = useState(false);
+
+  const onStateChange = useCallback((state) => {
+    if (state === "ended") {
+      setPlaying(false);
+      Alert.alert("video has finished playing!");
+    }
+  }, []);
+
+  const togglePlaying = useCallback(() => {
+    setPlaying((prev) => !prev);
+  }, []);
 
   return (
     <>
@@ -432,12 +445,14 @@ export default function Frstpage({
         <>
           <Block>
             <Block style={styles.container1} gradient={gradients.success}>
+           
               <Text
                 bold
                 //  font="Pacifico"
                 style={{top: 40, padding: 16}}>
                 Welcome {formData.first_name} ,
               </Text>
+             
 
               <View style={styles.img}>
                 <Image
@@ -626,8 +641,10 @@ export default function Frstpage({
                     />
                   </View>
                 </Block>
+                
               </TouchableWithoutFeedback>
               {/* <Text>{expoNotification}</Text> */}
+             
             </View>
           </Block>
         </>

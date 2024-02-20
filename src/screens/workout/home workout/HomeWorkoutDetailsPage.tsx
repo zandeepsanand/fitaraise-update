@@ -5,11 +5,12 @@ import {useTheme} from '../../../hooks';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import {BASE_URL} from '@env';
+import YoutubePage from '../../youtube/YoutubePage';
 
 const HomeWorkoutDetailsPage = ({workout, timeLeft}) => {
   const completed_date = new Date().toISOString().slice(0, 10);
   // console.log(completed_date);
-
+  const youtubeId = workout.video_link;
   const {assets, colors, sizes} = useTheme();
   // console.log(workout.id);
   const customer_id = 10;
@@ -52,7 +53,12 @@ const HomeWorkoutDetailsPage = ({workout, timeLeft}) => {
         console.error('Error fetching exercise data:', error);
       });
   };
+  const [buttonVisible, setButtonVisible] = useState(true);
 
+  const handleButtonPress = () => {
+    // Hide the button and show the image
+    setButtonVisible(false);
+  };
   return (
     <>
       <Image
@@ -66,24 +72,46 @@ const HomeWorkoutDetailsPage = ({workout, timeLeft}) => {
         source={{
           uri: `${workout.image}`,
         }}>
-        <Button
-          row
-          flex={0}
-          justify="flex-start"
-          onPress={() => navigation.goBack()}>
-          <Image
-            radius={0}
-            width={10}
-            height={18}
-            color={colors.black}
-            source={assets.arrow}
-            transform={[{rotate: '180deg'}]}
-          />
-          {/* <Text p white marginLeft={sizes.s}>
+        <Block row flex={0}>
+          <Button
+            row
+            flex={0}
+            justify="flex-start"
+            onPress={() => navigation.goBack()}>
+            <Image
+              radius={0}
+              width={10}
+              height={18}
+              color={colors.black}
+              source={assets.arrow}
+              transform={[{rotate: '180deg'}]}
+            />
+            {/* <Text p white marginLeft={sizes.s}>
                 {t('profile.title')}
               </Text> */}
-        </Button>
+          </Button>
+          {youtubeId !== null && (
+          <Button
+            row
+            flex={1}
+            justify="flex-end"
+            onPress={() => navigation.goBack()}>
+            <Image
+              radius={0}
+              width={18}
+              height={18}
+              color={colors.danger}
+              source={assets.google}
+              transform={[{rotate: '0deg'}]}
+            />
+            {/* <Text p white marginLeft={sizes.s}>
+                {t('profile.title')}
+              </Text> */}
+          </Button>
+          )}
+        </Block>
       </Image>
+      <YoutubePage workout={workout} />
       <View
         style={{
           flex: 1,
@@ -91,17 +119,17 @@ const HomeWorkoutDetailsPage = ({workout, timeLeft}) => {
           alignItems: 'center',
           paddingTop: 30,
         }}>
-        <Text center  bold margin={sizes.sm} marginTop={sizes.s}>
+        <Text center bold margin={sizes.sm} marginTop={sizes.s}>
           {workout.name}
         </Text>
         {workout.time_or_sets === 'time' ? (
           <>
-            <Text padding={10}  bold >
+            <Text padding={10} bold>
               00 : {timeLeft < 10 ? `0${timeLeft}` : timeLeft}
             </Text>
           </>
         ) : (
-          <Text padding={10}  bold >
+          <Text padding={10} bold>
             {workout.sets} X {workout.reps}
           </Text>
         )}

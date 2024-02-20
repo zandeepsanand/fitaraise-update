@@ -107,7 +107,10 @@
     "react-native-typing-text": "^0.0.3",
     "react-native-vector-icons": "^9.2.0",
     "react-native-waveview": "^1.1.0",
-    "react-native-web": "~0.18.10"
+    "react-native-web": "~0.18.10",
+    "react-native-webview": "^13.8.1",
+    "react-native-youtube": "^2.0.2",
+    "react-native-youtube-iframe": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

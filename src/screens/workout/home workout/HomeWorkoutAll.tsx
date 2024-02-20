@@ -319,7 +319,7 @@ const HomeWorkoutAll = ({route}) => {
                 <Block center>
                   <Block>
                     <Text center bold top={10}>
-                      {exercise.name} sandeep
+                      {exercise.name} 
                     </Text>
                   </Block>
                   {exercise.time_or_sets === 'time' ? (

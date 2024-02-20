@@ -108,6 +108,7 @@ import {WorkoutPathProvider} from '../hooks/WorkoutPathContext';
 import MyAds from '../screens/ads/MyAds';
 import TestingNotification from '../screens/notification/Testing';
 
+
 // Keep the splash screen visible while we fetch resources
 // SplashScreen.hideAsync();
 
@@ -200,6 +201,7 @@ export default () => {
                     component={TestingNotification}
                     options={{headerShown: true}}
                   />
+                 
                   <Stack.Screen
                     name="myads"
                     component={MyAds}
