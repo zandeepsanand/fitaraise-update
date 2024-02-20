@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Button,View,Text } from 'react-native';
 
 
-import { InterstitialAd, AdEventType, TestIds } from 'react-native-google-mobile-ads';
+// import { InterstitialAd, AdEventType, TestIds } from 'react-native-google-mobile-ads';
 
-const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-xxxxxxxxxxxxx/yyyyyyyyyyyyyy';
+// const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-xxxxxxxxxxxxx/yyyyyyyyyyyyyy';
 
-const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
-  keywords: ['fashion', 'clothing'],
-});
+// const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
+//   keywords: ['fashion', 'clothing'],
+// });
 
 
 // No advert ready to show yet
@@ -16,17 +16,17 @@ const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
 const MyAds = () => {
     const [loaded, setLoaded] = useState(false);
 
-    useEffect(() => {
-        const unsubscribe = interstitial.addAdEventListener(AdEventType.LOADED, () => {
-          setLoaded(true);
-        });
+    // useEffect(() => {
+    //     const unsubscribe = interstitial.addAdEventListener(AdEventType.LOADED, () => {
+    //       setLoaded(true);
+    //     });
     
-        // Start loading the interstitial straight away
-        interstitial.load();
+    //     // Start loading the interstitial straight away
+    //     interstitial.load();
     
-        // Unsubscribe from events on unmount
-        return unsubscribe;
-      }, []);
+    //     // Unsubscribe from events on unmount
+    //     return unsubscribe;
+    //   }, []);
     
       // No advert ready to show yet
       if (!loaded) {
@@ -38,7 +38,7 @@ const MyAds = () => {
       <Button
       title="Show Interstitial"
       onPress={() => {
-        interstitial.show();
+        // interstitial.show();
       }}
     />
     </View>
