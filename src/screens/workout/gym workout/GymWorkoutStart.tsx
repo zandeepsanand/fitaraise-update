@@ -25,7 +25,7 @@ import GymWorkoutDetailsPage from './GymWorkoutDetailsPage';
 import GymWorkoutDetailsPageTwo from './GymWorkoutDetailsPageTwo';
 import api from '../../../../api';
 import LoginContext from '../../../hooks/LoginContext';
-import { usegymData } from '../../../hooks/GymData';
+import {usegymData} from '../../../hooks/GymData';
 
 const isAndroid = Platform.OS === 'android';
 function PopupPage() {
@@ -50,14 +50,15 @@ const GymWorkoutStart = () => {
     completedWorkouts: initialCompletedWorkouts = [],
     index,
   } = route.params;
-  const { exerciseData, setGymData } = usegymData();
-  const {customerId}=useContext(LoginContext);
+  const {exerciseData, setGymData} = usegymData();
+  const {customerId} = useContext(LoginContext);
 
   const {user} = useData();
   const {t} = useTranslation();
   const navigation = useNavigation();
   const {assets, colors, sizes} = useTheme();
   const [showRestPopup, setShowRestPopup] = useState(false);
+  const [buttonVisible, setButtonVisible] = useState(true);
 
   const [currentWorkoutIndex, setCurrentWorkoutIndex] = useState(0); // Start with the first workout
   // console.log(currentWorkoutIndex, 'workout index');
@@ -88,7 +89,7 @@ const GymWorkoutStart = () => {
       setIsTimerRunning(false);
       return;
     }
-  
+
     if (isTimerRunning) {
       setIsTimerRunning(false);
       setTimerText('Resume'); // Change button text to "Resume"
@@ -103,7 +104,6 @@ const GymWorkoutStart = () => {
     setIsTimerPaused((prevIsTimerPaused) => !prevIsTimerPaused);
   };
 
-
   const fetchData = () => {
     // api
     //   .get(`get_gym_workout_excercises/${workout.id}`)
@@ -113,7 +113,7 @@ const GymWorkoutStart = () => {
     //   .catch((error) => {
     //     console.error('Error fetching exercise data:', error);
     //   });
-  
+
     api
       .get(`get_gym_workout_excercises_recommended/${workout.id}`)
       .then((response) => {
@@ -124,6 +124,7 @@ const GymWorkoutStart = () => {
       });
   };
   const goToPreviousWorkout = () => {
+    setButtonVisible(false);
     setIsTimerRunning(false);
     setTimerText('Start');
     if (exerciseData && currentWorkoutIndex > 0) {
@@ -136,7 +137,6 @@ const GymWorkoutStart = () => {
       setIsTimerPaused(false); // Reset pause state to false
     }
     fetchData();
-
   };
 
   // const goToNextWorkout = () => {
@@ -173,6 +173,7 @@ const GymWorkoutStart = () => {
   };
   const goToNextWorkout = () => {
     // console.log('clicked');
+    setButtonVisible(false);
     setIsTimerRunning(false);
     setTimerText('Start');
 
@@ -185,7 +186,6 @@ const GymWorkoutStart = () => {
       setIsTimerPaused(false); // Reset pause state to false
       setShowRestPopup(true); // Show the rest time popup
       setShowNextButton(false); // to set show button false
-      
     }
     clearInputFields();
   };
@@ -193,7 +193,6 @@ const GymWorkoutStart = () => {
     setShowRestPopup(false); // Close the rest time popup
   };
   function getPreviousWorkoutRestTime(currentWorkoutIndex, exerciseData) {
-    
     // Start from the current workout's index and move backward
     for (let i = currentWorkoutIndex - 1; i >= 0; i--) {
       const previousWorkout = exerciseData[i];
@@ -267,15 +266,22 @@ const GymWorkoutStart = () => {
   const targetTimeZone = 'Asia/Kolkata'; // Change this to 'Asia/Kolkata' for Indian Standard Time
 
   const completed_date = moment.tz(targetTimeZone).format('YYYY-MM-DD');
-  
+
   // console.log(completed_date);
   const customer_id = customerId;
   const workout_id = currentWorkout.workout_id;
   const excercise_id = currentWorkout.excercise;
   const home_workout_excercise = currentWorkout.id;
-  
-  console.log(customerId,workout_id,excercise_id,home_workout_excercise ,completed_date , "id s for workout");
-  
+
+  console.log(
+    customerId,
+    workout_id,
+    excercise_id,
+    home_workout_excercise,
+    completed_date,
+    'id s for workout',
+  );
+
   const workoutData = {
     customer_id,
     workout_id,
@@ -283,8 +289,6 @@ const GymWorkoutStart = () => {
     home_workout_excercise,
     completed_date,
   };
-
-
 
   const uniqueCompletedWorkouts = [...new Set(completedWorkouts)];
   const firstUnfinishedWorkoutIndex = exerciseData.findIndex(
@@ -320,16 +324,20 @@ const GymWorkoutStart = () => {
 
   const weightValuesLbs = lbsInputValues.map((value) => parseInt(value));
   const repsValuesLbs = repsInputValuesLbs.map((value) => parseInt(value));
-  const hasKgData = weightValuesKg.some((value) => !isNaN(value)) && repsValuesKg.some((value) => !isNaN(value));
-  const hasLbsData = weightValuesLbs.some((value) => !isNaN(value)) && repsValuesLbs.some((value) => !isNaN(value));
-  console.log(hasLbsData,"weight");
-  
+  const hasKgData =
+    weightValuesKg.some((value) => !isNaN(value)) &&
+    repsValuesKg.some((value) => !isNaN(value));
+  const hasLbsData =
+    weightValuesLbs.some((value) => !isNaN(value)) &&
+    repsValuesLbs.some((value) => !isNaN(value));
+  console.log(hasLbsData, 'weight');
+
   let weight_vs_reps;
-  
+
   if (hasKgData) {
     // Convert kg data to lbs and create the weight_vs_reps array
     weight_vs_reps = weightValuesKg.map((weight, index) => ({
-      weight: `${(weight)}kg`, // Convert kg to lbs
+      weight: `${weight}kg`, // Convert kg to lbs
       reps: repsValuesKg[index],
     }));
   } else if (hasLbsData) {
@@ -343,10 +351,9 @@ const GymWorkoutStart = () => {
     console.log('No data entered');
   }
 
-
- console.log('====================================');
- console.log(weight_vs_reps, "demo");
- console.log('====================================');
+  console.log('====================================');
+  console.log(weight_vs_reps, 'demo');
+  console.log('====================================');
 
   useEffect(() => {
     // Update the input arrays with the new workout's sets
@@ -357,23 +364,18 @@ const GymWorkoutStart = () => {
   }, [currentWorkout]);
   const handleFinish = (currentWorkout) => {
     api
-      .post(
-        `add_gym_workout_excercises_done`,
-        {
-          customer_id,
-          workout_id,
-          excercise_id,
-          home_workout_excercise,
-          completed_date,
-          weight_vs_reps
-        },
-       
-        
-      )
+      .post(`add_gym_workout_excercises_done`, {
+        customer_id,
+        workout_id,
+        excercise_id,
+        home_workout_excercise,
+        completed_date,
+        weight_vs_reps,
+      })
       .then((response) => {
         if (response.data.success) {
-          console.log(response.data , "saved or not");
-          
+          console.log(response.data, 'saved or not');
+
           setShowNextButton(true);
           setCompletedDate([completed_date]);
           setCompletedWorkouts([
@@ -437,6 +439,8 @@ const GymWorkoutStart = () => {
                 setRepsInputValuesLbs={setRepsInputValuesLbs}
                 repsInputValuesKg={repsInputValuesKg}
                 setRepsInputValuesKg={setRepsInputValuesKg}
+                setButtonVisible={setButtonVisible}
+                buttonVisible={buttonVisible}
               />
 
               {currentWorkout.time_or_sets === 'sets' ? (
@@ -478,7 +482,6 @@ const GymWorkoutStart = () => {
                       handleFinish(currentWorkout);
                       goToNextWorkout();
                       setShowNextButton(false);
-                      
 
                       if (isLastWorkout) {
                         navigation.navigate('GymCongratsPage', {

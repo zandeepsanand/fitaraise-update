@@ -583,14 +583,21 @@ const ChallengeMain = ({navigation, route}) => {
   }, []);
   console.log(workoutData, 'dataaaa');
   const numberOfWeeks = Math.ceil(data.length / 7);
-
   const weeks = [];
+  
+  let isFirstWeekCompleted = false; // Track if the first week is completed
+  
+
   for (let week = 0; week < numberOfWeeks; week++) {
     const weekData = data.slice(week * 7, (week + 1) * 7);
-
-    const firstRowDays = weekData.slice(0, 4); // First row with 4 days
-    const secondRowDays = weekData.slice(4); // Second row with remaining days
-
+    // Calculate completion status for the week
+    const isWeekCompleted = weekData.every(day => day.completed);
+  
+    const startButtonText = isWeekCompleted ? 'Completed' : (week === 0 && !isFirstWeekCompleted) ? 'Start' : 'Lock';
+  
+    const firstRowDays = weekData.slice(0, 4);
+    const secondRowDays = weekData.slice(4);
+  
     const firstRow = firstRowDays.map((day, index) => (
       <Block
         key={index}
@@ -629,7 +636,7 @@ const ChallengeMain = ({navigation, route}) => {
         </Text>
       </Block>
     ));
-
+  
     weeks.push(
       <Block key={week} card margin={10}>
         <Text center bold paddingTop={20} h5>
@@ -643,26 +650,20 @@ const ChallengeMain = ({navigation, route}) => {
             {secondRow}
           </Block>
         </Block>
-        {/* Add your "Start" button or other components here */}
+        {/* Render the button based on completion status */}
         <View style={styles.container}>
           <TouchableWithoutFeedback
             onPress={() => {
-              const firstDayOfCurrentWeek = week * 7 + 1; // Calculate day_number for the first day of the current week
+              const firstDayOfCurrentWeek = week * 7 + 1;
               clickStart();
             }}>
             <Block
               style={styles.mainCardView1}
               gradient={gradients?.[tab === 2 ? 'success' : '#ffff']}>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <View
-                  style={{
-                    // marginLeft: 12,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                  }}></View>
-                <View>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <Text bold white h4>
-                    Start
+                    {startButtonText}
                   </Text>
                 </View>
               </View>
@@ -671,6 +672,11 @@ const ChallengeMain = ({navigation, route}) => {
         </View>
       </Block>,
     );
+  
+    // Update isFirstWeekCompleted if the first week is completed
+    if (week === 0 && isWeekCompleted) {
+      isFirstWeekCompleted = true;
+    }
   }
 
   return (

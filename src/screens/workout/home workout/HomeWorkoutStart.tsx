@@ -57,6 +57,7 @@ const HomeWorkoutStart = () => {
   const [showNextButton, setShowNextButton] = useState(false);
   const [savedDate, setCompletedDate] = useState([]);
   const [isLoading ,setIsLoading]=useState(false);
+  const [buttonVisible, setButtonVisible] = useState(true);
   // console.log(savedDate , "date for showing scroll calender");
 
   const currentWorkout = exerciseData[currentWorkoutIndex];
@@ -85,6 +86,7 @@ const HomeWorkoutStart = () => {
     setIsTimerPaused((prevIsTimerPaused) => !prevIsTimerPaused);
   };
   const goToPreviousWorkout = () => {
+    setButtonVisible(true);
     if (currentWorkoutIndex > 0) {
       setCurrentWorkoutIndex(currentWorkoutIndex - 1);
       setTimeLeft(
@@ -129,6 +131,7 @@ const HomeWorkoutStart = () => {
   // };
   const goToNextWorkout = () => {
     console.log('clicked');
+    setButtonVisible(true);
   
     // Check if there are more workouts and the current index is within bounds
     if (exerciseData && currentWorkoutIndex < exerciseData.length - 1) {
@@ -404,6 +407,8 @@ const HomeWorkoutStart = () => {
               <HomeWorkoutDetailsPage
                 workout={nextNotCompletedWorkout}
                 timeLeft={timeLeft}
+                setButtonVisible={setButtonVisible}
+                buttonVisible={buttonVisible}
               />
 
               {nextNotCompletedWorkout.time_or_sets === 'sets' ? (

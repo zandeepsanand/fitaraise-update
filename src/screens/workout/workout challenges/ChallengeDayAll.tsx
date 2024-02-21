@@ -174,13 +174,10 @@ const ChallengeDayAll = ({route}) => {
             padding={sizes.sm}
             paddingBottom={sizes.l}
             radius={30}
-            // source={require('../../../assets/images/homeworkout.png')}
+          
 
-            source={
-              {
-                // uri: `${workout.image}`,
-              }
-            }>
+        
+            >
             <Button
               row
               flex={0}
@@ -198,9 +195,7 @@ const ChallengeDayAll = ({route}) => {
                 {t('profile.title')}
               </Text> */}
             </Button>
-            <Image>
-              
-            </Image>
+      
             <Block
               flex={0}
               align="center"

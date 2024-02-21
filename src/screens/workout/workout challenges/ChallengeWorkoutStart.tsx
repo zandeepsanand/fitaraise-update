@@ -51,6 +51,7 @@ const GymWorkoutStart = () => {
     challenge,
     dayWithId,
   } = route.params;
+  const [buttonVisible, setButtonVisible] = useState(true);
   const { exerciseData, setExerciseData } = useChallengeData();
 
   const clickStart = async () => {
@@ -157,6 +158,7 @@ const GymWorkoutStart = () => {
     setIsTimerPaused((prevIsTimerPaused) => !prevIsTimerPaused);
   };
   const goToPreviousWorkout = () => {
+    setButtonVisible(false);
     if (exerciseData && currentWorkoutIndex > 0) {
       setCurrentWorkoutIndex(currentWorkoutIndex - 1);
       setTimeLeft(
@@ -205,6 +207,7 @@ const GymWorkoutStart = () => {
   // };
   const goToNextWorkout = () => {
     // console.log('clicked');
+    setButtonVisible(false);
 
     if (exerciseData && currentWorkoutIndex < exerciseData.length - 1) {
       const nextWorkout = exerciseData[currentWorkoutIndex + 1];
@@ -450,6 +453,8 @@ const GymWorkoutStart = () => {
                 setRepsInputValuesLbs={setRepsInputValuesLbs}
                 repsInputValuesKg={repsInputValuesKg}
                 setRepsInputValuesKg={setRepsInputValuesKg}
+                setButtonVisible={setButtonVisible}
+                buttonVisible={buttonVisible}
               />
               {currentWorkout.weight_vs_reps === null ||
               currentWorkout.weight_vs_reps.length === 0 ? (

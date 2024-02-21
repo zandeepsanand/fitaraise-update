@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
-import React, {useEffect, useState} from 'react';
-import {View, TextInput} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {View, TextInput, StyleSheet} from 'react-native';
 import {Block, Button, Image, Text} from '../../../components';
 import {useTheme} from '../../../hooks';
 import {useNavigation} from '@react-navigation/native';
@@ -8,6 +8,9 @@ import axios from 'axios';
 import {BASE_URL} from '@env';
 import DuoToggleSwitch from 'react-native-duo-toggle-switch';
 import Ripple from 'react-native-material-ripple';
+import {Animated, Easing} from 'react-native';
+import Lottie from 'lottie-react-native';
+import YoutubePage from '../../youtube/YoutubePage';
 
 const ChallengeDetailsPage = ({
   workout,
@@ -22,6 +25,8 @@ const ChallengeDetailsPage = ({
   setRepsInputValuesLbs,
   repsInputValuesKg,
   setRepsInputValuesKg,
+  setButtonVisible,
+  buttonVisible
 }) => {
   console.log(workout, 'TESTING');
   const [lbsView, setLbsView] = useState(false);
@@ -57,6 +62,7 @@ const ChallengeDetailsPage = ({
 
   const {assets, colors, sizes} = useTheme();
   // console.log(workout.id);
+  const youtubeId = workout.video_link;
   const customer_id = 10;
   const workout_id = workout.workout_id;
   const excercise_id = workout.excercise;
@@ -111,6 +117,20 @@ const ChallengeDetailsPage = ({
     onFieldsFilled(areFieldsFilled());
   }, [kgInputValues, lbsInputValues, repsInputValuesLbs, repsInputValuesKg]);
 
+  const animationProgress = useRef(new Animated.Value(0));
+  useEffect(() => {
+    Animated.timing(animationProgress.current, {
+      toValue: 1,
+      duration: 15000,
+      easing: Easing.linear,
+      useNativeDriver: false,
+    }).start();
+  });
+  const handleButtonPress = () => {
+    // Hide the button and show the image
+    setButtonVisible(false);
+  };
+
   return (
     <>
       <Block row>
@@ -143,7 +163,7 @@ const ChallengeDetailsPage = ({
           {workout.excercise_times}
         </Text>
       </Block>
-
+      {buttonVisible && (
       <Image
         background
         resizeMode="cover"
@@ -153,7 +173,49 @@ const ChallengeDetailsPage = ({
         radius={30}
         source={{
           uri: `${workout.excercise_image}`,
-        }}></Image>
+        }}>
+
+{youtubeId !== null && (
+              <Button
+                row
+                flex={0}
+                justify="flex-end"
+                // onPress={() => navigation.goBack()}
+                onPress={handleButtonPress}>
+             
+                <Lottie
+                  style={styles.backgroundAnimation}
+                  source={require('../../../assets/json/youtube.json')}
+                  progress={animationProgress.current}
+                />
+            
+              </Button>
+            )}
+        </Image>
+      )}
+        {!buttonVisible && (
+        <>
+          <YoutubePage workout={workout} />
+          <Block flex={0}>
+            <Button
+              paddingRight={20}
+              row
+              flex={0}
+              justify="flex-end"
+              onPress={() => setButtonVisible(true)}>
+              <Image
+                radius={0}
+                width={40}
+                height={28}
+                color={colors.primary}
+               
+                source={require('../../../assets/icons/gif2.png')}
+                transform={[{rotate: '0deg'}]}
+              />
+            </Button>
+          </Block>
+        </>
+      )}
       <View
         style={{
           flex: 1,
@@ -380,5 +442,18 @@ const ChallengeDetailsPage = ({
     </>
   );
 };
+const styles = StyleSheet.create({
+  backgroundAnimation: {
+    height: 80,
+    // width:60,
+    alignSelf: 'center',
+    position: 'relative',
+    // zIndex:-10,
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+  },
+});
 
 export default ChallengeDetailsPage;

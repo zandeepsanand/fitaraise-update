@@ -24,7 +24,11 @@ const isAndroid = Platform.OS === 'android';
 
 const HomeWorkoutSingle = () => {
   const route = useRoute();
+  const [buttonVisible, setButtonVisible] = useState(true);
   const {exerciseDataSingle, exerciseData} = route.params;
+
+  console.log(buttonVisible,"first page");
+  
   const {user} = useData();
   const {t} = useTranslation();
   const navigation = useNavigation();
@@ -69,6 +73,8 @@ const HomeWorkoutSingle = () => {
               <HomeWorkoutDetailsPage
                 workout={currentWorkout}
                 timeLeft={timeLeft}
+                setButtonVisible={setButtonVisible}
+                buttonVisible={buttonVisible}
               />
               <View
                 style={{flexDirection: 'row', justifyContent: 'space-between'}}>
