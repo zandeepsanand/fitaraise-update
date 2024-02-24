@@ -3,6 +3,9 @@ import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {useData, useTheme, useTranslation} from '../../../hooks';
 import {Block, Button, Image, Input, Product, Text} from '../../../components';
 import {StatusBar as ExpoStatusBar} from 'expo-status-bar';
+import {ThemedButton} from 'react-native-really-awesome-button';
+import AwesomeButton from 'react-native-really-awesome-button';
+
 import {
   StyleSheet,
   View,
@@ -22,7 +25,9 @@ import {useWorkoutPathContext} from '../../../hooks/WorkoutPathContext';
 
 const ChallengeMain = ({navigation, route}) => {
   const {t} = useTranslation();
+  // const handleProgress = (release) => setTimeout(release, 1000);
   const {selectedWorkoutPath, setWorkoutPath} = useWorkoutPathContext();
+  const [isCurrentDayCompleted, setIsCurrentDayCompleted] = useState(false);
   console.log('====================================');
   console.log(selectedWorkoutPath);
   console.log('====================================');
@@ -230,42 +235,40 @@ const ChallengeMain = ({navigation, route}) => {
     console.log('====================================');
     console.log('async home');
     console.log('====================================');
- 
-      const storedHomeWorkoutData = await AsyncStorage.getItem(
-        'homeWorkoutData',
-      );
-      const storeduserDataHomeWorkout = await AsyncStorage.getItem(
-        'userDataHomeWorkout',
-      );
 
-      if (storedHomeWorkoutData && storeduserDataHomeWorkout) {
-        setWorkoutPath('HomeTabNavigator');
-        const homeWorkoutData = JSON.parse(storedHomeWorkoutData);
-        const userData = JSON.parse(storeduserDataHomeWorkout);
-        console.log(userData, 'home work 2');
+    const storedHomeWorkoutData = await AsyncStorage.getItem('homeWorkoutData');
+    const storeduserDataHomeWorkout = await AsyncStorage.getItem(
+      'userDataHomeWorkout',
+    );
 
-        navigation.navigate('HomeTabNavigator', {
-          screen: 'HomeWorkoutMain',
-          params: {workout: homeWorkoutData, workoutData: userData},
-        });
-        return true; // Navigation handled
-      
+    if (storedHomeWorkoutData && storeduserDataHomeWorkout) {
+      setWorkoutPath('HomeTabNavigator');
+      const homeWorkoutData = JSON.parse(storedHomeWorkoutData);
+      const userData = JSON.parse(storeduserDataHomeWorkout);
+      console.log(userData, 'home work 2');
+
+      navigation.navigate('HomeTabNavigator', {
+        screen: 'HomeWorkoutMain',
+        params: {workout: homeWorkoutData, workoutData: userData},
+      });
+      return true; // Navigation handled
     }
     return false; // Navigation not handled
   };
   const navigateToGymTab = async () => {
     const storedGymWorkoutData = await AsyncStorage.getItem('gymWorkoutData');
-    const storeduserDataGymWorkout = await AsyncStorage.getItem('userDataGymWorkout');
+    const storeduserDataGymWorkout = await AsyncStorage.getItem(
+      'userDataGymWorkout',
+    );
 
     if (storedGymWorkoutData && storeduserDataGymWorkout) {
-
       setWorkoutPath('GymTabNavigator');
       const gymWorkoutData = JSON.parse(storedGymWorkoutData);
       const userData = JSON.parse(storeduserDataGymWorkout);
 
       navigation.navigate('GymTabNavigator', {
         screen: 'GymWorkoutMain',
-        params: { data: gymWorkoutData, formDataCopy: userData },
+        params: {data: gymWorkoutData, formDataCopy: userData},
       });
       return true; // Navigation handled
     }
@@ -276,9 +279,7 @@ const ChallengeMain = ({navigation, route}) => {
     console.log('clicked 2');
     console.log('====================================');
     try {
-      const userData = await api.get(
-        `get_personal_datas/${customerId}`,
-      );
+      const userData = await api.get(`get_personal_datas/${customerId}`);
       const user = userData.data.data;
       console.log(user, 'user data home 1');
 
@@ -325,28 +326,36 @@ const ChallengeMain = ({navigation, route}) => {
     }
   };
 
-
   const handleGymWorkoutNavigation = async () => {
     try {
       const userData = await api.get(`get_personal_datas/${customerId}`);
       const user = userData.data.data;
-  
+
       if (user.gender && user.gym_workout_level) {
         const homeWorkout = await api.get(
           `get_gym_workouts?gender=${user.gender}&level=${user.gym_workout_level}`,
         );
         const gymWorkoutJSON = homeWorkout.data.data;
-  
+
         if (gymWorkoutJSON) {
-          await AsyncStorage.setItem('gymWorkoutData', JSON.stringify(gymWorkoutJSON));
-          await AsyncStorage.setItem('userDataGymWorkout', JSON.stringify(user));
-          await AsyncStorage.setItem('WorkoutPath', JSON.stringify('GymTabNavigator'));
-  
+          await AsyncStorage.setItem(
+            'gymWorkoutData',
+            JSON.stringify(gymWorkoutJSON),
+          );
+          await AsyncStorage.setItem(
+            'userDataGymWorkout',
+            JSON.stringify(user),
+          );
+          await AsyncStorage.setItem(
+            'WorkoutPath',
+            JSON.stringify('GymTabNavigator'),
+          );
+
           setWorkoutPath('GymTabNavigator');
-  
+
           navigation.navigate('GymTabNavigator', {
             screen: 'GymWorkoutMain',
-            params: { data: gymWorkoutJSON, formDataCopy: user },
+            params: {data: gymWorkoutJSON, formDataCopy: user},
           });
         }
       } else {
@@ -359,23 +368,6 @@ const ChallengeMain = ({navigation, route}) => {
     }
   };
 
-
-  // if (loading) {
-  //   return (
-  //     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-  //       <ActivityIndicator size="large" />
-  //     </View>
-  //   );
-  // }
-
-  // if (error) {
-  //   return (
-  //     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-  //       <Text>Error: {error}</Text>
-  //     </View>
-  //   );
-  // }
-  // console.log(data.day_number, "days");
   const targetTimeZone = 'Asia/Kolkata'; // Change this to 'Asia/Kolkata' for Indian Standard Time
 
   const completed_date = moment.tz(targetTimeZone).format('DD-MM-YYYY');
@@ -383,72 +375,13 @@ const ChallengeMain = ({navigation, route}) => {
   console.log(completed_date, 'todays date');
   console.log('====================================');
 
-  const [isCurrentDayCompleted, setIsCurrentDayCompleted] = useState(false);
-
-  const clickStart = async () => {
-    try {
-      if (!challenge.id) {
-        throw new Error('Please enter all details');
-      }
-      if (isCurrentDayCompleted) {
-        // Display an alert to inform the user that they've already completed today's workout
-        alert("You have already completed today's workout");
-        return;
-      }
-
-      // Fetch the days data
-      const daysResponse = await api.get(
-        `get_workout_challenge_days/${month.id}`,
-      );
-      const daysData = daysResponse.data.data;
-      console.log(daysData, 'days data');
-
-      if (daysData.length === 0) {
-        throw new Error('No days data available');
-      }
-
-      // Determine the current day number based on completion status
-      let currentDayNumber = 0;
-      for (const day of daysData) {
-        if (!day.completed) {
-          break; // The first incomplete day becomes the current day
-        }
-        currentDayNumber++;
-      }
-
-      if (currentDayNumber > daysData.length) {
-        throw new Error('All days are completed');
-      } else {
-        // Increment currentDayNumber to move to the next day
-        currentDayNumber++;
-      }
-
-      // Fetch the workout data for the determined current day
-      const workoutResponse = await api.get(
-        `get_workout_challenge_excercise/${challenge.id}/${currentDayNumber}`,
-      );
-      const responseData = workoutResponse.data.data;
-      console.log(responseData, `day ${currentDayNumber}`);
-
-      setTodayWorkout(responseData);
-
-      navigation.navigate('ChallengeDayAll', {
-        responseData,
-        completedWorkouts,
-        currentDayNumber,
-        dayWithId: daysData,
-        challenge,
-      });
-    } catch (err) {
-      setError(err.message);
-    }
-  };
   // const clickStart = async () => {
 
   //   try {
   //     if (!challenge.id) {
   //       throw new Error('Please enter all details');
   //     }
+
   //     if (isCurrentDayCompleted) {
   //       // Display an alert to inform the user that they've already completed today's workout
   //       alert("You have already completed today's workout");
@@ -460,7 +393,7 @@ const ChallengeMain = ({navigation, route}) => {
   //       `get_workout_challenge_days/${month.id}`,
   //     );
   //     const daysData = daysResponse.data.data;
-  //     // console.log(daysData, 'days data');
+  //     console.log(daysData, 'days data');
 
   //     if (daysData.length === 0) {
   //       throw new Error('No days data available');
@@ -475,23 +408,12 @@ const ChallengeMain = ({navigation, route}) => {
   //       currentDayNumber++;
   //     }
 
-  //     if (currentDayNumber >= daysData.length) {
+  //     if (currentDayNumber > daysData.length) {
   //       throw new Error('All days are completed');
+  //     } else {
+  //       // Increment currentDayNumber to move to the next day
+  //       currentDayNumber++;
   //     }
-
-  //     // Check if the recent workout done date is the same as today's date
-  //     if (
-  //       daysData[currentDayNumber - 1].recent_workout_done_date &&
-  //       daysData[currentDayNumber - 1].recent_workout_done_date ===
-  //         completed_date // Replace todayDate with the actual today's date
-  //     ) {
-  //       // Display an alert to inform the user that they've already completed today's workout
-  //       alert("You have already completed today's workout");
-  //       return;
-  //     }
-
-  //     // If not, increment currentDayNumber to move to the next day
-  //     currentDayNumber++;
 
   //     // Fetch the workout data for the determined current day
   //     const workoutResponse = await api.get(
@@ -514,6 +436,92 @@ const ChallengeMain = ({navigation, route}) => {
   //   }
   // };
 
+  const clickStart = async () => {
+   
+    
+    try {
+      console.log("clicked button inside");
+      if (!challenge.id) {
+        throw new Error('Please enter all details');
+      }
+      if (isCurrentDayCompleted) {
+        // Display an alert to inform the user that they've already completed today's workout
+
+        alert("You have already completed today's workout");
+        return;
+      }
+
+      // Fetch the days data
+      const daysResponse = await api.get(
+        `get_workout_challenge_days/${month.id}`,
+      );
+      const daysData = daysResponse.data.data;
+      // console.log(daysData, 'days data');
+
+      if (daysData.length === 0) {
+        throw new Error('No days data available');
+      }
+
+      // Determine the current day number based on completion status
+      let currentDayNumber = 0;
+      for (const day of daysData) {
+        if (!day.completed) {
+          break; // The first incomplete day becomes the current day
+        }
+        currentDayNumber++;
+      }
+
+      if (currentDayNumber >= daysData.length) {
+        throw new Error('All days are completed');
+      }
+
+      // Check if the recent workout done date is the same as today's date
+      if (
+        daysData[currentDayNumber - 1].recent_workout_done_date &&
+        daysData[currentDayNumber - 1].recent_workout_done_date ===
+          completed_date // Replace todayDate with the actual today's date
+      ) {
+        // Display an alert to inform the user that they've already completed today's workout
+        alert("You have already completed today's workout");
+        return;
+      }
+
+      // If not, increment currentDayNumber to move to the next day
+      currentDayNumber++;
+console.log(currentDayNumber, "daynumber");
+
+      // Fetch the workout data for the determined current day
+      const workoutResponse = await api.get(
+        `get_workout_challenge_excercise/${challenge.id}/${currentDayNumber}`,
+      );
+      const responseData = workoutResponse.data.data;
+      console.log(responseData, `day ${currentDayNumber}`);
+
+      setTodayWorkout(responseData);
+
+      navigation.navigate('ChallengeDayAll', {
+        responseData,
+        completedWorkouts,
+        currentDayNumber,
+        dayWithId: daysData,
+        challenge,
+      });
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+  const handleProgress = async (release) => {
+    try {
+      await Promise.race([
+        clickStart(),
+        new Promise((resolve, reject) => setTimeout(reject, 1000)), // Adjust timeout as needed (10 seconds in this case)
+      ]);
+    } catch (error) {
+      console.error("Timeout occurred");
+    }
+    release(); // Release the lock after the timeout or completion of clickStart
+  };
+
   const handleProducts = useCallback(
     (tab: number) => {
       setTab(tab);
@@ -527,25 +535,7 @@ const ChallengeMain = ({navigation, route}) => {
     navigation.navigate('GymWorkoutAll', {workout, data, completedWorkouts});
     console.log(completedWorkouts, 'completed workout list');
   };
-  // const handleLevelChange = (level) => {
-  //   setSelectedLevel(level);
-  //   if (['beginner', 'intermediate', 'expert'].includes(level)) {
-  //     // Make an Axios API call here with the selected level
-  //     axios
-  //       .get(
-  //         `${BASE_URL}get_gym_workouts?gender=${formDataCopy.gender}&level=${level}`,
-  //       )
-  //       .then((response) => {
-  //         // Handle the API response here
-  //         // console.log(response.data.data, 'testing');
-  //         setData2(response.data.data);
-  //       })
-  //       .catch((error) => {
-  //         // Handle errors here
-  //         console.error(error);
-  //       });
-  //   }
-  // };
+
   useEffect(() => {
     const checkAuthenticationStatus = async () => {
       try {
@@ -584,37 +574,56 @@ const ChallengeMain = ({navigation, route}) => {
   console.log(workoutData, 'dataaaa');
   const numberOfWeeks = Math.ceil(data.length / 7);
   const weeks = [];
-  
+  // console.log(data, 'data of the 60 day');
+
   let isFirstWeekCompleted = false; // Track if the first week is completed
-  
 
   for (let week = 0; week < numberOfWeeks; week++) {
     const weekData = data.slice(week * 7, (week + 1) * 7);
     // Calculate completion status for the week
-    const isWeekCompleted = weekData.every(day => day.completed);
-  
-    const startButtonText = isWeekCompleted ? 'Completed' : (week === 0 && !isFirstWeekCompleted) ? 'Start' : 'Lock';
-  
+    const isWeekCompleted = weekData.every((day) => day.completed);
+
+    const startButtonText = isWeekCompleted
+      ? 'Completed'
+      : week === 0 && !isFirstWeekCompleted
+      ? 'Start'
+      : 'Lock';
+
     const firstRowDays = weekData.slice(0, 4);
     const secondRowDays = weekData.slice(4);
-  
+
     const firstRow = firstRowDays.map((day, index) => (
       <Block
         key={index}
         center
+        align="center"
         style={{
-          borderColor: day.completed ? '#19F196F0' : '#D9D9D9',
-          borderWidth: 3,
-          borderRadius: 50,
-          maxWidth: 60,
+          // borderColor: day.completed ? '#19F196F0' : '#D9D9D9',
+          // borderWidth: 3,
+          // borderRadius: 50,
+          minWidth: 80,
           minHeight: 60,
-          backgroundColor: day.completed ? '#c7fce6' : 'transparent',
+          // backgroundColor: day.completed ? '#c7fce6' : 'transparent',
         }}
         // color={day.completed ? '#c7fce6' : 'green'}
-        margin={10}>
-        <Text center bold>
+        marginTop={25}>
+        {/* <Text center bold>
           {day.day}
-        </Text>
+        </Text> */}
+        <AwesomeButton
+          width={60}
+          backgroundColor={day.completed ? '#c7fce6' : 'white'}
+          borderRadius={50}
+          textColor="black"
+          style={{
+            borderColor: day.completed ? '#19F196F0' : '#D9D9D9',
+            // borderWidth: 3,
+            borderRadius: 50,
+            minWidth: 60,
+            minHeight: 60,
+          }}>
+          {day.day}
+        </AwesomeButton>
       </Block>
     ));
 
@@ -622,57 +631,94 @@ const ChallengeMain = ({navigation, route}) => {
       <Block
         key={index}
         center
+        align="center"
         style={{
-          borderColor: day.completed ? '#19F196F0' : '#D9D9D9',
-          borderWidth: 3,
-          borderRadius: 50,
-          maxWidth: 60,
+          // borderColor: day.completed ? '#19F196F0' : '#D9D9D9',
+          // borderWidth: 3,
+          // borderRadius: 50,
+          minWidth: 80,
           minHeight: 60,
-          backgroundColor: day.completed ? '#c7fce6' : 'transparent',
+          // backgroundColor: day.completed ? '#c7fce6' : 'transparent',
         }}
-        margin={10}>
-        <Text center bold>
+        // color={day.completed ? '#c7fce6' : 'green'}
+        marginTop={15}>
+        {/* <Text center bold>
+        {day.day}
+      </Text> */}
+        <AwesomeButton
+          width={60}
+          backgroundColor={day.completed ? '#c7fce6' : 'white'}
+          borderRadius={50}
+          textColor="black"
+          style={{
+            borderColor: day.completed ? '#19F196F0' : '#D9D9D9',
+            // borderWidth: 3,
+            borderRadius: 50,
+            minWidth: 60,
+            minHeight: 60,
+          }}>
           {day.day}
-        </Text>
+        </AwesomeButton>
       </Block>
     ));
-  
+
     weeks.push(
       <Block key={week} card margin={10}>
         <Text center bold paddingTop={20} h5>
           Week {week + 1}
         </Text>
-        <Block paddingHorizontal={10}>
+        <Block paddingHorizontal={20}>
           <Block row center paddingTop={20}>
             {firstRow}
           </Block>
-          <Block row center paddingTop={20}>
+          <Block
+            row
+            center
+            paddingTop={20}
+            paddingHorizontal={20}
+            paddingBottom={20}>
             {secondRow}
           </Block>
         </Block>
         {/* Render the button based on completion status */}
-        <View style={styles.container}>
-          <TouchableWithoutFeedback
-            onPress={() => {
-              const firstDayOfCurrentWeek = week * 7 + 1;
-              clickStart();
-            }}>
-            <Block
-              style={styles.mainCardView1}
-              gradient={gradients?.[tab === 2 ? 'success' : '#ffff']}>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+
+        <Block
+          center
+          align="center"
+          marginTop={10}
+          // gradient={gradients?.[tab === 2 ? 'success' : '#ffff']}
+        >
+          {/* <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <Text bold white h4>
                     {startButtonText}
                   </Text>
                 </View>
-              </View>
-            </Block>
-          </TouchableWithoutFeedback>
-        </View>
+              </View> */}
+
+          <ThemedButton
+            size="large"
+            name="bruce"
+            backgroundColor="#92A3FD"
+            backgroundDarker="lightgray"
+            backgroundProgress='white'
+            borderColor="#92A3FD"
+            style={styles.button}
+            disabled={
+              startButtonText === 'Lock' || startButtonText === 'Completed'
+            }
+          // onPress={()=>clickStart()}
+          progress
+          onPress={handleProgress}
+          // onProgressEnd={handleProgress}
+            >
+            {startButtonText}
+          </ThemedButton>
+        
+        </Block>
       </Block>,
     );
-  
+
     // Update isFirstWeekCompleted if the first week is completed
     if (week === 0 && isWeekCompleted) {
       isFirstWeekCompleted = true;
@@ -790,6 +836,8 @@ const ChallengeMain = ({navigation, route}) => {
                   <View key={index}>{week}</View>
                 ))}
               </View>
+              {/* <ThemedButton name="bruce" type="secondary" style={styles.button}>1st Day</ThemedButton>
+              <AwesomeButton backgroundColor='white' borderRadius={50} textColor='black' >1st Day</AwesomeButton> */}
 
               <View style={{paddingBottom: 20}}>
                 {/* <GifPlayer /> */}
@@ -881,26 +929,26 @@ const styles = StyleSheet.create({
     marginRight: 36,
   },
   mainCardView1: {
-    height: 60,
+    // height: 60,
     // width: 150,
     //    bottom:0,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#92A3FD',
-    borderRadius: 15,
-    shadowColor: 'gray',
-    shadowOffset: {width: 0, height: 5},
-    shadowOpacity: 0.5,
-    shadowRadius: 5,
-    elevation: 5,
-    flexDirection: 'column',
+    // backgroundColor: '#92A3FD',
+    // borderRadius: 15,
+    // shadowColor: 'gray',
+    // shadowOffset: {width: 0, height: 5},
+    // shadowOpacity: 0.5,
+    // shadowRadius: 5,
+    // elevation: 5,
+    // flexDirection: 'column',
     // justifyContent: 'space-between',
-    paddingLeft: 16,
-    paddingRight: 14,
-    // marginTop: 6,
-    marginBottom: 6,
-    marginLeft: 40,
-    marginRight: 40,
+    // paddingLeft: 16,
+    // paddingRight: 14,
+    // marginTop: 16,
+    // marginBottom: 6,
+    // marginLeft: 40,
+    // marginRight: 40,
   },
 
   bottom: {
@@ -916,6 +964,11 @@ const styles = StyleSheet.create({
   customText: {
     fontSize: 50,
     fontWeight: 'bold',
+  },
+  button: {
+    marginBottom: 16,
+    borderRadius: 50,
+    backgroundColor: '#92A3FD',
   },
 });
 
