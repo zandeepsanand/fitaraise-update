@@ -7,7 +7,7 @@ const GymDataContext = createContext();
 export const GymDataProvider = ({ children }) => {
   const [exerciseData, setGymData] = useState([]);
   const [exerciseDataAll, setGymDataAll] = useState([]);
-console.log(exerciseData , "from useContext");
+// console.log(exerciseData , "from useContext");
 
   const value = {
     exerciseData,

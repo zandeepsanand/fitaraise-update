@@ -130,13 +130,13 @@ const WorkoutFirstPage = ({navigation, route}) => {
 
       if (user.gender && user.workout_challenge_level) {
         // Check if user has gender and workout challenge level set
-        console.log('entered');
+        console.log('entered challege');
 
         // Fetch home workout data based on user's gender and workout level
         const homeWorkout = await api.get(
           `get_workout_challenges?gender=${user.gender}&level=${user.workout_challenge_level}`,
         );
-        console.log(homeWorkout, 'entered');
+        // console.log(homeWorkout, 'entered');
 
         const challengeMonthJSON = homeWorkout.data.data;
         console.log('====================================');
@@ -145,6 +145,8 @@ const WorkoutFirstPage = ({navigation, route}) => {
         console.log(challengeMonthJSON);
 
         if (challengeMonthJSON) {
+          console.log("inside im");
+          
           // Check if there are active challenges
           const activeChallenges = challengeMonthJSON.filter(
             (challenge) => challenge.currently_using,
@@ -182,19 +184,19 @@ const WorkoutFirstPage = ({navigation, route}) => {
             } else {
               console.log('workout page');
               // If no active challenge, navigate to the gender page with workout data
-              navigation.navigate('ChallengeGenderPage', {
+              navigation.navigate('ChallengeMonth', {
                 workoutData: user,
               });
             }
           } else {
             // If no active challenge, navigate to the gender page with workout data
-            navigation.navigate('ChallengeGenderPage', {
+            navigation.navigate('ChallengeMonth', {
               workoutData: user,
             });
           }
         } else {
           // If no challenge data, navigate to the gender page with workout data
-          navigation.navigate('ChallengeGenderPage', {
+          navigation.navigate('ChallengeMonth', {
             workoutData: user,
           });
         }

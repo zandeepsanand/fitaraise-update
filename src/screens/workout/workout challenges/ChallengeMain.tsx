@@ -37,12 +37,15 @@ const ChallengeMain = ({navigation, route}) => {
     completedWorkouts = [],
     challenge,
   } = route.params;
+  console.log(challenge, 'challengee');
 
   const {customerId} = useContext(LoginContext);
   const [isLoading, setIsLoading] = useState(true);
+  const [monthId, setMonthId] = useState(challenge.id);
+  console.log(monthId, 'monthId');
 
   const month = challenge;
-  // console.log(savedDate, 'haiii');
+  console.log(month, 'haiii month');
 
   const [tab, setTab] = useState<number>(0);
   const {following, trending} = useData();
@@ -68,6 +71,7 @@ const ChallengeMain = ({navigation, route}) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
         if (!challenge.id) {
           throw new Error('Please enter all details');
         }
@@ -90,11 +94,12 @@ const ChallengeMain = ({navigation, route}) => {
         setLoading(false);
       } catch (err) {
         setError(err.message);
+        setLoading(false);
       }
     };
 
     fetchData();
-  }, [month.id]);
+  }, []);
 
   const handleLevelChange = async (level) => {
     setSelectedLevel(level);
@@ -161,6 +166,7 @@ const ChallengeMain = ({navigation, route}) => {
               );
               const responseData = response.data.data;
               // console.log(responseData, '90 days dataaa');
+              setMonthId(challenge90DaysId);
               setData(responseData);
               setIsLoading(false);
               if (responseData === null) {
@@ -214,6 +220,7 @@ const ChallengeMain = ({navigation, route}) => {
               );
               const responseData = response.data.data;
               console.log(responseData, '60 days');
+              setMonthId(challenge60DaysId);
               setData(responseData);
               setIsLoading(false);
               if (responseData === null) {
@@ -279,8 +286,8 @@ const ChallengeMain = ({navigation, route}) => {
     console.log('clicked 2');
     console.log('====================================');
     try {
-      const userData = await api.get(`get_personal_datas/${customerId}`);
-      const user = userData.data.data;
+      const userData1 = await api.get(`get_personal_datas/${customerId}`);
+      const user = userData1.data.data;
       console.log(user, 'user data home 1');
 
       if (user.gender && user.home_workout_level) {
@@ -311,7 +318,7 @@ const ChallengeMain = ({navigation, route}) => {
 
           navigation.navigate('HomeTabNavigator', {
             screen: 'HomeWorkoutMain',
-            params: {homeWorkout: homeWorkoutJSON, workoutData: user},
+            params: {workout: homeWorkoutJSON, workoutData: user},
           });
         }
       } else {
@@ -435,28 +442,24 @@ const ChallengeMain = ({navigation, route}) => {
   //     setError(err.message);
   //   }
   // };
-
   const clickStart = async () => {
-   
-    
     try {
-      console.log("clicked button inside");
       if (!challenge.id) {
         throw new Error('Please enter all details');
       }
+
       if (isCurrentDayCompleted) {
         // Display an alert to inform the user that they've already completed today's workout
-
-        alert("You have already completed today's workout");
+        alert("You have already completed today's workout..");
         return;
       }
 
       // Fetch the days data
       const daysResponse = await api.get(
-        `get_workout_challenge_days/${month.id}`,
+        `get_workout_challenge_days/${monthId}`,
       );
       const daysData = daysResponse.data.data;
-      // console.log(daysData, 'days data');
+      console.log(daysData, 'days data');
 
       if (daysData.length === 0) {
         throw new Error('No days data available');
@@ -474,42 +477,145 @@ const ChallengeMain = ({navigation, route}) => {
       if (currentDayNumber >= daysData.length) {
         throw new Error('All days are completed');
       }
-
-      // Check if the recent workout done date is the same as today's date
-      if (
-        daysData[currentDayNumber - 1].recent_workout_done_date &&
+      console.log('============================');
+      console.log(currentDayNumber, 'day number pleae');
+      console.log(completed_date, 'day  pleae');
+      console.log('============================');
+     
+   if(currentDayNumber === 0){
+        console.log("halo");
+        
+        const workoutResponse = await api.get(
+          `get_workout_challenge_excercise/${monthId}/${
+            currentDayNumber+1 
+          }`,
+        );
+        const responseData = workoutResponse.data.data;
+        console.log(responseData, `day ${currentDayNumber+1 }`);
+      
+        setTodayWorkout(responseData);
+      
+        navigation.navigate('ChallengeDayAll', {
+          responseData,
+          completedWorkouts,
+          currentDayNumber: currentDayNumber + 1,
+          dayWithId: daysData,
+          challenge,
+        });
+      
+      }
+      else if (
         daysData[currentDayNumber - 1].recent_workout_done_date ===
-          completed_date // Replace todayDate with the actual today's date
+        completed_date
       ) {
         // Display an alert to inform the user that they've already completed today's workout
-        alert("You have already completed today's workout");
+        alert("You have already completed today's workout...");
         return;
       }
-
-      // If not, increment currentDayNumber to move to the next day
-      currentDayNumber++;
-console.log(currentDayNumber, "daynumber");
+     else{
+        const workoutResponse = await api.get(
+          `get_workout_challenge_excercise/${monthId}/${
+            currentDayNumber 
+          }`,
+        );
+        const responseData = workoutResponse.data.data;
+        console.log(responseData, `day ${currentDayNumber }`);
+  
+        setTodayWorkout(responseData);
+  
+        navigation.navigate('ChallengeDayAll', {
+          responseData,
+          completedWorkouts,
+          currentDayNumber: currentDayNumber + 1,
+          dayWithId: daysData,
+          challenge,
+        });
+      }
 
       // Fetch the workout data for the determined current day
-      const workoutResponse = await api.get(
-        `get_workout_challenge_excercise/${challenge.id}/${currentDayNumber}`,
-      );
-      const responseData = workoutResponse.data.data;
-      console.log(responseData, `day ${currentDayNumber}`);
-
-      setTodayWorkout(responseData);
-
-      navigation.navigate('ChallengeDayAll', {
-        responseData,
-        completedWorkouts,
-        currentDayNumber,
-        dayWithId: daysData,
-        challenge,
-      });
+    
     } catch (err) {
       setError(err.message);
     }
   };
+
+  //second code error on starting date is null
+
+  // const clickStart = async () => {
+  //   try {
+  //     console.log(challenge.id, 'clicked button inside');
+  //     if (!monthId) {
+  //       throw new Error('Please enter all details');
+  //     }
+  //     if (isCurrentDayCompleted) {
+  //       // Display an alert to inform the user that they've already completed today's workout
+
+  //       alert("You have already completed today's workout");
+  //       return;
+  //     }
+
+  //     // Fetch the days data
+  //     const daysResponse = await api.get(
+  //       `get_workout_challenge_days/${monthId}`,
+  //     );
+  //     const daysData = daysResponse.data.data;
+  //     console.log(daysData, 'days data 1');
+
+  //     if (daysData.length === 0) {
+  //       throw new Error('No days data available');
+  //     }
+
+  //     // Determine the current day number based on completion status
+  //     let currentDayNumber = 0;
+  //     for (const day of daysData) {
+  //       if (!day.completed) {
+  //         break; // The first incomplete day becomes the current day
+  //       }
+  //       currentDayNumber++;
+  //     }
+
+  //     if (currentDayNumber >= daysData.length) {
+  //       throw new Error('All days are completed');
+  //     }
+
+  //     // Check if the recent workout done date is the same as today's date
+  //     if (
+  //       daysData[currentDayNumber - 1].recent_workout_done_date &&
+  //       daysData[currentDayNumber - 1].recent_workout_done_date ===
+  //         completed_date // Replace todayDate with the actual today's date
+  //     ) {
+  //       // Display an alert to inform the user that they've already completed today's workout
+  //       alert("You have already completed today's workout");
+  //       return;
+  //     }
+
+  //     // If not, increment currentDayNumber to move to the next day
+  //     currentDayNumber++;
+  //     console.log(currentDayNumber, 'daynumber');
+
+  //     // Fetch the workout data for the determined current day
+  //     const workoutResponse = await api.get(
+  //       `get_workout_challenge_excercise/${monthId}/${currentDayNumber}`,
+  //     );
+  //     const responseData = workoutResponse.data.data;
+  //     console.log(responseData, `day ${currentDayNumber}`);
+
+  //     setTodayWorkout(responseData);
+
+  //     navigation.navigate('ChallengeDayAll', {
+  //       responseData,
+  //       completedWorkouts,
+  //       currentDayNumber,
+  //       dayWithId: daysData,
+  //       challenge,
+  //     });
+  //   } catch (err) {
+  //     setError(err.message);
+  //   }
+  // };
+
+  // third code
+
   const handleProgress = async (release) => {
     try {
       await Promise.race([
@@ -517,7 +623,7 @@ console.log(currentDayNumber, "daynumber");
         new Promise((resolve, reject) => setTimeout(reject, 1000)), // Adjust timeout as needed (10 seconds in this case)
       ]);
     } catch (error) {
-      console.error("Timeout occurred");
+      console.error('Timeout occurred');
     }
     release(); // Release the lock after the timeout or completion of clickStart
   };
@@ -701,20 +807,19 @@ console.log(currentDayNumber, "daynumber");
             name="bruce"
             backgroundColor="#92A3FD"
             backgroundDarker="lightgray"
-            backgroundProgress='white'
+            backgroundProgress="white"
             borderColor="#92A3FD"
             style={styles.button}
             disabled={
               startButtonText === 'Lock' || startButtonText === 'Completed'
             }
-          // onPress={()=>clickStart()}
-          progress
-          onPress={handleProgress}
-          // onProgressEnd={handleProgress}
-            >
+            onPress={() => clickStart()}
+            // progress
+            // onPress={handleProgress}
+            // onProgressEnd={handleProgress}
+          >
             {startButtonText}
           </ThemedButton>
-        
         </Block>
       </Block>,
     );
@@ -781,9 +886,9 @@ console.log(currentDayNumber, "daynumber");
                       data={[
                         'Home Workout',
                         'Gym Workout',
-                        '90 day challenge',
-                        '60 day challenge',
-                      ]} // Provide your options here
+                        ...(data.length === 60 ? [] : ['60 day challenge']), // Only include '90 day challenge' if data.length is not 60
+                        ...(data.length === 90 ? [] : ['90 day challenge']), // Only include '60 day challenge' if data.length is not 90
+                      ]}
                       // defaultButtonText={formDataCopy.workout_level}
                       defaultButtonText={'Select an option'}
                       onSelect={handleLevelChange}

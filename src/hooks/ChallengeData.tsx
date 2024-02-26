@@ -6,7 +6,7 @@ const ChallengeDataContext = createContext();
 
 export const ChallengeDataProvider = ({ children }) => {
   const [exerciseData, setExerciseData] = useState([]);
-console.log(exerciseData , "from useContext");
+// console.log(exerciseData , "from useContext");
 
   const value = {
     exerciseData,

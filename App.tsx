@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, {useContext, useEffect, useState} from 'react';
 import 'react-native-gesture-handler';
-import Toast from 'react-native-toast-message'; 
+import Toast from 'react-native-toast-message';
 
 import {DataProvider} from './src/hooks';
 import AppNavigation from './src/navigation/App';
@@ -17,15 +17,15 @@ import {Text, Block, Image} from './src/components';
 import {HomeWorkoutProvider} from './src/hooks/HomeWorkoutContext';
 import SplashScreen from 'react-native-splash-screen';
 import {ChallengeDataProvider} from './src/hooks/ChallengeData';
-import { GymDataProvider } from './src/hooks/GymData';
+import {GymDataProvider} from './src/hooks/GymData';
+import {WorkoutPathProvider} from './src/hooks/WorkoutPathContext';
 
 export default function App() {
   const [token1, setToken1] = useState(null);
- 
+
   const {customerId} = useContext(LoginContext);
 
   console.log(customerId, 'from main app.tsx');
-
 
   const getDeviceToken = async () => {
     let token = await messaging().getToken();
@@ -36,15 +36,12 @@ export default function App() {
 
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-     
       Toast.show({
         type: 'success',
         position: 'top',
         // text1: 'A new FCM message arrived!',
         text2: JSON.stringify(remoteMessage),
       });
-    
-    
     });
 
     return unsubscribe;
@@ -68,26 +65,24 @@ export default function App() {
 
   return (
     <>
-    <GoogleProvider>
-      <LoginProvider>
-      <GymDataProvider>
-      <ChallengeDataProvider>
-          <FavoritesProvider>
-            <HomeWorkoutProvider>
-              <DataProvider>
-             
-                <AppNavigation />
-              </DataProvider>
-            </HomeWorkoutProvider>
-          </FavoritesProvider>
-        </ChallengeDataProvider>
-      </GymDataProvider>
-       
-      </LoginProvider>
-    </GoogleProvider>
-    <Toast />
+      <GoogleProvider>
+        <LoginProvider>
+          <WorkoutPathProvider>
+            <GymDataProvider>
+              <ChallengeDataProvider>
+                <FavoritesProvider>
+                  <HomeWorkoutProvider>
+                    <DataProvider>
+                      <AppNavigation />
+                    </DataProvider>
+                  </HomeWorkoutProvider>
+                </FavoritesProvider>
+              </ChallengeDataProvider>
+            </GymDataProvider>
+          </WorkoutPathProvider>
+        </LoginProvider>
+      </GoogleProvider>
+      <Toast />
     </>
-    
-   
   );
 }

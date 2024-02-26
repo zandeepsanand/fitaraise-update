@@ -22,7 +22,7 @@ const screenHeight = Dimensions.get('window').height;
 const ChallengeCongratsPage = ({route}) => {
   const {challenge} = route.params;
   console.log('====================================');
-  console.log(challenge);
+  console.log(challenge,"congrats");
   console.log('====================================');
 
 

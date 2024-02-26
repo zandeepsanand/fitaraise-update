@@ -10,11 +10,14 @@ import {MealContext} from '../../hooks/useMeal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {signOut} from '../../constants/GoogleSignInUtil.js';
 import GoogleContext from '../../hooks/GoogleContext';
+import { useWorkoutPathContext } from '../../hooks/WorkoutPathContext';
 
 
 
 export default function Account({route, navigation}) {
   const [formData, setFormData] = useState('');
+  const {selectedWorkoutPath, setWorkoutPath} = useWorkoutPathContext();
+ console.log(selectedWorkoutPath, "www..");
  
   const {
     customerId,
@@ -45,6 +48,8 @@ export default function Account({route, navigation}) {
     logout();
     signOut();
     logoutGoogle();
+    setWorkoutPath(null)
+    
 
     navigation.dispatch(
       CommonActions.reset({

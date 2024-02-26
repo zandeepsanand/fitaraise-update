@@ -207,7 +207,7 @@ const GymWorkoutStart = () => {
   // };
   const goToNextWorkout = () => {
     // console.log('clicked');
-    setButtonVisible(false);
+    setButtonVisible(true);
 
     if (exerciseData && currentWorkoutIndex < exerciseData.length - 1) {
       const nextWorkout = exerciseData[currentWorkoutIndex + 1];

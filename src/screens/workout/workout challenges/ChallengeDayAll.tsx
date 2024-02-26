@@ -85,7 +85,7 @@ const ChallengeDayAll = ({route}) => {
       clickStart();
     }, [navigation]) // Dependency array includes navigation
   );
-  console.log(responseData, 'workouts all');
+  // console.log(responseData, 'workouts all');
 
   const [tab, setTab] = useState<number>(0);
 

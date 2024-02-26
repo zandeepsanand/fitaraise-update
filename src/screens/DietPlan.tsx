@@ -76,7 +76,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
 
   const {customerId} = useContext(LoginContext);
   const [isLoadingScroll, setIsLoadingScroll] = useState(true);
-  const [isDietPlanUnlocked, setDietPlanUnlocked] = useState(true); // Initially set to true
+  const [isDietPlanUnlocked, setDietPlanUnlocked] = useState(false); // Initially set to true
 
   const handleUnlockDietPlan = async () => {
     // Check if the diet plan is unlocked in AsyncStorage

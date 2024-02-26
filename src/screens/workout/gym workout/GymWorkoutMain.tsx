@@ -98,7 +98,7 @@ const GymWorkoutMain = ({navigation, route}) => {
   //           // Navigate to 'HomeTabNavigator' with homeWorkout and workoutData
   //           navigation.navigate('HomeTabNavigator', {
   //             screen: 'HomeWorkoutMain',
-  //             params: { homeWorkout: homeWorkoutJSON, workoutData: user },
+  //             params: { workout: homeWorkoutJSON, workoutData: user },
   //           });
   //         }
   //       } else {

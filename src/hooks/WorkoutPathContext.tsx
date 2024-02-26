@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const WorkoutPathContext = createContext();
 
+
 export const WorkoutPathProvider = ({ children }) => {
   const [selectedWorkoutPath, setSelectedWorkoutPath] = useState(null);
   const [homeWorkoutData, setHomeWorkoutData] = useState(null);
