@@ -170,19 +170,7 @@ const TabNavigator = ({navigation, route}) => {
         },
       })}
     />
-    <Tab.Screen name='ThirdTab'
-    options={{ tabBarLabel: 'Third Tab' }}
-    listeners={({ navigation }) => ({
-     
-      tabPress: (e) => {
-        e.preventDefault();
-        console.log('Third Tab');
-        handleTabPress(navigation);
-      },
-    })}
-    component={WorkoutFirstPage} 
-    initialParams={{ workoutData }}
-    />
+ 
     
     
       <Tab.Screen
