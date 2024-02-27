@@ -42,11 +42,11 @@ const TabNavigator = ({navigation, route}) => {
     console.log("clicked tab");
     try {
       setProgrammaticNavigation(true);
-      let workoutData = null;
+      let workoutData2 = null;
 
       switch (selectedWorkoutPath) {
         case 'HomeTabNavigator':
-          workoutData = await navigateToTab(
+          workoutData2 = await navigateToTab(
             'homeWorkoutData',
             'userDataHomeWorkout',
             'HomeWorkoutMain'
@@ -54,7 +54,7 @@ const TabNavigator = ({navigation, route}) => {
           break;
 
         case 'GymTabNavigator':
-          workoutData = await navigateToTab(
+          workoutData2 = await navigateToTab(
             'gymWorkoutData',
             'userDataGymWorkout',
             'GymWorkoutMain'
@@ -62,7 +62,7 @@ const TabNavigator = ({navigation, route}) => {
           break;
 
         case 'ChallengeTabNavigator':
-          workoutData = await navigateToTab(
+          workoutData2 = await navigateToTab(
             'challengeWorkoutData',
             'userDataChallengeWorkout',
             'ChallengeMain'
@@ -70,7 +70,7 @@ const TabNavigator = ({navigation, route}) => {
           break;
 
         default:
-          workoutData = formDataCopy;
+          workoutData2 = formDataCopy;
           navigation.navigate('fitness', { workoutData });
           break;
       }
@@ -86,26 +86,28 @@ const TabNavigator = ({navigation, route}) => {
     const storedUserData = await AsyncStorage.getItem(userDataKey);
 
     if (storedWorkoutData && storedUserData) {
-      const workoutData = JSON.parse(storedWorkoutData);
+      const workoutData1 = JSON.parse(storedWorkoutData);
       const userData = JSON.parse(storedUserData);
       if (selectedWorkoutPath === 'HomeTabNavigator') {
         navigation.navigate(selectedWorkoutPath, {
           screen: screenName,
-          params: { workout: workoutData, workoutData: userData },
+          params: { workout: workoutData1, workoutData: userData },
         });
       } else if (selectedWorkoutPath === 'GymTabNavigator') {
         navigation.navigate(selectedWorkoutPath, {
           screen: screenName,
-          params: { data: workoutData, formDataCopy: userData },
+          params: { data: workoutData1, formDataCopy: userData },
         });
       } else if (selectedWorkoutPath === 'ChallengeTabNavigator') {
-        navigation.navigate(selectedWorkoutPath, {
-          screen: screenName,
-          params: { challenge: workoutData },
+      
+        navigation.navigate('ChallengeTabNavigator', {
+          screen: 'ChallengeMain',
+          params: {challenge: workoutData1},
         });
+        
       }
 
-      return workoutData;
+      return workoutData1;
     }
 
     return null;
@@ -113,6 +115,7 @@ const TabNavigator = ({navigation, route}) => {
 
   return (
     <Tab.Navigator
+    
       initialRouteName="pie" // Set the initial tab to "Home"
       screenOptions={{
         activeTintColor: '#97b4fe', // Set the active tab color to blue
@@ -153,14 +156,35 @@ const TabNavigator = ({navigation, route}) => {
           />
         ),
       }}
+      
       listeners={({ navigation }) => ({
         tabPress: (e) => {
           // Prevent default behavior
           e.preventDefault();
-          handleTabPress(navigation);
+          // Call the handleTabPress function if it is defined
+          if (typeof handleTabPress === 'function') {
+            handleTabPress(navigation);
+          } else {
+            console.error('handleTabPress function is not defined');
+          }
         },
       })}
     />
+    <Tab.Screen name='ThirdTab'
+    options={{ tabBarLabel: 'Third Tab' }}
+    listeners={({ navigation }) => ({
+     
+      tabPress: (e) => {
+        e.preventDefault();
+        console.log('Third Tab');
+        handleTabPress(navigation);
+      },
+    })}
+    component={WorkoutFirstPage} 
+    initialParams={{ workoutData }}
+    />
+    
+    
       <Tab.Screen
         name="nutrition"
         component={NutritionFactsSearch}

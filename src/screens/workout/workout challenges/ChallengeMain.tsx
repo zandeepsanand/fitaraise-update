@@ -37,7 +37,7 @@ const ChallengeMain = ({navigation, route}) => {
     completedWorkouts = [],
     challenge,
   } = route.params;
-  console.log(challenge, 'challengee');
+  console.log(challenge, 'challengee data');
 
   const {customerId} = useContext(LoginContext);
   const [isLoading, setIsLoading] = useState(true);

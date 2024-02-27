@@ -1,14 +1,16 @@
 /* eslint-disable prettier/prettier */
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {BASE_URL} from '@env';
 import {useTheme, useTranslation} from '../../hooks/';
 import {Block, Image, Input, Text} from '../../components/';
+import { useFocusEffect } from '@react-navigation/native';
 import {
   Platform,
   TouchableOpacity,
   SectionList,
   TouchableWithoutFeedback,
-  StyleSheet,
+  StyleSheet
+  
 } from 'react-native';
 import Axios from 'axios';
 import {FlatList} from 'react-native';
@@ -26,12 +28,21 @@ const NutritionFactsSearch = ({route, navigation}) => {
   //   const {mealType, meal_type , formDataCopy} = route.params;
   // console.log(formDataCopy);
   const {favorites,addToFavorites } = useFavorites();
-  console.log(favorites, 'food data favorite');
+  console.log(favorites.length, 'food data favorite');
 
   const {t} = useTranslation();
   const {assets, colors, fonts, gradients, sizes} = useTheme();
   const [searchResults, setSearchResults] = useState([]);
   const [dropdownVisible, setDropdownVisible] = useState(null);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setSearchResults([]);
+      return () => {
+        // Cleanup function when the component loses focus (e.g., navigating away)
+      };
+    }, [])
+  );
   const toggleDropdown = (item) => {
     setDropdownVisible(dropdownVisible === item ? null : item);
   };
@@ -225,9 +236,13 @@ const NutritionFactsSearch = ({route, navigation}) => {
         <>
           <Block flex={0} paddingHorizontal={20}>
             <Text center padding={10}>Save the foods you love and track them in a flash.</Text>
-            <Text padding={10} bold>
-              Favorites
-            </Text>
+            
+            {favorites.length>0&&(
+               <Text padding={10} bold>
+               Favorites
+             </Text>
+            )}
+           
             {favorites.map((item, index) => (
               
               <Block flex={0} height={95} key={index} card marginVertical={10}>

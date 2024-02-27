@@ -52,7 +52,7 @@ const NotificationPage = () => {
     <Block safe marginTop={20}>
     <View style={{padding: 20}}>
     <Text  bold secondary size={15}  marginBottom={10} paddingLeft={20}>
-      Today
+      Today's
     </Text>
     {notifications.map((notification, index) => (
         <Block flex={0} height={95} key={index} card marginVertical={10}>
@@ -89,11 +89,8 @@ const NotificationPage = () => {
           </Block>
           <Block flex={0} center paddingRight={10}>
             <TouchableOpacity>
-              <Image
-                // color={'green'}
-                width={8}
-                height={30}
-                source={require('../assets/icons/dot.png')}></Image>
+             
+                
             </TouchableOpacity>
           </Block>
         </Block>

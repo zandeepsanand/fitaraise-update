@@ -172,7 +172,7 @@ export default function Account({route, navigation}) {
           </Block>
         </Block>
         {/* second block */}
-        <Block card flex={1} marginTop={20} height={370}>
+        <Block card flex={1} marginTop={20} >
           <TouchableOpacity
             onPress={() => {
               navigation.navigate('EditProfile');
@@ -268,7 +268,7 @@ export default function Account({route, navigation}) {
 </TouchableOpacity>
         
 
-          <Block flex={0} height={85}>
+          {/* <Block flex={0} height={85}>
 
             <Block row>
               <Block
@@ -311,7 +311,7 @@ export default function Account({route, navigation}) {
                 </TouchableOpacity>
               </Block>
             </Block>
-          </Block>
+          </Block> */}
           <TouchableOpacity
             onPress={() => {
               handleLogout();

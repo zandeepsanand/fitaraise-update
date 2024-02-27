@@ -254,277 +254,294 @@ const TrackProgress = () => {
 
   return (
     <>
-   
-    <Block safe>
-      <Block
-      
-        scroll
-        paddingHorizontal={sizes.s}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{paddingBottom: sizes.padding}}>
-        <Block flex={0}>
-          {/* profile: stats */}
-          <Block
-            flex={0}
-            radius={sizes.sm}
-            shadow={!isAndroid} // disabled shadow on Android due to blur overlay + elevation issue
-            marginTop={sizes.l}
-            marginHorizontal="1%"
-            color="rgba(255,255,255,0.2)">
+      <Block safe>
+        <Block
+          scroll
+          paddingHorizontal={sizes.s}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{paddingBottom: sizes.padding}}>
+          <Block flex={0}>
+            {/* profile: stats */}
             <Block
-              row
-              //   blur
               flex={0}
-              intensity={100}
               radius={sizes.sm}
-              overflow="hidden"
-              //   tint={colors.blurTint}
-              justify="space-evenly"
-              paddingVertical={sizes.sm}
-              renderToHardwareTextureAndroid>
-              <Block align="center">
-                <Text bold primary>
-                  Today
-                </Text>
-                <Text>{formattedDate}</Text>
-              </Block>
-              <Block align="center" paddingTop={10}>
-                {/* <Text h5>{(user?.stats?.followers || 0) / 1000}k</Text> */}
-                <Text bold primary center>
-                  Log history
-                </Text>
-              </Block>
-              <Block align="center"></Block>
-            </Block>
-          </Block>
-          {!showView && (
-            <Block
-              row
-              //   blur
-              marginTop={-sizes.s}
-              flex={0}
-              //   intensity={100}
-              radius={sizes.sm}
-              overflow="hidden"
-              //   tint={colors.blurTint}
-              justify="space-evenly"
-              paddingVertical={sizes.sm}
-              renderToHardwareTextureAndroid>
-              <Block align="center">{/* <Text  >16-12-2023</Text> */}</Block>
-              <Block align="center" paddingTop={10}>
-                {/* <Text h5>{(user?.stats?.followers || 0) / 1000}k</Text> */}
-                {/* <Text bold primary center>Log history</Text> */}
-              </Block>
-              <Block align="center">
-                <Button
-                  color={colors.primary}
-                  padding={10}
-                  width={100}
-                  onPress={() => {
-                    setShowView(true);
-                    setModalVisible(true);
-                  }}>
-                  <Text bold white>
-                    Add
+              shadow={!isAndroid} // disabled shadow on Android due to blur overlay + elevation issue
+              marginTop={sizes.l}
+              marginHorizontal="1%"
+              color="rgba(255,255,255,0.2)">
+              <Block
+                row
+                //   blur
+                flex={0}
+                intensity={100}
+                radius={sizes.sm}
+                overflow="hidden"
+                //   tint={colors.blurTint}
+                justify="space-evenly"
+                paddingVertical={sizes.sm}
+                renderToHardwareTextureAndroid>
+                <Block align="center">
+                  <Text bold primary>
+                    Today
                   </Text>
-                </Button>
+                  <Text>{formattedDate}</Text>
+                </Block>
+                <Block align="center" paddingTop={10}>
+                  {/* <Text h5>{(user?.stats?.followers || 0) / 1000}k</Text> */}
+                  <Text bold primary center>
+                    Log history
+                  </Text>
+                </Block>
+                <Block align="center"></Block>
               </Block>
             </Block>
-          )}
-          <Block flex={1}>
-          {weightTransformationData ? (
-            <>
-              {weightTransformationData.map((item) => (
+            {!showView && (
+              <Block
+                row
+                //   blur
+                marginTop={-sizes.s}
+                flex={0}
+                //   intensity={100}
+                radius={sizes.sm}
+                overflow="hidden"
+                //   tint={colors.blurTint}
+                justify="space-evenly"
+                paddingVertical={sizes.sm}
+                renderToHardwareTextureAndroid>
+                <Block align="center">{/* <Text  >16-12-2023</Text> */}</Block>
+                <Block align="center" paddingTop={10}>
+                  {/* <Text h5>{(user?.stats?.followers || 0) / 1000}k</Text> */}
+                  {/* <Text bold primary center>Log history</Text> */}
+                </Block>
+                <Block align="center">
+                  <Button
+                    color={colors.primary}
+                    padding={10}
+                    width={100}
+                    onPress={() => {
+                      setShowView(true);
+                      setModalVisible(true);
+                      setInputValueKg('');
+                      setInputValueLbs('');
+                    }}>
+                    <Text bold white>
+                      Add
+                    </Text>
+                  </Button>
+                </Block>
+              </Block>
+            )}
+            <Block flex={1}>
+              {weightTransformationData ? (
                 <>
-                    <Block flex={0} marginHorizontal={20} card marginTop={10}>
-                  <Block row center>
-                    <Block
-                      flex={0}
-                      center
-                      width={60}
-                      height={60}
-                      radius={50}
-                      color={'#f0f0f8'}
-                      paddingLeft={18}
-                      marginTop={10}>
-                      <Image
-                        color={'green'}
-                        width={25}
-                        height={25}
-                        source={require('../assets/icons/track.png')}></Image>
-                    </Block>
-                    <Block flex={1} paddingLeft={20} paddingTop={15}>
-                      <Block flex={0} center>
-                        <Text p semibold>
-                          {item.weight} {item.weight_unit}
-                        </Text>
-                        <Text
-                          semibold
-                          secondary
-                          opacity={0.5}
-                          paddingTop={5}
-                          size={12}>
-                          {item.date}
-                        </Text>
-                      </Block>
-                    </Block>
-                    <Block flex={0} center paddingRight={10}>
-                      <TouchableOpacity>
-                        {/* <Image
+                  {weightTransformationData.map((item) => (
+                    <>
+                      <Block flex={0} marginHorizontal={20} card marginTop={10}>
+                        <Block row center>
+                        
+                            {item.weight_unit === 'lbs' ? (
+                                <Block
+                                flex={0}
+                                center
+                                width={60}
+                                height={60}
+                                radius={50}
+                                color={'#f0f0f8'}
+                                paddingLeft={12}
+                                marginTop={0}>
+                              <Image
+                                color={'green'}
+                                width={40}
+                                height={40}
+                                source={require('../assets/icons/lbs1.png')}></Image>
+                              </Block>
+                              ) : (
+                                <Block
+                                flex={0}
+                                center
+                                width={60}
+                                height={60}
+                                radius={50}
+                                color={'#f0f0f8'}
+                                paddingLeft={18}
+                                marginTop={10}>
+                              <Image
+                                color={'green'}
+                                width={25}
+                                height={25}
+                                source={require('../assets/icons/track.png')}></Image>
+                           </Block>
+                            )}
+                        
+                          <Block flex={1} paddingLeft={20} paddingTop={15}>
+                            <Block flex={0} center>
+                              <Text p semibold>
+                                {item.weight} {item.weight_unit}
+                              </Text>
+                              <Text
+                                semibold
+                                secondary
+                                opacity={0.5}
+                                paddingTop={5}
+                                size={12}>
+                                {item.date}
+                              </Text>
+                            </Block>
+                          </Block>
+                          <Block flex={0} center paddingRight={10}>
+                            <TouchableOpacity>
+                              {/* <Image
                           // color={'green'}
                           width={8}
                           height={35}
                           source={require('../assets/icons/dot.png')}></Image> */}
-                      </TouchableOpacity>
-                    </Block>
-                  </Block>
-                </Block>
-           
-                
+                            </TouchableOpacity>
+                          </Block>
+                        </Block>
+                      </Block>
+                    </>
+                  ))}
                 </>
-            
-                
-              ))}
-            </>
-          ) : (
-            <>
-              <Block>
-                <Text>Loading...</Text>
-              </Block>
-            </>
-          )}
-          </Block>
-        
-        </Block>
-      </Block>
-      
-    </Block>
-    <View >
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={modalVisible}
-      onRequestClose={() => {
-       
-        setModalVisible(!modalVisible);
-      }}>
-      <Block
-        card
-        flex={0}
-        style={styles.centeredView}
-        marginTop={200}
-        marginHorizontal={15}>
-        <Block
-          row
-          justify="space-between"
-          marginBottom={sizes.base}
-          marginTop={sizes.sm}
-          marginHorizontal={20}>
-          <Button
-            flex={2}
-            row
-            onPress={() => setModalKg(true)}
-            marginRight={sizes.base}>
-            <Block row align="center" justify="space-between">
-              {/* <Text dark bold transform="uppercase" marginRight={sizes.sm}>
-            {kg} Kg
-          </Text> */}
-              {isKg ? (
-                <Input
-                  placeholder={'Kg'}
-                  keyboardType="numeric"
-                  maxLength={6}
-                  value={inputValueKg}
-                  style={{
-                    height: 50,
-                    width: 125,
-                    flex: 1,
-                    borderRadius: 10,
-                    backgroundColor: 'white',
-                    borderWidth: 0,
-                  }}
-                  onChangeText={handleInputChangeKg}
-                />
               ) : (
-                <Input
-                  placeholder={'Lbs'}
-                  keyboardType="numeric"
-                  maxLength={6}
-                  value={inputValueLbs}
-                  style={{
-                    height: 50,
-                    width: 125,
-                    flex: 1,
-                    borderRadius: 10,
-                    backgroundColor: 'white',
-                    borderWidth: 0,
-                  }}
-                  onChangeText={handleInputChangeLbs}
-                />
+                <>
+                  <Block>
+                    <Text>Loading...</Text>
+                  </Block>
+                </>
               )}
             </Block>
-          </Button>
-          <Block
-            flex={2}
-            style={{
-              alignItems: 'center',
-              shadowRadius: 8,
-              shadowOpacity: 0.3,
-              shadowColor: '#757575',
-              shadowOffset: {
-                width: 0,
-                height: 3,
-              },
-            }}>
-            <DuoToggleSwitch
-              primaryText="Kg"
-              secondaryText="Lbs"
-              onPrimaryPress={handlePrimaryPress}
-              onSecondaryPress={handleSecondaryPress}
-              TouchableComponent={Ripple}
-              primaryButtonStyle={{width: 125, height: 50}}
-              secondaryButtonStyle={{width: 90, height: 50}}
-              primaryTextStyle={{marginRight: 32}}
-              rippleColor="#fff"
-              rippleContainerBorderRadius={50}
-              activeColor="#5f9b4c"
-            />
           </Block>
         </Block>
-
-        <Block flex={0} marginTop={80} row>
-          <Pressable
-           disabled={!inputValueLbs && !inputValueKg}
-            style={[styles.button1, styles.buttonClose1, (!inputValueLbs && !inputValueKg) && styles.disabledButton]}
-            onPress={() => {
-              checkPage();
-              setModalVisible(!modalVisible);
-              setShowView(false);
-            }}>
-            <Text style={styles.textStyle} white bold >
-              Update
-            </Text>
-          </Pressable>
-          <Pressable
-            style={[styles.button, styles.buttonClose]}
-            onPress={() => {
-              setModalVisible(!modalVisible);
-              setShowView(false);
-            }}>
-            <Text style={styles.textStyle} bold>
-              Hide{' '}
-            </Text>
-          </Pressable>
-        </Block>
       </Block>
-    </Modal>
-    {/* <Pressable
+      <View>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}>
+          <Block
+            card
+            flex={0}
+            style={styles.centeredView}
+            marginTop={200}
+            marginHorizontal={15}>
+            <Block
+              row
+              justify="space-between"
+              marginBottom={sizes.base}
+              marginTop={sizes.sm}
+              marginHorizontal={20}>
+              <Button
+                flex={2}
+                row
+                onPress={() => setModalKg(true)}
+                marginRight={sizes.base}>
+                <Block row align="center" justify="space-between">
+                  {/* <Text dark bold transform="uppercase" marginRight={sizes.sm}>
+            {kg} Kg
+          </Text> */}
+                  {isKg ? (
+                    <Input
+                      placeholder={'Kg'}
+                      keyboardType="numeric"
+                      maxLength={6}
+                      value={inputValueKg}
+                      style={{
+                        height: 50,
+                        width: 125,
+                        flex: 1,
+                        borderRadius: 10,
+                        backgroundColor: 'white',
+                        borderWidth: 0,
+                      }}
+                      onChangeText={handleInputChangeKg}
+                    />
+                  ) : (
+                    <Input
+                      placeholder={'Lbs'}
+                      keyboardType="numeric"
+                      maxLength={6}
+                      value={inputValueLbs}
+                      style={{
+                        height: 50,
+                        width: 125,
+                        flex: 1,
+                        borderRadius: 10,
+                        backgroundColor: 'white',
+                        borderWidth: 0,
+                      }}
+                      onChangeText={handleInputChangeLbs}
+                    />
+                  )}
+                </Block>
+              </Button>
+              <Block
+                flex={2}
+                style={{
+                  alignItems: 'center',
+                  shadowRadius: 8,
+                  shadowOpacity: 0.3,
+                  shadowColor: '#757575',
+                  shadowOffset: {
+                    width: 0,
+                    height: 3,
+                  },
+                }}>
+                <DuoToggleSwitch
+                  primaryText="Kg"
+                  secondaryText="Lbs"
+                  onPrimaryPress={handlePrimaryPress}
+                  onSecondaryPress={handleSecondaryPress}
+                  TouchableComponent={Ripple}
+                  primaryButtonStyle={{width: 125, height: 50}}
+                  secondaryButtonStyle={{width: 90, height: 50}}
+                  primaryTextStyle={{marginRight: 32}}
+                  rippleColor="#fff"
+                  rippleContainerBorderRadius={50}
+                  activeColor="#5f9b4c"
+                />
+              </Block>
+            </Block>
+
+            <Block flex={0} marginTop={80} row>
+              <Pressable
+                disabled={!inputValueLbs && !inputValueKg}
+                style={[
+                  styles.button1,
+                  styles.buttonClose1,
+                  !inputValueLbs && !inputValueKg && styles.disabledButton,
+                ]}
+                onPress={() => {
+                  checkPage();
+                  setModalVisible(!modalVisible);
+                  setShowView(false);
+                }}>
+                <Text style={styles.textStyle} white bold>
+                  Update
+                </Text>
+              </Pressable>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => {
+                  setModalVisible(!modalVisible);
+                  setShowView(false);
+                }}>
+                <Text style={styles.textStyle} bold>
+                  Hide{' '}
+                </Text>
+              </Pressable>
+            </Block>
+          </Block>
+        </Modal>
+        {/* <Pressable
       style={[styles.button, styles.buttonOpen]}
       onPress={() => setModalVisible(true)}>
       <Text style={styles.textStyle}>Show Modal</Text>
     </Pressable> */}
-  </View>
-  </>
+      </View>
+    </>
   );
 };
 const styles = StyleSheet.create({
@@ -580,9 +597,9 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     textAlign: 'center',
   },
-  
+
   disabledButton: {
     backgroundColor: 'gray', // Change to whatever color you want for the disabled state
-  }
+  },
 });
 export default TrackProgress;

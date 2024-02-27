@@ -172,7 +172,7 @@ const DrawerContent = (
       to: 'Demo',
       icon: assets.rental,
     },
-    {name: 'Water Tracker', to: 'NotFoundPage', icon: assets.kcal},
+    // {name: 'Water Tracker', to: 'NotFoundPage', icon: assets.kcal},
     {name: 'Track Progress', to: 'NotFoundPage2', icon: assets.office},
     {name: 'Share App', to: 'NotFoundPage3', icon: assets.profile},
   ];

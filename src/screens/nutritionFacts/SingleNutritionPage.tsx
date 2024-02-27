@@ -20,20 +20,22 @@ import {MealContext} from '../../hooks/useMeal';
 import {FOOD_IMAGE, BASE_URL} from '@env';
 import SelectDropdown from 'react-native-select-dropdown';
 import {ActivityIndicator} from 'react-native';
-import { useFavorites } from '../../hooks/FavoritesContext';
+import {useFavorites} from '../../hooks/FavoritesContext';
 
 const isAndroid = Platform.OS === 'android';
 
 const SingleNutritionPage = ({route, navigation}) => {
-  const { addToFavorites } = useFavorites();
+  const {addToFavorites, favorites} = useFavorites();
+  console.log(favorites, 'fav--');
 
   const handleAddToFavorites = (item) => {
-    console.log(item , "favoriteFood");
+    console.log(item, 'favoriteFood');
     const id_of_food = item.id;
     addToFavorites(id_of_food);
   };
-  const {responseData,  food} = route.params;
+  const {responseData, food} = route.params;
   console.log(responseData, 'response');
+  console.log(food, 'response2');
 
   const [initialGram, setInitialGram] = useState(null);
   const [selectedWeight, setSelectedWeight] = useState(initialGram);
@@ -196,6 +198,19 @@ const SingleNutritionPage = ({route, navigation}) => {
       .catch((error) => {
         console.error(error);
       });
+    const checkIfFavorite = () => {
+      // Assuming favorites is your array of favorite foods
+
+      // Check if the food_id of the current food matches any of the food_id values in favorites
+      const isFavoriteFood = favorites.some(
+        (favorite) => favorite.food_id === food.food_id,
+      );
+
+      // Update the state based on the result
+      setIsFavorite(isFavoriteFood);
+    };
+
+    checkIfFavorite();
   }, []);
   // console.log(servingDesc , "serving desc");
 
@@ -332,11 +347,6 @@ const SingleNutritionPage = ({route, navigation}) => {
   // for update diet list in db
   // const id = formDataCopy.customer_id;
 
-
-
-
-
-
   return (
     <Block safe>
       <Block
@@ -400,34 +410,35 @@ const SingleNutritionPage = ({route, navigation}) => {
                           </Text>
                         </Block>
 
-                        <TouchableOpacity onPress={()=>{toggleFavorite();
-                        handleAddToFavorites(responseData);
-                        }}>
+                        <TouchableOpacity
+                          onPress={() => {
+                            toggleFavorite();
+                            handleAddToFavorites(responseData);
+                          }}>
                           <Icon
-                              name={isFavorite ? 'heart' : 'heart-o'}
+                            name={isFavorite ? 'heart' : 'heart-o'}
                             size={30}
-                            color="green"
+                            color="#6cbb3c"
                           />
                         </TouchableOpacity>
                       </Block>
 
                       <TouchableOpacity>
-                     
                         <Block row marginTop={10}>
                           <Block row paddingBottom={10} paddingLeft={10}>
-                          {isEditing ? (
+                            {isEditing ? (
                               <>
-                              <Block center flex={0}>
-                              <Text
-                                  p
-                                  semibold
-                                  center
-                                  marginRight={sizes.s}
-                                  color={colors.secondary}>
-                                  Selected Gram :
-                                </Text>
-                              </Block>
-                               
+                                <Block center flex={0}>
+                                  <Text
+                                    p
+                                    semibold
+                                    center
+                                    marginRight={sizes.s}
+                                    color={colors.secondary}>
+                                    Selected Gram :
+                                  </Text>
+                                </Block>
+
                                 <TextInput
                                   style={styles.inputContainer}
                                   autoCapitalize="none"
@@ -451,12 +462,12 @@ const SingleNutritionPage = ({route, navigation}) => {
                             )}
                             {/* <Image source={assets.arrow} color={colors.link} /> */}
                           </Block>
-                          {isEditing?(
-                             <TouchableWithoutFeedback
-                             // key={item.details.id}
-                             onPress={handleEditButtonClick}>
-                             <Block flex={0} center>
-                               {/* <Image
+                          {isEditing ? (
+                            <TouchableWithoutFeedback
+                              // key={item.details.id}
+                              onPress={handleEditButtonClick}>
+                              <Block flex={0} center>
+                                {/* <Image
                                  marginLeft={5}
                                  // marginRight={10}
                                  marginTop={1}
@@ -465,26 +476,25 @@ const SingleNutritionPage = ({route, navigation}) => {
                                  style={
                                    (styles.data, {width: 30, height: 30})
                                  }></Image> */}
-                             </Block>
-                           </TouchableWithoutFeedback>
-                          ):(
+                              </Block>
+                            </TouchableWithoutFeedback>
+                          ) : (
                             <TouchableWithoutFeedback
-                            // key={item.details.id}
-                            onPress={handleEditButtonClick}>
-                            <Block flex={0} center>
-                              <Image
-                                marginLeft={5}
-                                // marginRight={10}
-                                marginTop={1}
-                                source={require('../../assets/icons/edit1.png')}
-                                color={'green'}
-                                style={
-                                  (styles.data, {width: 30, height: 30})
-                                }></Image>
-                            </Block>
-                          </TouchableWithoutFeedback>
+                              // key={item.details.id}
+                              onPress={handleEditButtonClick}>
+                              <Block flex={0} center>
+                                <Image
+                                  marginLeft={5}
+                                  // marginRight={10}
+                                  marginTop={1}
+                                  source={require('../../assets/icons/edit1.png')}
+                                  color={'#6cbb3c'}
+                                  style={
+                                    (styles.data, {width: 30, height: 30})
+                                  }></Image>
+                              </Block>
+                            </TouchableWithoutFeedback>
                           )}
-                         
                         </Block>
                       </TouchableOpacity>
                     </Block>
@@ -790,7 +800,7 @@ const SingleNutritionPage = ({route, navigation}) => {
                             {totalTransFat}
                           </Text>
                         </Block>
-                      
+
                         <Block style={styles.row} flex={0} card margin={1}>
                           <Text style={styles.data} center semibold>
                             Vitamin A :
@@ -799,7 +809,7 @@ const SingleNutritionPage = ({route, navigation}) => {
                             {totalVitaminAIU}
                           </Text>
                         </Block>
-                       
+
                         <Block style={styles.row} flex={0} card margin={1}>
                           <Text style={styles.data} center semibold>
                             Vitamin C :
@@ -878,6 +888,32 @@ const SingleNutritionPage = ({route, navigation}) => {
                 </Block>
               )}
             </Block>
+
+            <Button
+              onPress={() => {
+                toggleFavorite();
+                handleAddToFavorites(responseData);
+              }}
+              row
+              // outlined
+              color={'lightgreen'}
+              gray
+              shadow={!isAndroid}
+              padding={20}
+              // onPress={handleLogout}
+              style={{
+                justifyContent: 'center',
+                alignSelf: 'center',
+              }}>
+              <Icon
+                name={isFavorite ? 'heart' : 'heart-o'}
+                size={30}
+                color="#6cbb3c"
+              />
+              <Text paddingLeft={10} bold primary>
+                {isFavorite ? 'Remove from favorite' : 'Add to favorite'}
+              </Text>
+            </Button>
           </Block>
         </Block>
       </Block>
@@ -909,7 +945,7 @@ const styles = StyleSheet.create({
     // marginBottom: 10,
     padding: 10,
     backgroundColor: 'white',
-  color:'gray'
+    color: 'gray',
     // minHeight:30
   },
   buttonText: {
