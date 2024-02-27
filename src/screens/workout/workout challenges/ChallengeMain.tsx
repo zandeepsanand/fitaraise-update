@@ -481,20 +481,18 @@ const ChallengeMain = ({navigation, route}) => {
       console.log(currentDayNumber, 'day number pleae');
       console.log(completed_date, 'day  pleae');
       console.log('============================');
-     
-   if(currentDayNumber === 0){
-        console.log("halo");
-        
+
+      if (currentDayNumber === 0) {
+        console.log('halo');
+
         const workoutResponse = await api.get(
-          `get_workout_challenge_excercise/${monthId}/${
-            currentDayNumber+1 
-          }`,
+          `get_workout_challenge_excercise/${monthId}/${currentDayNumber + 1}`,
         );
         const responseData = workoutResponse.data.data;
-        console.log(responseData, `day ${currentDayNumber+1 }`);
-      
+        console.log(responseData, `day ${currentDayNumber + 1}`);
+
         setTodayWorkout(responseData);
-      
+
         navigation.navigate('ChallengeDayAll', {
           responseData,
           completedWorkouts,
@@ -502,27 +500,22 @@ const ChallengeMain = ({navigation, route}) => {
           dayWithId: daysData,
           challenge,
         });
-      
-      }
-      else if (
+      } else if (
         daysData[currentDayNumber - 1].recent_workout_done_date ===
         completed_date
       ) {
         // Display an alert to inform the user that they've already completed today's workout
         alert("You have already completed today's workout...");
         return;
-      }
-     else{
+      } else {
         const workoutResponse = await api.get(
-          `get_workout_challenge_excercise/${monthId}/${
-            currentDayNumber 
-          }`,
+          `get_workout_challenge_excercise/${monthId}/${currentDayNumber}`,
         );
         const responseData = workoutResponse.data.data;
-        console.log(responseData, `day ${currentDayNumber }`);
-  
+        console.log(responseData, `day ${currentDayNumber}`);
+
         setTodayWorkout(responseData);
-  
+
         navigation.navigate('ChallengeDayAll', {
           responseData,
           completedWorkouts,
@@ -533,7 +526,6 @@ const ChallengeMain = ({navigation, route}) => {
       }
 
       // Fetch the workout data for the determined current day
-    
     } catch (err) {
       setError(err.message);
     }
@@ -770,6 +762,15 @@ const ChallengeMain = ({navigation, route}) => {
 
     weeks.push(
       <Block key={week} card margin={10}>
+        <Block flex={0} align="flex-start" padding={30} position="absolute">
+        {startButtonText === 'Completed' && (
+  <Image
+    source={require('../../../assets/icons/check1.png')}
+    style={{height: 30, width: 30}}
+    radius={0}
+  />
+)}
+        </Block>
         <Text center bold paddingTop={20} h5>
           Week {week + 1}
         </Text>
@@ -805,17 +806,34 @@ const ChallengeMain = ({navigation, route}) => {
           <ThemedButton
             size="large"
             name="bruce"
-            backgroundColor="#92A3FD"
-            backgroundDarker="lightgray"
-            backgroundProgress="white"
-            borderColor="#92A3FD"
+            backgroundColor={
+              startButtonText === 'Start'
+                ? '#92A3FD' // Background color when startButtonText is 'Start'
+                : startButtonText === 'Lock'
+                ? '#CCCCCC' // Background color when startButtonText is 'Lock'
+                : startButtonText === 'Completed'
+                ? '#66FF99' // Background color when startButtonText is 'Completed'
+                : '#92A3FD' // Default background color
+            }
+            backgroundDarker="white"
+            backgroundProgress="#19F196F0"
+            borderColor={
+              startButtonText === 'Start'
+                ? '#92A3FD' // Background color when startButtonText is 'Start'
+                : startButtonText === 'Lock'
+                ? '#CCCCCC' // Background color when startButtonText is 'Lock'
+                : startButtonText === 'Completed'
+                ? '#66FF99' // Background color when startButtonText is 'Completed'
+                : '#92A3FD' // Default background color
+            }
             style={styles.button}
+            transparent
             disabled={
               startButtonText === 'Lock' || startButtonText === 'Completed'
             }
-            onPress={() => clickStart()}
-            // progress
-            // onPress={handleProgress}
+            // onPress={() => clickStart()}
+            progress
+            onPress={handleProgress}
             // onProgressEnd={handleProgress}
           >
             {startButtonText}
