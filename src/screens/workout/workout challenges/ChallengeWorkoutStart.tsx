@@ -407,7 +407,7 @@ const GymWorkoutStart = () => {
     <Block safe marginTop={sizes.md}>
       <Block
         scroll
-        // paddingHorizontal={sizes.s}
+        paddingHorizontal={sizes.s}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{paddingBottom: sizes.padding}}>
         <Block flex={0}>
@@ -564,8 +564,8 @@ const GymWorkoutStart = () => {
                   onPress={goToPreviousWorkout}>
                   <Image
                     radius={0}
-                    width={30}
-                    height={30}
+                    width={35}
+                    height={35}
                     // color={colors.primary}
                     source={require('../../../assets/icons/nextpng.png')}
                     transform={[{rotate: '180deg'}]}
@@ -576,8 +576,8 @@ const GymWorkoutStart = () => {
                   disabled={currentWorkoutIndex === exerciseData.length - 1}>
                   <Image
                     radius={0}
-                    width={30}
-                    height={30}
+                    width={35}
+                    height={35}
                     // color={colors.primary}
                     source={require('../../../assets/icons/nextpng.png')}
                     transform={[{rotate: '0deg'}]}

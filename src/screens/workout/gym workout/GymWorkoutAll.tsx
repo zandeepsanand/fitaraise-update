@@ -14,19 +14,17 @@ import {useFocusEffect} from '@react-navigation/native';
 
 import {Block, Button, Image, Text} from '../../../components';
 import {useData, useTheme, useTranslation} from '../../../hooks';
-import { View } from 'react-native';
+import {View} from 'react-native';
 import api from '../../../../api';
-import { usegymData } from '../../../hooks/GymData';
+import {usegymData} from '../../../hooks/GymData';
+import FastImage from 'react-native-fast-image';
 
 const isAndroid = Platform.OS === 'android';
 
-
-
-
-
 const GymWorkoutAll = ({route}) => {
   const {workout, completedWorkouts = []} = route.params;
-  const { exerciseData, setGymData,exerciseDataAll, setGymDataAll } = usegymData();
+  const {exerciseData, setGymData, exerciseDataAll, setGymDataAll} =
+    usegymData();
   const [isLoading, setIsLoading] = useState(false);
   // const [exerciseData, setExerciseData] = useState([]);
 
@@ -67,21 +65,21 @@ const GymWorkoutAll = ({route}) => {
     },
     [user],
   );
-   useEffect(() => {
+  useEffect(() => {
     fetchData(); // Initial fetch when the component mounts
-  
+
     // Cleanup function
     return () => {
       // Additional cleanup if needed
     };
   }, []);
-  
+
   useFocusEffect(
     useCallback(() => {
       fetchData(); // Fetch data when the component comes into focus
-    }, [workout.id])
+    }, [workout.id]),
   );
-  
+
   const fetchData = () => {
     api
       .get(`get_gym_workout_excercises/${workout.id}`)
@@ -92,7 +90,7 @@ const GymWorkoutAll = ({route}) => {
       .catch((error) => {
         console.error('Error fetching exercise data:', error);
       });
-  
+
     api
       .get(`get_gym_workout_excercises_recommended/${workout.id}`)
       .then((response) => {
@@ -123,28 +121,29 @@ const GymWorkoutAll = ({route}) => {
     },
     [setTab],
   );
- 
 
   return (
     <Block safe marginTop={sizes.md} marginBottom={10}>
       <Block
         scroll
-        // paddingHorizontal={sizes.s}
+        paddingHorizontal={sizes.s}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{paddingBottom: sizes.padding}}>
-        <Block flex={0} paddingBottom={60}>
-          <Image
-            style={{height: 250}}
-            background
-            resizeMode="cover"
-            padding={sizes.sm}
-            paddingBottom={sizes.l}
-            radius={30}
-            // source={require('../../../assets/images/homeworkout.png')}
-
+        <Block flex={0} paddingBottom={60} center>
+          <FastImage
+            style={{
+              width: 390,
+              height: 250,
+              borderRadius: 30,
+              paddingBottom: sizes.l,
+              padding: sizes.sm,
+            }}
             source={{
-              uri: `${workout.image}`,
-            }}>
+              uri: workout.image,
+
+              priority: FastImage.priority.normal,
+            }}
+            resizeMode={FastImage.resizeMode.cover}>
             <Button
               row
               flex={0}
@@ -178,15 +177,15 @@ const GymWorkoutAll = ({route}) => {
               </Text>
               {tab ? (
                 <>
-                   <View style={{flexDirection:'row'}}>
-                  {/* <Text p center white>
+                  <View style={{flexDirection: 'row'}}>
+                    {/* <Text p center white>
                     {workout.total_minutes} Minutes , 
                   </Text> */}
-                  <Text white>{exerciseAll.length} Workouts</Text>
-                </View>
+                    <Text white>{exerciseAll.length} Workouts</Text>
+                  </View>
                 </>
               ) : (
-                <View style={{flexDirection:'row'}}>
+                <View style={{flexDirection: 'row'}}>
                   {/* <Text p center white>
                     {workout.total_minutes} Minutes , 
                   </Text> */}
@@ -240,7 +239,7 @@ const GymWorkoutAll = ({route}) => {
                 </Button>
               </Block> */}
             </Block>
-          </Image>
+          </FastImage>
 
           {/* profile: stats */}
           <Block
@@ -280,7 +279,7 @@ const GymWorkoutAll = ({route}) => {
               color={colors.card}
               padding={sizes.sm}>
               <Button onPress={() => handleProducts(0)}>
-                <Block row align="center" >
+                <Block row align="center">
                   {/* <Block 
                     flex={0}
                     radius={6}
@@ -297,21 +296,24 @@ const GymWorkoutAll = ({route}) => {
                       style={{width: 15, height: 15}}
                     />
                   </Block> */}
-                  <Text p font={fonts?.[tab === 0 ? 'medium' : 'normal']} >
+                  <Text p font={fonts?.[tab === 0 ? 'medium' : 'normal']}>
                     Recommended
                   </Text>
                 </Block>
-                {tab === 0 ?( <Block
-                primary
-                flex={0}
-                width={2}
-                padding={0}
-                margin={-40}
-                marginHorizontal={sizes.sm}
-                height={90}
-                style={{transform: [{ rotate: '90deg' }]}}
-              />):(<></>)}
-               
+                {tab === 0 ? (
+                  <Block
+                    primary
+                    flex={0}
+                    width={2}
+                    padding={0}
+                    margin={-40}
+                    marginHorizontal={sizes.sm}
+                    height={90}
+                    style={{transform: [{rotate: '90deg'}]}}
+                  />
+                ) : (
+                  <></>
+                )}
               </Button>
               <Block
                 gray
@@ -341,16 +343,20 @@ const GymWorkoutAll = ({route}) => {
                     All
                   </Text>
                 </Block>
-                {tab === 1 ?( <Block
-                primary
-                flex={0}
-                width={2}
-                padding={0}
-                margin={-20}
-                marginHorizontal={sizes.sm}
-                height={45}
-                style={{transform: [{ rotate: '90deg' }]}}
-              />):(<></>)}
+                {tab === 1 ? (
+                  <Block
+                    primary
+                    flex={0}
+                    width={2}
+                    padding={0}
+                    margin={-20}
+                    marginHorizontal={sizes.sm}
+                    height={45}
+                    style={{transform: [{rotate: '90deg'}]}}
+                  />
+                ) : (
+                  <></>
+                )}
               </Button>
             </Block>
           </Block>
@@ -370,7 +376,10 @@ const GymWorkoutAll = ({route}) => {
                 <TouchableWithoutFeedback
                   key={exercise.id}
                   onPress={() => {
-                    console.log('Navigating with exercise:', exercise.completed_today);
+                    console.log(
+                      'Navigating with exercise:',
+                      exercise.completed_today,
+                    );
                     navigation.navigate('GymWorkoutSingleforAll', {
                       exerciseDataSingle: exercise,
                       exerciseData: exerciseAll,
@@ -394,15 +403,14 @@ const GymWorkoutAll = ({route}) => {
                       borderRadius: 15,
                       padding: 10,
                     }}
-                    color={exercise.completed_today ? '#92A3FD' : 'white'}
-                    >
-                    <Image
-                      width={75}
-                      height={75}
-                      radius={10}
+                    color={exercise.completed_today ? '#92A3FD' : 'white'}>
+                <FastImage
+                      style={{width: 75, height: 75, borderRadius: 20}}
                       source={{
-                        uri: `${exercise.image}`,
-                      }}></Image>
+                        uri: exercise.image,
+                        priority: FastImage.priority.normal,
+                      }}
+                      resizeMode={FastImage.resizeMode.center}></FastImage>
 
                     <Block center>
                       <Block>
@@ -468,19 +476,15 @@ const GymWorkoutAll = ({route}) => {
                       borderRadius: 15,
                       padding: 10,
                     }}
-                    color={exercise.completed_today ? '#92A3FD' : 'white'}
-                    >
-                    <Image
-                      width={75}
-                      height={75}
-                   
-                      // source={require('../../../assets/images/gif.gif')}
+                    color={exercise.completed_today ? '#92A3FD' : 'white'}>
+                 
+                    <FastImage
+                      style={{width: 75, height: 75, borderRadius: 20}}
                       source={{
-                        uri: `${exercise.image}`,
+                        uri: exercise.image,
+                        priority: FastImage.priority.normal,
                       }}
-                      style={{ borderRadius: 20,
-                        }}
-                      ></Image>
+                      resizeMode={FastImage.resizeMode.center}></FastImage>
 
                     <Block center>
                       <Block>
@@ -530,7 +534,7 @@ const GymWorkoutAll = ({route}) => {
               exerciseData: exerciseData,
               completedWorkouts: completedWorkouts,
               index: workout.id, // Include the 'index' value here
-              workout
+              workout,
             });
           }}>
           <Block style={styles.stickyButton} center justify="center">

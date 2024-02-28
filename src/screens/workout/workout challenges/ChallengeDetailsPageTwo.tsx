@@ -15,7 +15,7 @@ const ChallengeDetailsPageTwo = ({workout}) => {
       <Block card paddingHorizontal={sizes.sm} marginHorizontal={10} row>
         <Block row>
           <Block center>
-            <Text h5 bold center>
+            <Text  bold center primary size={15}>
               Focus Area
             </Text>
           </Block>
@@ -46,7 +46,7 @@ const ChallengeDetailsPageTwo = ({workout}) => {
         paddingTop={30}
         paddingBottom={30}>
         <Block style={{borderBottomColor: '#2FD872', borderBottomWidth: 2}}>
-          <Text center h5 primary bold paddingBottom={10}>
+          <Text center size={15} primary bold paddingBottom={10}>
             EXECUTION
           </Text>
         </Block>
@@ -71,7 +71,7 @@ const ChallengeDetailsPageTwo = ({workout}) => {
         paddingTop={30}
         paddingBottom={30}>
         <Block style={{borderBottomColor: '#95ADFE', borderBottomWidth: 2}}>
-          <Text center h5 primary bold paddingBottom={10}>
+          <Text center size={15} primary bold paddingBottom={10}>
             KEY TIPS
           </Text>
         </Block>

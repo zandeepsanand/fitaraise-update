@@ -4,7 +4,7 @@ import {useData, useTheme, useTranslation} from '../../../hooks';
 import {Block, Button, Image, Input, Product, Text} from '../../../components';
 import {StatusBar as ExpoStatusBar} from 'expo-status-bar';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
-
+import FastImage from 'react-native-fast-image';
 import Animated from 'react-native-reanimated';
 
 import SelectDropdown from 'react-native-select-dropdown';
@@ -362,7 +362,7 @@ const GymWorkoutMain = ({navigation, route}) => {
               screen: 'ChallengeMain',
               params: {challenge: currentlyActiveChallenge},
             });
-          } else  {
+          } else {
             console.log('workout page');
             // Navigate to 'Gender' screen with workoutData
             navigation.navigate('ChallengeMonth', {
@@ -381,7 +381,7 @@ const GymWorkoutMain = ({navigation, route}) => {
         // Navigate to 'Gender' screen with workoutData
         navigation.navigate('ChallengeGenderPage', {
           workoutData: user,
-        }); 
+        });
       }
     } catch (error) {
       console.error('Authentication Status Error:', error);
@@ -558,11 +558,20 @@ const GymWorkoutMain = ({navigation, route}) => {
                           .toUpperCase() +
                           formDataCopy.gym_workout_level.slice(1)}
                       </Text>
-                      <Animated.Image
+                      {/* <Animated.Image
                         style={styles.coverImage}
                         source={{uri: `${workout.image}`}}
-                        // style={{ width: 300, height: 300 }}
-                        sharedTransitionTag="tag"></Animated.Image>
+                     
+                        sharedTransitionTag="tag"></Animated.Image> */}
+                      <FastImage
+                        style={styles.coverImage}
+                        source={{
+                          uri: workout.image,
+
+                          priority: FastImage.priority.normal,
+                        }}
+                        resizeMode={FastImage.resizeMode.cover}
+                      />
 
                       {/* <ImageBackground
                     style={styles.coverImage}
@@ -684,10 +693,13 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   coverImage: {
+    alignContent:'center',
+    alignSelf:'stretch',
+    // aspectRatio:3,
     flex: 1,
-    resizeMode: 'cover',
+
     width: '100%',
-    height: 200,
+    height: '150%',
     position: 'absolute',
   },
   darkness: {

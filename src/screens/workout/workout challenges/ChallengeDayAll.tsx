@@ -14,15 +14,22 @@ import {BASE_URL} from '@env';
 import {Block, Button, Image, Text} from '../../../components';
 import {useData, useTheme, useTranslation} from '../../../hooks';
 import api from '../../../../api';
-import { useFocusEffect } from '@react-navigation/native'; 
-import { useChallengeData } from '../../../hooks/ChallengeData';
+import {useFocusEffect} from '@react-navigation/native';
+import {useChallengeData} from '../../../hooks/ChallengeData';
+import FastImage from 'react-native-fast-image';
 
 const isAndroid = Platform.OS === 'android';
 
 const ChallengeDayAll = ({route}) => {
-  const {responseData, completedWorkouts = [],currentDayNumber,challenge,dayWithId} = route.params;
+  const {
+    responseData,
+    completedWorkouts = [],
+    currentDayNumber,
+    challenge,
+    dayWithId,
+  } = route.params;
   // const [exerciseData, setExerciseData] = useState([]);
-  const { exerciseData, setExerciseData } = useChallengeData();
+  const {exerciseData, setExerciseData} = useChallengeData();
   // const [completedWorkouts, setCompletedWorkouts] = React.useState(/* initial completedWorkouts state */);
   const [challengeDayData, setChallengeDayData] = React.useState([]);
   const clickStart = async () => {
@@ -32,7 +39,9 @@ const ChallengeDayAll = ({route}) => {
       }
 
       // Fetch the days data
-      const daysResponse = await api.get(`get_workout_challenge_days/${challenge.id}`);
+      const daysResponse = await api.get(
+        `get_workout_challenge_days/${challenge.id}`,
+      );
       const daysData = daysResponse.data.data;
 
       if (daysData.length === 0) {
@@ -56,11 +65,13 @@ const ChallengeDayAll = ({route}) => {
       }
 
       // Fetch the workout data for the determined current day
-      const workoutResponse = await api.get(`get_workout_challenge_excercise/${challenge.id}/${currentDayNumber}`);
+      const workoutResponse = await api.get(
+        `get_workout_challenge_excercise/${challenge.id}/${currentDayNumber}`,
+      );
       const responseData = workoutResponse.data.data;
 
       setChallengeDayData(responseData);
-      setExerciseData(responseData)
+      setExerciseData(responseData);
 
       // navigation.navigate('ChallengeDayAll', {
       //   responseData,
@@ -83,7 +94,7 @@ const ChallengeDayAll = ({route}) => {
   useFocusEffect(
     React.useCallback(() => {
       clickStart();
-    }, [navigation]) // Dependency array includes navigation
+    }, [navigation]), // Dependency array includes navigation
   );
   // console.log(responseData, 'workouts all');
 
@@ -163,70 +174,55 @@ const ChallengeDayAll = ({route}) => {
     <Block safe marginTop={sizes.md} marginBottom={10}>
       <Block
         scroll
-        // paddingHorizontal={sizes.s}
+        paddingHorizontal={sizes.s}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{paddingBottom: sizes.padding}}>
-        <Block flex={0} paddingBottom={60}>
-          <Image
-            style={{height: 150}}
-            background
-            resizeMode="cover"
-            padding={sizes.sm}
-            paddingBottom={sizes.l}
-            radius={30}
-          
-
-        
-            >
-            <Button
-              row
-              flex={0}
-              justify="flex-start"
-              onPress={() => navigation.goBack()}>
-              <Image
-                radius={0}
-                width={10}
-                height={18}
-                color={colors.white}
-                source={assets.arrow}
-                transform={[{rotate: '180deg'}]}
-              />
-              {/* <Text p white marginLeft={sizes.s}>
+        <Block flex={0}>
+          <Button
+            padding={10}
+            row
+            flex={0}
+            justify="flex-start"
+            onPress={() => navigation.goBack()}>
+            <Image
+              radius={0}
+              width={10}
+              height={18}
+              color={colors.primary}
+              source={assets.arrow}
+              transform={[{rotate: '180deg'}]}
+            />
+            {/* <Text p white marginLeft={sizes.s}>
                 {t('profile.title')}
               </Text> */}
-            </Button>
-      
-            <Block
-              flex={0}
-              align="center"
-              style={{
-                backgroundColor: 'rgba(0, 0, 0, 0.5)', // Transparent black color (adjust the alpha value as needed)
-                borderRadius: 50, // Set the border radius to your desired value
-                padding: 20, // Optional padding for text inside the view
-                width: 250,
-                alignContent: 'center',
-                alignSelf: 'center',
-              }}>
-              <Text h5 center white bold>
-                {/* {workout.name} */} Body Part Name
-              </Text>
-              {tab ? (
-                <>
-                  <Text white>Minutes</Text>
-                </>
-              ) : (
-                <Text p center white>
-                  {/* {workout.total_minutes}  */}
-                  {responseData.length} Workouts
-                </Text>
-              )}
-            </Block>
-          </Image>
+          </Button>
         </Block>
-        <Block card>
-          <Text paddingLeft={20} bold>
-            Day {currentDayNumber}
-          </Text>
+        <Block>
+          <Block
+            flex={0}
+            align="center"
+            style={{
+              backgroundColor: 'rgba(0, 0, 0, 0.5)', // Transparent black color (adjust the alpha value as needed)
+              borderRadius: 50, // Set the border radius to your desired value
+              padding: 20, // Optional padding for text inside the view
+              width: 250,
+              alignContent: 'center',
+              alignSelf: 'center',
+            }}>
+            <Text bold center white>
+              Day {currentDayNumber}
+            </Text>
+            {/* <FastImage
+        style={{ width: 200, height: 200 }}
+        source={{
+            uri: 'https://unsplash.it/400/400?image=1',
+            headers: { Authorization: 'someAuthToken' },
+            priority: FastImage.priority.normal,
+        }}
+        resizeMode={FastImage.resizeMode.contain}
+    /> */}
+          </Block>
+
           <Text center bold marginBottom={10}>
             {/* EXCERCISE 1 - Legs */}
           </Text>
@@ -252,20 +248,28 @@ const ChallengeDayAll = ({route}) => {
                   shadowRadius: 5,
                   elevation: 5,
                 }}
-                color={day.customer_completed ? '#92A3FD' : 'white'}
-                >
-                <Image
+                color={day.customer_completed ? '#92A3FD' : 'white'}>
+                {/* <Image
                   width={75}
                   height={75}
                   radius={10}
                   source={{
                     uri: day.excercise_image,
                   }}
-                />
+                /> */}
+                 <FastImage
+        style={{ width: 75, height: 75 }}
+        source={{
+            uri: day.excercise_image,
+            // headers: { Authorization: 'someAuthToken' },
+            priority: FastImage.priority.normal,
+        }}
+        resizeMode={FastImage.resizeMode.contain}
+    />
 
                 <Block center>
                   <Block>
-                    <Text center bold top={10}>
+                    <Text center bold top={10} primary>
                       {day.excercise_name}
                     </Text>
                   </Block>
@@ -284,12 +288,13 @@ const ChallengeDayAll = ({route}) => {
                   ) : (
                     <Block>
                       <Text
-                        semibold
+                        // semibold
+                        secondary
                         size={15}
                         center
                         padding={10}
                         paddingTop={20}>
-                        {day.excercise_times} 
+                        {day.excercise_times}
                       </Text>
                     </Block>
                   )}
@@ -299,23 +304,22 @@ const ChallengeDayAll = ({route}) => {
           ))}
 
           <TouchableWithoutFeedback
-            onPress={() => { clickStart();
-              navigation.navigate(
-                'ChallengeWorkoutStart',
-                {
-                  exerciseData: responseData,
-                  completedWorkouts: completedWorkouts,
-                  currentDayNumber,
-                  challenge,dayWithId
-                }
-              );
+            onPress={() => {
+              clickStart();
+              navigation.navigate('ChallengeWorkoutStart', {
+                exerciseData: responseData,
+                completedWorkouts: completedWorkouts,
+                currentDayNumber,
+                challenge,
+                dayWithId,
+              });
             }}>
             <Block
               style={styles.stickyButton}
               center
               justify="center"
               marginTop={20}>
-              <Text style={styles.buttonText} bold white h5>
+              <Text style={styles.buttonText} bold white>
                 START
               </Text>
             </Block>

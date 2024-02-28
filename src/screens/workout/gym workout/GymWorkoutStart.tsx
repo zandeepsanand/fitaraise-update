@@ -173,7 +173,8 @@ const GymWorkoutStart = () => {
   };
   const goToNextWorkout = () => {
     // console.log('clicked');
-    setButtonVisible(false);
+  
+    setButtonVisible(true);
     setIsTimerRunning(false);
     setTimerText('Start');
 
@@ -375,7 +376,7 @@ const GymWorkoutStart = () => {
       .then((response) => {
         if (response.data.success) {
           console.log(response.data, 'saved or not');
-
+          setButtonVisible(true);
           setShowNextButton(true);
           setCompletedDate([completed_date]);
           setCompletedWorkouts([
@@ -457,6 +458,7 @@ const GymWorkoutStart = () => {
 
                         if (isLastWorkout) {
                           handleFinish(currentWorkout);
+                          setButtonVisible(true);
                           navigation.navigate('GymCongratsPage', {
                             savedDate,
                             completedWorkouts,
@@ -533,8 +535,8 @@ const GymWorkoutStart = () => {
                   onPress={goToPreviousWorkout}>
                   <Image
                     radius={0}
-                    width={30}
-                    height={30}
+                    width={35}
+                    height={35}
                     // color={colors.primary}
                     source={require('../../../assets/icons/nextpng.png')}
                     transform={[{rotate: '180deg'}]}
@@ -545,8 +547,8 @@ const GymWorkoutStart = () => {
                   disabled={currentWorkoutIndex === exerciseData.length - 1}>
                   <Image
                     radius={0}
-                    width={30}
-                    height={30}
+                    width={35}
+                    height={35}
                     // color={colors.primary}
                     source={require('../../../assets/icons/nextpng.png')}
                     transform={[{rotate: '0deg'}]}

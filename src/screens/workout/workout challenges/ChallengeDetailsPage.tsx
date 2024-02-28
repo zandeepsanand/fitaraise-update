@@ -11,6 +11,7 @@ import Ripple from 'react-native-material-ripple';
 import {Animated, Easing} from 'react-native';
 import Lottie from 'lottie-react-native';
 import YoutubePage from '../../youtube/YoutubePage';
+import FastImage from 'react-native-fast-image';
 
 const ChallengeDetailsPage = ({
   workout,
@@ -26,7 +27,7 @@ const ChallengeDetailsPage = ({
   repsInputValuesKg,
   setRepsInputValuesKg,
   setButtonVisible,
-  buttonVisible
+  buttonVisible,
 }) => {
   console.log(workout, 'TESTING');
   const [lbsView, setLbsView] = useState(false);
@@ -144,7 +145,7 @@ const ChallengeDetailsPage = ({
             radius={0}
             width={10}
             height={18}
-            color={colors.black}
+            color={colors.primary}
             source={assets.arrow}
             transform={[{rotate: '180deg'}]}
           />
@@ -153,47 +154,48 @@ const ChallengeDetailsPage = ({
               </Text> */}
         </Button>
         <Block>
-          <Text center h4 bold marginLeft={-sizes.m} marginTop={sizes.s}>
+          <Text
+            center
+            bold
+            marginLeft={-sizes.m}
+            marginTop={sizes.s}
+            primary
+            size={17}>
             {workout.excercise_name}
           </Text>
         </Block>
       </Block>
       <Block padding={10}>
-        <Text center size={15} bold>
+        <Text center size={15} semibold secondary>
           {workout.excercise_times}
         </Text>
       </Block>
       {buttonVisible && (
-      <Image
-        background
-        resizeMode="cover"
-        padding={sizes.sm}
-        paddingBottom={sizes.l}
-        height={390}
-        radius={30}
-        source={{
-          uri: `${workout.excercise_image}`,
-        }}>
-
-{youtubeId !== null && (
-              <Button
-                row
-                flex={0}
-                justify="flex-end"
-                // onPress={() => navigation.goBack()}
-                onPress={handleButtonPress}>
-             
-                <Lottie
-                  style={styles.backgroundAnimation}
-                  source={require('../../../assets/json/youtube.json')}
-                  progress={animationProgress.current}
-                />
-            
-              </Button>
-            )}
-        </Image>
+        <FastImage
+          style={{width: 390, height: 390, borderRadius: 30,}}
+          source={{
+            uri: workout.excercise_image,
+            headers: {Authorization: 'someAuthToken'},
+            priority: FastImage.priority.normal,
+          }}
+          resizeMode={FastImage.resizeMode.contain}>
+          {youtubeId !== null && (
+            <Button
+              row
+              flex={0}
+              justify="flex-end"
+              // onPress={() => navigation.goBack()}
+              onPress={handleButtonPress}>
+              <Lottie
+                style={styles.backgroundAnimation}
+                source={require('../../../assets/json/youtube.json')}
+                progress={animationProgress.current}
+              />
+            </Button>
+          )}
+        </FastImage>
       )}
-        {!buttonVisible && (
+      {!buttonVisible && (
         <>
           <YoutubePage workout={workout} />
           <Block flex={0}>
@@ -208,7 +210,6 @@ const ChallengeDetailsPage = ({
                 width={40}
                 height={28}
                 color={colors.primary}
-               
                 source={require('../../../assets/icons/gif2.png')}
                 transform={[{rotate: '0deg'}]}
               />

@@ -7,7 +7,6 @@ import Lottie from 'lottie-react-native';
 import LoginContext from '../hooks/LoginContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
 const HomeWorkoutDietPlan = () => {
   const navigation = useNavigation();
   const {customerId} = useContext(LoginContext);
@@ -16,8 +15,8 @@ const HomeWorkoutDietPlan = () => {
   useEffect(() => {
     const fetchDataAndNavigate = async () => {
       try {
-        console.log("clicked diet");
-        
+        console.log('clicked diet');
+
         const storedData = await AsyncStorage.getItem('cachedData');
         const authData = JSON.parse(await AsyncStorage.getItem('authData'));
 
@@ -34,47 +33,45 @@ const HomeWorkoutDietPlan = () => {
               dietPlan,
             });
           } else if (authData.formData) {
-            navigation.navigate('Details', { formData: authData.formData });
+            navigation.navigate('Details', {formData: authData.formData});
           } else {
             navigation.reset({
               index: 0,
-              routes: [{ name: 'loginNew' }],
+              routes: [{name: 'loginNew'}],
             });
           }
           checkAuthenticationStatus(cachedData);
         } else {
           await startLoadingAnimation();
 
-          const requiredCalorieResponse = await api.get(`get_daily_required_calories/${customerId}`);
-          const diet_List = await api.get(`get_recommended_diet/${customerId}`);
-          const formDataData = await api.get(`get_personal_datas/${customerId}`);
+          const requiredCalorieResponse = await api.get(
+            `get_daily_required_calories/${customerId}`,
+          );
+          const dietListResponse = await api.get(
+            `get_recommended_diet/${customerId}`,
+          );
+          const formDataResponse = await api.get(
+            `get_personal_datas/${customerId}`,
+          );
 
           const requiredCalorie = requiredCalorieResponse.data.data;
-          const dietPlan = diet_List.data.data.recommended_diet_list;
-          const formData = formDataData.data.data;
+          const dietPlan = dietListResponse.data.data.recommended_diet_list;
+          const formData = formDataResponse.data.data;
           if (requiredCalorieResponse.data.success === true && formData) {
-            navigation.navigate({
-              index: 0,
-              routes: [
-                {
-                  name: 'Menu',
-                  params: {
-                    data: requiredCalorie,
-                    formDataCopy: formData,
-                    dietPlan,
-                  },
-                },
-              ],
+            navigation.navigate('Menu', {
+              data: requiredCalorie,
+              formDataCopy: formData,
+              dietPlan,
             });
           } else if (formData) {
             navigation.reset({
               index: 0,
-              routes: [{ name: 'Details', params: { formData: formData } }],
+              routes: [{name: 'Details', params: {formData: formData}}],
             });
           } else {
             navigation.reset({
               index: 0,
-              routes: [{ name: 'FirstPageCountrySelect' }],
+              routes: [{name: 'FirstPageCountrySelect'}],
             });
           }
 
