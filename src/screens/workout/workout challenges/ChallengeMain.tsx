@@ -23,8 +23,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import moment from 'moment-timezone';
 import {useWorkoutPathContext} from '../../../hooks/WorkoutPathContext';
 
+
+
+
 const ChallengeMain = ({navigation, route}) => {
   const {t} = useTranslation();
+
+
+
   // const handleProgress = (release) => setTimeout(release, 1000);
   const {selectedWorkoutPath, setWorkoutPath} = useWorkoutPathContext();
   const [isCurrentDayCompleted, setIsCurrentDayCompleted] = useState(false);
@@ -68,38 +74,72 @@ const ChallengeMain = ({navigation, route}) => {
   const [challengeDays, setChallengeDays] = useState(challenge);
   console.log(challengeDays, 'testing');
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        if (!month.id) {
-          throw new Error('Please enter all details');
-        }
-        const response = await api.get(
-          `get_workout_challenge_days/${month.id}`,
-        );
-        const userData1 = await api.get(`get_personal_datas/${customerId}`);
-        const user = userData1.data.data;
-        setUserData(user);
-        console.log(user, 'user data home workout loading');
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       setLoading(true);
+  //       if (!month.id) {
+  //         throw new Error('Please enter all details');
+  //       }
+  //       const response = await api.get(
+  //         `get_workout_challenge_days/${month.id}`,
+  //       );
+  //       const userData1 = await api.get(`get_personal_datas/${customerId}`);
+  //       const user = userData1.data.data;
+  //       setUserData(user);
+  //       console.log(user, 'user data home workout loading');
 
-        const responseData = response.data.data;
-        console.log(responseData);
+  //       const responseData = response.data.data;
+  //       console.log(responseData);
 
-        if (responseData === null) {
-          throw new Error('Turn on the network and retry');
-        }
+  //       if (responseData === null) {
+  //         throw new Error('Turn on the network and retry');
+  //       }
 
-        setData(responseData);
-        setLoading(false);
-      } catch (err) {
-        setError(err.message);
-        setLoading(false);
+  //       setData(responseData);
+  //       setLoading(false);
+  //     } catch (err) {
+  //       setError(err.message);
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [month.id, customerId]);
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      if (!monthId || !customerId) {
+        throw new Error('Please enter all details');
       }
-    };
+      const response = await api.get(`get_workout_challenge_days/${monthId}`);
+      const userDataResponse = await api.get(`get_personal_datas/${customerId}`);
+      const user = userDataResponse.data.data;
+      setUserData(user);
+      console.log(user, 'user data home workout loading');
 
-    fetchData();
-  }, [month.id, customerId]);
+      const responseData = response.data.data;
+      console.log(responseData);
+
+      if (responseData === null) {
+        throw new Error('Turn on the network and retry');
+      }
+
+      setData(responseData);
+      setLoading(false);
+    } catch (err) {
+      setError(err.message);
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      fetchData();
+    });
+
+    return unsubscribe;
+  }, [navigation, monthId, customerId]);
+
 
   const handleLevelChange = async (level) => {
     setSelectedLevel(level);
@@ -676,18 +716,26 @@ const ChallengeMain = ({navigation, route}) => {
   const weeks = [];
   // console.log(data, 'data of the 60 day');
 
-  let isFirstWeekCompleted = false; // Track if the first week is completed
+  const weekStatus = new Array(numberOfWeeks).fill('Lock'); // Initialize array to store completion status of each week
 
   for (let week = 0; week < numberOfWeeks; week++) {
-    const weekData = data.slice(week * 7, (week + 1) * 7);
-    // Calculate completion status for the week
-    const isWeekCompleted = weekData.every((day) => day.completed);
-
-    const startButtonText = isWeekCompleted
-      ? 'Completed'
-      : week === 0 && !isFirstWeekCompleted
-      ? 'Start'
-      : 'Lock';
+      const weekData = data.slice(week * 7, (week + 1) * 7);
+      // Calculate completion status for the week
+      const completedDaysInWeek = weekData.filter(day => day.completed).length;
+  
+      const isWeekCompleted = completedDaysInWeek === 7;
+  
+      if (isWeekCompleted) {
+          // If the week is completed, set the button text to 'Completed'
+          weekStatus[week] = 'Completed';
+          // If it's not the last week, set the button text of the next week to 'Start'
+          if (week < numberOfWeeks - 1) {
+              weekStatus[week + 1] = 'Start';
+          }
+      }
+  
+      // Determine start button text for this week using weekStatus[week]
+      const startButtonText = weekStatus[week];
 
     const firstRowDays = weekData.slice(0, 4);
     const secondRowDays = weekData.slice(4);

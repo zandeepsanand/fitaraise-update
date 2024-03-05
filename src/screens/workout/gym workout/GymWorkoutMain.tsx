@@ -5,22 +5,21 @@ import {Block, Button, Image, Input, Product, Text} from '../../../components';
 import {StatusBar as ExpoStatusBar} from 'expo-status-bar';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import FastImage from 'react-native-fast-image';
-import Animated from 'react-native-reanimated';
+
 
 import SelectDropdown from 'react-native-select-dropdown';
 
-import axios from 'axios';
-import {BASE_URL} from '@env';
-import HomeWorkoutCalender from '../home workout/HomeWorkoutCalender';
-import GifPlayer from '../GifPlayer';
-import GymWorkoutCalender from './GymWorkoutCalender';
+
+
 import api from '../../../../api';
-import CalendarHomeWorkout from '../home workout/calendar/Calendar';
+
 import LoginContext from '../../../hooks/LoginContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {ActivityIndicator} from 'react-native';
-import {ImageBackground} from 'react-native';
+
 import {useWorkoutPathContext} from '../../../hooks/WorkoutPathContext';
+import CalendarGym from './gymCalender/GymCalendar';
+import { useFocusEffect } from '@react-navigation/native';
 
 const GymWorkoutMain = ({navigation, route}) => {
   const {selectedWorkoutPath, setWorkoutPath} = useWorkoutPathContext();
@@ -404,10 +403,14 @@ const GymWorkoutMain = ({navigation, route}) => {
         setCompletedDates(completedDates);
         // Set completedDates in your state or props
       } else {
+        throw new Error(response.data.message);
         // Handle the case when the API call is successful but data is not as expected
       }
     } catch (error) {
       // Handle errors from the API call
+    
+     console.log(error);
+     
     }
   };
 
@@ -415,6 +418,12 @@ const GymWorkoutMain = ({navigation, route}) => {
     fetchData();
     setIsLoading(false);
   }, []);
+  
+  useFocusEffect(
+    useCallback(() => {
+      fetchData(); // Fetch data when the component comes into focus
+    }, []),
+  );
 
   return (
     <>
@@ -484,7 +493,7 @@ const GymWorkoutMain = ({navigation, route}) => {
               ></Block>
               <View style={{paddingBottom: 20}}>
                 {/* <GifPlayer /> */}
-                <CalendarHomeWorkout savedDate={completedDates} />
+                <CalendarGym savedDate={completedDates} />
               </View>
 
               {/* <Animated.Image

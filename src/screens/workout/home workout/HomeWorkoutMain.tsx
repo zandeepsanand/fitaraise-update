@@ -23,6 +23,7 @@ import LoginContext from '../../../hooks/LoginContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useFavorites} from '../../../hooks/HomeWorkoutContext';
 import {useWorkoutPathContext} from '../../../hooks/WorkoutPathContext';
+import { useFocusEffect } from '@react-navigation/native';
 
 const HomeWorkoutMain = ({navigation, route}) => {
   const {t} = useTranslation();
@@ -477,6 +478,7 @@ const HomeWorkoutMain = ({navigation, route}) => {
   }, []);
 
   const fetchData = async () => {
+  
     try {
       const response = await api.get(
         `get_customer_done_home_workouts/${customerId}`,
@@ -486,7 +488,7 @@ const HomeWorkoutMain = ({navigation, route}) => {
         const completedDates = response.data.data.map(
           (item) => item.completed_date,
         );
-        console.log(completedDates, 'dates');
+        console.log(completedDates, 'dates home w');
         setCompletedDates(completedDates);
         // Set completedDates in your state or props
       } else {
@@ -500,6 +502,12 @@ const HomeWorkoutMain = ({navigation, route}) => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchData(); // Fetch data when the component comes into focus
+    }, []),
+  );
   return (
     <Block safe paddingTop={10}>
       <Block

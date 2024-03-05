@@ -1,13 +1,13 @@
 /* eslint-disable prettier/prettier */
-import { StyleSheet, Text, View, TouchableOpacity , Image } from 'react-native'
+import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
 import moment from 'moment-timezone';
 
-const Date1 = ({ 
+const GymDate = ({
   date,
   //  onSelectDate,
-    selected, 
-    savedDate = []   }) => {
-  
+  selected,
+  savedDate = [],
+}) => {
   const day = moment.tz(date, 'Asia/Kolkata').format('DD-MM-YYYY');
   const dayText = moment.tz(date, 'Asia/Kolkata').format('ddd');
   const isCompleted = savedDate.includes(day);
@@ -15,26 +15,39 @@ const Date1 = ({
   const fullDate = moment.tz(date, 'Asia/Kolkata').format('YYYY-MM-DD');
   return (
     <TouchableOpacity
-      // onPress={() => 
+      // onPress={() =>
       //   onSelectDate(fullDate)
       // }
-      style={[styles.card, selected === fullDate && { backgroundColor: "#6146c6" }]}
-    >
-      <Text style={[styles.big, selected === fullDate && { color: "#fff" }]}>{dayText}</Text>
-      <View style={{ height: 5 }} />
+      style={[
+        styles.card,
+        selected === fullDate && {backgroundColor: '#6146c6'},
+      ]}>
+      <Text style={[styles.big, selected === fullDate && {color: '#fff'}]}>
+        {dayText}
+      </Text>
+      <View style={{height: 5}} />
       {isCompleted ? (
         <Image
           source={require('../../../../assets/icons/yes.png')}
           style={{width: 20, height: 20}}
         />
       ):(<Text></Text>)}
-      <Text style={[styles.medium, selected === fullDate && { color: "#fff", fontWeight: 'bold', fontSize: 24 }]}>{dayNumber}</Text>
+      <Text
+        style={[
+          styles.medium,
+          selected === fullDate && {
+            color: '#fff',
+            fontWeight: 'bold',
+            fontSize: 24,
+          },
+        ]}>
+        {dayNumber}
+      </Text>
     </TouchableOpacity>
   );
-}
+};
 
-
-export default Date1
+export default GymDate;
 
 const styles = StyleSheet.create({
   card: {
@@ -57,4 +70,4 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     // paddingTop:10
   },
-})
+});
