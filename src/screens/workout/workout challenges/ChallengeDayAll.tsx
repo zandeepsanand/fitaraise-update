@@ -27,20 +27,24 @@ const ChallengeDayAll = ({route}) => {
     currentDayNumber,
     challenge,
     dayWithId,
+    
   } = route.params;
+console.log('====================================');
+console.log(challenge , "fressh");
+console.log('====================================');
   // const [exerciseData, setExerciseData] = useState([]);
   const {exerciseData, setExerciseData} = useChallengeData();
   // const [completedWorkouts, setCompletedWorkouts] = React.useState(/* initial completedWorkouts state */);
   const [challengeDayData, setChallengeDayData] = React.useState([]);
   const clickStart = async () => {
     try {
-      if (!challenge.id) {
+      if (!challenge) {
         throw new Error('Please enter all details');
       }
 
       // Fetch the days data
       const daysResponse = await api.get(
-        `get_workout_challenge_days/${challenge.id}`,
+        `get_workout_challenge_days/${challenge}`,
       );
       const daysData = daysResponse.data.data;
 
@@ -66,7 +70,7 @@ const ChallengeDayAll = ({route}) => {
 
       // Fetch the workout data for the determined current day
       const workoutResponse = await api.get(
-        `get_workout_challenge_excercise/${challenge.id}/${currentDayNumber}`,
+        `get_workout_challenge_excercise/${challenge}/${currentDayNumber}`,
       );
       const responseData = workoutResponse.data.data;
 

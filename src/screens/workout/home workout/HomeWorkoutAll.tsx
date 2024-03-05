@@ -19,7 +19,7 @@ import api from '../../../../api';
 import {isAuthTokenSet} from '../../../../api';
 import {useFavorites} from '../../../hooks/HomeWorkoutContext';
 import {useFocusEffect} from '@react-navigation/native';
-
+import FastImage from 'react-native-fast-image';
 
 const isAndroid = Platform.OS === 'android';
 
@@ -119,9 +119,9 @@ const HomeWorkoutAll = ({route}) => {
       const fetchData = async () => {
         try {
           setIsLoading(true);
-  
+
           const tokenIsSet = await isAuthTokenSet();
-  
+
           if (tokenIsSet) {
             const response = await api.get(
               `get_home_workout_excercises/${workout.id}`,
@@ -139,9 +139,9 @@ const HomeWorkoutAll = ({route}) => {
           setIsLoading(false);
         }
       };
-  
+
       fetchData();
-    }, [workout.id])
+    }, [workout.id]),
   );
   console.log(exerciseData, 'single exercise data');
 
@@ -149,11 +149,11 @@ const HomeWorkoutAll = ({route}) => {
     <Block safe marginTop={sizes.md} marginBottom={10}>
       <Block
         scroll
-        // paddingHorizontal={sizes.s}
+        paddingHorizontal={sizes.s}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{paddingBottom: sizes.padding}}>
         <Block flex={0} paddingBottom={60}>
-          <Image
+          {/* <Image
             style={{height: 250}}
             background
             resizeMode="cover"
@@ -163,17 +163,32 @@ const HomeWorkoutAll = ({route}) => {
             // source={require('../../../assets/images/homeworkout.png')}
             source={{
               uri: `${workout.image}`,
-            }}>
+            }}> */}
+          <FastImage
+            style={{
+              width: 390,
+              height: 250,
+              padding: 10,
+              paddingBottom: 15,
+              borderRadius: 30,
+            }}
+            source={{
+              uri: workout.image,
+              headers: {Authorization: 'someAuthToken'},
+              priority: FastImage.priority.normal,
+            }}
+            resizeMode={FastImage.resizeMode.contain}>
             <Button
               row
               flex={0}
               justify="flex-start"
+              padding={10}
               onPress={() => navigation.goBack()}>
               <Image
                 radius={0}
                 width={10}
                 height={18}
-                color={colors.white}
+                color={colors.primary}
                 source={assets.arrow}
                 transform={[{rotate: '180deg'}]}
               />
@@ -245,7 +260,7 @@ const HomeWorkoutAll = ({route}) => {
                 </Button>
               </Block> */}
             </Block>
-          </Image>
+          </FastImage>
 
           {/* profile: stats */}
           <Block
@@ -307,19 +322,20 @@ const HomeWorkoutAll = ({route}) => {
                 key={exercise.id}
                 marginTop={5}
                 color={exercise.completed_today ? 'skyblue' : 'white'}>
-                {/* <Image
-                  width={75}
-                  height={75}
-                  radius={10}
+                <FastImage
+                  style={{width: 75, height: 75, borderRadius: 15}}
                   source={{
-                    uri: `${exercise.image}`,
-                  }}></Image> */}
-                 
+                    uri: exercise.image,
+
+                    priority: FastImage.priority.normal,
+                  }}
+                  resizeMode={FastImage.resizeMode.contain}
+                />
 
                 <Block center>
                   <Block>
-                    <Text center bold top={10}>
-                      {exercise.name} 
+                    <Text center bold top={10} primary>
+                      {exercise.name}
                     </Text>
                   </Block>
                   {exercise.time_or_sets === 'time' ? (
@@ -327,8 +343,9 @@ const HomeWorkoutAll = ({route}) => {
                       <Text
                         padding={10}
                         paddingTop={20}
-                        semibold
+                        bold
                         size={15}
+                        secondary
                         center>
                         00 : {exercise.time_in_seconds}
                       </Text>
@@ -336,8 +353,9 @@ const HomeWorkoutAll = ({route}) => {
                   ) : (
                     <Block>
                       <Text
-                        semibold
+                        bold
                         size={15}
+                        secondary
                         center
                         padding={10}
                         paddingTop={20}>
@@ -353,25 +371,27 @@ const HomeWorkoutAll = ({route}) => {
           {/* profile: photo album */}
         </Block>
       </Block>
-      <TouchableWithoutFeedback
- 
->
-        <Button style={styles.stickyButton}  justify="center" color={'#19F196'}  onPress={() => {
-    const isAnyExerciseNotCompleted = exerciseData.some(
-      (exercise) => !exercise.completed_today
-    );
+      <TouchableWithoutFeedback>
+        <Button
+          style={styles.stickyButton}
+          justify="center"
+          color={'#19F196'}
+          onPress={() => {
+            const isAnyExerciseNotCompleted = exerciseData.some(
+              (exercise) => !exercise.completed_today,
+            );
 
-    if (isAnyExerciseNotCompleted) {
-      navigation.navigate('HomeWorkoutStart', {
-        exerciseData: exerciseData,
-        workoutData,
-      });
-    } else {
-      // Handle the case where all exercises are completed
-      console.log('All exercises are completed. Button is disabled.');
-      Alert.alert("All workouts are done today")
-    }
-  }} >
+            if (isAnyExerciseNotCompleted) {
+              navigation.navigate('HomeWorkoutStart', {
+                exerciseData: exerciseData,
+                workoutData,
+              });
+            } else {
+              // Handle the case where all exercises are completed
+              console.log('All exercises are completed. Button is disabled.');
+              Alert.alert('All workouts are done today');
+            }
+          }}>
           <Text style={styles.buttonText} bold>
             START
           </Text>

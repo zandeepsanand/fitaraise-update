@@ -51,17 +51,22 @@ const GymWorkoutStart = () => {
     challenge,
     dayWithId,
   } = route.params;
+  console.log('====================================');
+  console.log(challenge,"c2c");
+  console.log('====================================');
   const [buttonVisible, setButtonVisible] = useState(true);
   const { exerciseData, setExerciseData } = useChallengeData();
 
   const clickStart = async () => {
+    console.log('====================================');
+    console.log(challenge , "ccc");
+    console.log('====================================');
     try {
-      if (!challenge.id) {
+      if (!challenge) {
         throw new Error('Please enter all details');
       }
-
       // Fetch the days data
-      const daysResponse = await api.get(`get_workout_challenge_days/${challenge.id}`);
+      const daysResponse = await api.get(`get_workout_challenge_days/${challenge}`);
       const daysData = daysResponse.data.data;
 
       if (daysData.length === 0) {
@@ -85,7 +90,7 @@ const GymWorkoutStart = () => {
       }
 
       // Fetch the workout data for the determined current day
-      const workoutResponse = await api.get(`get_workout_challenge_excercise/${challenge.id}/${currentDayNumber}`);
+      const workoutResponse = await api.get(`get_workout_challenge_excercise/${challenge}/${currentDayNumber}`);
       const responseData = workoutResponse.data.data;
 
     
@@ -296,7 +301,7 @@ const GymWorkoutStart = () => {
   // console.log(completed_date);
   const customer_id = customerId;
   const day = currentDayNumber;
-  const challenge_id = challenge.id;
+  const challenge_id = challenge;
   // const selectedItem = dayWithId.find(item => item.day_number === currentDayNumber);
   const challenge_excercise_id = currentWorkout.id;
   console.log(challenge_excercise_id, 'challenge exercisee id');

@@ -3,6 +3,8 @@ import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {useData, useTheme, useTranslation} from '../../../hooks';
 import {Block, Button, Image, Input, Product, Text} from '../../../components/';
 import {StatusBar as ExpoStatusBar} from 'expo-status-bar';
+import FastImage from 'react-native-fast-image';
+
 import {
   StyleSheet,
   View,
@@ -20,7 +22,7 @@ import CalendarHomeWorkout from './calendar/Calendar';
 import LoginContext from '../../../hooks/LoginContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useFavorites} from '../../../hooks/HomeWorkoutContext';
-import { useWorkoutPathContext } from '../../../hooks/WorkoutPathContext';
+import {useWorkoutPathContext} from '../../../hooks/WorkoutPathContext';
 
 const HomeWorkoutMain = ({navigation, route}) => {
   const {t} = useTranslation();
@@ -28,9 +30,9 @@ const HomeWorkoutMain = ({navigation, route}) => {
   // const {workout} = useFavorites();
   const homeWorkout = workout;
   const {authenticated, customerId} = useContext(LoginContext);
-  const { selectedWorkoutPath, setWorkoutPath } = useWorkoutPathContext();
+  const {selectedWorkoutPath, setWorkoutPath} = useWorkoutPathContext();
   console.log('====================================');
-  console.log(customerId, "homeworkout check");
+  console.log(customerId, 'homeworkout check');
   console.log('====================================');
   const [tab, setTab] = useState<number>(0);
   const {following, trending} = useData();
@@ -62,20 +64,20 @@ const HomeWorkoutMain = ({navigation, route}) => {
   //       if(selectedWorkoutPath === 'GymTabNavigator'){
   //         let gymWorkoutData = null;
   //         let userData = null;
-    
+
   //         // Retrieve homeWorkoutData from AsyncStorage
   //         const storedGymWorkoutData = await AsyncStorage.getItem('gymWorkoutData');
   //         const storeduserDataGymWorkout = await AsyncStorage.getItem('userDataGymWorkout');
   //         if (storedGymWorkoutData && storeduserDataGymWorkout) {
   //           gymWorkoutData = JSON.parse(storedGymWorkoutData);
   //           userData = JSON.parse(storeduserDataGymWorkout);
-          
+
   //           navigation.navigate('GymTabNavigator', {
   //             screen: 'GymWorkoutMain',
   //             params: {data: gymWorkoutData, formDataCopy:userData},
   //           });
   //         }
-  
+
   //       }
 
   //       try {
@@ -97,7 +99,7 @@ const HomeWorkoutMain = ({navigation, route}) => {
   //             await AsyncStorage.setItem('gymWorkoutData', JSON.stringify(gymWorkoutJSON));
   //             await AsyncStorage.setItem('userDataGymWorkout', JSON.stringify(user));
   //             await AsyncStorage.setItem('WorkoutPath', JSON.stringify('GymTabNavigator'));
-             
+
   //             setWorkoutPath('GymTabNavigator')
 
   //             // Navigate to 'GymTabNavigator' with gymWorkoutJSON and user data
@@ -121,26 +123,26 @@ const HomeWorkoutMain = ({navigation, route}) => {
   //       if(selectedWorkoutPath === 'ChallengeTabNavigator'){
   //         let challengeWorkoutData = null;
   //         let userData = null;
-    
+
   //         // Retrieve homeWorkoutData from AsyncStorage
   //         const storedChallengeWorkoutData = await AsyncStorage.getItem('challengeWorkoutData');
   //         const storeduserDataChallengeWorkout = await AsyncStorage.getItem('userDataChallengeWorkout');
   //         if (storedChallengeWorkoutData && storeduserDataChallengeWorkout) {
   //           challengeWorkoutData = JSON.parse(storedChallengeWorkoutData);
   //           userData = JSON.parse(storeduserDataChallengeWorkout);
-          
+
   //           // navigation.navigate('GymTabNavigator', {
   //           //   screen: 'GymWorkoutMain',
   //           //   params: {data: gymWorkoutData, formDataCopy:userData},
   //           // });
-  
+
   //           navigation.navigate('ChallengeTabNavigator', {
   //             screen: 'ChallengeMain',
   //             params: {challenge: challengeWorkoutData},
   //           });
   //         }
-  
-  //       } 
+
+  //       }
 
   //       try {
   //         // Fetch user data
@@ -148,30 +150,30 @@ const HomeWorkoutMain = ({navigation, route}) => {
   //         const userData = await api.get(`get_personal_datas/${customerId}`);
   //         const user = userData.data.data;
   //         console.log(user, 'user data challenge workout loading');
-    
+
   //         if (user.gender && user.workout_challenge_level) {
   //           // Check if user has gender and workout challenge level set
   //           console.log('entered');
-    
+
   //           // Fetch home workout data based on user's gender and workout level
   //           const homeWorkout = await api.get(
   //             `get_workout_challenges?gender=${user.gender}&level=${user.workout_challenge_level}`,
   //           );
   //           console.log(homeWorkout, 'entered');
-    
+
   //           const challengeMonthJSON = homeWorkout.data.data;
   //           console.log('====================================');
   //           console.log(challengeMonthJSON, 'months');
   //           console.log('====================================');
   //           console.log(challengeMonthJSON);
-    
+
   //           if (challengeMonthJSON) {
   //             // Check if there are active challenges
   //             const activeChallenges = challengeMonthJSON.filter(
   //               (challenge) => challenge.currently_using,
   //             );
   //             console.log(activeChallenges, 'active challenge?');
-    
+
   //             if (activeChallenges.length > 0) {
   //               // If there are active challenges, find the currently active one
   //               const currentlyActiveChallenge = activeChallenges.find(
@@ -186,7 +188,7 @@ const HomeWorkoutMain = ({navigation, route}) => {
   //                   screen: 'ChallengeMain',
   //                   params: {challenge: currentlyActiveChallenge},
   //                 });
-                 
+
   //               } else {
   //                 console.log('workout page');
   //                 // If no active challenge, navigate to the gender page with workout data
@@ -209,7 +211,7 @@ const HomeWorkoutMain = ({navigation, route}) => {
   //         } else {
   //           // If gender or workout challenge level is not set, log a message
   //           console.log('set user gender weight height');
-    
+
   //           navigation.navigate('ChallengeGenderPage', {
   //             workoutData: user,
   //           });
@@ -230,41 +232,47 @@ const HomeWorkoutMain = ({navigation, route}) => {
   // };
   const handleLevelChange = async (level) => {
     setSelectedLevel(level);
-  
+
     const navigateToGymTab = async () => {
       const storedGymWorkoutData = await AsyncStorage.getItem('gymWorkoutData');
-      const storeduserDataGymWorkout = await AsyncStorage.getItem('userDataGymWorkout');
-  
+      const storeduserDataGymWorkout = await AsyncStorage.getItem(
+        'userDataGymWorkout',
+      );
+
       if (storedGymWorkoutData && storeduserDataGymWorkout) {
         const gymWorkoutData = JSON.parse(storedGymWorkoutData);
         const userData = JSON.parse(storeduserDataGymWorkout);
-  
+
         navigation.navigate('GymTabNavigator', {
           screen: 'GymWorkoutMain',
-          params: { data: gymWorkoutData, formDataCopy: userData },
+          params: {data: gymWorkoutData, formDataCopy: userData},
         });
         return true; // Navigation handled
       }
       return false; // Navigation not handled
     };
-  
+
     const navigateToChallengeTab = async () => {
-      const storedChallengeWorkoutData = await AsyncStorage.getItem('challengeWorkoutData');
-      const storeduserDataChallengeWorkout = await AsyncStorage.getItem('userDataChallengeWorkout');
-  
+      const storedChallengeWorkoutData = await AsyncStorage.getItem(
+        'challengeWorkoutData',
+      );
+      const storeduserDataChallengeWorkout = await AsyncStorage.getItem(
+        'userDataChallengeWorkout',
+      );
+
       if (storedChallengeWorkoutData && storeduserDataChallengeWorkout) {
         const challengeWorkoutData = JSON.parse(storedChallengeWorkoutData);
         const userData = JSON.parse(storeduserDataChallengeWorkout);
-  
+
         navigation.navigate('ChallengeTabNavigator', {
           screen: 'ChallengeMain',
-          params: { challenge: challengeWorkoutData },
+          params: {challenge: challengeWorkoutData},
         });
         return true; // Navigation handled
       }
       return false; // Navigation not handled
     };
-  
+
     if (['Gym workout', 'Workout Challenge'].includes(level)) {
       if (level === 'Gym workout') {
         const navigationHandled = await navigateToGymTab();
@@ -279,28 +287,37 @@ const HomeWorkoutMain = ({navigation, route}) => {
       }
     }
   };
-  
+
   const handleGymWorkoutNavigation = async () => {
     try {
       const userData = await api.get(`get_personal_datas/${customerId}`);
       const user = userData.data.data;
-  
+
       if (user.gender && user.gym_workout_level) {
         const homeWorkout = await api.get(
           `get_gym_workouts?gender=${user.gender}&level=${user.gym_workout_level}`,
         );
         const gymWorkoutJSON = homeWorkout.data.data;
-  
+
         if (gymWorkoutJSON) {
-          await AsyncStorage.setItem('gymWorkoutData', JSON.stringify(gymWorkoutJSON));
-          await AsyncStorage.setItem('userDataGymWorkout', JSON.stringify(user));
-          await AsyncStorage.setItem('WorkoutPath', JSON.stringify('GymTabNavigator'));
-  
+          await AsyncStorage.setItem(
+            'gymWorkoutData',
+            JSON.stringify(gymWorkoutJSON),
+          );
+          await AsyncStorage.setItem(
+            'userDataGymWorkout',
+            JSON.stringify(user),
+          );
+          await AsyncStorage.setItem(
+            'WorkoutPath',
+            JSON.stringify('GymTabNavigator'),
+          );
+
           setWorkoutPath('GymTabNavigator');
-  
+
           navigation.navigate('GymTabNavigator', {
             screen: 'GymWorkoutMain',
-            params: { data: gymWorkoutJSON, formDataCopy: user },
+            params: {data: gymWorkoutJSON, formDataCopy: user},
           });
         }
       } else if (user.gender) {
@@ -316,29 +333,29 @@ const HomeWorkoutMain = ({navigation, route}) => {
       console.error('Error in handleGymWorkoutNavigation:', error);
     }
   };
-  
+
   // const handleChallengeWorkoutNavigation = async () => {
   //   try {
   //     setIsLoading(true);
   //     const userData = await api.get(`get_personal_datas/${customerId}`);
   //     const user = userData.data.data;
-  
+
   //     if (user.gender && user.workout_challenge_level) {
   //       const homeWorkout = await api.get(
   //         `get_workout_challenges?gender=${user.gender}&level=${user.workout_challenge_level}`,
   //       );
   //       const challengeMonthJSON = homeWorkout.data.data;
-  
+
   //       if (challengeMonthJSON) {
   //         const activeChallenges = challengeMonthJSON.filter(
   //           (challenge) => challenge.currently_using,
   //         );
-  
+
   //         if (activeChallenges.length > 0) {
   //           const currentlyActiveChallenge = activeChallenges.find(
   //             (challenge) => challenge.currently_using,
   //           );
-  
+
   //           if (currentlyActiveChallenge) {
   //             navigation.navigate('ChallengeTabNavigator', {
   //               screen: 'ChallengeMain',
@@ -422,7 +439,7 @@ const HomeWorkoutMain = ({navigation, route}) => {
               screen: 'ChallengeMain',
               params: {challenge: currentlyActiveChallenge},
             });
-          } else  {
+          } else {
             console.log('ChallengeMonth');
             // Navigate to 'Gender' screen with workoutData
             navigation.navigate('ChallengeMonth', {
@@ -441,7 +458,7 @@ const HomeWorkoutMain = ({navigation, route}) => {
         // Navigate to 'Gender' screen with workoutData
         navigation.navigate('ChallengeGenderPage', {
           workoutData: user,
-        }); 
+        });
       }
     } catch (error) {
       console.error('Authentication Status Error:', error);
@@ -644,7 +661,6 @@ const HomeWorkoutMain = ({navigation, route}) => {
                           zIndex: 10,
                         }}>
                         Total Minutes : {workout.total_minutes}{' '}
-                       
                       </Text>
                       <Text
                         white
@@ -662,12 +678,16 @@ const HomeWorkoutMain = ({navigation, route}) => {
                           .toUpperCase() +
                           workoutData.home_workout_level.slice(1)}
                       </Text>
-                      <Animated.Image
-                        style={styles.coverImage}
-                        source={{uri: `${workout.image}`}}
-                        // style={{ width: 300, height: 300 }}
-                        sharedTransitionTag="tag"></Animated.Image>
 
+                      <FastImage
+                        style={styles.coverImage}
+                        source={{
+                          uri: workout.image,
+
+                          priority: FastImage.priority.normal,
+                        }}
+                        resizeMode={FastImage.resizeMode.cover}
+                      />
                       {/* <ImageBackground
                     style={styles.coverImage}
                     source={{

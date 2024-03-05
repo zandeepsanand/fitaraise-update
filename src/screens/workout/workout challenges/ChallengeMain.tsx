@@ -42,9 +42,9 @@ const ChallengeMain = ({navigation, route}) => {
   const {customerId} = useContext(LoginContext);
   const [isLoading, setIsLoading] = useState(true);
   const [monthId, setMonthId] = useState(challenge.id);
+  const [month, setMonth] = useState(challenge);
   console.log(monthId, 'monthId');
 
-  const month = challenge;
   console.log(month, 'haiii month');
 
   const [tab, setTab] = useState<number>(0);
@@ -72,14 +72,14 @@ const ChallengeMain = ({navigation, route}) => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        if (!challenge.id) {
+        if (!month.id) {
           throw new Error('Please enter all details');
         }
         const response = await api.get(
           `get_workout_challenge_days/${month.id}`,
         );
-        const userData = await api.get(`get_personal_datas/${customerId}`);
-        const user = userData.data.data;
+        const userData1 = await api.get(`get_personal_datas/${customerId}`);
+        const user = userData1.data.data;
         setUserData(user);
         console.log(user, 'user data home workout loading');
 
@@ -99,7 +99,7 @@ const ChallengeMain = ({navigation, route}) => {
     };
 
     fetchData();
-  }, []);
+  }, [month.id, customerId]);
 
   const handleLevelChange = async (level) => {
     setSelectedLevel(level);
@@ -444,10 +444,12 @@ const ChallengeMain = ({navigation, route}) => {
   // };
   const clickStart = async () => {
     try {
-      if (!challenge.id) {
+      if (!monthId) {
         throw new Error('Please enter all details');
       }
-
+      console.log('====================================');
+      console.log(monthId, 'current challenge id');
+      console.log('====================================');
       if (isCurrentDayCompleted) {
         // Display an alert to inform the user that they've already completed today's workout
         alert("You have already completed today's workout..");
@@ -488,17 +490,17 @@ const ChallengeMain = ({navigation, route}) => {
         const workoutResponse = await api.get(
           `get_workout_challenge_excercise/${monthId}/${currentDayNumber + 1}`,
         );
-        const responseData = workoutResponse.data.data;
-        console.log(responseData, `day ${currentDayNumber + 1}`);
+        const responseDataWorkout = workoutResponse.data.data;
+        console.log(responseDataWorkout, `day ${currentDayNumber + 1}`);
 
-        setTodayWorkout(responseData);
+        setTodayWorkout(responseDataWorkout);
 
         navigation.navigate('ChallengeDayAll', {
-          responseData,
+          responseData: responseDataWorkout,
           completedWorkouts,
           currentDayNumber: currentDayNumber + 1,
           dayWithId: daysData,
-          challenge,
+          challenge: monthId,
         });
       } else if (
         daysData[currentDayNumber - 1].recent_workout_done_date ===
@@ -521,7 +523,7 @@ const ChallengeMain = ({navigation, route}) => {
           completedWorkouts,
           currentDayNumber: currentDayNumber + 1,
           dayWithId: daysData,
-          challenge,
+          challenge: monthId,
         });
       }
 
@@ -763,13 +765,13 @@ const ChallengeMain = ({navigation, route}) => {
     weeks.push(
       <Block key={week} card margin={10}>
         <Block flex={0} align="flex-start" padding={30} position="absolute">
-        {startButtonText === 'Completed' && (
-  <Image
-    source={require('../../../assets/icons/check1.png')}
-    style={{height: 30, width: 30}}
-    radius={0}
-  />
-)}
+          {startButtonText === 'Completed' && (
+            <Image
+              source={require('../../../assets/icons/check1.png')}
+              style={{height: 30, width: 30}}
+              radius={0}
+            />
+          )}
         </Block>
         <Text center bold paddingTop={20} h5>
           Week {week + 1}

@@ -365,12 +365,13 @@ const HomeWorkoutStart = () => {
   //     nextNotCompletedWorkout.time_or_sets === 'time' ? nextNotCompletedWorkout.time_in_seconds : 0,
   //   );
   return (
-    <Block safe >
+    <Block safe marginTop={sizes.md} marginBottom={10}>
       <Block
         scroll
-        // paddingHorizontal={sizes.s}
+        paddingHorizontal={sizes.s}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{paddingBottom: sizes.padding}}>
+        contentContainerStyle={{paddingBottom: sizes.padding}}
+        >
         <Block flex={0}>
           <View>
             {/* Button to open the modal */}
@@ -425,7 +426,7 @@ const HomeWorkoutStart = () => {
                         navigation.navigate('CongratsPage', {savedDate}); // Replace 'YourNewPage' with the actual page name
                       }
                     }}>
-                    <Text center bold>
+                    <Text center bold white>
                       DONE
                     </Text>
                   </Button>
@@ -448,7 +449,7 @@ const HomeWorkoutStart = () => {
                       padding={20}
                       radius={15}
                       style={{alignSelf: 'center'}}>
-                      <Text bold>Next</Text>
+                      <Text bold white>Next</Text>
                     </Button>
                   ) : (
                     <Button
@@ -458,7 +459,7 @@ const HomeWorkoutStart = () => {
                       padding={20}
                       radius={15}
                       style={{alignSelf: 'center'}}>
-                      <Text bold>Finish</Text>
+                      <Text bold white>Finish</Text>
                     </Button>
                   )}
                 </Block>

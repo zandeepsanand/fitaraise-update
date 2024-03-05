@@ -3,7 +3,7 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
-import {ActivityIndicator, View, StyleSheet} from 'react-native';
+import {ActivityIndicator, View, StyleSheet, PermissionsAndroid, Platform} from 'react-native';
 import api, {setAuthToken} from '../../api';
 import {Animated, Easing} from 'react-native';
 import Lottie from 'lottie-react-native';
@@ -17,6 +17,20 @@ const LoadingScreen = () => {
   console.log(api, 'api check');
 
   const animationProgress = useRef(new Animated.Value(0));
+ 
+    const checkApplicationPermission = async () => {
+      if (Platform.OS === 'android') {
+        try {
+          await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
+          );
+        } catch (error) {
+       console.warn(error, "error in req not")
+        }
+      }
+    };
+  
+  
   useEffect(() => {
     Animated.timing(animationProgress.current, {
       toValue: 1,
@@ -24,6 +38,7 @@ const LoadingScreen = () => {
       easing: Easing.linear,
       useNativeDriver: false,
     }).start();
+    checkApplicationPermission();
   }, []);
   useEffect(() => {
     const checkAuthenticationStatus = async () => {
