@@ -52,6 +52,7 @@ const Calendar = ({ onSelectDate, selected   }) => {
     // Set the initial scroll position
     setScrollPosition(initialScrollPosition);
   }, [dates]);
+ 
   return (
     <>
       <View style={styles.centered}>
@@ -64,6 +65,7 @@ const Calendar = ({ onSelectDate, selected   }) => {
             showsHorizontalScrollIndicator={false}
             // onScroll is a native event that returns the number of pixels the user has scrolled
             onScroll={(e) => setScrollPosition(e.nativeEvent.contentOffset.x)}
+            
             scrollEventThrottle={16}
           >
             {dates.map((date, index) => (

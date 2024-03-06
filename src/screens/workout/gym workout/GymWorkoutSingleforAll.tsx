@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {
   Platform,
@@ -22,6 +23,7 @@ import {usegymData} from '../../../hooks/GymData';
 const isAndroid = Platform.OS === 'android';
 
 const GymWorkoutSingleforAll = () => {
+
   const route = useRoute();
   const {exerciseDataSingle,  index} = route.params;
   const {customerId} = useContext(LoginContext);
@@ -30,6 +32,8 @@ const GymWorkoutSingleforAll = () => {
   const {t} = useTranslation();
   const navigation = useNavigation();
   const {assets, colors, sizes} = useTheme();
+  const [buttonVisible, setButtonVisible] = useState(true);
+ 
   const [currentWorkoutIndex, setCurrentWorkoutIndex] = useState(
     exerciseDataAll.findIndex((exercise) => exercise.id === exerciseDataSingle.id),
   );
@@ -54,6 +58,7 @@ const GymWorkoutSingleforAll = () => {
     //   });
   };
   const goToPreviousWorkout = () => {
+    setButtonVisible(true);
     setIsTimerRunning(false);
     setTimerText('Start');
     if (exerciseDataAll && currentWorkoutIndex > 0) {
@@ -216,7 +221,7 @@ const GymWorkoutSingleforAll = () => {
       .then((response) => {
         if (response.data.success) {
           console.log(response.data, 'saved or not');
-
+          setButtonVisible(true);
           setShowNextButton(true);
           // setCompletedDate([completed_date]);
           // setCompletedWorkouts([
@@ -260,6 +265,8 @@ const GymWorkoutSingleforAll = () => {
                 setRepsInputValuesLbs={setRepsInputValuesLbs}
                 repsInputValuesKg={repsInputValuesKg}
                 setRepsInputValuesKg={setRepsInputValuesKg}
+                buttonVisible={buttonVisible}
+                setButtonVisible={setButtonVisible}
               />
               {currentWorkout.time_or_sets === 'sets' ? (
                 <Block centerContent paddingTop={50}>
@@ -275,6 +282,7 @@ const GymWorkoutSingleforAll = () => {
 
                         if (isLastWorkout) {
                           handleFinish(currentWorkout);
+                          setButtonVisible(true);
                           navigation.navigate('GymCongratsPage');
                           // Replace 'YourNewPage' with the actual page name
                         } else {
@@ -299,6 +307,7 @@ const GymWorkoutSingleforAll = () => {
                       setShowNextButton(false);
 
                       if (isLastWorkout) {
+                        setButtonVisible(true);
                         navigation.navigate('GymCongratsPage');
                         // Replace 'YourNewPage' with the actual page name
                       }

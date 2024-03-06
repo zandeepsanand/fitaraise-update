@@ -4,8 +4,7 @@ import {TextInput, View, StyleSheet} from 'react-native';
 import {Block, Button, Image, Input, Text} from '../../../components';
 import {useTheme} from '../../../hooks';
 import {useNavigation} from '@react-navigation/native';
-import axios from 'axios';
-import {BASE_URL} from '@env';
+
 import DuoToggleSwitch from 'react-native-duo-toggle-switch';
 import Ripple from 'react-native-material-ripple';
 import {Animated, Easing} from 'react-native';
@@ -30,7 +29,7 @@ const GymWorkoutDetailsPage = ({
   setButtonVisible,
   buttonVisible,
 }) => {
-  console.log(workout, 'workouttttt');
+  console.log(buttonVisible, 'workouttttt');
   const youtubeId = workout.video_link;
   const [inputValueKg, setInputValueKg] = useState('');
   const [inputValueLbs, setInputValueLbs] = useState('');
@@ -213,7 +212,7 @@ const GymWorkoutDetailsPage = ({
             priority: FastImage.priority.normal,
           }}
           resizeMode={FastImage.resizeMode.cover}>
-          {youtubeId === null && (
+          {youtubeId !== null && (
             <Button
               row
               flex={0}

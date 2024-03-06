@@ -124,7 +124,7 @@ const GymWorkoutStart = () => {
       });
   };
   const goToPreviousWorkout = () => {
-    setButtonVisible(false);
+    setButtonVisible(true);
     setIsTimerRunning(false);
     setTimerText('Start');
     if (exerciseData && currentWorkoutIndex > 0) {

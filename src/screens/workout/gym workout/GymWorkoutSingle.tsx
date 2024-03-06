@@ -30,6 +30,8 @@ const GymWorkoutSingle = () => {
   const {t} = useTranslation();
   const navigation = useNavigation();
   const {assets, colors, sizes} = useTheme();
+  const [buttonVisible, setButtonVisible] = useState(true);
+
   const [currentWorkoutIndex, setCurrentWorkoutIndex] = useState(
     exerciseData.findIndex((exercise) => exercise.id === exerciseDataSingle.id),
   );
@@ -54,6 +56,7 @@ const GymWorkoutSingle = () => {
       });
   };
   const goToPreviousWorkout = () => {
+    setButtonVisible(false);
     setIsTimerRunning(false);
     setTimerText('Start');
     if (exerciseData && currentWorkoutIndex > 0) {
@@ -68,6 +71,7 @@ const GymWorkoutSingle = () => {
     fetchData();
   };
   const goToNextWorkout = () => {
+    setButtonVisible(false);
     if (currentWorkoutIndex < exerciseData.length - 1) {
       setCurrentWorkoutIndex(currentWorkoutIndex + 1);
     }
@@ -216,7 +220,7 @@ const GymWorkoutSingle = () => {
       .then((response) => {
         if (response.data.success) {
           console.log(response.data, 'saved or not');
-
+          setButtonVisible(false);
           setShowNextButton(true);
           // setCompletedDate([completed_date]);
           // setCompletedWorkouts([
@@ -260,6 +264,9 @@ const GymWorkoutSingle = () => {
                 setRepsInputValuesLbs={setRepsInputValuesLbs}
                 repsInputValuesKg={repsInputValuesKg}
                 setRepsInputValuesKg={setRepsInputValuesKg}
+                buttonVisible={buttonVisible}
+                setButtonVisible={setButtonVisible}
+
               />
               {currentWorkout.time_or_sets === 'sets' ? (
                 <Block centerContent paddingTop={50}>
@@ -275,6 +282,7 @@ const GymWorkoutSingle = () => {
 
                         if (isLastWorkout) {
                           handleFinish(currentWorkout);
+                          setButtonVisible(false);
                           navigation.navigate('GymCongratsPage', {
                             savedDate,
                             completedWorkouts,
@@ -302,6 +310,7 @@ const GymWorkoutSingle = () => {
                       setShowNextButton(false);
 
                       if (isLastWorkout) {
+                        setButtonVisible(false);
                         navigation.navigate('GymCongratsPage', {
                           savedDate,
                           completedWorkouts,

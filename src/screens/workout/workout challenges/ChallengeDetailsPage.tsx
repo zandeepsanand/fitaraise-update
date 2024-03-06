@@ -179,7 +179,7 @@ const ChallengeDetailsPage = ({
             priority: FastImage.priority.normal,
           }}
           resizeMode={FastImage.resizeMode.contain}>
-          {youtubeId !== null && (
+          {youtubeId === null && (
             <Button
               row
               flex={0}

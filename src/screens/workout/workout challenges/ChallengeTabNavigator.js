@@ -13,6 +13,7 @@ import Account from '../../account/Account';
 
 import LoadingScreenDiet from './LoadingScreenDiet';
 import HomeWorkoutDietPlan from '../../../navigation/HomeWorkoutDietPlan';
+import NutritionFactsSearch from '../../nutritionFacts/NutritionFactsSearch';
 
 
 const Tab = createBottomTabNavigator();
@@ -26,9 +27,10 @@ const ChallengeTabNavigator = ({route}) => {
 
   return (
     <Tab.Navigator
+    
       screenOptions={{
-        activeTintColor: '#97b4fe', // Set the active tab color to blue
-        inactiveTintColor: 'gray', // Set the inactive tab color to gray
+        activeTintColor: 'blue', // Set the active tab color to blue
+        inactiveTintColor: '#060415', // Set the inactive tab color to gray
       }}>
       <Tab.Screen
         name="ChallengeMain"
@@ -59,6 +61,22 @@ const ChallengeTabNavigator = ({route}) => {
           tabBarIcon: ({color, size}) => (
             <Image
               source={require('../../../assets/icons/diet.png')} // Replace with your image source
+              style={{tintColor: color, width: size, height: size}}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="nutrition"
+        component={NutritionFactsSearch}
+        options={{
+          headerShown: true,
+          title: '',
+
+          tabBarLabel: 'Nutrition Facts', // Custom tab label
+          tabBarIcon: ({color, size}) => (
+            <Image
+              source={require('../../../assets/icons/book.png')} // Replace with your image source
               style={{tintColor: color, width: size, height: size}}
             />
           ),

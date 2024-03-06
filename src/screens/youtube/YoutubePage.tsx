@@ -34,7 +34,7 @@ export default function YoutubePage({workout}) {
       <YoutubePlayer
         height={350}
         play={playing}
-        videoId={"9o0UPuDBM8M"}
+        videoId={youtubeId}
         onChangeState={onStateChange}
       />
       {/* <Button title={playing ? "pause" : "play"} onPress={togglePlaying} /> */}
