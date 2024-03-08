@@ -27,6 +27,7 @@ const HomeWorkoutDietPlan = () => {
 
           setIsLoading(false);
           if (requiredCalorie && authData.formData) {
+            await AsyncStorage.setItem('lastHomePage', 'DietPlan');
             navigation.navigate('Menu', {
               data: requiredCalorie,
               formDataCopy: authData.formData,

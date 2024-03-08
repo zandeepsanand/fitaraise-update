@@ -1,184 +1,163 @@
-/* eslint-disable prettier/prettier */
-
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { View, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useNavigation} from '@react-navigation/native';
-import {ActivityIndicator, View, StyleSheet, PermissionsAndroid, Platform} from 'react-native';
-import api, {setAuthToken} from '../../api';
-import {Animated, Easing} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { Animated, Easing } from 'react-native';
 import Lottie from 'lottie-react-native';
+import api, { setAuthToken } from '../../api';
 import LoginContext from '../hooks/LoginContext';
-
+import { useWorkoutPathContext } from '../hooks/WorkoutPathContext';
 
 const LoadingScreen = () => {
   const navigation = useNavigation();
-  const {loginSuccess} = useContext(LoginContext);
-  const [isLoading, setIsLoading] = useState(true); // State to track loading status
-  console.log(api, 'api check');
+  const {selectedWorkoutPath} = useWorkoutPathContext();
+  const { loginSuccess } = useContext(LoginContext);
+  const [isLoading, setIsLoading] = useState(true);
+  const animationProgress = new Animated.Value(0);
 
-  const animationProgress = useRef(new Animated.Value(0));
- 
-    const checkApplicationPermission = async () => {
-      if (Platform.OS === 'android') {
-        try {
-          await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
-          );
-        } catch (error) {
-       console.warn(error, "error in req not")
-        }
-      }
-    };
-  
-  
-  useEffect(() => {
-    Animated.timing(animationProgress.current, {
-      toValue: 1,
-      duration: 15000,
-      easing: Easing.linear,
-      useNativeDriver: false,
-    }).start();
-    checkApplicationPermission();
-  }, []);
   useEffect(() => {
     const checkAuthenticationStatus = async () => {
       try {
         const authDataJSON = await AsyncStorage.getItem('authData');
+        const LastHome = await AsyncStorage.getItem('lastHomePage');
+
         if (authDataJSON) {
           const authData = JSON.parse(authDataJSON);
-
           const authToken = authData.token;
           const customerId = authData.formData.customer_id;
           const formData = authData.formData;
-          const token = authData.token;
-          // Store the authData object as a JSON string in AsyncStorage
-          // await AsyncStorage.setItem('authData', JSON.stringify(authData));
 
-          // Use the loginSuccess method from LoginContext
-          // setAuthToken(authData.token); // Set the token for future requests
-          loginSuccess(customerId, formData, token);
-          console.log(authToken, 'auth Data');
+          loginSuccess(customerId, formData, authToken);
+          
           if (authToken) {
             setAuthToken(authToken);
-            const requiredCalorieResponse = await api.get(
-              `get_daily_required_calories/${authData.formData.customer_id}`,
-            );
-            const diet_List = await api.get(
-              `get_recommended_diet/${authData.formData.customer_id}`,
-            );
+            const requiredCalorieResponse = await api.get(`get_daily_required_calories/${customerId}`);
+            const dietListResponse = await api.get(`get_recommended_diet/${customerId}`);
 
-            const requiredCalorie = requiredCalorieResponse.data.data;
+            if (requiredCalorieResponse.data.success && dietListResponse.data.success && formData) {
+              const requiredCalorie = requiredCalorieResponse.data.data;
+              const dietPlan = dietListResponse.data.data.recommended_diet_list;
 
-            const dietPlan = diet_List.data.data.recommended_diet_list;
-            console.log(requiredCalorie, 'calorie required');
-            console.log(authData.formData, 'for workout example');
-
-            // Now, register for push notifications and save the token to the database
-            // const {status: existingStatus} =
-            //   await Notifications.getPermissionsAsync();
-            // let finalStatus = existingStatus;
-
-            // if (existingStatus !== 'granted') {
-            //   const {status} = await Notifications.requestPermissionsAsync();
-            //   finalStatus = status;
-            // }
-
-            // if (finalStatus === 'granted') {
-            //   const token = (await Notifications.getExpoPushTokenAsync()).data;
-            //   console.log('Expo push token:', token);
-            //   const device_token = token;
-            //   const customer_id = customerId;
-
-            //   // Save the token to your database using an API request
-            //   // Example:
-            //   await AsyncStorage.setItem('expoPushToken', device_token);
-            //   const response = await api.post('set_personal_datas', {
-            //     customer_id,
-            //     device_token,
-            //   });
-            //   // Handle the response from your server as needed.
-            //   console.log(
-            //     response.data.data,
-            //     'loading screen push notification to db',
-            //   );
-
-            //   // Continue with your navigation logic...
-            // } else {
-            //   console.log('Failed to get push token for push notification!');
-            // }
-
-            if (
-              requiredCalorieResponse.data.success === true &&
-              authData.formData
-            ) {
-              // Reset the navigation stack and navigate to 'Menu'
-              // console.log("console ok");
-
+              if (LastHome) {
+                const homePath = LastHome;
+                if (homePath === 'DietPlan') {
+                  const cachedDataJSON = await AsyncStorage.getItem('cachedData');
+                  if (cachedDataJSON) {
+                    const cachedData = JSON.parse(cachedDataJSON);
+                    const { requiredCalorie1, dietPlan1 } = cachedData;
+                    if (requiredCalorie && formData) {
+                      await AsyncStorage.setItem('lastHomePage', 'DietPlan');
+                      navigation.reset({
+                        index: 0,
+                        routes: [{ name: 'Menu', params: { data: requiredCalorie, formDataCopy: formData, dietPlan: dietPlan } }],
+                      });
+                      return;
+                    }
+                  }
+                  navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'Frstpage', params: { formData: formData } }],
+                  });
+                } else if (homePath === 'Workout') {
+                  handleTabPress();
+                  setIsLoading(true);
+                } else {
+                  navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'Frstpage', params: { formData: formData } }],
+                  });
+                }
+              }
+            } else if (formData) {
               navigation.reset({
                 index: 0,
-                routes: [
-                  {name: 'Frstpage', params: {formData: authData.formData}},
-                ],
-                // routes: [{ name: 'Menu', params: { data: requiredCalorie, formDataCopy: authData.formData , dietPlan } }],
-              });
-            } else if (authData.formData) {
-              // console.log("console ok 1");
-              // Reset the navigation stack and navigate to 'Frstpage'
-              navigation.reset({
-                index: 0,
-                routes: [
-                  {name: 'Frstpage', params: {formData: authData.formData}},
-                ],
+                routes: [{ name: 'Frstpage', params: { formData: formData } }],
               });
             } else {
-              // Reset the navigation stack and navigate to 'FirstPageCountrySelect'
               navigation.reset({
                 index: 0,
-                routes: [{name: 'FirstPageCountrySelect'}],
+                routes: [{ name: 'FirstPageCountrySelect' }],
               });
             }
           } else {
-            // No authToken, navigate to 'FirstPageCountrySelect'
             navigation.reset({
               index: 0,
-              routes: [{name: 'FirstPageCountrySelect'}],
+              routes: [{ name: 'FirstPageCountrySelect' }],
             });
           }
         } else {
-          // authData JSON doesn't exist, navigate to 'FirstPageCountrySelect'
-          navigation.reset({
-            index: 0,
-            routes: [{name: 'FirstPageCountrySelect'}],
-          });
+          console.log("Failed to retrieve authData from AsyncStorage");
         }
         setIsLoading(false);
       } catch (error) {
         console.error('Authentication Status Error:', error);
         setIsLoading(false);
-        navigation.reset({
-          index: 0,
-          routes: [{name: 'FirstPageCountrySelect'}],
-        });
       }
     };
 
     checkAuthenticationStatus();
-  }, [navigation]);
+  }, [navigation,selectedWorkoutPath]);
 
-  if (isLoading) {
-    return (
-      <View style={styles.loadingContainer}>
-        {/* <ActivityIndicator size="large" color="#0000ff" /> */}
+  const handleTabPress = async () => {
+    console.log(selectedWorkoutPath, "print");
+    
+    setIsLoading(true);
+    try {
+      let workoutData2 = null;
+
+      switch (selectedWorkoutPath) {
+        case 'HomeTabNavigator':
+          workoutData2 = await navigateToTab('homeWorkoutData', 'userDataHomeWorkout', 'HomeWorkoutMain');
+          break;
+        case 'GymTabNavigator':
+          workoutData2 = await navigateToTab('gymWorkoutData', 'userDataGymWorkout', 'GymWorkoutMain');
+          break;
+        case 'ChallengeTabNavigator':
+          workoutData2 = await navigateToTab('challengeWorkoutData', 'userDataChallengeWorkout', 'ChallengeMain');
+          break;
+        default:
+          break;
+      }
+    } catch (error) {
+      console.error('Error retrieving stored data:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const navigateToTab = async (workoutDataKey, userDataKey, screenName) => {
+    const storedWorkoutData = await AsyncStorage.getItem(workoutDataKey);
+    const storedUserData = await AsyncStorage.getItem(userDataKey);
+
+    if (storedWorkoutData && storedUserData) {
+      const workoutData1 = JSON.parse(storedWorkoutData);
+      const userData = JSON.parse(storedUserData);
+
+      if (selectedWorkoutPath === 'HomeTabNavigator') {
+        navigation.navigate('HomeTabNavigator', { screen: screenName, params: { workout: workoutData1, workoutData: userData } });
+      } else if (selectedWorkoutPath === 'GymTabNavigator') {
+        navigation.navigate('GymTabNavigator', { screen: screenName, params: { data: workoutData1, formDataCopy: userData } });
+      } else if (selectedWorkoutPath === 'ChallengeTabNavigator') {
+        navigation.navigate('ChallengeTabNavigator', { screen: 'ChallengeMain', params: { challenge: workoutData1 } });
+      }
+
+      return workoutData1;
+    }
+
+    return null;
+  };
+
+  return (
+    <View style={styles.loadingContainer}>
+      {isLoading && (
         <Lottie
           style={styles.backgroundAnimation}
           source={require('../assets/json/loader.json')}
-          progress={animationProgress.current}
+          progress={animationProgress}
         />
-      </View>
-    );
-  }
-
-  return null;
+      )}
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({

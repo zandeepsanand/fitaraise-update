@@ -109,6 +109,7 @@ const MealContextProvider: React.FC = ({children}) => {
     const result = {};
 
     if (breakfastData) {
+    
       const mappedBreakfastData = breakfastData.diet_list.map((item) => {
         return {
           added_by: null,
@@ -185,6 +186,7 @@ const MealContextProvider: React.FC = ({children}) => {
           weight_in_g: item.taken_weight,
         };
       });
+      
       result.breakfastItems = mappedBreakfastData;
     }
     if (morningSnackData) {

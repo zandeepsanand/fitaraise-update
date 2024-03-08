@@ -174,7 +174,7 @@ const WorkoutFirstPage = ({navigation, route}) => {
                 'WorkoutPath',
                 JSON.stringify('ChallengeTabNavigator'),
               );
-
+              await AsyncStorage.setItem('lastHomePage', 'Workout');
               setWorkoutPath('ChallengeTabNavigator');
               // Navigate to the main challenge screen with the active challenge
               navigation.navigate('ChallengeTabNavigator', {
@@ -241,6 +241,7 @@ const WorkoutFirstPage = ({navigation, route}) => {
 
         if (homeWorkoutJSON) {
           // Navigate to 'HomeTabNavigator' with homeWorkout and workoutData
+         
           await AsyncStorage.setItem(
             'homeWorkoutData',
             JSON.stringify(homeWorkoutJSON),
@@ -253,7 +254,7 @@ const WorkoutFirstPage = ({navigation, route}) => {
             'WorkoutPath',
             JSON.stringify('HomeTabNavigator'),
           );
-
+          await AsyncStorage.setItem('lastHomePage', 'Workout');
           setWorkoutPath('HomeTabNavigator');
           navigation.navigate('HomeTabNavigator', {
             screen: 'HomeWorkoutMain',
@@ -288,7 +289,7 @@ const WorkoutFirstPage = ({navigation, route}) => {
 
       if (user.gender && user.gym_workout_level) {
         const homeWorkout = await api.get(
-          `get_gym_workouts?gender=${user.gender}&level=${user.home_workout_level}`,
+          `get_gym_workouts?gender=${user.gender}&level=${user.gym_workout_level}`,
         );
         const gymWorkoutJSON = homeWorkout.data.data;
         console.log(gymWorkoutJSON);
@@ -306,7 +307,7 @@ const WorkoutFirstPage = ({navigation, route}) => {
             'WorkoutPath',
             JSON.stringify('GymTabNavigator'),
           );
-
+          await AsyncStorage.setItem('lastHomePage', 'Workout');
           setWorkoutPath('GymTabNavigator');
           // Navigate to 'HomeTabNavigator' with homeWorkout and workoutData
           navigation.navigate('GymTabNavigator', {

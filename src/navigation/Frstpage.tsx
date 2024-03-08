@@ -49,6 +49,7 @@ export default function Frstpage({
   },
 }) {
   console.log(formData);
+  
   const {loginSuccess} = useContext(LoginContext);
   const {selectedWorkoutPath, setWorkoutPath} = useWorkoutPathContext();
 
@@ -94,6 +95,7 @@ export default function Frstpage({
   };
   const handlePressOut = async () => {
     try {
+      
       if (selectedWorkoutPath === 'HomeTabNavigator') {
         let homeWorkoutData = null;
         let userData = null;
@@ -108,6 +110,7 @@ export default function Frstpage({
         if (storedHomeWorkoutData && storeduserDataHomeWorkout) {
           homeWorkoutData = JSON.parse(storedHomeWorkoutData);
           userData = JSON.parse(storeduserDataHomeWorkout);
+          await AsyncStorage.setItem('lastHomePage', 'Workout');
           navigation.navigate(selectedWorkoutPath, {
             screen: 'HomeWorkoutMain',
             params: {workout: homeWorkoutData, workoutData: userData},
@@ -133,7 +136,7 @@ export default function Frstpage({
         if (storedGymWorkoutData && storeduserDataGymWorkout) {
           gymWorkoutData = JSON.parse(storedGymWorkoutData);
           userData = JSON.parse(storeduserDataGymWorkout);
-
+          await AsyncStorage.setItem('lastHomePage', 'Workout');
           navigation.navigate('GymTabNavigator', {
             screen: 'GymWorkoutMain',
             params: {data: gymWorkoutData, formDataCopy: userData},
@@ -158,7 +161,7 @@ export default function Frstpage({
           //   screen: 'GymWorkoutMain',
           //   params: {data: gymWorkoutData, formDataCopy:userData},
           // });
-
+          await AsyncStorage.setItem('lastHomePage', 'Workout');
           navigation.navigate('ChallengeTabNavigator', {
             screen: 'ChallengeMain',
             params: {challenge: challengeWorkoutData},
@@ -369,7 +372,9 @@ export default function Frstpage({
   
         setIsLoading(false);
         if (requiredCalorie && formData) {
-         
+          await AsyncStorage.setItem('lastHomePage', 'DietPlan');
+
+
           return navigation.navigate('Menu', {
             data: requiredCalorie,
             formDataCopy: formData,

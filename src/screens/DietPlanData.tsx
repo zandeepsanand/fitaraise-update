@@ -418,12 +418,11 @@ const DietPlanData = ({route, navigation}) => {
     }
     console.log(servingId);
 
-  
+    setLoading(false);
     navigation.navigate('Menu', {
       formDataCopy, // Pass your parameters here
     });
 
-    setLoading(false);
   };
   
 

@@ -15,8 +15,6 @@ import {
 
 import SelectDropdown from 'react-native-select-dropdown';
 
-import axios from 'axios';
-import {BASE_URL} from '@env';
 import api from '../../../../api';
 import LoginContext from '../../../hooks/LoginContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -26,611 +24,12 @@ import {useWorkoutPathContext} from '../../../hooks/WorkoutPathContext';
 const ChallengeMain = ({navigation, route}) => {
   const {t} = useTranslation();
 
-  const dataSample = [
-    {
-      completed: true,
-      day: '1st Day',
-      day_number: 1,
-      id: 4013,
-      number: 1,
-      recent_workout_done_date: '26-02-2024',
-      total_done_excercise: 8,
-      total_excercises: 8,
-    },
-    {
-      completed: true,
-      day: '2nd Day',
-      day_number: 2,
-      id: 4021,
-      number: 2,
-      recent_workout_done_date: '27-02-2024',
-      total_done_excercise: 8,
-      total_excercises: 8,
-    },
-    {
-      completed: true,
-      day: '3rd Day',
-      day_number: 3,
-      id: 4029,
-      number: 3,
-      recent_workout_done_date: '28-02-2024',
-      total_done_excercise: 8,
-      total_excercises: 8,
-    },
-    {
-      completed: true,
-      day: '4th Day',
-      day_number: 4,
-      id: 4037,
-      number: 4,
-      recent_workout_done_date: '05-03-2024',
-      total_done_excercise: 7,
-      total_excercises: 7,
-    },
-    {
-      completed: true,
-      day: '5th Day',
-      day_number: 5,
-      id: 4044,
-      number: 5,
-      recent_workout_done_date: '06-03-2024',
-      total_done_excercise: 8,
-      total_excercises: 8,
-    },
-    {
-      completed: true,
-      day: '6th Day',
-      day_number: 6,
-      id: 4052,
-      number: 6,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 8,
-    },
-    {
-      completed: true,
-      day: '7th Day',
-      day_number: 7,
-      id: 4060,
-      number: 7,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 5,
-    },
-    {
-      completed: true,
-      day: '8th Day',
-      day_number: 8,
-      id: 4065,
-      number: 8,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 8,
-    },
-    {
-      completed: true,
-      day: '9th Day',
-      day_number: 9,
-      id: 4073,
-      number: 9,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 8,
-    },
-    {
-      completed: true,
-      day: '10th Day',
-      day_number: 10,
-      id: 4081,
-      number: 10,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 7,
-    },
-    {
-      completed: true,
-      day: '11th Day',
-      day_number: 11,
-      id: 4088,
-      number: 11,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 7,
-    },
-    {
-      completed: true,
-      day: '12th Day',
-      day_number: 12,
-      id: 4095,
-      number: 12,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 8,
-    },
-    {
-      completed: true,
-      day: '13th Day',
-      day_number: 13,
-      id: 4103,
-      number: 13,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 8,
-    },
-    {
-      completed: true,
-      day: '14th Day',
-      day_number: 14,
-      id: 4111,
-      number: 14,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 9,
-    },
-    {
-      completed: false,
-      day: '15th Day',
-      day_number: 15,
-      id: 4120,
-      number: 15,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 7,
-    },
-    {
-      completed: false,
-      day: '16th Day',
-      day_number: 16,
-      id: 4127,
-      number: 16,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 5,
-    },
-    {
-      completed: false,
-      day: '17th Day',
-      day_number: 17,
-      id: 4132,
-      number: 17,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 8,
-    },
-    {
-      completed: false,
-      day: '18th Day',
-      day_number: 18,
-      id: 4140,
-      number: 18,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 8,
-    },
-    {
-      completed: false,
-      day: '19th Day',
-      day_number: 19,
-      id: 4148,
-      number: 19,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 7,
-    },
-    {
-      completed: false,
-      day: '20th Day',
-      day_number: 20,
-      id: 4155,
-      number: 20,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 7,
-    },
-    {
-      completed: false,
-      day: '21st Day',
-      day_number: 21,
-      id: 4162,
-      number: 21,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 8,
-    },
-    {
-      completed: false,
-      day: '22nd Day',
-      day_number: 22,
-      id: 4170,
-      number: 22,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 8,
-    },
-    {
-      completed: false,
-      day: '23rd Day',
-      day_number: 23,
-      id: 4178,
-      number: 23,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 7,
-    },
-    {
-      completed: false,
-      day: '24th Day',
-      day_number: 24,
-      id: 4185,
-      number: 24,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 7,
-    },
-    {
-      completed: false,
-      day: '25th Day',
-      day_number: 25,
-      id: 4192,
-      number: 25,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 8,
-    },
-    {
-      completed: false,
-      day: '26th Day',
-      day_number: 26,
-      id: 4200,
-      number: 26,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 8,
-    },
-    {
-      completed: false,
-      day: '27th Day',
-      day_number: 27,
-      id: 4208,
-      number: 27,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 7,
-    },
-    {
-      completed: false,
-      day: '28th Day',
-      day_number: 28,
-      id: 4215,
-      number: 28,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 5,
-    },
-    {
-      completed: false,
-      day: '29th Day',
-      day_number: 29,
-      id: 4220,
-      number: 29,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 8,
-    },
-    {
-      completed: false,
-      day: '30th Day',
-      day_number: 30,
-      id: 4228,
-      number: 30,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 8,
-    },
-    {
-      completed: false,
-      day: '31st Day',
-      day_number: 31,
-      id: 4236,
-      number: 31,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 7,
-    },
-    {
-      completed: false,
-      day: '32nd Day',
-      day_number: 32,
-      id: 4243,
-      number: 32,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 7,
-    },
-    {
-      completed: false,
-      day: '33rd Day',
-      day_number: 33,
-      id: 4250,
-      number: 33,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 9,
-    },
-    {
-      completed: false,
-      day: '34th Day',
-      day_number: 34,
-      id: 4259,
-      number: 34,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 8,
-    },
-    {
-      completed: false,
-      day: '35th Day',
-      day_number: 35,
-      id: 4267,
-      number: 35,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 8,
-    },
-    {
-      completed: false,
-      day: '36th Day',
-      day_number: 36,
-      id: 4275,
-      number: 36,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 5,
-    },
-    {
-      completed: false,
-      day: '37th Day',
-      day_number: 37,
-      id: 4280,
-      number: 37,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 8,
-    },
-    {
-      completed: false,
-      day: '38th Day',
-      day_number: 38,
-      id: 4288,
-      number: 38,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 8,
-    },
-    {
-      completed: false,
-      day: '39th Day',
-      day_number: 39,
-      id: 4296,
-      number: 39,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 7,
-    },
-    {
-      completed: false,
-      day: '40th Day',
-      day_number: 40,
-      id: 4303,
-      number: 40,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 7,
-    },
-    {
-      completed: false,
-      day: '41st Day',
-      day_number: 41,
-      id: 4310,
-      number: 41,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 8,
-    },
-    {
-      completed: false,
-      day: '42nd Day',
-      day_number: 42,
-      id: 4318,
-      number: 42,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 8,
-    },
-    {
-      completed: false,
-      day: '43rd Day',
-      day_number: 43,
-      id: 4326,
-      number: 43,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 7,
-    },
-    {
-      completed: false,
-      day: '44th Day',
-      day_number: 44,
-      id: 4333,
-      number: 44,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 7,
-    },
-    {
-      completed: false,
-      day: '45th Day',
-      day_number: 45,
-      id: 4340,
-      number: 45,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 8,
-    },
-    {
-      completed: false,
-      day: '46th Day',
-      day_number: 46,
-      id: 4348,
-      number: 46,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 8,
-    },
-    {
-      completed: false,
-      day: '47th Day',
-      day_number: 47,
-      id: 4356,
-      number: 47,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 7,
-    },
-    {
-      completed: false,
-      day: '48th Day',
-      day_number: 48,
-      id: 4363,
-      number: 48,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 7,
-    },
-    {
-      completed: false,
-      day: '49th Day',
-      day_number: 49,
-      id: 4370,
-      number: 49,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 8,
-    },
-    {
-      completed: false,
-      day: '50th Day',
-      day_number: 50,
-      id: 4378,
-      number: 50,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 8,
-    },
-    {
-      completed: false,
-      day: '51st Day',
-      day_number: 51,
-      id: 4386,
-      number: 51,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 7,
-    },
-    {
-      completed: false,
-      day: '52nd Day',
-      day_number: 52,
-      id: 4393,
-      number: 52,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 8,
-    },
-    {
-      completed: false,
-      day: '53rd Day',
-      day_number: 53,
-      id: 4401,
-      number: 53,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 8,
-    },
-    {
-      completed: false,
-      day: '54th Day',
-      day_number: 54,
-      id: 4409,
-      number: 54,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 8,
-    },
-    {
-      completed: false,
-      day: '55th Day',
-      day_number: 55,
-      id: 4417,
-      number: 55,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 5,
-    },
-    {
-      completed: false,
-      day: '56th Day',
-      day_number: 56,
-      id: 4422,
-      number: 56,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 7,
-    },
-    {
-      completed: false,
-      day: '57th Day',
-      day_number: 57,
-      id: 4429,
-      number: 57,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 8,
-    },
-    {
-      completed: false,
-      day: '58th Day',
-      day_number: 58,
-      id: 4437,
-      number: 58,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 7,
-    },
-    {
-      completed: false,
-      day: '59th Day',
-      day_number: 59,
-      id: 4444,
-      number: 59,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 7,
-    },
-    {
-      completed: false,
-      day: '60th Day',
-      day_number: 60,
-      id: 4451,
-      number: 60,
-      recent_workout_done_date: null,
-      total_done_excercise: 0,
-      total_excercises: 7,
-    },
-  ];
+
 
   // const handleProgress = (release) => setTimeout(release, 1000);
   const {selectedWorkoutPath, setWorkoutPath} = useWorkoutPathContext();
+  console.log(selectedWorkoutPath , "pathhs");
+  
   const [isCurrentDayCompleted, setIsCurrentDayCompleted] = useState(false);
   console.log('====================================');
   console.log(selectedWorkoutPath);
@@ -751,7 +150,6 @@ const ChallengeMain = ({navigation, route}) => {
       ].includes(level)
     ) {
       if (level === 'Home Workout') {
-        setWorkoutPath('HomeTabNavigator');
         console.log('====================================');
         console.log('cliiick');
         console.log('====================================');
@@ -798,7 +196,7 @@ const ChallengeMain = ({navigation, route}) => {
               );
 
               setWorkoutPath('ChallengeTabNavigator');
-
+              await AsyncStorage.setItem('lastHomePage', 'Workout');
               // Now you can use challenge90DaysId in your code
               const response = await api.get(
                 `get_workout_challenge_days/${challenge90DaysId}`,
@@ -815,6 +213,12 @@ const ChallengeMain = ({navigation, route}) => {
             } else {
               console.log('90 Days Challenge not found in the data.');
             }
+          } else if (user.gender) {
+            console.log('ChallengeDifficultyLevel');
+            // Navigate to 'Gender' screen with workoutData
+            navigation.navigate('ChallengeDifficultyLevel', {
+              workoutData: user,
+            });
           }
         } catch (error) {
           setIsLoading(false);
@@ -851,7 +255,7 @@ const ChallengeMain = ({navigation, route}) => {
                 'WorkoutPath',
                 JSON.stringify('ChallengeTabNavigator'),
               );
-
+              await AsyncStorage.setItem('lastHomePage', 'Workout');
               setWorkoutPath('ChallengeTabNavigator');
               // Now you can use challenge90DaysId in your code
               const response = await api.get(
@@ -869,6 +273,12 @@ const ChallengeMain = ({navigation, route}) => {
             } else {
               console.log('60 Days Challenge not found in the data.');
             }
+          } else if (user.gender) {
+            console.log('ChallengeDifficultyLevel');
+            // Navigate to 'Gender' screen with workoutData
+            navigation.navigate('ChallengeDifficultyLevel', {
+              workoutData: user,
+            });
           }
         } catch (error) {
           setIsLoading(false);
@@ -888,11 +298,13 @@ const ChallengeMain = ({navigation, route}) => {
     );
 
     if (storedHomeWorkoutData && storeduserDataHomeWorkout) {
-      setWorkoutPath('HomeTabNavigator');
+      
       const homeWorkoutData = JSON.parse(storedHomeWorkoutData);
       const userData = JSON.parse(storeduserDataHomeWorkout);
       console.log(userData, 'home work 2');
 
+      setWorkoutPath('HomeTabNavigator');
+      await AsyncStorage.setItem('lastHomePage', 'Workout');
       navigation.navigate('HomeTabNavigator', {
         screen: 'HomeWorkoutMain',
         params: {workout: homeWorkoutData, workoutData: userData},
@@ -911,7 +323,7 @@ const ChallengeMain = ({navigation, route}) => {
       setWorkoutPath('GymTabNavigator');
       const gymWorkoutData = JSON.parse(storedGymWorkoutData);
       const userData = JSON.parse(storeduserDataGymWorkout);
-
+      await AsyncStorage.setItem('lastHomePage', 'Workout');
       navigation.navigate('GymTabNavigator', {
         screen: 'GymWorkoutMain',
         params: {data: gymWorkoutData, formDataCopy: userData},
@@ -954,17 +366,19 @@ const ChallengeMain = ({navigation, route}) => {
           );
 
           setWorkoutPath('HomeTabNavigator');
-
+          await AsyncStorage.setItem('lastHomePage', 'Workout');
           navigation.navigate('HomeTabNavigator', {
             screen: 'HomeWorkoutMain',
             params: {workout: homeWorkoutJSON, workoutData: user},
           });
         }
+      } else if (user.gender) {
+        navigation.navigate('DifficultyLevel', {workoutData: user});
       } else {
         console.log('workout page');
         // Navigate to 'Gender' screen with workoutData
         navigation.navigate('Gender', {
-          workoutData: formDataCopy,
+          workoutData: user,
         });
       }
     } catch (error) {
@@ -974,12 +388,12 @@ const ChallengeMain = ({navigation, route}) => {
 
   const handleGymWorkoutNavigation = async () => {
     try {
-      const userData = await api.get(`get_personal_datas/${customerId}`);
-      const user = userData.data.data;
+      const userData2 = await api.get(`get_personal_datas/${customerId}`);
+      const user2 = userData2.data.data;
 
-      if (user.gender && user.gym_workout_level) {
+      if (user2.gender && user2.gym_workout_level) {
         const homeWorkout = await api.get(
-          `get_gym_workouts?gender=${user.gender}&level=${user.gym_workout_level}`,
+          `get_gym_workouts?gender=${user2.gender}&level=${user2.gym_workout_level}`,
         );
         const gymWorkoutJSON = homeWorkout.data.data;
 
@@ -990,7 +404,7 @@ const ChallengeMain = ({navigation, route}) => {
           );
           await AsyncStorage.setItem(
             'userDataGymWorkout',
-            JSON.stringify(user),
+            JSON.stringify(user2),
           );
           await AsyncStorage.setItem(
             'WorkoutPath',
@@ -998,12 +412,14 @@ const ChallengeMain = ({navigation, route}) => {
           );
 
           setWorkoutPath('GymTabNavigator');
-
+          await AsyncStorage.setItem('lastHomePage', 'Workout');
           navigation.navigate('GymTabNavigator', {
             screen: 'GymWorkoutMain',
-            params: {data: gymWorkoutJSON, formDataCopy: user},
+            params: {data: gymWorkoutJSON, formDataCopy: user2},
           });
         }
+      } else if (user2.gender) {
+        navigation.navigate('GymDifficultyLevel', {workoutData: user2});
       } else {
         navigation.navigate('GymGenderPage', {
           workoutData,
@@ -1277,6 +693,7 @@ const ChallengeMain = ({navigation, route}) => {
 
   useEffect(() => {
     const checkAuthenticationStatus = async () => {
+      setIsLoading(true);
       try {
         const authDataJSON = await AsyncStorage.getItem('authData');
         if (authDataJSON) {
@@ -1318,26 +735,26 @@ const ChallengeMain = ({navigation, route}) => {
   const weekStatus = new Array(numberOfWeeks).fill('Lock'); // Initialize array to store completion status of each week
 
   for (let week = 0; week < numberOfWeeks; week++) {
-      const weekData = data.slice(week * 7, (week + 1) * 7);
-      // Calculate completion status for the week
-      const completedDaysInWeek = weekData.filter(day => day.completed).length;
-  
-      const isWeekCompleted = completedDaysInWeek === 7;
-  
-      if (isWeekCompleted) {
-          // If the week is completed, set the button text to 'Completed'
-          weekStatus[week] = 'Completed';
-          // If it's not the last week, set the button text of the next week to 'Start'
-          if (week < numberOfWeeks - 1) {
-              weekStatus[week + 1] = 'Start';
-          }
-      } else if (week === 0) {
-          // If it's the first week and not completed, set the button text to 'Start'
-          weekStatus[week] = 'Start';
+    const weekData = data.slice(week * 7, (week + 1) * 7);
+    // Calculate completion status for the week
+    const completedDaysInWeek = weekData.filter((day) => day.completed).length;
+
+    const isWeekCompleted = completedDaysInWeek === 7;
+
+    if (isWeekCompleted) {
+      // If the week is completed, set the button text to 'Completed'
+      weekStatus[week] = 'Completed';
+      // If it's not the last week, set the button text of the next week to 'Start'
+      if (week < numberOfWeeks - 1) {
+        weekStatus[week + 1] = 'Start';
       }
-  
-      // Determine start button text for this week using weekStatus[week]
-      const startButtonText = weekStatus[week];
+    } else if (week === 0) {
+      // If it's the first week and not completed, set the button text to 'Start'
+      weekStatus[week] = 'Start';
+    }
+
+    // Determine start button text for this week using weekStatus[week]
+    const startButtonText = weekStatus[week];
 
     const firstRowDays = weekData.slice(0, 4);
     const secondRowDays = weekData.slice(4);
@@ -1495,9 +912,6 @@ const ChallengeMain = ({navigation, route}) => {
     );
 
     // Update isFirstWeekCompleted if the first week is completed
-    if (week === 0 && isWeekCompleted) {
-      isFirstWeekCompleted = true;
-    }
   }
 
   return (
@@ -1544,7 +958,7 @@ const ChallengeMain = ({navigation, route}) => {
                 <Block>
                   <Block center>
                     <SelectDropdown
-                      defaultValue={'one'}
+                      
                       dropdownStyle={{borderRadius: 20}}
                       buttonStyle={{
                         height: 50,

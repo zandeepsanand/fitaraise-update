@@ -33,7 +33,7 @@ const HomeWorkoutMain = ({navigation, route}) => {
   const {authenticated, customerId} = useContext(LoginContext);
   const {selectedWorkoutPath, setWorkoutPath} = useWorkoutPathContext();
   console.log('====================================');
-  console.log(customerId, 'homeworkout check');
+  console.log(customerId, selectedWorkoutPath, 'homeworkout check');
   console.log('====================================');
   const [tab, setTab] = useState<number>(0);
   const {following, trending} = useData();
@@ -244,6 +244,8 @@ const HomeWorkoutMain = ({navigation, route}) => {
         const gymWorkoutData = JSON.parse(storedGymWorkoutData);
         const userData = JSON.parse(storeduserDataGymWorkout);
 
+        await AsyncStorage.setItem('lastHomePage', 'Workout');
+
         navigation.navigate('GymTabNavigator', {
           screen: 'GymWorkoutMain',
           params: {data: gymWorkoutData, formDataCopy: userData},
@@ -264,6 +266,8 @@ const HomeWorkoutMain = ({navigation, route}) => {
       if (storedChallengeWorkoutData && storeduserDataChallengeWorkout) {
         const challengeWorkoutData = JSON.parse(storedChallengeWorkoutData);
         const userData = JSON.parse(storeduserDataChallengeWorkout);
+setWorkoutPath('ChallengeTabNavigator')
+        await AsyncStorage.setItem('lastHomePage', 'Workout');
 
         navigation.navigate('ChallengeTabNavigator', {
           screen: 'ChallengeMain',
@@ -295,10 +299,10 @@ const HomeWorkoutMain = ({navigation, route}) => {
       const user = userData.data.data;
 
       if (user.gender && user.gym_workout_level) {
-        const homeWorkout = await api.get(
+        const homeWorkout1 = await api.get(
           `get_gym_workouts?gender=${user.gender}&level=${user.gym_workout_level}`,
         );
-        const gymWorkoutJSON = homeWorkout.data.data;
+        const gymWorkoutJSON = homeWorkout1.data.data;
 
         if (gymWorkoutJSON) {
           await AsyncStorage.setItem(
@@ -315,6 +319,8 @@ const HomeWorkoutMain = ({navigation, route}) => {
           );
 
           setWorkoutPath('GymTabNavigator');
+
+          await AsyncStorage.setItem('lastHomePage', 'Workout');
 
           navigation.navigate('GymTabNavigator', {
             screen: 'GymWorkoutMain',
@@ -435,6 +441,8 @@ const HomeWorkoutMain = ({navigation, route}) => {
             );
 
             setWorkoutPath('ChallengeTabNavigator');
+
+            await AsyncStorage.setItem('lastHomePage', 'Workout');
 
             navigation.navigate('ChallengeTabNavigator', {
               screen: 'ChallengeMain',

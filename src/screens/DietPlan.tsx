@@ -58,6 +58,7 @@ const VerticalProgressBar = ({progress}) => {
 
 const DietPlan = ({navigation, text, maxLines = 3}) => {
   // const [selectedDate, setSelectedDate] = useState(null);
+  const currentDate = new Date().toISOString().slice(0, 10);
   const isFocused = useIsFocused();
   const route = useRoute();
   const {
@@ -77,7 +78,9 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
   const {customerId} = useContext(LoginContext);
   const [isLoadingScroll, setIsLoadingScroll] = useState(true);
   const [isDietPlanUnlocked, setDietPlanUnlocked] = useState(false); // Initially set to true
-
+  const [expanded, setExpanded] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(currentDate);
+  const [apiData, setApiData] = useState(null);
   const handleUnlockDietPlan = async () => {
     // Check if the diet plan is unlocked in AsyncStorage
     const unlocked = await AsyncStorage.getItem('isDietPlanUnlocked');
@@ -524,16 +527,16 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
   const progressValueOfCarb = ProgressCarbs / data.carb_g;
   const progressValueOfFat = ProgressFat / data.fat_g;
 
-  const [expanded, setExpanded] = useState(false);
+
 
   const toggleExpand = () => {
     setExpanded(!expanded);
   };
-  const currentDate = new Date().toISOString().slice(0, 10);
+  
   console.log(currentDate, 'date check');
 
   // State to hold the selected date and response data
-  const [selectedDate, setSelectedDate] = useState(currentDate);
+
   console.log(selectedDate, 'selected date');
 
   // Callback function to handle date change in ScrollCalendar
@@ -543,7 +546,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
   // };
   // console.log(selectedDate, 'selected date');
 
-  const [apiData, setApiData] = useState(null);
+ 
   // console.log(apiData, 'the data of diet');
 
   const handleScrollCalendarDateChange = async (selectedDate) => {

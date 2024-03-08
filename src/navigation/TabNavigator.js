@@ -89,16 +89,19 @@ const TabNavigator = ({navigation, route}) => {
       const workoutData1 = JSON.parse(storedWorkoutData);
       const userData = JSON.parse(storedUserData);
       if (selectedWorkoutPath === 'HomeTabNavigator') {
+        await AsyncStorage.setItem('lastHomePage', 'Workout');
         navigation.navigate(selectedWorkoutPath, {
           screen: screenName,
           params: { workout: workoutData1, workoutData: userData },
         });
       } else if (selectedWorkoutPath === 'GymTabNavigator') {
+        await AsyncStorage.setItem('lastHomePage', 'Workout');
         navigation.navigate(selectedWorkoutPath, {
           screen: screenName,
           params: { data: workoutData1, formDataCopy: userData },
         });
       } else if (selectedWorkoutPath === 'ChallengeTabNavigator') {
+        await AsyncStorage.setItem('lastHomePage', 'Workout');
       
         navigation.navigate('ChallengeTabNavigator', {
           screen: 'ChallengeMain',

@@ -8,6 +8,8 @@ const WorkoutPathContext = createContext();
 
 export const WorkoutPathProvider = ({ children }) => {
   const [selectedWorkoutPath, setSelectedWorkoutPath] = useState(null);
+  console.log("changed path",selectedWorkoutPath);
+  
   const [homeWorkoutData, setHomeWorkoutData] = useState(null);
 
   useEffect(() => {

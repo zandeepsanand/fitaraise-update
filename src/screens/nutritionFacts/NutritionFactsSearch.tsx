@@ -3,14 +3,13 @@ import React, {useEffect, useState} from 'react';
 import {BASE_URL} from '@env';
 import {useTheme, useTranslation} from '../../hooks/';
 import {Block, Image, Input, Text} from '../../components/';
-import { useFocusEffect } from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 import {
   Platform,
   TouchableOpacity,
   SectionList,
   TouchableWithoutFeedback,
-  StyleSheet
-  
+  StyleSheet,
 } from 'react-native';
 import Axios from 'axios';
 import {FlatList} from 'react-native';
@@ -27,7 +26,7 @@ const isAndroid = Platform.OS === 'android';
 const NutritionFactsSearch = ({route, navigation}) => {
   //   const {mealType, meal_type , formDataCopy} = route.params;
   // console.log(formDataCopy);
-  const {favorites,addToFavorites } = useFavorites();
+  const {favorites, addToFavorites} = useFavorites();
   console.log(favorites.length, 'food data favorite');
 
   const {t} = useTranslation();
@@ -41,7 +40,7 @@ const NutritionFactsSearch = ({route, navigation}) => {
       return () => {
         // Cleanup function when the component loses focus (e.g., navigating away)
       };
-    }, [])
+    }, []),
   );
   const toggleDropdown = (item) => {
     setDropdownVisible(dropdownVisible === item ? null : item);
@@ -53,7 +52,7 @@ const NutritionFactsSearch = ({route, navigation}) => {
 
   const handleRemove = (item) => {
     // Implement your remove logic here
-    console.log(item,'Remove button clicked');
+    console.log(item, 'Remove button clicked');
     setDropdownVisible(null);
 
     const id_of_food = item.food_id;
@@ -103,14 +102,16 @@ const NutritionFactsSearch = ({route, navigation}) => {
       // console.log(food, "food data");
 
       try {
-        api.get(`get_food_item_datas_with_id/${food.food_id}`).then((response) => {
-          const responseData = response.data.data;
-          navigation.navigate('SingleNutritionPage', {
-            responseData,
+        api
+          .get(`get_food_item_datas_with_id/${food.food_id}`)
+          .then((response) => {
+            const responseData = response.data.data;
+            navigation.navigate('SingleNutritionPage', {
+              responseData,
 
-            food,
+              food,
+            });
           });
-        });
         setError(null);
       } catch (e) {
         console.log(e);
@@ -157,11 +158,7 @@ const NutritionFactsSearch = ({route, navigation}) => {
           />
         </View>
       </Block>
-      <Block
-        flex={0}
-        paddingTop={10}
-        paddingHorizontal={sizes.sm}
-        style={{position: 'relative'}}></Block>
+
       {searchResults.length > 0 ? (
         <FlatList
           data={searchResults}
@@ -234,79 +231,101 @@ const NutritionFactsSearch = ({route, navigation}) => {
         />
       ) : (
         <>
-          <Block flex={0} paddingHorizontal={20}>
-            <Text center padding={10}>Save the foods you love and track them in a flash.</Text>
-            
-            {favorites.length>0&&(
-               <Text padding={10} bold>
-               Favorites
-             </Text>
+          <Block scroll flex={0} paddingHorizontal={20}>
+            <Text center padding={10}>
+              Save the foods you love and track them in a flash.
+            </Text>
+
+            {favorites.length > 0 && (
+              <Text padding={10} bold primary>
+                Favorites
+              </Text>
             )}
-           
-            {favorites.map((item, index) => (
-              
-              <Block flex={0} height={95} key={index} card marginVertical={10}>
-              <Block row>
+
+
+
+        
+
+                
+
+                
+              {favorites.map((item, index) => (
+                
                 <Block
                   flex={0}
-                  center
-                  width={60}
-                  height={60}
-                  radius={50}
-                  color={'#f0f0f8'}
-                  paddingLeft={18}
-                  marginTop={10}>
-                  <Image
-                    color={'green'}
-                    width={25}
-                    height={25}
-                    source={require('../../assets/icons/bell2.png')}></Image>
-                </Block>
-                
-                <Block flex={1} paddingLeft={20} paddingTop={15}>
-                <TouchableOpacity onPress={()=>{
-                  handlePressFavorite(item)
-                }}>
-                  <Block flex={0} center>
-                    <Text p semibold>
-                    {item.food_name}
-                    </Text>
-                    <Text
-                      semibold
-                      secondary
-                      opacity={0.5}
-                      paddingTop={5}
-                      size={12}>
-                      {item.food_name}
-                    </Text>
-                  </Block>
-                  </TouchableOpacity>
-                </Block>
-               
-                
-                <Block flex={0} center paddingRight={10}>
-                  <TouchableOpacity onPress={()=>{toggleDropdown(item)}}>
-                    <Image
-                      // color={'green'}
-                      width={8}
-                      height={30}
-                      source={require('../../assets/icons/dot.png')}></Image>
-                  </TouchableOpacity>
-                  
-                </Block>
-                {dropdownVisible === item && (
-              <Block style={styles.dropdown} flex={0} center paddingRight={10}>
-                {/* <TouchableOpacity onPress={handleEdit}>
+                  height={95}
+                  key={index}
+                  card
+                  marginVertical={10}>
+                  <Block row>
+                    <Block
+                      flex={0}
+                      center
+                      width={60}
+                      height={60}
+                      radius={50}
+                      color={'#f0f0f8'}
+                      paddingLeft={18}
+                      marginTop={10}>
+                      <Image
+                        color={'green'}
+                        width={25}
+                        height={25}
+                        source={require('../../assets/icons/bell2.png')}></Image>
+                    </Block>
+
+                    <Block flex={1} paddingLeft={20} paddingTop={15}>
+                      <TouchableOpacity
+                        onPress={() => {
+                          handlePressFavorite(item);
+                        }}>
+                        <Block flex={0} center>
+                          <Text p semibold>
+                            {item.food_name}
+                          </Text>
+                          <Text
+                            semibold
+                            secondary
+                            opacity={0.5}
+                            paddingTop={5}
+                            size={12}>
+                            {item.food_name}
+                          </Text>
+                        </Block>
+                      </TouchableOpacity>
+                    </Block>
+
+                    <Block flex={0} center paddingRight={10}>
+                      <TouchableOpacity
+                        onPress={() => {
+                          toggleDropdown(item);
+                        }}>
+                        <Image
+                          // color={'green'}
+                          width={8}
+                          height={30}
+                          source={require('../../assets/icons/dot.png')}></Image>
+                      </TouchableOpacity>
+                    </Block>
+                    {dropdownVisible === item && (
+                      <Block
+                        style={styles.dropdown}
+                        flex={0}
+                        center
+                        paddingRight={10}>
+                        {/* <TouchableOpacity onPress={handleEdit}>
                   <Text>Edit</Text>
                 </TouchableOpacity> */}
-                <TouchableOpacity onPress={()=>handleRemove(item)}>
-                  <Text>Remove</Text>
-                </TouchableOpacity>
-              </Block>
-            )}
-              </Block>
-            </Block>
-            ))}
+                        <TouchableOpacity onPress={() => handleRemove(item)}>
+                          <Text>Remove</Text>
+                        </TouchableOpacity>
+                      </Block>
+                    )}
+                  </Block>
+                </Block>
+              ))}
+
+          
           </Block>
         </>
       )}

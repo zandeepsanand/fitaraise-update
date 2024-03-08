@@ -6,10 +6,7 @@ import {StatusBar as ExpoStatusBar} from 'expo-status-bar';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import FastImage from 'react-native-fast-image';
 
-
 import SelectDropdown from 'react-native-select-dropdown';
-
-
 
 import api from '../../../../api';
 
@@ -19,7 +16,7 @@ import {ActivityIndicator} from 'react-native';
 
 import {useWorkoutPathContext} from '../../../hooks/WorkoutPathContext';
 import CalendarGym from './gymCalender/GymCalendar';
-import { useFocusEffect } from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 
 const GymWorkoutMain = ({navigation, route}) => {
   const {selectedWorkoutPath, setWorkoutPath} = useWorkoutPathContext();
@@ -235,8 +232,8 @@ const GymWorkoutMain = ({navigation, route}) => {
       if (storedHomeWorkoutData && storeduserDataHomeWorkout) {
         const homeWorkoutData = JSON.parse(storedHomeWorkoutData);
         const userData = JSON.parse(storeduserDataHomeWorkout);
-
-        navigation.navigate(selectedWorkoutPath, {
+        await AsyncStorage.setItem('lastHomePage', 'Workout');
+        navigation.navigate('HomeTabNavigator', {
           screen: 'HomeWorkoutMain',
           params: {workout: homeWorkoutData, workoutData: userData},
         });
@@ -248,14 +245,12 @@ const GymWorkoutMain = ({navigation, route}) => {
 
   const handleHomeWorkoutApiCall = async () => {
     try {
-      const userData = await api.get(
-        `get_personal_datas/${formDataCopy.customer_id}`,
-      );
-      const user = userData.data.data;
+      const userData = await api.get(`get_personal_datas/${customerId}`);
+      const userHome = userData.data.data;
 
-      if (user.gender && user.home_workout_level) {
+      if (userHome.gender && userHome.home_workout_level) {
         const homeWorkout = await api.get(
-          `get_home_workouts?gender=${user.gender}&level=${user.home_workout_level}`,
+          `get_home_workouts?gender=${userHome.gender}&level=${userHome.home_workout_level}`,
         );
         const homeWorkoutJSON = homeWorkout.data.data;
 
@@ -266,7 +261,7 @@ const GymWorkoutMain = ({navigation, route}) => {
           );
           await AsyncStorage.setItem(
             'userDataHomeWorkout',
-            JSON.stringify(user),
+            JSON.stringify(userHome),
           );
           await AsyncStorage.setItem(
             'WorkoutPath',
@@ -274,17 +269,20 @@ const GymWorkoutMain = ({navigation, route}) => {
           );
 
           setWorkoutPath('HomeTabNavigator');
+          await AsyncStorage.setItem('lastHomePage', 'Workout');
 
           navigation.navigate('HomeTabNavigator', {
             screen: 'HomeWorkoutMain',
-            params: {homeWorkout: homeWorkoutJSON, workoutData: user},
+            params: {workout: homeWorkoutJSON, workoutData: userHome},
           });
         }
+      } else if (userHome.gender) {
+        navigation.navigate('DifficultyLevel', {workoutData: userHome});
       } else {
         console.log('workout page');
         // Navigate to 'Gender' screen with workoutData
         navigation.navigate('Gender', {
-          workoutData: formDataCopy,
+          workoutData: userHome,
         });
       }
     } catch (error) {
@@ -303,7 +301,7 @@ const GymWorkoutMain = ({navigation, route}) => {
     if (storedChallengeWorkoutData && storeduserDataChallengeWorkout) {
       const challengeWorkoutData = JSON.parse(storedChallengeWorkoutData);
       const userData = JSON.parse(storeduserDataChallengeWorkout);
-
+await AsyncStorage.setItem('lastHomePage', 'Workout');
       navigation.navigate('ChallengeTabNavigator', {
         screen: 'ChallengeMain',
         params: {challenge: challengeWorkoutData},
@@ -356,7 +354,7 @@ const GymWorkoutMain = ({navigation, route}) => {
             );
 
             setWorkoutPath('ChallengeTabNavigator');
-
+            await AsyncStorage.setItem('lastHomePage', 'Workout');
             navigation.navigate('ChallengeTabNavigator', {
               screen: 'ChallengeMain',
               params: {challenge: currentlyActiveChallenge},
@@ -408,9 +406,8 @@ const GymWorkoutMain = ({navigation, route}) => {
       }
     } catch (error) {
       // Handle errors from the API call
-    
-     console.log(error);
-     
+
+      console.log(error);
     }
   };
 
@@ -418,7 +415,7 @@ const GymWorkoutMain = ({navigation, route}) => {
     fetchData();
     setIsLoading(false);
   }, []);
-  
+
   useFocusEffect(
     useCallback(() => {
       fetchData(); // Fetch data when the component comes into focus
@@ -477,8 +474,7 @@ const GymWorkoutMain = ({navigation, route}) => {
                       data={['Home workout', 'Workout Challenge']} // Provide your options here
                       // defaultButtonText={formDataCopy.workout_level}
                       defaultButtonText={'Select Workout'}
-                      onSelect={handleLevelChange}
-                    />
+                      onSelect={handleLevelChange}></SelectDropdown>
                   </Block>
                 </Block>
               </Block>
@@ -702,8 +698,8 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   coverImage: {
-    alignContent:'center',
-    alignSelf:'stretch',
+    alignContent: 'center',
+    alignSelf: 'stretch',
     // aspectRatio:3,
     flex: 1,
 
