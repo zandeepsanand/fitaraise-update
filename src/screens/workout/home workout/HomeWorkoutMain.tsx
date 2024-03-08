@@ -42,7 +42,8 @@ const HomeWorkoutMain = ({navigation, route}) => {
   const [selectedLevel, setSelectedLevel] = useState('');
   const [data2, setData2] = useState(homeWorkout);
   const [completedDates, setCompletedDates] = useState([]);
-  console.log(data2, 'testing');
+
+ 
 
   const handleProducts = useCallback(
     (tab: number) => {
@@ -266,7 +267,9 @@ const HomeWorkoutMain = ({navigation, route}) => {
       if (storedChallengeWorkoutData && storeduserDataChallengeWorkout) {
         const challengeWorkoutData = JSON.parse(storedChallengeWorkoutData);
         const userData = JSON.parse(storeduserDataChallengeWorkout);
-setWorkoutPath('ChallengeTabNavigator')
+setWorkoutPath('ChallengeTabNavigator');
+await AsyncStorage.setItem('WorkoutPath', JSON.stringify('ChallengeTabNavigator'));
+
         await AsyncStorage.setItem('lastHomePage', 'Workout');
 
         navigation.navigate('ChallengeTabNavigator', {
@@ -319,7 +322,7 @@ setWorkoutPath('ChallengeTabNavigator')
           );
 
           setWorkoutPath('GymTabNavigator');
-
+          await AsyncStorage.setItem('WorkoutPath', JSON.stringify('GymTabNavigator'));
           await AsyncStorage.setItem('lastHomePage', 'Workout');
 
           navigation.navigate('GymTabNavigator', {
@@ -435,13 +438,10 @@ setWorkoutPath('ChallengeTabNavigator')
               'userDataChallengeWorkout',
               JSON.stringify(user),
             );
-            await AsyncStorage.setItem(
-              'WorkoutPath',
-              JSON.stringify('ChallengeTabNavigator'),
-            );
+         
 
             setWorkoutPath('ChallengeTabNavigator');
-
+            await AsyncStorage.setItem('WorkoutPath', JSON.stringify('ChallengeTabNavigator'));
             await AsyncStorage.setItem('lastHomePage', 'Workout');
 
             navigation.navigate('ChallengeTabNavigator', {

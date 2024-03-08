@@ -91,6 +91,8 @@ const ChallengeCongratsPage = ({route}) => {
               );
 
               setWorkoutPath('ChallengeTabNavigator');
+              await AsyncStorage.setItem('WorkoutPath', JSON.stringify('ChallengeTabNavigator'));
+              await AsyncStorage.setItem('lastHomePage', 'Workout');
               // Navigate to the main challenge screen with the active challenge
               navigation.navigate('ChallengeTabNavigator', {
                 screen: 'ChallengeMain',

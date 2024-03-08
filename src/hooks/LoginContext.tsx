@@ -126,6 +126,7 @@ export const LoginProvider = ({children}) => {
         'userDataHomeWorkout',
         'gymWorkoutData',
         'userDataGymWorkout',
+        'lastHomePage',
         
 
       ]);

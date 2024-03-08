@@ -110,8 +110,10 @@ export default function Frstpage({
         if (storedHomeWorkoutData && storeduserDataHomeWorkout) {
           homeWorkoutData = JSON.parse(storedHomeWorkoutData);
           userData = JSON.parse(storeduserDataHomeWorkout);
+          await AsyncStorage.setItem('WorkoutPath', JSON.stringify('HomeTabNavigator'));
+          setWorkoutPath('HomeTabNavigator');
           await AsyncStorage.setItem('lastHomePage', 'Workout');
-          navigation.navigate(selectedWorkoutPath, {
+          navigation.navigate('HomeTabNavigator', {
             screen: 'HomeWorkoutMain',
             params: {workout: homeWorkoutData, workoutData: userData},
           });
@@ -136,6 +138,8 @@ export default function Frstpage({
         if (storedGymWorkoutData && storeduserDataGymWorkout) {
           gymWorkoutData = JSON.parse(storedGymWorkoutData);
           userData = JSON.parse(storeduserDataGymWorkout);
+          await AsyncStorage.setItem('WorkoutPath', JSON.stringify('GymTabNavigator'));
+          setWorkoutPath('GymTabNavigator');
           await AsyncStorage.setItem('lastHomePage', 'Workout');
           navigation.navigate('GymTabNavigator', {
             screen: 'GymWorkoutMain',
@@ -161,6 +165,8 @@ export default function Frstpage({
           //   screen: 'GymWorkoutMain',
           //   params: {data: gymWorkoutData, formDataCopy:userData},
           // });
+          await AsyncStorage.setItem('WorkoutPath', JSON.stringify('ChallengeTabNavigator'));
+          setWorkoutPath('ChallengeTabNavigator');
           await AsyncStorage.setItem('lastHomePage', 'Workout');
           navigation.navigate('ChallengeTabNavigator', {
             screen: 'ChallengeMain',

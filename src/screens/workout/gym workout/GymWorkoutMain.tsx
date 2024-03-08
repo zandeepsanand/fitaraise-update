@@ -267,7 +267,7 @@ const GymWorkoutMain = ({navigation, route}) => {
             'WorkoutPath',
             JSON.stringify('HomeTabNavigator'),
           );
-
+          await AsyncStorage.setItem('WorkoutPath', JSON.stringify('HomeTabNavigator'));
           setWorkoutPath('HomeTabNavigator');
           await AsyncStorage.setItem('lastHomePage', 'Workout');
 
@@ -354,6 +354,7 @@ await AsyncStorage.setItem('lastHomePage', 'Workout');
             );
 
             setWorkoutPath('ChallengeTabNavigator');
+            await AsyncStorage.setItem('WorkoutPath', JSON.stringify('ChallengeTabNavigator'));
             await AsyncStorage.setItem('lastHomePage', 'Workout');
             navigation.navigate('ChallengeTabNavigator', {
               screen: 'ChallengeMain',

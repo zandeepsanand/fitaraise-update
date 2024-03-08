@@ -94,7 +94,7 @@ const ChallengeMonth = ({
     await AsyncStorage.setItem('WorkoutPath', JSON.stringify('ChallengeTabNavigator'));
   
     setWorkoutPath('ChallengeTabNavigator');
-  
+    await AsyncStorage.setItem('lastHomePage', 'Workout');
     navigation.navigate('ChallengeTabNavigator', {
       screen: 'ChallengeMain',
       params: {challenge},

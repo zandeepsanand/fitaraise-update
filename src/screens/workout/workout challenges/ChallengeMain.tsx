@@ -158,7 +158,7 @@ const ChallengeMain = ({navigation, route}) => {
           await handleHomeWorkoutApiCall();
         }
       } else if (level === 'Gym Workout') {
-        setWorkoutPath('GymTabNavigator');
+        
         const navigationHandled = await navigateToGymTab();
         if (!navigationHandled) {
           await handleGymWorkoutNavigation(); // Handle non-cached case for 'Gym workout'
@@ -196,6 +196,8 @@ const ChallengeMain = ({navigation, route}) => {
               );
 
               setWorkoutPath('ChallengeTabNavigator');
+              await AsyncStorage.setItem('WorkoutPath', JSON.stringify('ChallengeTabNavigator'));
+             
               await AsyncStorage.setItem('lastHomePage', 'Workout');
               // Now you can use challenge90DaysId in your code
               const response = await api.get(
@@ -304,7 +306,9 @@ const ChallengeMain = ({navigation, route}) => {
       console.log(userData, 'home work 2');
 
       setWorkoutPath('HomeTabNavigator');
+      await AsyncStorage.setItem('WorkoutPath', JSON.stringify('HomeTabNavigator'));
       await AsyncStorage.setItem('lastHomePage', 'Workout');
+      
       navigation.navigate('HomeTabNavigator', {
         screen: 'HomeWorkoutMain',
         params: {workout: homeWorkoutData, workoutData: userData},
@@ -321,6 +325,7 @@ const ChallengeMain = ({navigation, route}) => {
 
     if (storedGymWorkoutData && storeduserDataGymWorkout) {
       setWorkoutPath('GymTabNavigator');
+      await AsyncStorage.setItem('WorkoutPath', JSON.stringify('GymTabNavigator'));
       const gymWorkoutData = JSON.parse(storedGymWorkoutData);
       const userData = JSON.parse(storeduserDataGymWorkout);
       await AsyncStorage.setItem('lastHomePage', 'Workout');

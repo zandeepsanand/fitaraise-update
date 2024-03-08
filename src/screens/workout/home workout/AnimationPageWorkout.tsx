@@ -91,7 +91,7 @@ import LoginContext from '../../../hooks/LoginContext';
               await AsyncStorage.setItem('homeWorkoutData', JSON.stringify(homeWorkout));
               await AsyncStorage.setItem('userDataHomeWorkout', JSON.stringify(workoutData));
               await AsyncStorage.setItem('WorkoutPath', JSON.stringify('HomeTabNavigator'));
-    
+              await AsyncStorage.setItem('lastHomePage', 'Workout');
               setWorkoutPath('HomeTabNavigator');
               console.log('success');
               setTimeout(() => {

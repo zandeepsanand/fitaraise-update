@@ -18,8 +18,8 @@ import DonutChart1 from './DonutChart';
 import api, {setAuthToken} from '../../api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LoginContext from '../hooks/LoginContext';
-import { ActivityIndicator } from 'react-native';
-import { MealContext } from '../hooks/useMeal';
+import {ActivityIndicator} from 'react-native';
+import {MealContext} from '../hooks/useMeal';
 
 // const data=
 // {calories: 1648, carb_g: 206, carb_percent: "50%", fat_g: 37, fat_percent: "20%", protien_g: 124, protien_percent: "30%"}
@@ -36,7 +36,7 @@ const CirclePage = ({route, navigation}) => {
     morningSnackItems,
     mealItems1,
     mealItems2,
-  
+
     addWater,
     setWater,
     water,
@@ -215,7 +215,7 @@ const CirclePage = ({route, navigation}) => {
 
           const requiredCalorie = requiredCalorieResponse.data.data;
 
-          const dietPlan = diet_List.data.data.recommended_diet_list;
+          const dietPlan1 = diet_List.data.data.recommended_diet_list;
 
           console.log(requiredCalorie, 'calorie required');
           console.log(authData.formData, 'for workout example');
@@ -231,9 +231,12 @@ const CirclePage = ({route, navigation}) => {
 
           if (
             requiredCalorieResponse.data.success === true &&
-            authData.formData && responseData.data.water_datas
+            authData.formData &&
+            responseData.data.water_datas
           ) {
+            await AsyncStorage.setItem('cachedData', JSON.stringify({ requiredCalorie, dietPlan:dietPlan1 }));
             setIsLoading(false);
+            await AsyncStorage.setItem('lastHomePage', 'DietPlan');
             navigation.reset({
               index: 0,
               routes: [
@@ -247,7 +250,6 @@ const CirclePage = ({route, navigation}) => {
                 },
               ],
             });
-        
           } else if (authData.formData) {
             setIsLoading(false);
             navigation.navigate('Details', {formData: authData.formData});
@@ -396,7 +398,6 @@ const CirclePage = ({route, navigation}) => {
             onPress={() => {
               redirectTo();
             }}>
- 
             <Block flex={1} paddingTop={10}>
               <Block>
                 <Block
@@ -405,14 +406,19 @@ const CirclePage = ({route, navigation}) => {
                   radius={46}
                   gradient={gradients?.[tab === 0 ? 'success' : '#fffff']}>
                   <Block center>
-                  {isLoading ? (
-    <ActivityIndicator animating={isLoading} style={{ marginRight: 10 }} size="small"  color={'white'}/>
-  ):(
-<Text p font={fonts.semibold} white>
-                      {'Go to home'}
-                    </Text>
-  )}
-                    
+                    {isLoading ? (
+                      <ActivityIndicator
+                        animating={isLoading}
+                        style={{marginRight: 10}}
+                        size="small"
+                        color={'white'}
+                      />
+                    ) : (
+                      <Text p font={fonts.semibold} white>
+                        {'Go to home'}
+                      </Text>
+                    )}
+
                     <View
                       style={{
                         marginTop: 4,

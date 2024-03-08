@@ -77,7 +77,7 @@ export default function GymAnimationPageWorkout({navigation, route}) {
               await AsyncStorage.setItem('gymWorkoutData', JSON.stringify(gymWorkout));
               await AsyncStorage.setItem('userDataGymWorkout', JSON.stringify(workoutData));
               await AsyncStorage.setItem('WorkoutPath', JSON.stringify('GymTabNavigator'));
-    
+              await AsyncStorage.setItem('lastHomePage', 'Workout');
               setWorkoutPath('GymTabNavigator');
               console.log('success');
               setTimeout(() => {

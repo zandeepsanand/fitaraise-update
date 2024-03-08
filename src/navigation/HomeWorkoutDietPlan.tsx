@@ -27,7 +27,11 @@ const HomeWorkoutDietPlan = () => {
 
           setIsLoading(false);
           if (requiredCalorie && authData.formData) {
-            await AsyncStorage.setItem('lastHomePage', 'DietPlan');
+            try {
+              await AsyncStorage.setItem('lastHomePage', 'DietPlan');
+            } catch (error) {
+              console.error('Error setting AsyncStorage item:', error);
+            }            
             navigation.navigate('Menu', {
               data: requiredCalorie,
               formDataCopy: authData.formData,
@@ -59,6 +63,7 @@ const HomeWorkoutDietPlan = () => {
           const dietPlan = dietListResponse.data.data.recommended_diet_list;
           const formData = formDataResponse.data.data;
           if (requiredCalorieResponse.data.success === true && formData) {
+            await AsyncStorage.setItem('lastHomePage', 'DietPlan');
             navigation.navigate('Menu', {
               data: requiredCalorie,
               formDataCopy: formData,
