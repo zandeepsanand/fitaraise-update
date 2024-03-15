@@ -101,40 +101,24 @@ export const ASSETS: ThemeAssets = {
   // backgrounds/logo
   logo: require('../assets/images/logo.png'),
   header: require('../assets/images/header.png'),
-  background: require('../assets/images/background.png'),
+  
   ios: require('../assets/images/ios.png'),
   android: require('../assets/images/android.png'),
 
   // cards
-  card1: require('../assets/images/card1.png'),
-  card2: require('../assets/images/card2.png'),
-  card3: require('../assets/images/card3.png'),
-  card4: require('../assets/images/card4.png'),
-  card5: require('../assets/images/card5.png'),
-  card6: require('../assets/images/card6.jpg'),
+  
   rocket: require('../assets/images/rocket.png'),
-  greenbackground: require('../assets/images/background-green.png'),
+  
   greeny: require('../assets/images/greeny.jpg'),
   green: require('../assets/images/green.png'),
   dosa:require('../assets/images/dosa.jpg'),
 
   // gallery photos
-  photo1: require('../assets/images/photo1.png'),
-  photo2: require('../assets/images/photo2.png'),
-  photo3: require('../assets/images/photo3.png'),
-  photo4: require('../assets/images/photo4.png'),
-  photo5: require('../assets/images/photo5.png'),
-  photo6: require('../assets/images/photo6.png'),
-  carousel1: require('../assets/images/carousel1.png'),
-
   // avatars
-  avatar1: require('../assets/images/avatar1.png'),
-  avatar2: require('../assets/images/avatar2.png'),
+
 
   // cars
-  x5: require('../assets/images/x5.png'),
-  gle: require('../assets/images/gle.png'),
-  tesla: require('../assets/images/tesla.png'),
+  
 };
 
 export const FONTS: ThemeFonts = {

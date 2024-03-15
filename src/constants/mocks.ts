@@ -504,30 +504,12 @@ export const MESSSAGES = [
 export const EXTRAS: IExtra[] = [
   {
     id: 1,
-    name: 'BMW X5',
-    time: dayjs().format('hh:00'),
-    image: require('../assets/images/x5.png'),
-    saved: false,
-    booked: false,
-    available: true,
-  },
-  {
-    id: 2,
     name: 'Tesla',
     time: dayjs().format('hh:00'),
-    image: require('../assets/images/tesla.png'),
+    image: require('../assets/images/login.png'),
     saved: false,
     booked: false,
     available: true,
-  },
-  {
-    id: 3,
-    name: 'Mercedes GLE',
-    time: dayjs().format('hh:00'),
-    image: require('../assets/images/gle.png'),
-    saved: false,
-    booked: false,
-    available: false,
   },
 ];
 

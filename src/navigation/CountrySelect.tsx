@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, {useEffect, useRef, useState} from 'react';
-import RNPickerSelect from 'react-native-picker-select';
+
 import api, {setAuthToken} from '../../api';
 import SelectDropdown from 'react-native-select-dropdown';
 

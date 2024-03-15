@@ -859,7 +859,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                         marginTop={sizes.s}
                         marginHorizontal={0}
                         card
-                        color="#f5e8fa">
+                        >
                         <Block row align="center">
                           <Block flex={0}>
                             <Image
@@ -1003,7 +1003,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                         marginTop={sizes.m}
                         marginHorizontal={10}
                         card
-                        color="rgb(245,232,250)"
+                        
                         center>
                         <Block row align="center">
                           <Block flex={0}>
@@ -1077,7 +1077,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                         shadow={!isAndroid} // disabled shadow on Android due to blur overlay + elevation issue
                         marginTop={sizes.s}
                         card
-                        color="#f5e8fa">
+                        >
                         <Block row align="center">
                           <Block flex={0}>
                             <Image
@@ -1248,7 +1248,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                         marginTop={sizes.m}
                         marginHorizontal={10}
                         card
-                        color="rgb(245,232,250)"
+                        
                         center>
                         <Block row align="center">
                           <Block flex={0}>
@@ -1321,7 +1321,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                         shadow={!isAndroid} // disabled shadow on Android due to blur overlay + elevation issue
                         marginTop={sizes.s}
                         card
-                        color="#f5e8fa">
+                        >
                         <Block row align="center">
                           <Block flex={0}>
                             <Image
@@ -1481,7 +1481,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                         marginTop={sizes.m}
                         marginHorizontal={10}
                         card
-                        color="rgb(245,232,250)"
+                        
                         center>
                         <Block row align="center">
                           <Block flex={0}>
@@ -1554,7 +1554,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                         shadow={!isAndroid} // disabled shadow on Android due to blur overlay + elevation issue
                         marginTop={sizes.s}
                         card
-                        color="#f5e8fa">
+                        >
                         <Block row align="center">
                           <Block flex={0}>
                             <Image
@@ -1716,7 +1716,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                         marginTop={sizes.m}
                         marginHorizontal={10}
                         card
-                        color="rgb(245,232,250)"
+                        
                         center>
                         <Block row align="center">
                           <Block flex={0}>
@@ -1789,7 +1789,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                         shadow={!isAndroid} // disabled shadow on Android due to blur overlay + elevation issue
                         marginTop={sizes.s}
                         card
-                        color="#f5e8fa">
+                        >
                         <Block row align="center">
                           <Block flex={0}>
                             <Image
@@ -1951,7 +1951,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                         marginTop={sizes.m}
                         marginHorizontal={10}
                         card
-                        color="rgb(245,232,250)"
+                        
                         center>
                         <Block row align="center">
                           <Block flex={0}>
