@@ -1,20 +1,29 @@
 /* eslint-disable prettier/prettier */
 import React, {useState, useEffect, useRef} from 'react';
-import {StyleSheet, Text, View, ScrollView} from 'react-native';
+import {StyleSheet, Text, View, ScrollView, Dimensions} from 'react-native';
 import moment from 'moment-timezone';
 import Date1 from './Date';
 
 const CalendarHomeWorkout = ({
   // onSelectDate,
   //  selected,
-    savedDate = []}) => {
+    savedDate = [],
+    navigation}) => {
   const [dates, setDates] = useState([]);
   const [scrollPosition, setScrollPosition] = useState(0);
+  const [navigationTriggered, setNavigationTriggered] = useState(false); // State to track navigation
+  console.log('====================================');
+  console.log(scrollPosition);
+  console.log('====================================');
   const [currentMonth, setCurrentMonth] = useState();
-  const screenWidth = 60; // Width of each date item, adjust as needed
+  const screenWidth = (Dimensions.get('window').width) / 6.09 ;
+  console.log('====================================');
+  console.log(screenWidth , "screen width");
+  console.log('====================================');
+  // const screenWidth = 65.5; // Width of each date item, adjust as needed
   const scrollRef = useRef<ScrollView | null>(null);
 
-  moment.tz.setDefault('Asia/Kolkata');
+  
   const getDates = () => {
     const _dates = [];
     const today = moment();
@@ -30,17 +39,30 @@ const CalendarHomeWorkout = ({
   }, []);
 
   useEffect(() => {
-    // Center on the current date when the component initially mounts
-    if (scrollRef.current) {
+    // Center on the current date when the component initially mounts or navigation occurs
+    
       // Calculate the index of the current date
       const todayIndex = dates.findIndex((date) => {
         return moment(date).isSame(moment(), 'day');
       });
+      console.log('====================================');
+      console.log(todayIndex, "index");
+      console.log('====================================');
 
       // Scroll to the position that centers on the current date
-      scrollRef.current.scrollTo({x:todayIndex * screenWidth, animated: true});
-    }
-  }, [dates]);
+      scrollRef.current.scrollTo({ x: todayIndex * screenWidth, animated: true });
+      setNavigationTriggered(false); // Reset navigation trigger after centering
+    
+  }, [dates, screenWidth, navigationTriggered]); // Add screenWidth and navigationTriggered to dependencies
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      // Trigger navigation event
+      setNavigationTriggered(true);
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   const getCurrentMonth = () => {
     const centerIndex = Math.round(scrollPosition / screenWidth);
@@ -53,7 +75,7 @@ const CalendarHomeWorkout = ({
   }, [scrollPosition]);
 
   return (
-    <View>
+    <View style={styles.centered}>
       <View style={styles.centered}>
         <Text style={styles.title}>{currentMonth}</Text>
       </View>
@@ -83,6 +105,8 @@ const styles = StyleSheet.create({
   centered: {
     justifyContent: 'center',
     alignItems: 'center',
+  
+    paddingTop:10
   },
   title: {
     fontSize: 16,

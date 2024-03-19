@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView ,Dimensions} from 'react-native';
 import moment from 'moment-timezone';
 import Date1 from './Date'; // Assuming you've imported Date1 correctly
 import { Block } from '../../components';
@@ -10,21 +10,23 @@ const Calendar = ({ onSelectDate, selected   }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [currentMonth, setCurrentMonth] = useState();
   const [newDate, setNewDate] = useState('');
-
+  const [navigationTriggered, setNavigationTriggered] = useState(false); // State to track navigation
+  const scrollRef = useRef<ScrollView | null>(null);
+  console.log('====================================');
+  console.log(scrollPosition);
+  console.log('====================================');
+  const screenWidth = Dimensions.get('window').width / 1;
+  console.log('====================================');
+  console.log(screenWidth);
+  console.log('====================================');
   // get the dates from today to 10 days from now, format them as strings and store them in state
   const getDates = () => {
     const _dates = [];
-    for (let i = 29; i >= 0; i--) {
-      const date = moment().subtract(i, 'days');
-      if (!_dates.find(d => d.isSame(date, 'day'))) {
-        _dates.push(date);
-      }
-    }
-    for (let i = 0; i < 10; i++) {
-      const date = moment().add(i, 'days');
-      if (!_dates.find(d => d.isSame(date, 'day'))) {
-        _dates.push(date);
-      }
+    const today = moment();
+    // Calculate 60 days before and 60 days forward
+    for (let i = -60; i <= 60; i++) {
+      const date = moment(today).add(i, 'days');
+      _dates.push(date);
     }
     setDates(_dates);
   };
@@ -32,15 +34,28 @@ const Calendar = ({ onSelectDate, selected   }) => {
   useEffect(() => {
     getDates();
   }, []);
+  useEffect(() => {
+    // Center on the current date when the component initially mounts or navigation occurs
+    if (scrollRef.current && dates.length > 0 && navigationTriggered) {
+      // Calculate the index of the current date
+      const todayIndex = dates.findIndex((date) => {
+        return moment(date).isSame(moment(), 'day');
+      });
 
+      // Scroll to the position that centers on the current date
+      scrollRef.current.scrollTo({ x: todayIndex * screenWidth, animated: true });
+      setNavigationTriggered(false); // Reset navigation trigger after centering
+    }
+  }, [dates, screenWidth, navigationTriggered]);
   const getCurrentMonth = () => {
-    const month = moment(dates[0]).add(scrollPosition / 60, 'days').format('MMMM');
-    setCurrentMonth(month);
+    const centerIndex = Math.round(scrollPosition / screenWidth);
+    const centerDate = dates[centerIndex];
+    setCurrentMonth(moment(centerDate).format('MMMM YYYY'));
   };
 
   useEffect(() => {
     getCurrentMonth();
-  }, [scrollPosition]);
+  }, []);
   
   useEffect(() => {
     // Find the index of today's date in the dates array
@@ -65,7 +80,6 @@ const Calendar = ({ onSelectDate, selected   }) => {
             showsHorizontalScrollIndicator={false}
             // onScroll is a native event that returns the number of pixels the user has scrolled
             onScroll={(e) => setScrollPosition(e.nativeEvent.contentOffset.x)}
-            
             scrollEventThrottle={16}
           >
             {dates.map((date, index) => (

@@ -8,41 +8,31 @@ const GymDate = ({
   selected,
   savedDate = [],
 }) => {
-  const day = moment.tz(date, 'Asia/Kolkata').format('DD-MM-YYYY');
-  const dayText = moment.tz(date, 'Asia/Kolkata').format('ddd');
+  const todayDate = moment().format('YYYY-MM-DD');
+  const day = moment(date).format('DD-MM-YYYY'); // Using local time zone
+  const dayText = moment(date).format('ddd'); // Using local time zone
   const isCompleted = savedDate.includes(day);
-  const dayNumber = moment.tz(date, 'Asia/Kolkata').format('D');
-  const fullDate = moment.tz(date, 'Asia/Kolkata').format('YYYY-MM-DD');
+  const dayNumber = moment(date).format('D'); // Using local time zone
+  const fullDate = moment(date).format('YYYY-MM-DD'); // Using local time zone
+
+const isSelected = todayDate === fullDate;
   return (
     <TouchableOpacity
-      // onPress={() =>
+      // onPress={() => 
       //   onSelectDate(fullDate)
       // }
-      style={[
-        styles.card,
-        selected === fullDate && {backgroundColor: '#6146c6'},
-      ]}>
-      <Text style={[styles.big, selected === fullDate && {color: '#fff'}]}>
-        {dayText}
-      </Text>
-      <View style={{height: 5}} />
+      style={[styles.card, isSelected  && { backgroundColor: "lightgreen" }]}
+    >
+      <Text style={[styles.big, selected === fullDate && { color: "#fff" }]}>{dayText}</Text>
+      <View style={{ height: 5 }} />
       {isCompleted ? (
         <Image
           source={require('../../../../assets/icons/yes.png')}
           style={{width: 20, height: 20}}
         />
       ):(<Text></Text>)}
-      <Text
-        style={[
-          styles.medium,
-          selected === fullDate && {
-            color: '#fff',
-            fontWeight: 'bold',
-            fontSize: 24,
-          },
-        ]}>
-        {dayNumber}
-      </Text>
+      <Text style={[styles.medium]}>{dayNumber}</Text>
+      
     </TouchableOpacity>
   );
 };

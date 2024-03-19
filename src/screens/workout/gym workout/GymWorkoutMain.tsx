@@ -1,8 +1,16 @@
 /* eslint-disable prettier/prettier */
-import React, {useCallback, useContext, useEffect, useState} from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import {useData, useTheme, useTranslation} from '../../../hooks';
 import {Block, Button, Image, Input, Product, Text} from '../../../components';
 import {StatusBar as ExpoStatusBar} from 'expo-status-bar';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import FastImage from 'react-native-fast-image';
 
@@ -34,7 +42,11 @@ const GymWorkoutMain = ({navigation, route}) => {
   const {assets, colors, fonts, gradients, sizes} = useTheme();
   const [selectedLevel, setSelectedLevel] = useState('');
   const [completedDates, setCompletedDates] = useState([]);
+
   const [data2, setData2] = useState(data);
+  const [data3, setData3] = useState(formDataCopy);
+  const [showText, setShowText] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   console.log(data2, 'testing');
 
@@ -51,157 +63,200 @@ const GymWorkoutMain = ({navigation, route}) => {
     navigation.navigate('GymWorkoutAll', {workout, data, completedWorkouts});
     console.log(completedWorkouts, 'completed workout list');
   };
-  // const handleLevelChange = async (level) => {
-  //   setSelectedLevel(level);
+  const handleTextClick = () => {
+    setShowText(false);
+  };
 
-  //   if (['Home workout', 'Workout Challenge'].includes(level)) {
-  //     if (level === 'Home workout') {
-  //       if (selectedWorkoutPath === 'HomeTabNavigator') {
-  //         let homeWorkoutData = null;
-  //         let userData = null;
+  const dropdownRef = useRef<SelectDropdown>(null);
 
-  //         // Retrieve homeWorkoutData from AsyncStorage
-  //         const storedHomeWorkoutData = await AsyncStorage.getItem('homeWorkoutData');
-  //         const storeduserDataHomeWorkout = await AsyncStorage.getItem('userDataHomeWorkout');
+  const handleWorkoutLevel = async (level) => {
+    if (['beginner', 'intermediate', 'expert'].includes(level)) {
+      if (level === 'beginner') {
+        try {
+          setLoading(true);
+          const userData = await api.get(`get_personal_datas/${customerId}`);
+          const user = userData.data.data;
 
-  //         if (storedHomeWorkoutData && storeduserDataHomeWorkout) {
-  //           homeWorkoutData = JSON.parse(storedHomeWorkoutData);
-  //           userData = JSON.parse(storeduserDataHomeWorkout);
-  //           navigation.navigate(selectedWorkoutPath, {
-  //             screen: 'HomeWorkoutMain',
-  //             params: { workout: homeWorkoutData, workoutData: userData },
-  //           });
-  //         }
-  //       }
+          if (user.gender) {
+            const formData = {
+              customer_id: customerId,
+              gym_workout_level: 'beginner',
+            };
+            const formDataCopy1 = Object.fromEntries(
+              Object.entries(formData).filter(([key, value]) => value !== null),
+            );
+            console.log(formDataCopy1, 'form data');
 
-  //       const userData = await api.get(`get_personal_datas/${formDataCopy.customer_id}`);
-  //       const user = userData.data.data;
-  //       console.log(user, 'user data home workout loading');
+            const setUserData = await api.post(
+              `set_personal_datas`,
+              formDataCopy1,
+            );
+            console.log(setUserData.data.message);
+            const gymWorkout1 = await api.get(
+              `get_gym_workouts?gender=${user.gender}&level=beginner`,
+            );
+            const userData3 = await api.get(`get_personal_datas/${customerId}`);
+            console.log('====================================');
+            console.log(userData3.data.data, 'beginer check');
+            console.log('====================================');
+            setData2(gymWorkout1.data.data);
+            setData3(userData3.data.data);
 
-  //       if (user.gender && user.home_workout_level) {
-  //         const homeWorkout = await api.get(`get_home_workouts?gender=${user.gender}&level=${user.home_workout_level}`);
-  //         const homeWorkoutJSON = homeWorkout.data.data;
+            const gymWorkoutJSON = gymWorkout1.data.data;
+            const userGym = userData3.data.data;
+            if (gymWorkoutJSON && userGym) {
+              await AsyncStorage.setItem(
+                'gymWorkoutData',
+                JSON.stringify(gymWorkoutJSON),
+              );
+              await AsyncStorage.setItem(
+                'userDataGymWorkout',
+                JSON.stringify(userGym),
+              );
+              await AsyncStorage.setItem(
+                'WorkoutPath',
+                JSON.stringify('GymTabNavigator'),
+              );
 
-  //         if (homeWorkoutJSON) {
-  //           console.log(homeWorkoutJSON, 'workout data home');
-  //           await AsyncStorage.setItem('homeWorkoutData', JSON.stringify(homeWorkoutJSON));
-  //           await AsyncStorage.setItem('userDataHomeWorkout', JSON.stringify(user));
-  //           await AsyncStorage.setItem('WorkoutPath', JSON.stringify('HomeTabNavigator'));
+              setWorkoutPath('GymTabNavigator');
+              await AsyncStorage.setItem(
+                'WorkoutPath',
+                JSON.stringify('GymTabNavigator'),
+              );
+              await AsyncStorage.setItem('lastHomePage', 'Workout');
+            }
+            setLoading(false);
+            setShowText(true);
+          }
+        } catch (error) {
+          console.error('Error in handleGymWorkoutNavigation:', error);
+        }
+      }
+    }
+    if (level === 'intermediate') {
+      try {
+        setLoading(true);
+        const userData = await api.get(`get_personal_datas/${customerId}`);
+        const user = userData.data.data;
 
-  //           setWorkoutPath('HomeTabNavigator');
+        if (user.gender) {
+          const formData = {
+            customer_id: customerId,
+            gym_workout_level: 'intermediate',
+          };
+          const formDataCopy1 = Object.fromEntries(
+            Object.entries(formData).filter(([key, value]) => value !== null),
+          );
+          console.log(formDataCopy1, 'form data');
 
-  //           // Navigate to 'HomeTabNavigator' with homeWorkout and workoutData
-  //           navigation.navigate('HomeTabNavigator', {
-  //             screen: 'HomeWorkoutMain',
-  //             params: { workout: homeWorkoutJSON, workoutData: user },
-  //           });
-  //         }
-  //       } else {
-  //         console.log('workout page');
-  //         // Navigate to 'Gender' screen with workoutData
-  //         navigation.navigate('Gender', {
-  //           workoutData: formDataCopy,
-  //         });
-  //       }
-  //     } else if (level === 'Workout Challenge') {
-  //       if(selectedWorkoutPath === 'ChallengeTabNavigator'){
-  //         let challengeWorkoutData = null;
-  //         let userData = null;
+          const setUserData = await api.post(
+            `set_personal_datas`,
+            formDataCopy1,
+          );
+          console.log(setUserData.data.message);
+          const gymWorkout1 = await api.get(
+            `get_gym_workouts?gender=${user.gender}&level=intermediate`,
+          );
+          const userData3 = await api.get(`get_personal_datas/${customerId}`);
+          console.log('====================================');
+          console.log(userData3.data.data, 'beginer check');
+          console.log('====================================');
+          setData2(gymWorkout1.data.data);
+          setData3(userData3.data.data);
 
-  //         // Retrieve homeWorkoutData from AsyncStorage
-  //         const storedChallengeWorkoutData = await AsyncStorage.getItem('challengeWorkoutData');
-  //         const storeduserDataChallengeWorkout = await AsyncStorage.getItem('userDataChallengeWorkout');
-  //         if (storedChallengeWorkoutData && storeduserDataChallengeWorkout) {
-  //           challengeWorkoutData = JSON.parse(storedChallengeWorkoutData);
-  //           userData = JSON.parse(storeduserDataChallengeWorkout);
+          const gymWorkoutJSON = gymWorkout1.data.data;
+          const userGym = userData3.data.data;
+          if (gymWorkoutJSON && userGym) {
+            await AsyncStorage.setItem(
+              'gymWorkoutData',
+              JSON.stringify(gymWorkoutJSON),
+            );
+            await AsyncStorage.setItem(
+              'userDataGymWorkout',
+              JSON.stringify(userGym),
+            );
+            await AsyncStorage.setItem(
+              'WorkoutPath',
+              JSON.stringify('GymTabNavigator'),
+            );
 
-  //           // navigation.navigate('GymTabNavigator', {
-  //           //   screen: 'GymWorkoutMain',
-  //           //   params: {data: gymWorkoutData, formDataCopy:userData},
-  //           // });
+            setWorkoutPath('GymTabNavigator');
+            await AsyncStorage.setItem(
+              'WorkoutPath',
+              JSON.stringify('GymTabNavigator'),
+            );
+            await AsyncStorage.setItem('lastHomePage', 'Workout');
+          }
+          setLoading(false);
+          setShowText(true);
+        }
+      } catch (error) {
+        console.error('Error in handleGymWorkoutNavigation:', error);
+      }
+    }
+    if (level === 'expert') {
+      try {
+        setLoading(true);
+        const userData = await api.get(`get_personal_datas/${customerId}`);
+        const user = userData.data.data;
 
-  //           navigation.navigate('ChallengeTabNavigator', {
-  //             screen: 'ChallengeMain',
-  //             params: {challenge: challengeWorkoutData},
-  //           });
-  //         }
+        if (user.gender) {
+          const formData = {
+            customer_id: customerId,
+            gym_workout_level: 'expert',
+          };
+          const formDataCopy1 = Object.fromEntries(
+            Object.entries(formData).filter(([key, value]) => value !== null),
+          );
+          console.log(formDataCopy1, 'form data');
 
-  //       }
+          const setUserData = await api.post(
+            `set_personal_datas`,
+            formDataCopy1,
+          );
+          console.log(setUserData.data.message);
+          const gymWorkout1 = await api.get(
+            `get_gym_workouts?gender=${user.gender}&level=expert`,
+          );
+          const userData3 = await api.get(`get_personal_datas/${customerId}`);
+          console.log('====================================');
+          console.log(userData3.data.data, 'beginer check');
+          console.log('====================================');
+          setData2(gymWorkout1.data.data);
+          setData3(userData3.data.data);
 
-  //       try {
-  //         const authDataJSON = await AsyncStorage.getItem('authData');
+          const gymWorkoutJSON = gymWorkout1.data.data;
+          const userGym = userData3.data.data;
+          if (gymWorkoutJSON && userGym) {
+            await AsyncStorage.setItem(
+              'gymWorkoutData',
+              JSON.stringify(gymWorkoutJSON),
+            );
+            await AsyncStorage.setItem(
+              'userDataGymWorkout',
+              JSON.stringify(userGym),
+            );
+            await AsyncStorage.setItem(
+              'WorkoutPath',
+              JSON.stringify('GymTabNavigator'),
+            );
 
-  //         if (authDataJSON) {
-  //           const authData = JSON.parse(authDataJSON);
-  //           const authToken = authData.token;
+            setWorkoutPath('GymTabNavigator');
+            await AsyncStorage.setItem(
+              'WorkoutPath',
+              JSON.stringify('GymTabNavigator'),
+            );
+            await AsyncStorage.setItem('lastHomePage', 'Workout');
+          }
+          setLoading(false);
+          setShowText(true);
+        }
+      } catch (error) {
+        console.error('Error in handleGymWorkoutNavigation:', error);
+      }
+    }
+  };
 
-  //           if (authToken) {
-  //             setIsLoading(true);
-
-  //             const authData = JSON.parse(authDataJSON);
-  //             const workoutDataJSON = authData.formData;
-  //             console.log(customerId, 'id');
-  //             const userData = await api.get(`get_personal_datas/${customerId}`);
-  //             const user = userData.data.data;
-  //             console.log(user, 'user data challenge workout loading');
-
-  //             if (user.gender && user.workout_challenge_level) {
-  //               const homeWorkout = await api.get(`get_workout_challenges?gender=${user.gender}&level=${user.workout_challenge_level}`);
-  //               const challengeMonthJSON = homeWorkout.data.data;
-  //               console.log(challengeMonthJSON);
-  //               if (challengeMonthJSON) {
-  //                 const activeChallenges = challengeMonthJSON.filter((challenge) => challenge.currently_using);
-
-  //                 if (activeChallenges.length > 0) {
-  //                   const currentlyActiveChallenge = activeChallenges.find(
-  //                     (challenge) => challenge.currently_using,
-  //                   );
-  //                   console.log('====================================');
-  //                   console.log(currentlyActiveChallenge, 'check active');
-  //                   console.log('====================================');
-
-  //             await AsyncStorage.setItem('challengeWorkoutData', JSON.stringify(currentlyActiveChallenge));
-  //             await AsyncStorage.setItem('userDataChallengeWorkout', JSON.stringify(user));
-  //             await AsyncStorage.setItem('WorkoutPath', JSON.stringify('ChallengeTabNavigator'));
-
-  //             setWorkoutPath('ChallengeTabNavigator');
-
-  //                   // Use the navigation.navigate function to pass the data to the next screen
-  //                   navigation.navigate('ChallengeTabNavigator', {
-  //                     screen: 'ChallengeMain',
-  //                     params: { challenge: currentlyActiveChallenge },
-  //                   });
-  //                 } else {
-  //                   console.log('workout page');
-  //                   // Navigate to 'Gender' screen with workoutData
-  //                   navigation.navigate('ChallengeGenderPage', {
-  //                     workoutData: user,
-  //                   });
-  //                 }
-  //               }
-  //             } else {
-  //               console.log('workout page');
-  //               // Navigate to 'Gender' screen with workoutData
-  //               navigation.navigate('ChallengeGenderPage', {
-  //                 workoutData: user,
-  //               });
-  //             }
-  //           }
-  //         } else {
-  //           console.log('Token not available');
-  //           navigation.reset({
-  //             index: 0,
-  //             routes: [{ name: 'loginNew' }],
-  //           });
-  //         }
-  //       } catch (error) {
-  //         console.error('Authentication Status Error:', error);
-  //       } finally {
-  //         setIsLoading(false);
-  //       }
-  //     }
-  //   }
-  // };
   const handleLevelChange = async (level) => {
     setSelectedLevel(level);
 
@@ -267,7 +322,10 @@ const GymWorkoutMain = ({navigation, route}) => {
             'WorkoutPath',
             JSON.stringify('HomeTabNavigator'),
           );
-          await AsyncStorage.setItem('WorkoutPath', JSON.stringify('HomeTabNavigator'));
+          await AsyncStorage.setItem(
+            'WorkoutPath',
+            JSON.stringify('HomeTabNavigator'),
+          );
           setWorkoutPath('HomeTabNavigator');
           await AsyncStorage.setItem('lastHomePage', 'Workout');
 
@@ -301,7 +359,7 @@ const GymWorkoutMain = ({navigation, route}) => {
     if (storedChallengeWorkoutData && storeduserDataChallengeWorkout) {
       const challengeWorkoutData = JSON.parse(storedChallengeWorkoutData);
       const userData = JSON.parse(storeduserDataChallengeWorkout);
-await AsyncStorage.setItem('lastHomePage', 'Workout');
+      await AsyncStorage.setItem('lastHomePage', 'Workout');
       navigation.navigate('ChallengeTabNavigator', {
         screen: 'ChallengeMain',
         params: {challenge: challengeWorkoutData},
@@ -354,7 +412,10 @@ await AsyncStorage.setItem('lastHomePage', 'Workout');
             );
 
             setWorkoutPath('ChallengeTabNavigator');
-            await AsyncStorage.setItem('WorkoutPath', JSON.stringify('ChallengeTabNavigator'));
+            await AsyncStorage.setItem(
+              'WorkoutPath',
+              JSON.stringify('ChallengeTabNavigator'),
+            );
             await AsyncStorage.setItem('lastHomePage', 'Workout');
             navigation.navigate('ChallengeTabNavigator', {
               screen: 'ChallengeMain',
@@ -424,194 +485,230 @@ await AsyncStorage.setItem('lastHomePage', 'Workout');
   );
 
   return (
-    <>
-      {isLoading && (
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginTop: 140,
-          }}>
-          <ActivityIndicator size="large" color="blue" />
-        </View>
-      )}
-      {!isLoading && (
-        <Block safe marginTop={sizes.md} marginBottom={10}>
-          <Block
-            scroll
-            // paddingHorizontal={sizes.s}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{paddingBottom: sizes.padding}}>
-            <Block>
-              <Block
-                row
-                style={{
-                  justifyContent: 'space-between',
-                  paddingBottom: 10,
-                  borderBottomWidth: 10,
-                  borderBottomColor: '#2FD87269',
-                }}>
-                <Block center paddingLeft={10}>
-                  <Text bold>Gym Workout</Text>
-                </Block>
-                <Block>
-                  <Block
-                    style={{
-                      flex: 1,
-                      justifyContent: 'flex-end',
-                      alignItems: 'flex-end',
-                    }}>
-                    <SelectDropdown
-                      // defaultValue={'one'}
-                      dropdownStyle={{borderRadius: 20}}
-                      buttonStyle={{
-                        height: 50,
-                        width: 180,
-                        backgroundColor: 'white',
-                        borderRadius: 20,
-                        marginLeft: 10,
-                      }}
-                      data={['Home workout', 'Workout Challenge']} // Provide your options here
-                      // defaultButtonText={formDataCopy.workout_level}
-                      defaultButtonText={'Select Workout'}
-                      onSelect={handleLevelChange}></SelectDropdown>
+    <Block safe>
+      <Block
+        scroll
+        paddingHorizontal={sizes.s}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{paddingBottom: sizes.padding}}>
+        {isLoading && (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: 140,
+            }}>
+            <ActivityIndicator size="large" color="blue" />
+          </View>
+        )}
+        {!isLoading && (
+          <Block safe marginTop={sizes.md} marginBottom={10}>
+            <Block
+              scroll
+              // paddingHorizontal={sizes.s}
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={{paddingBottom: sizes.padding}}>
+              <Block>
+                <Block
+                  row
+                  style={{
+                    justifyContent: 'space-between',
+                    paddingBottom: 20,
+                    borderBottomWidth: 5,
+                    borderBottomColor: '#2FD87269',
+                    paddingTop: 15,
+                  }}
+                  card>
+                  <Block center paddingLeft={10}>
+                    <Text bold primary>
+                      Gym Workout
+                    </Text>
+
+                    <View>
+                      {showText ? (
+                        <TouchableOpacity onPress={handleTextClick}>
+                          <Block row paddingTop={10}>
+                            <Text>
+                              {data3.gym_workout_level.charAt(0).toUpperCase() +
+                                data3.gym_workout_level.slice(1)}
+                            </Text>
+                            <View style={{paddingLeft: 10}}>
+                              <FontAwesome
+                                name={'edit'}
+                                color={'green'}
+                                size={18}
+                              />
+                            </View>
+                          </Block>
+                        </TouchableOpacity>
+                      ) : (
+                        <>
+                          {loading ? (
+                            <Block paddingTop={10} align="flex-start">
+                              <ActivityIndicator />
+                            </Block>
+                          ) : (
+                            <Block align="flex-start">
+                              <SelectDropdown
+                                renderDropdownIcon={(isOpened) => {
+                                  return (
+                                    <FontAwesome
+                                      name={
+                                        isOpened ? 'chevron-up' : 'chevron-down'
+                                      }
+                                      color={'green'}
+                                      size={12}
+                                    />
+                                  );
+                                }}
+                                ref={dropdownRef}
+                                data={['beginner', 'intermediate', 'expert']}
+                                defaultButtonText={'Select Difficulty'}
+                                onSelect={handleWorkoutLevel}
+                                buttonStyle={styles.dropdown2BtnStyle}
+                                buttonTextStyle={styles.dropdown2BtnTxtStyle}
+                                dropdownIconPosition={'right'}
+                                dropdownStyle={styles.dropdown2DropdownStyle}
+                                rowStyle={styles.dropdown2RowStyle}
+                                rowTextStyle={styles.dropdown2RowTxtStyle}
+                              />
+                            </Block>
+                          )}
+                        </>
+                      )}
+                    </View>
                   </Block>
-                </Block>
-              </Block>
-
-              <Block
-              // style={{
-              //   borderBottomColor: 'black',
-              //   borderBottomWidth: 0.11,
-              //   backgroundColor: 'white',
-              // }}
-              // paddingBottom={10}
-              ></Block>
-              <View style={{paddingBottom: 20}}>
-                {/* <GifPlayer /> */}
-                <CalendarGym savedDate={completedDates} />
-              </View>
-
-              {/* <Animated.Image
-        source={{ uri: 'https://picsum.photos/id/39/200' }}
-        style={{ width: 300, height: 300 }}
-        sharedTransitionTag="tag"
-      /> */}
-
-              {data2.map((workout) => (
-                <TouchableOpacity
-                  key={workout.id}
-                  onPress={() => handleWorkoutClick(workout)}>
-                  <Block
-                    flex={1}
-                    marginHorizontal={10}
-                    marginVertical={10}
-                    style={styles.container}>
-                    <Block>
-                      <Text
-                        // white
-                        // left={40}
-                        // top={20}
-                        padding={30}
-                        size={20}
-                        color={'lightgreen'}
-                        bold
-                        style={{
-                          position: 'absolute',
-                          zIndex: 10,
-                        }}>
-                        {workout.name}
-                      </Text>
-                      {/* <Text
-                        white
-                        // left={40}
-                        top={60}
-                        paddingLeft={25}
-                        size={20}
-                        bold
-                        style={{
-                          position: 'absolute',
-                          zIndex: 10,
-                        }}>
-                        {workout.start_quote}
-                      </Text> */}
-                      <Text
-                        white
-                        // left={40}
-                        top={60}
-                        paddingLeft={30}
-                        size={15}
-                        style={{
-                          position: 'absolute',
-                          zIndex: 10,
-                        }}>
-                        Total Minutes : {workout.total_minutes}
-                      </Text>
-                      <Text
-                        white
-                        // left={40}
-                        top={90}
-                        paddingLeft={30}
-                        size={15}
-                        bold
-                        style={{
-                          position: 'absolute',
-                          zIndex: 10,
-                        }}>
-                        {formDataCopy.gym_workout_level
-                          .charAt(0)
-                          .toUpperCase() +
-                          formDataCopy.gym_workout_level.slice(1)}
-                      </Text>
-                      {/* <Animated.Image
-                        style={styles.coverImage}
-                        source={{uri: `${workout.image}`}}
-                     
-                        sharedTransitionTag="tag"></Animated.Image> */}
-                      <FastImage
-                        style={styles.coverImage}
-                        source={{
-                          uri: workout.image,
-
-                          priority: FastImage.priority.normal,
-                        }}
-                        resizeMode={FastImage.resizeMode.cover}
-                      />
-
-                      {/* <ImageBackground
-                    style={styles.coverImage}
-                    source={{
-                      uri: `${workout.image}`,
-                    }}
-                    > */}
-                      <View style={styles.darkness} />
-                      {/* </ImageBackground> */}
-                    </Block>
+                  <Block>
                     <Block
-                      right={20}
-                      bottom={20}
                       style={{
-                        position: 'absolute',
-                        zIndex: 10,
+                        flex: 1,
                         justifyContent: 'flex-end',
-                      }}>
-                      <Button
-                        color={'#A7F432'}
-                        onPress={() => handleWorkoutClick(workout)}>
-                        <Text paddingHorizontal={25} size={15} bold>
-                          Try
-                        </Text>
-                      </Button>
+                        alignItems: 'flex-end',
+                      }}
+                      paddingRight={10}>
+                      <SelectDropdown
+                        // defaultValue={'one'}
+                        renderDropdownIcon={(isOpened) => {
+                          return (
+                            <FontAwesome
+                              name={isOpened ? 'chevron-up' : 'chevron-down'}
+                              color={'green'}
+                              size={12}
+                            />
+                          );
+                        }}
+                        data={['Home workout', 'Workout Challenge']} // Provide your options here
+                        // defaultButtonText={formDataCopy.workout_level}
+                        defaultButtonText={'Select Workout'}
+                        onSelect={handleLevelChange}
+                        buttonStyle={styles.dropdown2BtnStyle}
+                        buttonTextStyle={styles.dropdown2BtnTxtStyle}
+                        dropdownIconPosition={'right'}
+                        dropdownStyle={styles.dropdown2DropdownStyle}
+                        rowStyle={styles.dropdown2RowStyle}
+                        rowTextStyle={
+                          styles.dropdown2RowTxtStyle
+                        }></SelectDropdown>
                     </Block>
                   </Block>
-                </TouchableOpacity>
-              ))}
+                </Block>
+
+                <Block></Block>
+                <View style={{paddingBottom: 20}}>
+                  {/* <GifPlayer /> */}
+                  <CalendarGym
+                    savedDate={completedDates}
+                    navigation={navigation}
+                  />
+                </View>
+
+                {data2.map((workout) => (
+                  <TouchableOpacity
+                    key={workout.id}
+                    onPress={() => handleWorkoutClick(workout)}>
+                    <Block
+                      flex={1}
+                      marginHorizontal={10}
+                      marginVertical={10}
+                      style={styles.container}>
+                      <Block>
+                        <Text
+                          padding={30}
+                          size={20}
+                          color={'lightgreen'}
+                          bold
+                          style={{
+                            position: 'absolute',
+                            zIndex: 10,
+                          }}>
+                          {workout.name}
+                        </Text>
+
+                        <Text
+                          white
+                          // left={40}
+                          top={60}
+                          paddingLeft={30}
+                          size={15}
+                          style={{
+                            position: 'absolute',
+                            zIndex: 10,
+                          }}>
+                          Total Minutes : {workout.total_minutes}
+                        </Text>
+                        <Text
+                          white
+                          // left={40}
+                          top={90}
+                          paddingLeft={30}
+                          size={15}
+                          bold
+                          style={{
+                            position: 'absolute',
+                            zIndex: 10,
+                          }}>
+                          {data3.gym_workout_level.charAt(0).toUpperCase() +
+                            data3.gym_workout_level.slice(1)}
+                        </Text>
+
+                        <FastImage
+                          style={styles.coverImage}
+                          source={{
+                            uri: workout.image,
+
+                            priority: FastImage.priority.normal,
+                          }}
+                          resizeMode={FastImage.resizeMode.cover}
+                        />
+
+                        <View style={styles.darkness} />
+                      </Block>
+                      <Block
+                        right={20}
+                        bottom={20}
+                        style={{
+                          position: 'absolute',
+                          zIndex: 10,
+                          justifyContent: 'flex-end',
+                        }}>
+                        <Button
+                          color={'#A7F432'}
+                          onPress={() => handleWorkoutClick(workout)}>
+                          <Text paddingHorizontal={25} size={15} bold>
+                            Try
+                          </Text>
+                        </Button>
+                      </Block>
+                    </Block>
+                  </TouchableOpacity>
+                ))}
+              </Block>
             </Block>
           </Block>
-        </Block>
-      )}
-    </>
+        )}
+      </Block>
+    </Block>
   );
 };
 const styles = StyleSheet.create({
@@ -721,6 +818,101 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     zIndex: 20,
   },
+
+  dropdown1BtnStyle: {
+    width: '80%',
+    height: 50,
+    backgroundColor: '#FFF',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#444',
+  },
+  dropdown1BtnTxtStyle: {color: '#444', textAlign: 'left'},
+  dropdown1DropdownStyle: {backgroundColor: '#EFEFEF'},
+  dropdown1RowStyle: {backgroundColor: '#EFEFEF', borderBottomColor: '#C5C5C5'},
+  dropdown1RowTxtStyle: {color: '#444', textAlign: 'left'},
+
+  dropdown2BtnStyle: {
+    width: '95%',
+    height: 50,
+    backgroundColor: 'white',
+    borderRadius: 8,
+  },
+  dropdown2BtnTxtStyle: {
+    color: 'black',
+    textAlign: 'center',
+    fontWeight: 'normal',
+  },
+  dropdown2DropdownStyle: {
+    backgroundColor: 'white',
+    borderBottomLeftRadius: 12,
+    borderBottomRightRadius: 12,
+  },
+  dropdown2RowStyle: {backgroundColor: 'white', borderBottomColor: '#C5C5C5'},
+  dropdown2RowTxtStyle: {
+    color: 'black',
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+
+  dropdown3BtnStyle: {
+    width: '80%',
+    height: 50,
+    backgroundColor: '#FFF',
+    paddingHorizontal: 0,
+    borderWidth: 1,
+    borderRadius: 8,
+    borderColor: '#444',
+  },
+  dropdown3BtnChildStyle: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 18,
+  },
+  dropdown3BtnImage: {width: 45, height: 45, resizeMode: 'cover'},
+  dropdown3BtnTxt: {
+    color: '#444',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 24,
+    marginHorizontal: 12,
+  },
+  dropdown3DropdownStyle: {backgroundColor: 'slategray'},
+  dropdown3RowStyle: {
+    backgroundColor: 'slategray',
+    borderBottomColor: '#444',
+    height: 50,
+  },
+  dropdown3RowChildStyle: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    paddingHorizontal: 18,
+  },
+  dropdownRowImage: {width: 45, height: 45, resizeMode: 'cover'},
+  dropdown3RowTxt: {
+    color: '#F1F1F1',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 24,
+    marginHorizontal: 12,
+  },
+
+  dropdown4BtnStyle: {
+    width: '50%',
+    height: 50,
+    backgroundColor: '#FFF',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#444',
+  },
+  dropdown4BtnTxtStyle: {color: '#444', textAlign: 'left'},
+  dropdown4DropdownStyle: {backgroundColor: '#EFEFEF'},
+  dropdown4RowStyle: {backgroundColor: '#EFEFEF', borderBottomColor: '#C5C5C5'},
+  dropdown4RowTxtStyle: {color: '#444', textAlign: 'left'},
 });
 
 export default GymWorkoutMain;

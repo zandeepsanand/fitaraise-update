@@ -3,6 +3,8 @@ import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {useData, useTheme, useTranslation} from '../../../hooks';
 import {Block, Button, Image, Input, Product, Text} from '../../../components';
 import {StatusBar as ExpoStatusBar} from 'expo-status-bar';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {ThemedButton} from 'react-native-really-awesome-button';
 import AwesomeButton from 'react-native-really-awesome-button';
 
@@ -11,7 +13,10 @@ import {
   View,
   TouchableWithoutFeedback,
   ActivityIndicator,
+  Dimensions,
+  TouchableOpacity,
 } from 'react-native';
+const {width} = Dimensions.get('window');
 
 import SelectDropdown from 'react-native-select-dropdown';
 
@@ -24,12 +29,10 @@ import {useWorkoutPathContext} from '../../../hooks/WorkoutPathContext';
 const ChallengeMain = ({navigation, route}) => {
   const {t} = useTranslation();
 
-
-
   // const handleProgress = (release) => setTimeout(release, 1000);
   const {selectedWorkoutPath, setWorkoutPath} = useWorkoutPathContext();
-  console.log(selectedWorkoutPath , "pathhs");
-  
+  console.log(selectedWorkoutPath, 'pathhs');
+
   const [isCurrentDayCompleted, setIsCurrentDayCompleted] = useState(false);
   console.log('====================================');
   console.log(selectedWorkoutPath);
@@ -46,6 +49,8 @@ const ChallengeMain = ({navigation, route}) => {
   const [isLoading, setIsLoading] = useState(true);
   const [monthId, setMonthId] = useState(challenge.id);
   const [month, setMonth] = useState(challenge);
+  const [showText, setShowText] = useState(true);
+  const [isDifloading, setdifLoading] = useState(false);
   console.log(monthId, 'monthId');
 
   console.log(month, 'haiii month');
@@ -138,6 +143,269 @@ const ChallengeMain = ({navigation, route}) => {
 
     return unsubscribe;
   }, [navigation, monthId, customerId]);
+  const handleTextClick = () => {
+    setShowText(false);
+  };
+
+  const handleDifficultyLevel = async (level) => {
+    if (['beginner', 'intermediate', 'expert'].includes(level)) {
+      if (level === 'beginner') {
+        try {
+          setIsLoading(true);
+          const userDataChallenge = await api.get(
+            `get_personal_datas/${customerId}`,
+          );
+          const user = userDataChallenge.data.data;
+          if (!challenge.id) {
+            throw new Error('Please enter all details');
+          }
+          if (user.gender) {
+            const formData = {
+              customer_id: customerId,
+              workout_challenge_level: 'beginner',
+            };
+            const formDataCopyChallenge = Object.fromEntries(
+              Object.entries(formData).filter(([key, value]) => value !== null),
+            );
+            console.log(formDataCopyChallenge, 'form data');
+
+            const setUserData2 = await api.post(
+              `set_personal_datas`,
+              formDataCopyChallenge,
+            );
+            console.log(setUserData2.data.message);
+
+            const homeWorkout = await api.get(
+              `get_workout_challenges?gender=${user.gender}&level=beginner`,
+            );
+
+            const challengeMonthJSON = homeWorkout.data.data;
+            const challenge90Days = challengeMonthJSON.find(
+              (challenge) => challenge.number_of_days === 90,
+            );
+            const userDataChallengeUpdate = await api.get(
+              `get_personal_datas/${customerId}`,
+            );
+            const jsonUser = userDataChallengeUpdate.data.data;
+            setUserData(jsonUser);
+            if (challenge90Days) {
+              const challenge90DaysId = challenge90Days.id;
+              console.log('ID of 90 Days Challenge:', challenge90DaysId);
+              await AsyncStorage.setItem(
+                'challengeWorkoutData',
+                JSON.stringify(challenge90Days),
+              );
+              await AsyncStorage.setItem(
+                'userDataChallengeWorkout',
+                JSON.stringify(jsonUser),
+              );
+              await AsyncStorage.setItem(
+                'WorkoutPath',
+                JSON.stringify('ChallengeTabNavigator'),
+              );
+
+              setWorkoutPath('ChallengeTabNavigator');
+              await AsyncStorage.setItem(
+                'WorkoutPath',
+                JSON.stringify('ChallengeTabNavigator'),
+              );
+
+              await AsyncStorage.setItem('lastHomePage', 'Workout');
+              // Now you can use challenge90DaysId in your code
+              const response = await api.get(
+                `get_workout_challenge_days/${challenge90DaysId}`,
+              );
+              const responseData = response.data.data;
+              // console.log(responseData, '90 days dataaa');
+              setMonthId(challenge90DaysId);
+              setData(responseData);
+              setIsLoading(false);
+              setShowText(true);
+              if (responseData === null) {
+                setIsLoading(false);
+                throw new Error('Turn on the network and retry');
+              }
+            } else {
+              console.log('90 Days Challenge not found in the data.');
+            }
+          }
+        } catch (error) {
+          setIsLoading(false);
+          console.error('Error in handleLevelChange:', error);
+        }
+      }
+      if (level === 'intermediate') {
+        try {
+          setIsLoading(true);
+          const userDataChallenge = await api.get(
+            `get_personal_datas/${customerId}`,
+          );
+          const user = userDataChallenge.data.data;
+          if (!challenge.id) {
+            throw new Error('Please enter all details');
+          }
+          if (user.gender) {
+            const formData = {
+              customer_id: customerId,
+              workout_challenge_level: 'intermediate',
+            };
+            const formDataCopyChallenge = Object.fromEntries(
+              Object.entries(formData).filter(([key, value]) => value !== null),
+            );
+            console.log(formDataCopyChallenge, 'form data');
+
+            const setUserData2 = await api.post(
+              `set_personal_datas`,
+              formDataCopyChallenge,
+            );
+            console.log(setUserData2.data.message);
+
+            const homeWorkout = await api.get(
+              `get_workout_challenges?gender=${user.gender}&level=intermediate`,
+            );
+
+            const challengeMonthJSON = homeWorkout.data.data;
+            const challenge90Days = challengeMonthJSON.find(
+              (challenge) => challenge.number_of_days === 90,
+            );
+            const userDataChallengeUpdate = await api.get(
+              `get_personal_datas/${customerId}`,
+            );
+            const jsonUser = userDataChallengeUpdate.data.data;
+            setUserData(jsonUser);
+            if (challenge90Days) {
+              const challenge90DaysId = challenge90Days.id;
+              console.log('ID of 90 Days Challenge:', challenge90DaysId);
+              await AsyncStorage.setItem(
+                'challengeWorkoutData',
+                JSON.stringify(challenge90Days),
+              );
+              await AsyncStorage.setItem(
+                'userDataChallengeWorkout',
+                JSON.stringify(jsonUser),
+              );
+              await AsyncStorage.setItem(
+                'WorkoutPath',
+                JSON.stringify('ChallengeTabNavigator'),
+              );
+
+              setWorkoutPath('ChallengeTabNavigator');
+              await AsyncStorage.setItem(
+                'WorkoutPath',
+                JSON.stringify('ChallengeTabNavigator'),
+              );
+
+              await AsyncStorage.setItem('lastHomePage', 'Workout');
+              // Now you can use challenge90DaysId in your code
+              const response = await api.get(
+                `get_workout_challenge_days/${challenge90DaysId}`,
+              );
+              const responseData = response.data.data;
+              // console.log(responseData, '90 days dataaa');
+              setMonthId(challenge90DaysId);
+              setData(responseData);
+              setIsLoading(false);
+              setShowText(true);
+              if (responseData === null) {
+                setIsLoading(false);
+                throw new Error('Turn on the network and retry');
+              }
+            } else {
+              console.log('90 Days Challenge not found in the data.');
+            }
+          }
+        } catch (error) {
+          setIsLoading(false);
+          console.error('Error in handleLevelChange:', error);
+        }
+      }
+      if (level === 'expert') {
+        try {
+          setIsLoading(true);
+          const userDataChallenge = await api.get(
+            `get_personal_datas/${customerId}`,
+          );
+          const user = userDataChallenge.data.data;
+          if (!challenge.id) {
+            throw new Error('Please enter all details');
+          }
+          if (user.gender) {
+            const formData = {
+              customer_id: customerId,
+              workout_challenge_level: 'expert',
+            };
+            const formDataCopyChallenge = Object.fromEntries(
+              Object.entries(formData).filter(([key, value]) => value !== null),
+            );
+            console.log(formDataCopyChallenge, 'form data');
+
+            const setUserData2 = await api.post(
+              `set_personal_datas`,
+              formDataCopyChallenge,
+            );
+            console.log(setUserData2.data.message);
+
+            const homeWorkout = await api.get(
+              `get_workout_challenges?gender=${user.gender}&level=expert`,
+            );
+
+            const challengeMonthJSON = homeWorkout.data.data;
+            const challenge90Days = challengeMonthJSON.find(
+              (challenge) => challenge.number_of_days === 90,
+            );
+            const userDataChallengeUpdate = await api.get(
+              `get_personal_datas/${customerId}`,
+            );
+            const jsonUser = userDataChallengeUpdate.data.data;
+            setUserData(jsonUser);
+            if (challenge90Days) {
+              const challenge90DaysId = challenge90Days.id;
+              console.log('ID of 90 Days Challenge:', challenge90DaysId);
+              await AsyncStorage.setItem(
+                'challengeWorkoutData',
+                JSON.stringify(challenge90Days),
+              );
+              await AsyncStorage.setItem(
+                'userDataChallengeWorkout',
+                JSON.stringify(jsonUser),
+              );
+              await AsyncStorage.setItem(
+                'WorkoutPath',
+                JSON.stringify('ChallengeTabNavigator'),
+              );
+
+              setWorkoutPath('ChallengeTabNavigator');
+              await AsyncStorage.setItem(
+                'WorkoutPath',
+                JSON.stringify('ChallengeTabNavigator'),
+              );
+
+              await AsyncStorage.setItem('lastHomePage', 'Workout');
+              // Now you can use challenge90DaysId in your code
+              const response = await api.get(
+                `get_workout_challenge_days/${challenge90DaysId}`,
+              );
+              const responseData = response.data.data;
+              // console.log(responseData, '90 days dataaa');
+              setMonthId(challenge90DaysId);
+              setData(responseData);
+              setIsLoading(false);
+              setShowText(true);
+              if (responseData === null) {
+                setIsLoading(false);
+                throw new Error('Turn on the network and retry');
+              }
+            } else {
+              console.log('90 Days Challenge not found in the data.');
+            }
+          }
+        } catch (error) {
+          setIsLoading(false);
+          console.error('Error in handleLevelChange:', error);
+        }
+      }
+    }
+  };
 
   const handleLevelChange = async (level) => {
     setSelectedLevel(level);
@@ -158,7 +426,6 @@ const ChallengeMain = ({navigation, route}) => {
           await handleHomeWorkoutApiCall();
         }
       } else if (level === 'Gym Workout') {
-        
         const navigationHandled = await navigateToGymTab();
         if (!navigationHandled) {
           await handleGymWorkoutNavigation(); // Handle non-cached case for 'Gym workout'
@@ -196,8 +463,11 @@ const ChallengeMain = ({navigation, route}) => {
               );
 
               setWorkoutPath('ChallengeTabNavigator');
-              await AsyncStorage.setItem('WorkoutPath', JSON.stringify('ChallengeTabNavigator'));
-             
+              await AsyncStorage.setItem(
+                'WorkoutPath',
+                JSON.stringify('ChallengeTabNavigator'),
+              );
+
               await AsyncStorage.setItem('lastHomePage', 'Workout');
               // Now you can use challenge90DaysId in your code
               const response = await api.get(
@@ -300,15 +570,17 @@ const ChallengeMain = ({navigation, route}) => {
     );
 
     if (storedHomeWorkoutData && storeduserDataHomeWorkout) {
-      
       const homeWorkoutData = JSON.parse(storedHomeWorkoutData);
       const userData = JSON.parse(storeduserDataHomeWorkout);
       console.log(userData, 'home work 2');
 
       setWorkoutPath('HomeTabNavigator');
-      await AsyncStorage.setItem('WorkoutPath', JSON.stringify('HomeTabNavigator'));
+      await AsyncStorage.setItem(
+        'WorkoutPath',
+        JSON.stringify('HomeTabNavigator'),
+      );
       await AsyncStorage.setItem('lastHomePage', 'Workout');
-      
+
       navigation.navigate('HomeTabNavigator', {
         screen: 'HomeWorkoutMain',
         params: {workout: homeWorkoutData, workoutData: userData},
@@ -325,7 +597,10 @@ const ChallengeMain = ({navigation, route}) => {
 
     if (storedGymWorkoutData && storeduserDataGymWorkout) {
       setWorkoutPath('GymTabNavigator');
-      await AsyncStorage.setItem('WorkoutPath', JSON.stringify('GymTabNavigator'));
+      await AsyncStorage.setItem(
+        'WorkoutPath',
+        JSON.stringify('GymTabNavigator'),
+      );
       const gymWorkoutData = JSON.parse(storedGymWorkoutData);
       const userData = JSON.parse(storeduserDataGymWorkout);
       await AsyncStorage.setItem('lastHomePage', 'Workout');
@@ -963,14 +1238,22 @@ const ChallengeMain = ({navigation, route}) => {
                 <Block>
                   <Block center>
                     <SelectDropdown
-                      
-                      dropdownStyle={{borderRadius: 20}}
-                      buttonStyle={{
-                        height: 50,
-                        width: 180,
-                        backgroundColor: 'white',
-                        borderRadius: 20,
-                        marginLeft: 10,
+                      // dropdownStyle={{borderRadius: 20}}
+                      // buttonStyle={{
+                      //   height: 50,
+                      //   width: 180,
+                      //   backgroundColor: 'white',
+                      //   borderRadius: 20,
+                      //   marginLeft: 10,
+                      // }}
+                      renderDropdownIcon={(isOpened) => {
+                        return (
+                          <FontAwesome
+                            name={isOpened ? 'chevron-up' : 'chevron-down'}
+                            color={'green'}
+                            size={12}
+                          />
+                        );
                       }}
                       data={[
                         'Home Workout',
@@ -981,6 +1264,12 @@ const ChallengeMain = ({navigation, route}) => {
                       // defaultButtonText={formDataCopy.workout_level}
                       defaultButtonText={'Select an option'}
                       onSelect={handleLevelChange}
+                      buttonStyle={styles.dropdown2BtnStyle}
+                      buttonTextStyle={styles.dropdown2BtnTxtStyle}
+                      dropdownIconPosition={'right'}
+                      dropdownStyle={styles.dropdown2DropdownStyle}
+                      rowStyle={styles.dropdown2RowStyle}
+                      rowTextStyle={styles.dropdown2RowTxtStyle}
                     />
                   </Block>
                 </Block>
@@ -1009,18 +1298,55 @@ const ChallengeMain = ({navigation, route}) => {
                           Level -
                         </Text>
                       </View>
-                      <View style={{marginLeft: 12}}>
-                        <Text
-                          style={{
-                            fontSize: 14,
-                            color: 'black',
-                            fontWeight: 'bold',
-                          }}
-                          bold
-                          white>
-                          {userData.workout_challenge_level}
-                        </Text>
-                      </View>
+                     
+                      {showText ? (
+                        <TouchableOpacity onPress={handleTextClick}>
+                           <View style={{marginLeft: 12,flexDirection:'row'}}>
+                       
+                       <Text bold white>{userData.workout_challenge_level}</Text>
+                           <View style={{paddingLeft: 10, paddingTop:3}}>
+                             <FontAwesome
+                               name={'edit'}
+                               color={'white'}
+                               size={18}
+                             />
+                           </View>
+                     </View>
+                        </TouchableOpacity>
+                      ) : (
+                        <>
+                          {loading ? (
+                            <Block paddingTop={10} align="flex-start">
+                              <ActivityIndicator />
+                            </Block>
+                          ) : (
+                            <Block align="flex-start" paddingLeft={10}>
+                              <SelectDropdown
+                                renderDropdownIcon={(isOpened) => {
+                                  return (
+                                    <FontAwesome
+                                      name={
+                                        isOpened ? 'chevron-up' : 'chevron-down'
+                                      }
+                                      color={'green'}
+                                      size={12}
+                                    />
+                                  );
+                                }}
+                                data={['beginner', 'intermediate', 'expert']}
+                                defaultButtonText={'Difficulty Level'}
+                                onSelect={handleDifficultyLevel}
+                                buttonStyle={styles.dropdown33BtnStyle}
+                                buttonTextStyle={styles.dropdown33BtnTxtStyle}
+                                dropdownIconPosition={'right'}
+                                dropdownStyle={styles.dropdown2DropdownStyle}
+                                rowStyle={styles.dropdown2RowStyle}
+                                rowTextStyle={styles.dropdown2RowTxtStyle}
+                              />
+                            </Block>
+                          )}
+                        </>
+                      )}
                     </View>
                   </Block>
                 </TouchableWithoutFeedback>
@@ -1164,6 +1490,137 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     backgroundColor: '#92A3FD',
   },
+  shadow: {
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 6},
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 10,
+  },
+  header: {
+    flexDirection: 'row',
+    width,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#F6F6F6',
+  },
+  headerTitle: {color: '#000', fontWeight: 'bold', fontSize: 16},
+  saveAreaViewContainer: {flex: 1, backgroundColor: '#FFF'},
+  viewContainer: {flex: 1, width, backgroundColor: '#FFF'},
+  scrollViewContainer: {
+    flexGrow: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: '10%',
+    paddingBottom: '20%',
+  },
+
+  dropdown1BtnStyle: {
+    width: '80%',
+    height: 50,
+    backgroundColor: '#FFF',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#444',
+  },
+  dropdown1BtnTxtStyle: {color: '#444', textAlign: 'left'},
+  dropdown1DropdownStyle: {backgroundColor: '#EFEFEF'},
+  dropdown1RowStyle: {backgroundColor: '#EFEFEF', borderBottomColor: '#C5C5C5'},
+  dropdown1RowTxtStyle: {color: '#444', textAlign: 'left'},
+
+  dropdown2BtnStyle: {
+    width: '95%',
+    height: 50,
+    backgroundColor: 'white',
+    borderRadius: 8,
+  },
+  dropdown33BtnStyle: {
+    width: '95%',
+    height: 50,
+    backgroundColor: '#0C3585',
+    borderRadius: 8,
+  },
+  dropdown33BtnTxtStyle: {
+    color: 'white',
+    textAlign: 'center',
+    fontWeight: 'normal',
+  },
+  dropdown2BtnTxtStyle: {
+    color: 'black',
+    textAlign: 'center',
+    fontWeight: 'normal',
+  },
+  dropdown2DropdownStyle: {
+    backgroundColor: 'white',
+    borderBottomLeftRadius: 12,
+    borderBottomRightRadius: 12,
+  },
+  dropdown2RowStyle: {backgroundColor: 'white', borderBottomColor: '#C5C5C5'},
+  dropdown2RowTxtStyle: {
+    color: 'black',
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+
+  dropdown3BtnStyle: {
+    width: '80%',
+    height: 50,
+    backgroundColor: '#FFF',
+    paddingHorizontal: 0,
+    borderWidth: 1,
+    borderRadius: 8,
+    borderColor: '#444',
+  },
+  dropdown3BtnChildStyle: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 18,
+  },
+  dropdown3BtnImage: {width: 45, height: 45, resizeMode: 'cover'},
+  dropdown3BtnTxt: {
+    color: '#444',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 24,
+    marginHorizontal: 12,
+  },
+  dropdown3DropdownStyle: {backgroundColor: 'slategray'},
+  dropdown3RowStyle: {
+    backgroundColor: 'slategray',
+    borderBottomColor: '#444',
+    height: 50,
+  },
+  dropdown3RowChildStyle: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    paddingHorizontal: 18,
+  },
+  dropdownRowImage: {width: 45, height: 45, resizeMode: 'cover'},
+  dropdown3RowTxt: {
+    color: '#F1F1F1',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 24,
+    marginHorizontal: 12,
+  },
+
+  dropdown4BtnStyle: {
+    width: '50%',
+    height: 50,
+    backgroundColor: '#FFF',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#444',
+  },
+  dropdown4BtnTxtStyle: {color: '#444', textAlign: 'left'},
+  dropdown4DropdownStyle: {backgroundColor: '#EFEFEF'},
+  dropdown4RowStyle: {backgroundColor: '#EFEFEF', borderBottomColor: '#C5C5C5'},
+  dropdown4RowTxtStyle: {color: '#444', textAlign: 'left'},
 });
 
 export default ChallengeMain;
