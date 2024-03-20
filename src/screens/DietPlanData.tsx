@@ -20,19 +20,15 @@ import {MealContext} from '../hooks/useMeal';
 import {FOOD_IMAGE, BASE_URL} from '@env';
 import SelectDropdown from 'react-native-select-dropdown';
 import {ActivityIndicator} from 'react-native';
-import { useFavorites } from '../hooks/FavoritesContext';
-
+import {useFavorites} from '../hooks/FavoritesContext';
 
 const isAndroid = Platform.OS === 'android';
 
 const DietPlanData = ({route, navigation}) => {
   const {mealType, responseData, meal_type, formDataCopy, food} = route.params;
   console.log(responseData, 'response');
-  const { addToFavorites } = useFavorites();
+  const {addToFavorites} = useFavorites();
   const {favorites} = useFavorites();
- 
-
-  
 
   const [initialGram, setInitialGram] = useState(null);
   const [selectedWeight, setSelectedWeight] = useState(initialGram);
@@ -123,24 +119,22 @@ const DietPlanData = ({route, navigation}) => {
     setIsFullBlock(!isFullBlock);
   };
 
-
   const isCurrentlyFavorite = () => {
     const favId = responseData.id;
-    return favorites.some(item => item.food_id === favId);
+    return favorites.some((item) => item.food_id === favId);
   };
-  
+
   useEffect(() => {
     setIsFavorite(isCurrentlyFavorite());
   }, [favorites]);
 
   const toggleFavorite = (res) => {
-    console.log(res,"res");
-    
-    const fav = res.id
-    if(res){
+    console.log(res, 'res');
+
+    const fav = res.id;
+    if (res) {
       setIsFavorite(!isFavorite);
     }
-    
   };
   const IMAGE_SIZE = (sizes.width - (sizes.padding + sizes.sm) * 2) / 3;
   const IMAGE_VERTICAL_SIZE =
@@ -422,12 +416,10 @@ const DietPlanData = ({route, navigation}) => {
     navigation.navigate('Menu', {
       formDataCopy, // Pass your parameters here
     });
-
   };
-  
 
   const handleAddToFavorites = (item) => {
-    console.log(item , "favoriteFood");
+    console.log(item, 'favoriteFood');
     const id_of_food = item.id;
     addToFavorites(id_of_food);
   };
@@ -495,10 +487,11 @@ const DietPlanData = ({route, navigation}) => {
                           </Text>
                         </Block>
 
-                        <TouchableOpacity onPress={()=>{
-                        toggleFavorite(responseData);
-                        handleAddToFavorites(responseData);
-                        }}>
+                        <TouchableOpacity
+                          onPress={() => {
+                            toggleFavorite(responseData);
+                            handleAddToFavorites(responseData);
+                          }}>
                           <Icon
                             name={isFavorite ? 'heart' : 'heart-o'}
                             size={30}
@@ -508,22 +501,21 @@ const DietPlanData = ({route, navigation}) => {
                       </Block>
 
                       <TouchableOpacity>
-                     
                         <Block row marginTop={10}>
                           <Block row paddingBottom={10} paddingLeft={10}>
-                          {isEditing ? (
+                            {isEditing ? (
                               <>
-                              <Block center flex={0}>
-                              <Text
-                                  p
-                                  semibold
-                                  center
-                                  marginRight={sizes.s}
-                                  color={colors.secondary}>
-                                  Selected Gram :
-                                </Text>
-                              </Block>
-                               
+                                <Block center flex={0}>
+                                  <Text
+                                    p
+                                    semibold
+                                    center
+                                    marginRight={sizes.s}
+                                    color={colors.secondary}>
+                                    Selected Gram :
+                                  </Text>
+                                </Block>
+
                                 <TextInput
                                   style={styles.inputContainer}
                                   autoCapitalize="none"
@@ -547,12 +539,12 @@ const DietPlanData = ({route, navigation}) => {
                             )}
                             {/* <Image source={assets.arrow} color={colors.link} /> */}
                           </Block>
-                          {isEditing?(
-                             <TouchableWithoutFeedback
-                             // key={item.details.id}
-                             onPress={handleEditButtonClick}>
-                             <Block flex={0} center>
-                               {/* <Image
+                          {isEditing ? (
+                            <TouchableWithoutFeedback
+                              // key={item.details.id}
+                              onPress={handleEditButtonClick}>
+                              <Block flex={0} center>
+                                {/* <Image
                                  marginLeft={5}
                                  // marginRight={10}
                                  marginTop={1}
@@ -561,26 +553,25 @@ const DietPlanData = ({route, navigation}) => {
                                  style={
                                    (styles.data, {width: 30, height: 30})
                                  }></Image> */}
-                             </Block>
-                           </TouchableWithoutFeedback>
-                          ):(
+                              </Block>
+                            </TouchableWithoutFeedback>
+                          ) : (
                             <TouchableWithoutFeedback
-                            // key={item.details.id}
-                            onPress={handleEditButtonClick}>
-                            <Block flex={0} center>
-                              <Image
-                                marginLeft={5}
-                                // marginRight={10}
-                                marginTop={1}
-                                source={require('../assets/icons/edit1.png')}
-                                color={'green'}
-                                style={
-                                  (styles.data, {width: 30, height: 30})
-                                }></Image>
-                            </Block>
-                          </TouchableWithoutFeedback>
+                              // key={item.details.id}
+                              onPress={handleEditButtonClick}>
+                              <Block flex={0} center>
+                                <Image
+                                  marginLeft={5}
+                                  // marginRight={10}
+                                  marginTop={1}
+                                  source={require('../assets/icons/edit1.png')}
+                                  color={'green'}
+                                  style={
+                                    (styles.data, {width: 30, height: 30})
+                                  }></Image>
+                              </Block>
+                            </TouchableWithoutFeedback>
                           )}
-                         
                         </Block>
                       </TouchableOpacity>
                     </Block>
@@ -754,7 +745,7 @@ const DietPlanData = ({route, navigation}) => {
                       }}>
                       <Block row>
                         <Block align="center">
-                          <Text bold>Protien: {totalProtein}</Text>
+                          <Text bold>Protein: {totalProtein}</Text>
                         </Block>
                       </Block>
                     </Block>
@@ -768,7 +759,6 @@ const DietPlanData = ({route, navigation}) => {
                           <Text bold>Calories: {totalCalorie} </Text>
                         </Block>
                       </Block>
-                    
                     </Block>
                   </Block>
                   <Block row>
@@ -787,7 +777,6 @@ const DietPlanData = ({route, navigation}) => {
                           <Text bold>Carbs: {totalCarb}</Text>
                         </Block>
                       </Block>
-                    
                     </Block>
                     <Block
                       card
@@ -799,7 +788,6 @@ const DietPlanData = ({route, navigation}) => {
                           <Text bold>Fat: {totalFat}</Text>
                         </Block>
                       </Block>
-                   
                     </Block>
                   </Block>
                 </Block>
@@ -829,7 +817,7 @@ const DietPlanData = ({route, navigation}) => {
                         {/* Header */}
                         <Block style={styles.row} flex={0} card margin={1}>
                           <Text style={styles.header} center semibold>
-                            Sugar :
+                            Sugar In g :
                           </Text>
                           <Text style={styles.header} center>
                             {totalSugar}
@@ -839,7 +827,7 @@ const DietPlanData = ({route, navigation}) => {
                         {/* Data Rows */}
                         <Block style={styles.row} flex={0} card margin={1}>
                           <Text style={styles.header} center semibold>
-                            Fiber :
+                            Fiber In g :
                           </Text>
                           <Text style={styles.header} center>
                             {totalFiber}
@@ -847,7 +835,7 @@ const DietPlanData = ({route, navigation}) => {
                         </Block>
                         <Block style={styles.row} flex={0} card margin={1}>
                           <Text style={styles.header} center semibold>
-                            Sodium :
+                            Sodium in mg :
                           </Text>
                           <Text style={styles.header} center>
                             {totalSodium}
@@ -855,7 +843,7 @@ const DietPlanData = ({route, navigation}) => {
                         </Block>
                         <Block style={styles.row} flex={0} card margin={1}>
                           <Text style={styles.header} center semibold>
-                            Potassium :
+                            Potassium in mg :
                           </Text>
                           <Text style={styles.header} center>
                             {totalPotassium}
@@ -863,7 +851,7 @@ const DietPlanData = ({route, navigation}) => {
                         </Block>
                         <Block style={styles.row} flex={0} card margin={1}>
                           <Text style={styles.header} center semibold>
-                            Cholesterol :
+                            Cholesterol In mg :
                           </Text>
                           <Text style={styles.header} center>
                             {totalCholesterol}
@@ -872,7 +860,7 @@ const DietPlanData = ({route, navigation}) => {
 
                         <Block style={styles.row} flex={0} card margin={1}>
                           <Text style={styles.data} center semibold>
-                            Saturated Fat :
+                            Saturated Fat in g :
                           </Text>
                           <Text style={styles.data} center>
                             {totalSaturatedFat}
@@ -880,16 +868,16 @@ const DietPlanData = ({route, navigation}) => {
                         </Block>
                         <Block style={styles.row} flex={0} card margin={1}>
                           <Text style={styles.data} center semibold>
-                            TransFat :
+                            Trans Fat In g :
                           </Text>
                           <Text style={styles.data} center>
                             {totalTransFat}
                           </Text>
                         </Block>
-                      
+
                         <Block style={styles.row} flex={0} card margin={1}>
                           <Text style={styles.data} center semibold>
-                            Vitamin A :
+                            VVitamin A in mg :
                           </Text>
                           <Text style={styles.data} center>
                             {totalVitaminAIU}
@@ -905,7 +893,7 @@ const DietPlanData = ({route, navigation}) => {
                         </Block> */}
                         <Block style={styles.row} flex={0} card margin={1}>
                           <Text style={styles.data} center semibold>
-                            Vitamin C :
+                            Vitamin C in mg :
                           </Text>
                           <Text style={styles.data} center>
                             {totalVitaminC}
@@ -921,7 +909,7 @@ const DietPlanData = ({route, navigation}) => {
                         </Block>
                         <Block style={styles.row} flex={0} card margin={1}>
                           <Text style={styles.data} center semibold>
-                            Calcium :
+                            Calcium In mg :
                           </Text>
                           <Text style={styles.data} center>
                             {totalCalcium}
@@ -929,7 +917,7 @@ const DietPlanData = ({route, navigation}) => {
                         </Block>
                         <Block style={styles.row} flex={0} card margin={1}>
                           <Text style={styles.data} center semibold>
-                            Iron :
+                            Iron in mg :
                           </Text>
                           <Text style={styles.data} center>
                             {totalIron}
@@ -937,7 +925,7 @@ const DietPlanData = ({route, navigation}) => {
                         </Block>
                         <Block style={styles.row} flex={0} card margin={1}>
                           <Text style={styles.data} center semibold>
-                            Monounsaturated Fat :
+                            Mono Saturated Fat In g :
                           </Text>
                           <Text style={styles.data} center>
                             {totalMonounsaturatedFat}
@@ -945,7 +933,7 @@ const DietPlanData = ({route, navigation}) => {
                         </Block>
                         <Block style={styles.row} flex={0} card margin={1}>
                           <Text style={styles.data} center semibold>
-                            Polyunsaturated Fat :
+                            Poly Saturated Fat in g :
                           </Text>
                           <Text style={styles.data} center>
                             {totalPolyunsaturatedFat}
@@ -1012,7 +1000,7 @@ const styles = StyleSheet.create({
     // marginBottom: 10,
     padding: 10,
     backgroundColor: 'white',
-  color:'gray'
+    color: 'gray',
     // minHeight:30
   },
   buttonText: {
@@ -1056,6 +1044,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 8,
+    margin:18
   },
   label: {
     fontSize: 16,

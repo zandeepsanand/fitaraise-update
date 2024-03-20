@@ -57,7 +57,7 @@ const Cards = () => {
               }}>
               <Block row>
                 <Block align="center">
-                  <Text bold>Protien : </Text>
+                  <Text bold>Protein : </Text>
                 </Block>
               </Block>
               <Block></Block>
@@ -65,7 +65,7 @@ const Cards = () => {
             <Block card radius={46} paddingTop={sizes.sm} style={{height: 60}}>
               <Block row>
                 <Block align="center">
-                  <Text bold>Protien : </Text>
+                  <Text bold>Protein : </Text>
                 </Block>
               </Block>
               <Block></Block>

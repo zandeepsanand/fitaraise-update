@@ -934,7 +934,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                               <DataTable.Cell
                                 style={{flex: 1.4}}></DataTable.Cell>
                               <DataTable.Cell style={{flex: 1.3}}>
-                                Protien
+                              Protein
                               </DataTable.Cell>
                               <DataTable.Cell style={{flex: 1.3}}>
                                 Carb
@@ -1179,7 +1179,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                               <DataTable.Cell
                                 style={{flex: 1.4}}></DataTable.Cell>
                               <DataTable.Cell style={{flex: 1.3}}>
-                                Protien
+                              Protein
                               </DataTable.Cell>
                               <DataTable.Cell style={{flex: 1.3}}>
                                 Carb
@@ -1412,7 +1412,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                               <DataTable.Cell
                                 style={{flex: 1.4}}></DataTable.Cell>
                               <DataTable.Cell style={{flex: 1.3}}>
-                                Protien
+                              Protein
                               </DataTable.Cell>
                               <DataTable.Cell style={{flex: 1.3}}>
                                 Carb
@@ -1647,7 +1647,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                               <DataTable.Cell
                                 style={{flex: 1.4}}></DataTable.Cell>
                               <DataTable.Cell style={{flex: 1.3}}>
-                                Protien
+                              Protein
                               </DataTable.Cell>
                               <DataTable.Cell style={{flex: 1.3}}>
                                 Carb
@@ -1882,7 +1882,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                               <DataTable.Cell
                                 style={{flex: 1.4}}></DataTable.Cell>
                               <DataTable.Cell style={{flex: 1.3}}>
-                                Protien
+                              Protein
                               </DataTable.Cell>
                               <DataTable.Cell style={{flex: 1.3}}>
                                 Carb

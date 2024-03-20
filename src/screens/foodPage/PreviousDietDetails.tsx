@@ -112,7 +112,7 @@ export default function PreviousDietDetails({data}) {
                         <DataTable.Header style={styles.tableHeader}>
                           <DataTable.Cell style={{flex: 1.4}}></DataTable.Cell>
                           <DataTable.Cell style={{flex: 1.3}}>
-                            Protien
+                          Protein
                           </DataTable.Cell>
                           <DataTable.Cell style={{flex: 1.3}}>
                             Carb
