@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, {useEffect, useRef, useState} from 'react';
-import {View, TextInput, StyleSheet} from 'react-native';
+import {View, TextInput, StyleSheet,Dimensions} from 'react-native';
 import {Block, Button, Image, Text} from '../../../components';
 import {useTheme} from '../../../hooks';
 import {useNavigation} from '@react-navigation/native';
@@ -12,6 +12,7 @@ import {Animated, Easing} from 'react-native';
 import Lottie from 'lottie-react-native';
 import YoutubePage from '../../youtube/YoutubePage';
 import FastImage from 'react-native-fast-image';
+const screenWidth = Dimensions.get('window').width;
 
 const ChallengeDetailsPage = ({
   workout,
@@ -171,8 +172,13 @@ const ChallengeDetailsPage = ({
         </Text>
       </Block>
       {buttonVisible && (
-        <FastImage
-          style={{width: 390, height: 390, borderRadius: 30,}}
+        <Block center align='center'>
+  <FastImage
+        style={{
+          width: screenWidth * 0.9, // You can adjust this multiplier according to your needs
+          height: screenWidth * 0.9, // Keeping aspect ratio for square image
+          borderRadius: 30,
+        }}
           source={{
             uri: workout.excercise_image,
             headers: {Authorization: 'someAuthToken'},
@@ -194,6 +200,8 @@ const ChallengeDetailsPage = ({
             </Button>
           )}
         </FastImage>
+        </Block>
+      
       )}
       {!buttonVisible && (
         <>

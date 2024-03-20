@@ -5,6 +5,7 @@ import {
   Linking,
   StyleSheet,
   TouchableWithoutFeedback,
+  Dimensions,
 } from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/core';
@@ -18,7 +19,7 @@ import {View} from 'react-native';
 import api from '../../../../api';
 import {usegymData} from '../../../hooks/GymData';
 import FastImage from 'react-native-fast-image';
-
+const screenWidth = Dimensions.get('window').width;
 const isAndroid = Platform.OS === 'android';
 
 const GymWorkoutAll = ({route}) => {
@@ -132,8 +133,8 @@ const GymWorkoutAll = ({route}) => {
         <Block flex={0} paddingBottom={60} center>
           <FastImage
             style={{
-              width: 390,
-              height: 250,
+              width: screenWidth * 0.95, // You can adjust this multiplier according to your needs
+              height: screenWidth * 0.54, // Keeping aspect ratio for square image
               borderRadius: 30,
               paddingBottom: sizes.l,
               padding: sizes.sm,
@@ -250,26 +251,7 @@ const GymWorkoutAll = ({route}) => {
             marginHorizontal="8%"
             color="#fffff"
             paddingBottom={20}>
-            {/* <Block
-              row
-              blur
-              flex={0}
-              intensity={100}
-              radius={sizes.sm}
-              overflow="hidden"
-              tint={colors.blurTint}
-              justify="space-evenly"
-              paddingVertical={sizes.sm}
-              renderToHardwareTextureAndroid>
-              <Block align="center">
-                <Text h5>{workout.total_minutes} </Text>
-                <Text>Minutes</Text>
-              </Block>
-              <Block align="center">
-                <Text h5>{exerciseData.length}</Text>
-                <Text>Workouts</Text>
-              </Block>
-            </Block> */}
+           
             <Block
               row
               flex={0}
@@ -280,22 +262,7 @@ const GymWorkoutAll = ({route}) => {
               padding={sizes.sm}>
               <Button onPress={() => handleProducts(0)}>
                 <Block row align="center">
-                  {/* <Block 
-                    flex={0}
-                    radius={6}
-                    align="center"
-                    justify="center"
-                    marginRight={sizes.s}
-                    width={sizes.socialIconSize}
-                    height={sizes.socialIconSize}
-                    gradient={gradients?.[tab === 0 ? 'primary' : 'secondary']}>
-                    <Image
-                      source={require('../../../assets/icons/recommended1.png')}
-                      color={colors.white}
-                      radius={0}
-                      style={{width: 15, height: 15}}
-                    />
-                  </Block> */}
+                 
                   <Text p font={fonts?.[tab === 0 ? 'medium' : 'normal']}>
                     Recommended
                   </Text>
@@ -324,21 +291,7 @@ const GymWorkoutAll = ({route}) => {
               />
               <Button onPress={() => handleProducts(1)}>
                 <Block row align="center">
-                  {/* <Block
-                    flex={0}
-                    radius={6}
-                    align="center"
-                    justify="center"
-                    marginRight={sizes.s}
-                    width={sizes.socialIconSize}
-                    height={sizes.socialIconSize}
-                    gradient={gradients?.[tab === 1 ? 'primary' : 'secondary']}>
-                    <Image
-                      radius={0}
-                      color={colors.white}
-                      source={assets.documentation}
-                    />
-                  </Block> */}
+                 
                   <Text p font={fonts?.[tab === 1 ? 'medium' : 'normal']}>
                     All
                   </Text>
@@ -361,15 +314,7 @@ const GymWorkoutAll = ({route}) => {
             </Block>
           </Block>
 
-          {/* profile: about me */}
-          {/* <Block paddingHorizontal={sizes.sm}>
-            <Text semibold marginBottom={sizes.s} marginTop={sizes.s}>
-              {workout.total_minutes} minutes - {exerciseData.length} workouts
-            </Text>
-            <Text p lineHeight={26}>
-             
-            </Text>
-          </Block> */}
+         
           {tab ? (
             <>
               {exerciseAll.map((exercise) => (
@@ -404,7 +349,7 @@ const GymWorkoutAll = ({route}) => {
                       padding: 10,
                     }}
                     color={exercise.completed_today ? '#92A3FD' : 'white'}>
-                <FastImage
+                    <FastImage
                       style={{width: 75, height: 75, borderRadius: 20}}
                       source={{
                         uri: exercise.image,
@@ -477,7 +422,6 @@ const GymWorkoutAll = ({route}) => {
                       padding: 10,
                     }}
                     color={exercise.completed_today ? '#92A3FD' : 'white'}>
-                 
                     <FastImage
                       style={{width: 75, height: 75, borderRadius: 20}}
                       source={{

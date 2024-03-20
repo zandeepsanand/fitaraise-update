@@ -181,7 +181,7 @@ const ChallengeMain = ({navigation, route}) => {
 
             const challengeMonthJSON = homeWorkout.data.data;
             const challenge90Days = challengeMonthJSON.find(
-              (challenge) => challenge.number_of_days === 90,
+              (challenge) => challenge.number_of_days === data.length,
             );
             const userDataChallengeUpdate = await api.get(
               `get_personal_datas/${customerId}`,
@@ -266,7 +266,7 @@ const ChallengeMain = ({navigation, route}) => {
 
             const challengeMonthJSON = homeWorkout.data.data;
             const challenge90Days = challengeMonthJSON.find(
-              (challenge) => challenge.number_of_days === 90,
+              (challenge) => challenge.number_of_days === data.length,
             );
             const userDataChallengeUpdate = await api.get(
               `get_personal_datas/${customerId}`,
@@ -351,7 +351,7 @@ const ChallengeMain = ({navigation, route}) => {
 
             const challengeMonthJSON = homeWorkout.data.data;
             const challenge90Days = challengeMonthJSON.find(
-              (challenge) => challenge.number_of_days === 90,
+              (challenge) => challenge.number_of_days === data.length,
             );
             const userDataChallengeUpdate = await api.get(
               `get_personal_datas/${customerId}`,
@@ -1219,7 +1219,7 @@ const ChallengeMain = ({navigation, route}) => {
                 row
                 justify="space-around"
                 paddingBottom={10}
-                style={{borderBottomWidth: 10, borderBottomColor: '#938669'}}>
+                style={{borderBottomWidth: 5, borderBottomColor: '#938669'}} card>
                 <Block paddingLeft={20}>
                   <Block center>
                     <Text key={challenge.id} bold>
@@ -1328,7 +1328,7 @@ const ChallengeMain = ({navigation, route}) => {
                                       name={
                                         isOpened ? 'chevron-up' : 'chevron-down'
                                       }
-                                      color={'green'}
+                                      color={'white'}
                                       size={12}
                                     />
                                   );

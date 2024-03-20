@@ -163,7 +163,7 @@ const GymWorkoutStart = () => {
     setIsTimerPaused((prevIsTimerPaused) => !prevIsTimerPaused);
   };
   const goToPreviousWorkout = () => {
-    setButtonVisible(false);
+    setButtonVisible(true);
     if (exerciseData && currentWorkoutIndex > 0) {
       setCurrentWorkoutIndex(currentWorkoutIndex - 1);
       setTimeLeft(

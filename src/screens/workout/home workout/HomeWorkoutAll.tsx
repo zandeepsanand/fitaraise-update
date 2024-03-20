@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
   Alert,
+  Dimensions
 } from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/core';
@@ -20,6 +21,7 @@ import {isAuthTokenSet} from '../../../../api';
 import {useFavorites} from '../../../hooks/HomeWorkoutContext';
 import {useFocusEffect} from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
+const screenWidth = Dimensions.get('window').width;
 
 const isAndroid = Platform.OS === 'android';
 
@@ -149,46 +151,37 @@ const HomeWorkoutAll = ({route}) => {
     <Block safe marginTop={sizes.md} marginBottom={10}>
       <Block
         scroll
-        paddingHorizontal={sizes.s}
+        // paddingHorizontal={sizes.s}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{paddingBottom: sizes.padding}}>
-        <Block flex={0} paddingBottom={60}>
-          {/* <Image
-            style={{height: 250}}
-            background
-            resizeMode="cover"
-            padding={sizes.sm}
-            paddingBottom={sizes.l}
-            radius={30}
-            // source={require('../../../assets/images/homeworkout.png')}
-            source={{
-              uri: `${workout.image}`,
-            }}> */}
+        <Block  paddingBottom={60} >
+         
+     
           <FastImage
             style={{
-              width: 390,
-              height: 250,
-              padding: 10,
-              paddingBottom: 15,
+              width: screenWidth * 0.98, // You can adjust this multiplier according to your needs
+              height: screenWidth * 0.54, // Keeping aspect ratio for square image
               borderRadius: 30,
+              paddingBottom: sizes.l,
+              padding: sizes.sm,
+              marginLeft:4
             }}
             source={{
               uri: workout.image,
-              headers: {Authorization: 'someAuthToken'},
+
               priority: FastImage.priority.normal,
             }}
-            resizeMode={FastImage.resizeMode.contain}>
+            resizeMode={FastImage.resizeMode.cover}>
             <Button
               row
               flex={0}
               justify="flex-start"
-              padding={10}
               onPress={() => navigation.goBack()}>
               <Image
                 radius={0}
                 width={10}
                 height={18}
-                color={colors.primary}
+                color={colors.white}
                 source={assets.arrow}
                 transform={[{rotate: '180deg'}]}
               />
@@ -205,60 +198,11 @@ const HomeWorkoutAll = ({route}) => {
                 padding: 20, // Optional padding for text inside the view
                 width: 250,
                 alignContent: 'center',
-
                 alignSelf: 'center',
               }}>
               <Text h5 center white bold>
                 {workout.name}
               </Text>
-              {/* <Text p center white>
-                {user?.department}
-              </Text> */}
-              {/* <Block row marginVertical={sizes.m}>
-                <Button
-                  white
-                  outlined
-                  shadow={false}
-                  radius={sizes.m}
-                  onPress={() => {
-                    alert(`Follow ${user?.name}`);
-                  }}>
-                  <Block
-                    justify="center"
-                    radius={sizes.m}
-                    paddingHorizontal={sizes.m}
-                    color="rgba(255,255,255,0.2)">
-                    <Text white bold transform="uppercase">
-                      {t('common.follow')}
-                    </Text>
-                  </Block>
-                </Button>
-                <Button
-                  shadow={false}
-                  radius={sizes.m}
-                  marginHorizontal={sizes.sm}
-                  color="rgba(255,255,255,0.2)"
-                  outlined={String(colors.white)}
-                  onPress={() => handleSocialLink('twitter')}>
-                  <Ionicons
-                    size={18}
-                    name="logo-twitter"
-                    color={colors.white}
-                  />
-                </Button>
-                <Button
-                  shadow={false}
-                  radius={sizes.m}
-                  color="rgba(255,255,255,0.2)"
-                  outlined={String(colors.white)}
-                  onPress={() => handleSocialLink('dribbble')}>
-                  <Ionicons
-                    size={18}
-                    name="logo-dribbble"
-                    color={colors.white}
-                  />
-                </Button>
-              </Block> */}
             </Block>
           </FastImage>
 

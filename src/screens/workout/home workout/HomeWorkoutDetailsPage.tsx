@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet,Dimensions} from 'react-native';
 import {Block, Button, Image, Text} from '../../../components/';
 import {useTheme} from '../../../hooks';
 import {useNavigation} from '@react-navigation/native';
@@ -9,7 +9,7 @@ import YoutubePage from '../../youtube/YoutubePage';
 import {Animated, Easing} from 'react-native';
 import Lottie from 'lottie-react-native';
 import FastImage from 'react-native-fast-image';
-
+const screenWidth = Dimensions.get('window').width;
 const HomeWorkoutDetailsPage = ({
   workout,
   timeLeft,
@@ -58,8 +58,14 @@ const HomeWorkoutDetailsPage = ({
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{paddingBottom: sizes.padding}}>
           {buttonVisible && (
+            <Block align='center'>
+
             <FastImage
-              style={{width: 390, height: 350, borderRadius: 30}}
+              style={{
+                width: screenWidth * 0.9,
+                height: screenWidth * 0.9,
+                borderRadius: 30,
+              }}
               source={{
                 uri: workout.image,
                 headers: {Authorization: 'someAuthToken'},
@@ -101,6 +107,7 @@ const HomeWorkoutDetailsPage = ({
                 )}
               </Block>
             </FastImage>
+            </Block>
           )}
 
           {!buttonVisible && (

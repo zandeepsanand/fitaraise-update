@@ -1,9 +1,9 @@
 /* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from "react";
-import { Platform, View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import { Platform, View, StyleSheet, ActivityIndicator } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { configureGoogleSignIn, signIn as signInUtil, signOut } from "../constants/GoogleSignInUtil.js";
-import { Block, Button, Image, Input } from '../components';
+import { Text, Block, Button, Image, Input } from '../components';
 import { useTheme } from "../hooks";
 
 const isAndroid = Platform.OS === 'android';
@@ -77,12 +77,18 @@ export const GoogleAuthNew = ({ onUserLogin }) => {
             {loading ? (
               <ActivityIndicator color={colors.icon} />
             ) : (
+              <Block row padding={10} width={200}>
               <Image
                 source={assets.google}
                 height={sizes.m}
                 width={sizes.m}
                 // color={colors.icon}
               />
+              <Block center>
+              <Text bold center primary>Login with Google</Text>
+              </Block>
+              
+              </Block>
             )}
           </Button>
         </View>
