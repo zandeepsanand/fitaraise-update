@@ -77,14 +77,19 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
 
   const {customerId} = useContext(LoginContext);
   const [isLoadingScroll, setIsLoadingScroll] = useState(true);
-  const [isDietPlanUnlocked, setDietPlanUnlocked] = useState(false); // Initially set to true
+  const [isDietPlanUnlocked, setDietPlanUnlocked] = useState(false);
+  console.log('====================================');
+  console.log(isDietPlanUnlocked, "check diet");
+  console.log('===================================='); // Initially set to true
   const [expanded, setExpanded] = useState(false);
   const [selectedDate, setSelectedDate] = useState(currentDate);
   const [apiData, setApiData] = useState(null);
   const handleUnlockDietPlan = async () => {
     // Check if the diet plan is unlocked in AsyncStorage
     const unlocked = await AsyncStorage.getItem('isDietPlanUnlocked');
-
+console.log('====================================');
+console.log(unlocked, "unlocked");
+console.log('====================================');
     if (!unlocked) {
       // Perform actions to unlock the diet plan, e.g., make an API call
       // ...
@@ -881,9 +886,9 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                                   formDataCopy,
                                 });
                               }}>
-                              <Text p black semibold center padding={10}>
+                              <Text p black semibold center padding={10} primary>
                                 Breakfast ({totalBreakfastCalorie.toFixed(2)})
-                                kcal
+                                
                               </Text>
                             </TouchableOpacity>
 
@@ -2404,7 +2409,8 @@ const styles = StyleSheet.create({
   container: {
     // flex: 1,
     // flexDirection: 'row', // set elements horizontally, try column.
-    paddingHorizontal: 10,
+    // paddingHorizontal: 10,
+    
   },
   // container: {
   //   flex: 3,

@@ -118,12 +118,12 @@ const TabNavigator = ({navigation, route}) => {
 
   return (
     <Tab.Navigator
-    
-      initialRouteName="pie" // Set the initial tab to "Home"
-      screenOptions={{
-        activeTintColor: '#97b4fe', // Set the active tab color to blue
-        inactiveTintColor: 'gray', // Set the inactive tab color to gray
-      }}>
+    initialRouteName="pie"
+    screenOptions={{
+      tabBarActiveTintColor: 'green',
+      tabBarInactiveTintColor:'black',
+     
+    }}>
       <Tab.Screen
         name="pie"
         component={DietPlan}
@@ -140,6 +140,7 @@ const TabNavigator = ({navigation, route}) => {
                 width: 20,
                 height: 20,
                 borderRadius: 0,
+                // backgroundColor:'gray'
               }}
             />
           ),

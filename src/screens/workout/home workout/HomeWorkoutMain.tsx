@@ -962,15 +962,17 @@ const styles = StyleSheet.create({
   dropdown1RowTxtStyle: {color: '#444', textAlign: 'left'},
 
   dropdown2BtnStyle: {
-    width: '95%',
+    width: '90%',
     height: 50,
     backgroundColor: 'white',
     borderRadius: 8,
+    fontSize:10,
   },
   dropdown2BtnTxtStyle: {
     color: 'black',
     textAlign: 'center',
     fontWeight: 'normal',
+    fontSize:14,
   },
   dropdown2DropdownStyle: {
     backgroundColor: 'white',
@@ -982,6 +984,7 @@ const styles = StyleSheet.create({
     color: 'black',
     textAlign: 'center',
     fontWeight: 'bold',
+    fontSize:14,
   },
 
   dropdown3BtnStyle: {

@@ -3,7 +3,8 @@ import React, {useState} from 'react';
 import {BASE_URL} from '@env';
 import {useTheme, useTranslation} from '../hooks/';
 import {Block, Image, Input, Text} from '../components/';
-import {Platform, TouchableOpacity, SectionList ,TouchableWithoutFeedback, StyleSheet} from 'react-native';
+import {Platform, TouchableOpacity, SectionList ,TouchableWithoutFeedback, StyleSheet,
+  ActivityIndicator} from 'react-native';
 import Axios from 'axios';
 import {FlatList} from 'react-native';
 import api from '../../api';
@@ -29,6 +30,8 @@ const DietPlanDynamic = ({route, navigation}) => {
   const [error, setError] = useState(null);
   // console.log(meal_type);
   const [dropdownVisible, setDropdownVisible] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadingItem, setLoadingItem] = useState(null);
   const toggleDropdown = (item) => {
     setDropdownVisible(dropdownVisible === item ? null : item);
   };
@@ -48,15 +51,19 @@ const DietPlanDynamic = ({route, navigation}) => {
 
   const fetchResults = (search_word: any) => {
     if (search_word.length >= 3) {
+      setIsLoading(true);
       try {
         api.get(`get_food_items/${search_word}`).then(
           (response) => {
             setSearchResults(response.data.data.data);
+           
           },
         );
         setError(null);
+        setIsLoading(false);
       } catch (e) {
         console.log(e);
+        setIsLoading(false);
       }
     } else {
       // Clear the search results if the search word is less than three characters long
@@ -65,25 +72,29 @@ const DietPlanDynamic = ({route, navigation}) => {
   };
   const handlePress = (food) => {
     if (food) {
-      // console.log(food, "food data");
-      
+      setLoadingItem(food.id); // Start loading for this item
       try {
         api.get(`get_food_item_datas_with_id/${food.id}`).then(
           (response) => {
             const responseData = response.data.data;
+           // After fetching data, you can navigate
             navigation.navigate('searchfoodData', {
               mealType,
               responseData,
               meal_type,
               formDataCopy,
               food
-
             });
+            setLoadingItem(null); // Turn off loading for this item after navigation
           },
+          (error) => {
+            console.error('Error fetching food item data:', error);
+            setLoadingItem(null); // Turn off loading for this item if there's an error
+          }
         );
-        setError(null);
-      } catch (e) {
-        console.log(e);
+      } catch (error) {
+        console.error('Error fetching food item data:', error);
+        setLoadingItem(null); // Turn off loading for this item if there's an error
       }
     }
   };
@@ -219,6 +230,8 @@ const DietPlanDynamic = ({route, navigation}) => {
         )}
       /> */}
        {searchResults.length > 0 ? (
+        <>
+        {isLoading?(<ActivityIndicator size="small" color="green" />):(  
         <FlatList
           data={searchResults}
           keyExtractor={(item) => item.id}
@@ -271,23 +284,31 @@ const DietPlanDynamic = ({route, navigation}) => {
                     </Text>
                   </Block>
                   <TouchableOpacity onPress={() => handlePress(item)}>
-                    <Block flex={0} style={{alignSelf: 'center'}}>
-                      <Image
-                        radius={0}
-                        width={30}
-                        height={30}
-                        color={'#c58bf2'}
-                        source={assets.plus}
-                        transform={[{rotate: '360deg'}]}
-                        margin={sizes.s}
-                      />
+                    <Block flex={0} style={{alignSelf: 'center'}} margin={sizes.s}>
+                    {loadingItem === item.id ? (
+                       <Block flex={0} style={{alignSelf: 'flex-start'}}>
+                <ActivityIndicator size="small" color="green" />
+                </Block>
+              ) : (
+                <Image
+                  radius={0}
+                  width={30}
+                  height={30}
+                  color={'#c58bf2'}
+                  source={assets.plus}
+                  transform={[{ rotate: '360deg' }]}
+                  margin={sizes.s}
+                />
+              )}
+                     
                     </Block>
                   </TouchableOpacity>
                 </Block>
               </Block>
             </TouchableWithoutFeedback>
           )}
-        />
+        />)}
+      </>
       ) : (
         <>
           <Block flex={0} paddingHorizontal={20}>

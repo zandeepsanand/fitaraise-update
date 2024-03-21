@@ -11,13 +11,17 @@ import React, {
   useState,
 } from 'react';
 
-
-
 import {useData, useTheme, useTranslation} from '../hooks/';
 import {Block, Button, Image, Input, Product, Text} from '../components/';
 import {StatusBar as ExpoStatusBar} from 'expo-status-bar';
 import Lottie from 'lottie-react-native';
-import {Alert, Animated, Easing, TouchableWithoutFeedback} from 'react-native';
+import {
+  Alert,
+  Animated,
+  Easing,
+  TouchableWithoutFeedback,
+  ActivityIndicator,
+} from 'react-native';
 import Toast from 'react-native-toast-message';
 
 import {
@@ -37,7 +41,6 @@ import Loader from '../screens/alert/loader/Loader';
 import messaging from '@react-native-firebase/messaging';
 import {useWorkoutPathContext} from '../hooks/WorkoutPathContext';
 
-
 const {height, width} = Dimensions.get('window');
 
 const sizes = ['S', 'M', 'L'];
@@ -49,7 +52,7 @@ export default function Frstpage({
   },
 }) {
   console.log(formData);
-  
+
   const {loginSuccess} = useContext(LoginContext);
   const {selectedWorkoutPath, setWorkoutPath} = useWorkoutPathContext();
 
@@ -57,18 +60,18 @@ export default function Frstpage({
   console.log(selectedWorkoutPath, 'first page');
   console.log('====================================');
 
-  useEffect(()=>{
+  useEffect(() => {
     AsyncStorage.getItem('userDataHomeWorkout')
-    .then(value => {
-      if (value !== null) {
-        console.log('Value retrieved successfully:', value);
-      } else {
-        console.log('No value stored for this key sandeep');
-      }
-    })
-    .catch(error => {
-      console.error('Error retrieving value: ', error);
-    });
+      .then((value) => {
+        if (value !== null) {
+          console.log('Value retrieved successfully:', value);
+        } else {
+          console.log('No value stored for this key sandeep');
+        }
+      })
+      .catch((error) => {
+        console.error('Error retrieving value: ', error);
+      });
   });
   const {assets, colors, fonts, gradients, sizes} = useTheme();
   const {t} = useTranslation();
@@ -76,6 +79,8 @@ export default function Frstpage({
   const {following, trending} = useData();
   const [products, setProducts] = useState(following);
   const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [workoutLoading, setWorkoutLoading] = useState(false);
   const [expoNotification, setExpoNotification] = useState('');
   const {
     customerId,
@@ -95,7 +100,7 @@ export default function Frstpage({
   };
   const handlePressOut = async () => {
     try {
-      
+      setWorkoutLoading(true);
       if (selectedWorkoutPath === 'HomeTabNavigator') {
         let homeWorkoutData = null;
         let userData = null;
@@ -110,9 +115,13 @@ export default function Frstpage({
         if (storedHomeWorkoutData && storeduserDataHomeWorkout) {
           homeWorkoutData = JSON.parse(storedHomeWorkoutData);
           userData = JSON.parse(storeduserDataHomeWorkout);
-          await AsyncStorage.setItem('WorkoutPath', JSON.stringify('HomeTabNavigator'));
+          await AsyncStorage.setItem(
+            'WorkoutPath',
+            JSON.stringify('HomeTabNavigator'),
+          );
           setWorkoutPath('HomeTabNavigator');
           await AsyncStorage.setItem('lastHomePage', 'Workout');
+          setWorkoutLoading(false);
           navigation.navigate('HomeTabNavigator', {
             screen: 'HomeWorkoutMain',
             params: {workout: homeWorkoutData, workoutData: userData},
@@ -138,9 +147,13 @@ export default function Frstpage({
         if (storedGymWorkoutData && storeduserDataGymWorkout) {
           gymWorkoutData = JSON.parse(storedGymWorkoutData);
           userData = JSON.parse(storeduserDataGymWorkout);
-          await AsyncStorage.setItem('WorkoutPath', JSON.stringify('GymTabNavigator'));
+          await AsyncStorage.setItem(
+            'WorkoutPath',
+            JSON.stringify('GymTabNavigator'),
+          );
           setWorkoutPath('GymTabNavigator');
           await AsyncStorage.setItem('lastHomePage', 'Workout');
+          setWorkoutLoading(false);
           navigation.navigate('GymTabNavigator', {
             screen: 'GymWorkoutMain',
             params: {data: gymWorkoutData, formDataCopy: userData},
@@ -165,39 +178,44 @@ export default function Frstpage({
           //   screen: 'GymWorkoutMain',
           //   params: {data: gymWorkoutData, formDataCopy:userData},
           // });
-          await AsyncStorage.setItem('WorkoutPath', JSON.stringify('ChallengeTabNavigator'));
+          await AsyncStorage.setItem(
+            'WorkoutPath',
+            JSON.stringify('ChallengeTabNavigator'),
+          );
           setWorkoutPath('ChallengeTabNavigator');
           await AsyncStorage.setItem('lastHomePage', 'Workout');
+          setWorkoutLoading(false);
           navigation.navigate('ChallengeTabNavigator', {
             screen: 'ChallengeMain',
             params: {challenge: challengeWorkoutData},
           });
         }
       } else {
+        setWorkoutLoading(false);
         // If there's no selectedWorkoutPath, navigate to the default 'fitness' route
         navigation.navigate('fitness', {workoutData: formData});
       }
     } catch (error) {
+      setWorkoutLoading(false);
       console.error('Error retrieving stored data:', error);
     }
   };
 
-  // home page set code 
+  // home page set code
 
   // useEffect(() => {
   //   const fetchData = async () => {
   //     try {
   //       setIsLoading(true);
-        
-        
+
   //       if (selectedWorkoutPath) {
   //         // Now you can use the logic from handlePressOut function here
   //         if (selectedWorkoutPath === 'HomeTabNavigator') {
   //           console.log("inside im");
-            
+
   //           let homeWorkoutData = null;
   //           let userData = null;
-  
+
   //           // Retrieve homeWorkoutData from AsyncStorage
   //           const storedHomeWorkoutData = await AsyncStorage.getItem(
   //             'homeWorkoutData',
@@ -206,7 +224,7 @@ export default function Frstpage({
   //             'userDataHomeWorkout',
   //           );
   //           if (storedHomeWorkoutData && storeduserDataHomeWorkout) {
-             
+
   //             homeWorkoutData = JSON.parse(storedHomeWorkoutData);
   //             userData = JSON.parse(storeduserDataHomeWorkout);
   //             navigation.navigate(selectedWorkoutPath, {
@@ -218,7 +236,7 @@ export default function Frstpage({
   //         } else if (selectedWorkoutPath === 'GymTabNavigator') {
   //           let gymWorkoutData = null;
   //           let userData = null;
-    
+
   //           // Retrieve homeWorkoutData from AsyncStorage
   //           const storedGymWorkoutData = await AsyncStorage.getItem(
   //             'gymWorkoutData',
@@ -229,7 +247,7 @@ export default function Frstpage({
   //           if (storedGymWorkoutData && storeduserDataGymWorkout) {
   //             gymWorkoutData = JSON.parse(storedGymWorkoutData);
   //             userData = JSON.parse(storeduserDataGymWorkout);
-    
+
   //             navigation.navigate('GymTabNavigator', {
   //               screen: 'GymWorkoutMain',
   //               params: {data: gymWorkoutData, formDataCopy: userData},
@@ -238,7 +256,7 @@ export default function Frstpage({
   //         } else if (selectedWorkoutPath === 'ChallengeTabNavigator') {
   //           let challengeWorkoutData = null;
   //           let userData = null;
-    
+
   //           // Retrieve homeWorkoutData from AsyncStorage
   //           const storedChallengeWorkoutData = await AsyncStorage.getItem(
   //             'challengeWorkoutData',
@@ -249,12 +267,12 @@ export default function Frstpage({
   //           if (storedChallengeWorkoutData && storeduserDataChallengeWorkout) {
   //             challengeWorkoutData = JSON.parse(storedChallengeWorkoutData);
   //             userData = JSON.parse(storeduserDataChallengeWorkout);
-    
+
   //             // navigation.navigate('GymTabNavigator', {
   //             //   screen: 'GymWorkoutMain',
   //             //   params: {data: gymWorkoutData, formDataCopy:userData},
   //             // });
-    
+
   //             navigation.navigate('ChallengeTabNavigator', {
   //               screen: 'ChallengeMain',
   //               params: {challenge: challengeWorkoutData},
@@ -274,13 +292,10 @@ export default function Frstpage({
   //       console.error('Error retrieving stored data:', error);
   //     }
   //   };
-  
+
   //   fetchData();
   // }, []);
 
-
-
-  
   const handleProducts = useCallback(
     (tab: number) => {
       setTab(tab);
@@ -364,23 +379,24 @@ export default function Frstpage({
 
   const redirectTo = async () => {
     try {
+      setLoading(true);
       const [cachedDataJSON, authDataJSON] = await Promise.all([
         AsyncStorage.getItem('cachedData'),
         AsyncStorage.getItem('authData'),
       ]);
-  
+
       const authData = JSON.parse(authDataJSON || '{}');
-      const { token, formData } = authData;
-  
+      const {token, formData} = authData;
+
       if (cachedDataJSON) {
         const cachedData = JSON.parse(cachedDataJSON);
-        const { requiredCalorie, dietPlan } = cachedData;
-  
-        setIsLoading(false);
+        const {requiredCalorie, dietPlan} = cachedData;
+
+        // setIsLoading(false);
         if (requiredCalorie && formData) {
           await AsyncStorage.setItem('lastHomePage', 'DietPlan');
 
-
+          setLoading(false);
           return navigation.navigate('Menu', {
             data: requiredCalorie,
             formDataCopy: formData,
@@ -388,59 +404,66 @@ export default function Frstpage({
           });
         }
       }
-  
+
       if (!token) {
         return navigateToLogin();
       }
-  
+
       loginSuccess(formData.customer_id, formData, token);
       setAuthToken(token);
-      setIsLoading(true);
-  
+      // setIsLoading(true);
+
       const [requiredCalorieResponse, dietListResponse] = await Promise.all([
         api.get(`get_daily_required_calories/${formData.customer_id}`),
         api.get(`get_recommended_diet/${formData.customer_id}`),
       ]);
-  
+
       const requiredCalorie = requiredCalorieResponse.data.data;
       const dietPlan = dietListResponse.data.data.recommended_diet_list;
-  
+
       if (requiredCalorieResponse.data.success) {
-        await AsyncStorage.setItem('cachedData', JSON.stringify({ requiredCalorie, dietPlan }));
+        await AsyncStorage.setItem(
+          'cachedData',
+          JSON.stringify({requiredCalorie, dietPlan}),
+        );
       }
-  
-      setIsLoading(false);
-  
+
+      // setIsLoading(false);
+
       if (requiredCalorieResponse.data.success && formData) {
+        setLoading(false);
         navigation.navigate('Menu', {
           data: requiredCalorie,
           formDataCopy: formData,
           dietPlan,
         });
       } else if (formData) {
-        navigation.navigate('Details', { formData });
+        setLoading(false);
+        navigation.navigate('Details', {formData});
       } else {
+        setLoading(false);
         navigateToLogin();
       }
     } catch (error) {
       console.error('Error:', error);
-      setIsLoading(false);
+      // setIsLoading(false);
+      setLoading(false);
       navigateToLogin();
     }
   };
-  
+
   const navigateToLogin = () => {
     navigation.reset({
       index: 0,
-      routes: [{ name: 'loginNew' }],
+      routes: [{name: 'loginNew'}],
     });
   };
   const [playing, setPlaying] = useState(false);
 
   const onStateChange = useCallback((state) => {
-    if (state === "ended") {
+    if (state === 'ended') {
       setPlaying(false);
-      Alert.alert("video has finished playing!");
+      Alert.alert('video has finished playing!');
     }
   }, []);
 
@@ -456,14 +479,12 @@ export default function Frstpage({
         <>
           <Block>
             <Block style={styles.container1} gradient={gradients.success}>
-           
               <Text
                 bold
                 //  font="Pacifico"
                 style={{top: 40, padding: 16}}>
                 Welcome {formData.first_name} ,
               </Text>
-             
 
               <View style={styles.img}>
                 <Image
@@ -496,14 +517,8 @@ export default function Frstpage({
                         //  source={require('../../../assets/fruit2.png')}
                         source={assets.fruit2}
                         resizeMode="contain"
+                        width={50}
                       />
-                      {/* <Lottie
-                    width={64}
-                    height={64}
-                    marginBottom={sizes.sm}
-                    source={require('../assets/json/diet1.json')}
-                    progress={animationProgress.current}
-                  /> */}
                     </View>
                     <View flex={4} style={{alignSelf: 'center'}}>
                       <Text
@@ -534,11 +549,15 @@ export default function Frstpage({
                       justifyContent: 'center',
                       borderRadius: 50,
                     }}>
-                    <Image
-                      source={assets.arrow}
-                      color={colors.white}
-                      radius={0}
-                    />
+                    {loading ? (
+                      <ActivityIndicator size="small" color="white" />
+                    ) : (
+                      <Image
+                        source={assets.arrow}
+                        color={colors.white}
+                        radius={0}
+                      />
+                    )}
                   </View>
                 </Block>
               </TouchableWithoutFeedback>
@@ -562,6 +581,7 @@ export default function Frstpage({
                         // source={require('../../../assets/fitness2.png')}
                         source={assets.fitness2}
                         resizeMode="contain"
+                        width={50}
                       />
                     </View>
                     <View flex={4} style={{alignSelf: 'center'}}>
@@ -587,18 +607,23 @@ export default function Frstpage({
                       justifyContent: 'center',
                       borderRadius: 50,
                     }}>
-                    <Image
-                      source={assets.arrow}
-                      color={colors.white}
-                      radius={0}
-                    />
+                    {workoutLoading ? (
+                      <ActivityIndicator size="small" color="white" />
+                    ) : (
+                      <Image
+                        source={assets.arrow}
+                        color={colors.white}
+                        radius={0}
+                      />
+                    )}
                   </View>
                 </Block>
               </TouchableWithoutFeedback>
               <TouchableWithoutFeedback
                 // onPressOut={() => navigation.navigate('NutritionFactsSearch')}
                 onPress={() => {
-                  navigation.navigate('NutritionFactsSearch');
+                  // navigation.navigate('NutritionFactsSearch');
+                  redirectTo();
                   handleProducts(4);
                   // handleLogout();
                 }}>
@@ -613,6 +638,7 @@ export default function Frstpage({
                         //  source={require('../../../assets/book2.png')}
                         source={assets.book2}
                         resizeMode="contain"
+                        width={50}
                       />
                     </View>
                     <View flex={4} style={{alignContent: 'center'}}>
@@ -645,17 +671,19 @@ export default function Frstpage({
                       justifyContent: 'center',
                       borderRadius: 50,
                     }}>
-                    <Image
-                      source={assets.arrow}
-                      color={colors.white}
-                      radius={0}
-                    />
+                    {loading ? (
+                      <ActivityIndicator size="small" color="white" />
+                    ) : (
+                      <Image
+                        source={assets.arrow}
+                        color={colors.white}
+                        radius={0}
+                      />
+                    )}
                   </View>
                 </Block>
-                
               </TouchableWithoutFeedback>
               {/* <Text>{expoNotification}</Text> */}
-             
             </View>
           </Block>
         </>

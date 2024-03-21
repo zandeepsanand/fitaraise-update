@@ -412,10 +412,11 @@ const DietPlanData = ({route, navigation}) => {
     }
     console.log(servingId);
 
-    setLoading(false);
+    
     navigation.navigate('Menu', {
       formDataCopy, // Pass your parameters here
     });
+setLoading(false);
   };
 
   const handleAddToFavorites = (item) => {
@@ -795,15 +796,14 @@ const DietPlanData = ({route, navigation}) => {
               {/* Nutrition full details card*/}
 
               {isFullBlock ? (
-                <Block flex={2} style={{height: 900}}>
+             
                   <Block
                     card
                     row
-                    flex={3}
                     padding={sizes.s}
                     paddingTop={sizes.m}
                     marginBottom={sizes.m}
-                    style={styles.container5}>
+                   >
                     <Block>
                       <Text
                         p
@@ -815,7 +815,7 @@ const DietPlanData = ({route, navigation}) => {
                       </Text>
                       <Block style={styles.container}>
                         {/* Header */}
-                        <Block style={styles.row} flex={0} card margin={1}>
+                        <Block style={styles.row} flex={0} card margin={5}>
                           <Text style={styles.header} center semibold>
                             Sugar In g :
                           </Text>
@@ -825,7 +825,7 @@ const DietPlanData = ({route, navigation}) => {
                         </Block>
 
                         {/* Data Rows */}
-                        <Block style={styles.row} flex={0} card margin={1}>
+                        <Block style={styles.row} flex={0} card margin={5}>
                           <Text style={styles.header} center semibold>
                             Fiber In g :
                           </Text>
@@ -833,7 +833,7 @@ const DietPlanData = ({route, navigation}) => {
                             {totalFiber}
                           </Text>
                         </Block>
-                        <Block style={styles.row} flex={0} card margin={1}>
+                        <Block style={styles.row} flex={0} card margin={5}>
                           <Text style={styles.header} center semibold>
                             Sodium in mg :
                           </Text>
@@ -841,7 +841,7 @@ const DietPlanData = ({route, navigation}) => {
                             {totalSodium}
                           </Text>
                         </Block>
-                        <Block style={styles.row} flex={0} card margin={1}>
+                        <Block style={styles.row} flex={0} card margin={5}>
                           <Text style={styles.header} center semibold>
                             Potassium in mg :
                           </Text>
@@ -849,7 +849,7 @@ const DietPlanData = ({route, navigation}) => {
                             {totalPotassium}
                           </Text>
                         </Block>
-                        <Block style={styles.row} flex={0} card margin={1}>
+                        <Block style={styles.row} flex={0} card margin={5}>
                           <Text style={styles.header} center semibold>
                             Cholesterol In mg :
                           </Text>
@@ -858,7 +858,7 @@ const DietPlanData = ({route, navigation}) => {
                           </Text>
                         </Block>
 
-                        <Block style={styles.row} flex={0} card margin={1}>
+                        <Block style={styles.row} flex={0} card margin={5}>
                           <Text style={styles.data} center semibold>
                             Saturated Fat in g :
                           </Text>
@@ -866,7 +866,7 @@ const DietPlanData = ({route, navigation}) => {
                             {totalSaturatedFat}
                           </Text>
                         </Block>
-                        <Block style={styles.row} flex={0} card margin={1}>
+                        <Block style={styles.row} flex={0} card margin={5}>
                           <Text style={styles.data} center semibold>
                             Trans Fat In g :
                           </Text>
@@ -875,15 +875,15 @@ const DietPlanData = ({route, navigation}) => {
                           </Text>
                         </Block>
 
-                        <Block style={styles.row} flex={0} card margin={1}>
+                        <Block style={styles.row} flex={0} card margin={5}>
                           <Text style={styles.data} center semibold>
-                            VVitamin A in mg :
+                            Vitamin A in mg :
                           </Text>
                           <Text style={styles.data} center>
                             {totalVitaminAIU}
                           </Text>
                         </Block>
-                        {/* <Block style={styles.row} flex={0} card margin={1}>
+                        {/* <Block style={styles.row} flex={0} card margin={5}>
                           <Text style={styles.data} center semibold>
                             Vitamin A Retinol Activity Equivalents (RAE) :
                           </Text>
@@ -891,7 +891,7 @@ const DietPlanData = ({route, navigation}) => {
                             {totalVitaminARAE}
                           </Text>
                         </Block> */}
-                        <Block style={styles.row} flex={0} card margin={1}>
+                        <Block style={styles.row} flex={0} card margin={5}>
                           <Text style={styles.data} center semibold>
                             Vitamin C in mg :
                           </Text>
@@ -899,7 +899,7 @@ const DietPlanData = ({route, navigation}) => {
                             {totalVitaminC}
                           </Text>
                         </Block>
-                        <Block style={styles.row} flex={0} card margin={1}>
+                        <Block style={styles.row} flex={0} card margin={5}>
                           <Text style={styles.data} center semibold>
                             Vitamin D :
                           </Text>
@@ -907,7 +907,7 @@ const DietPlanData = ({route, navigation}) => {
                             {totalVitaminD}
                           </Text>
                         </Block>
-                        <Block style={styles.row} flex={0} card margin={1}>
+                        <Block style={styles.row} flex={0} card margin={5}>
                           <Text style={styles.data} center semibold>
                             Calcium In mg :
                           </Text>
@@ -915,7 +915,7 @@ const DietPlanData = ({route, navigation}) => {
                             {totalCalcium}
                           </Text>
                         </Block>
-                        <Block style={styles.row} flex={0} card margin={1}>
+                        <Block style={styles.row} flex={0} card margin={5}>
                           <Text style={styles.data} center semibold>
                             Iron in mg :
                           </Text>
@@ -923,7 +923,7 @@ const DietPlanData = ({route, navigation}) => {
                             {totalIron}
                           </Text>
                         </Block>
-                        <Block style={styles.row} flex={0} card margin={1}>
+                        <Block style={styles.row} flex={0} card margin={5}>
                           <Text style={styles.data} center semibold>
                             Mono Saturated Fat In g :
                           </Text>
@@ -931,7 +931,7 @@ const DietPlanData = ({route, navigation}) => {
                             {totalMonounsaturatedFat}
                           </Text>
                         </Block>
-                        <Block style={styles.row} flex={0} card margin={1}>
+                        <Block style={styles.row} flex={0} card margin={5}>
                           <Text style={styles.data} center semibold>
                             Poly Saturated Fat in g :
                           </Text>
@@ -942,7 +942,7 @@ const DietPlanData = ({route, navigation}) => {
                       </Block>
                     </Block>
                   </Block>
-                </Block>
+             
               ) : (
                 <Block flex={2} style={{height: 200}}>
                   <Block
@@ -975,7 +975,7 @@ const DietPlanData = ({route, navigation}) => {
 
       {loading ? ( // Show loading indicator if loading is true
         <Block center style={styles.buttonContainer}>
-          <ActivityIndicator size="large" color="blue" />
+          <ActivityIndicator size="large" color="green" />
         </Block>
       ) : (
         <TouchableWithoutFeedback onPress={handleAddFood}>
