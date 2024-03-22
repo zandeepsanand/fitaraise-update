@@ -75,11 +75,14 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
     water,
   } = useContext(MealContext);
 
+  console.log('====================================');
+  console.log(breakfastItems, "breakkk");
+  console.log('====================================');
   const {customerId} = useContext(LoginContext);
   const [isLoadingScroll, setIsLoadingScroll] = useState(true);
   const [isDietPlanUnlocked, setDietPlanUnlocked] = useState(false);
   console.log('====================================');
-  console.log(isDietPlanUnlocked, "check diet");
+  console.log(isDietPlanUnlocked, 'check diet');
   console.log('===================================='); // Initially set to true
   const [expanded, setExpanded] = useState(false);
   const [selectedDate, setSelectedDate] = useState(currentDate);
@@ -87,9 +90,9 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
   const handleUnlockDietPlan = async () => {
     // Check if the diet plan is unlocked in AsyncStorage
     const unlocked = await AsyncStorage.getItem('isDietPlanUnlocked');
-console.log('====================================');
-console.log(unlocked, "unlocked");
-console.log('====================================');
+    console.log('====================================');
+    console.log(unlocked, 'unlocked');
+    console.log('====================================');
     if (!unlocked) {
       // Perform actions to unlock the diet plan, e.g., make an API call
       // ...
@@ -156,7 +159,6 @@ console.log('====================================');
       ? waterTracker.todays_consumed_water_count_ml /
         waterTracker.normal_water_count_ml
       : 0;
-
 
   console.log(waterProgress, 'progress water');
 
@@ -532,12 +534,10 @@ console.log('====================================');
   const progressValueOfCarb = ProgressCarbs / data.carb_g;
   const progressValueOfFat = ProgressFat / data.fat_g;
 
-
-
   const toggleExpand = () => {
     setExpanded(!expanded);
   };
-  
+
   console.log(currentDate, 'date check');
 
   // State to hold the selected date and response data
@@ -551,7 +551,6 @@ console.log('====================================');
   // };
   // console.log(selectedDate, 'selected date');
 
- 
   // console.log(apiData, 'the data of diet');
 
   const handleScrollCalendarDateChange = async (selectedDate) => {
@@ -863,8 +862,7 @@ console.log('====================================');
                         shadow={!isAndroid} // disabled shadow on Android due to blur overlay + elevation issue
                         marginTop={sizes.s}
                         marginHorizontal={0}
-                        card
-                        >
+                        card>
                         <Block row align="center">
                           <Block flex={0}>
                             <Image
@@ -886,9 +884,14 @@ console.log('====================================');
                                   formDataCopy,
                                 });
                               }}>
-                              <Text p black semibold center padding={10} primary>
+                              <Text
+                                p
+                                black
+                                semibold
+                                center
+                                padding={10}
+                                primary>
                                 Breakfast ({totalBreakfastCalorie.toFixed(2)})
-                                
                               </Text>
                             </TouchableOpacity>
 
@@ -939,7 +942,7 @@ console.log('====================================');
                               <DataTable.Cell
                                 style={{flex: 1.4}}></DataTable.Cell>
                               <DataTable.Cell style={{flex: 1.3}}>
-                              Protein
+                                Protein
                               </DataTable.Cell>
                               <DataTable.Cell style={{flex: 1.3}}>
                                 Carb
@@ -1008,7 +1011,6 @@ console.log('====================================');
                         marginTop={sizes.m}
                         marginHorizontal={10}
                         card
-                        
                         center>
                         <Block row align="center">
                           <Block flex={0}>
@@ -1081,8 +1083,7 @@ console.log('====================================');
                         radius={sizes.sm}
                         shadow={!isAndroid} // disabled shadow on Android due to blur overlay + elevation issue
                         marginTop={sizes.s}
-                        card
-                        >
+                        card>
                         <Block row align="center">
                           <Block flex={0}>
                             <Image
@@ -1184,7 +1185,7 @@ console.log('====================================');
                               <DataTable.Cell
                                 style={{flex: 1.4}}></DataTable.Cell>
                               <DataTable.Cell style={{flex: 1.3}}>
-                              Protein
+                                Protein
                               </DataTable.Cell>
                               <DataTable.Cell style={{flex: 1.3}}>
                                 Carb
@@ -1253,7 +1254,6 @@ console.log('====================================');
                         marginTop={sizes.m}
                         marginHorizontal={10}
                         card
-                        
                         center>
                         <Block row align="center">
                           <Block flex={0}>
@@ -1325,8 +1325,7 @@ console.log('====================================');
                         radius={sizes.sm}
                         shadow={!isAndroid} // disabled shadow on Android due to blur overlay + elevation issue
                         marginTop={sizes.s}
-                        card
-                        >
+                        card>
                         <Block row align="center">
                           <Block flex={0}>
                             <Image
@@ -1417,7 +1416,7 @@ console.log('====================================');
                               <DataTable.Cell
                                 style={{flex: 1.4}}></DataTable.Cell>
                               <DataTable.Cell style={{flex: 1.3}}>
-                              Protein
+                                Protein
                               </DataTable.Cell>
                               <DataTable.Cell style={{flex: 1.3}}>
                                 Carb
@@ -1486,7 +1485,6 @@ console.log('====================================');
                         marginTop={sizes.m}
                         marginHorizontal={10}
                         card
-                        
                         center>
                         <Block row align="center">
                           <Block flex={0}>
@@ -1558,8 +1556,7 @@ console.log('====================================');
                         radius={sizes.sm}
                         shadow={!isAndroid} // disabled shadow on Android due to blur overlay + elevation issue
                         marginTop={sizes.s}
-                        card
-                        >
+                        card>
                         <Block row align="center">
                           <Block flex={0}>
                             <Image
@@ -1652,7 +1649,7 @@ console.log('====================================');
                               <DataTable.Cell
                                 style={{flex: 1.4}}></DataTable.Cell>
                               <DataTable.Cell style={{flex: 1.3}}>
-                              Protein
+                                Protein
                               </DataTable.Cell>
                               <DataTable.Cell style={{flex: 1.3}}>
                                 Carb
@@ -1721,7 +1718,6 @@ console.log('====================================');
                         marginTop={sizes.m}
                         marginHorizontal={10}
                         card
-                        
                         center>
                         <Block row align="center">
                           <Block flex={0}>
@@ -1793,8 +1789,7 @@ console.log('====================================');
                         radius={sizes.sm}
                         shadow={!isAndroid} // disabled shadow on Android due to blur overlay + elevation issue
                         marginTop={sizes.s}
-                        card
-                        >
+                        card>
                         <Block row align="center">
                           <Block flex={0}>
                             <Image
@@ -1887,7 +1882,7 @@ console.log('====================================');
                               <DataTable.Cell
                                 style={{flex: 1.4}}></DataTable.Cell>
                               <DataTable.Cell style={{flex: 1.3}}>
-                              Protein
+                                Protein
                               </DataTable.Cell>
                               <DataTable.Cell style={{flex: 1.3}}>
                                 Carb
@@ -1956,7 +1951,6 @@ console.log('====================================');
                         marginTop={sizes.m}
                         marginHorizontal={10}
                         card
-                        
                         center>
                         <Block row align="center">
                           <Block flex={0}>
@@ -2025,82 +2019,41 @@ console.log('====================================');
                         </Block>
                       </Block>
                     )}
-                  {/* meal 1 and 2 area is here */}
-               
-
+                    {/* meal 1 and 2 area is here */}
                     {/* <Progress.Bar progress={0.3}  width={100}  /> */}
-                    {water.length > 0 ? (
-                      <Block flex={0} marginTop={10}>
-                        <Image
-                          background
-                          resizeMode="cover"
-                          padding={sizes.sm}
-                          paddingBottom={sizes.l}
-                          radius={sizes.cardRadius}
-                          source={assets.green}
-                          blurRadius={10}>
-                          <Block flex={0}>
-                            <Image source={{uri: user?.avatar}} />
-                            {/* <Lottie
-                            width={64}
-                            height={64}
-                            marginBottom={sizes.sm}
-                            source={require('../assets/json/water.json')}
-                            progress={animationProgress.current}
-                          /> */}
-                            <Text h5 center white>
-                              {/* {user?.name} */}
-                              Water Tracker
-                            </Text>
+
+                    <Block flex={0} marginTop={10}>
+                      <Image
+                        background
+                        resizeMode="cover"
+                        padding={sizes.sm}
+                        paddingBottom={sizes.l}
+                        radius={sizes.cardRadius}
+                        source={assets.green}
+                        blurRadius={10}>
+                        <Block flex={0}>
+                          <Image source={{uri: user?.avatar}} />
+
+                          <Text h5 center white>
+                            Water Tracker
+                          </Text>
+                          {water ? (
                             <Text p center white>
                               Target {waterTracker.normal_water_count_ml} ml
                             </Text>
-                            {/* <Block flex={0} align="center" padding={sizes.xl}>
-                        <ProgressBar
-                          steps={6}
-                          ranges={[
-                            '0',
-                            '150',
-                            '400',
-                            '600',
-                            '800',
-                            '1000',
-                            '1200',
-                          ]}
-                          dotDiameter={10}
-                          width={325}
-                          height={3}
-                          currentStep={currentStep}
-                          stepToStepAnimationDuration={1000}
-                          withDots
-                        />
-                      </Block> */}
-                            {/* <Block
-                        row
-                        justify="space-between"
-                        marginBottom={sizes.base}
-                        marginTop={sizes.sm}>
-                        <Button
-                          flex={2}
-                          gradient={gradients.dark}
-                          marginHorizontal={sizes.s}>
-                          <TouchableOpacity onPress={handlePrevStep}>
-                            <Text white bold marginHorizontal={sizes.s}>
-                              -
-                            </Text>
-                          </TouchableOpacity>
-                        </Button>
-                        <Button flex={2} gradient={gradients.dark}>
-                          <TouchableOpacity onPress={handleNextStep}>
-                            <Text white bold marginHorizontal={sizes.sm}>
-                              +
-                            </Text>
-                          </TouchableOpacity>
-                        </Button>
-                      </Block> */}
-                            <Block row centerContent>
+                          ) : (
+                            <ActivityIndicator size="large" color="green" />
+                          )}
+
+                          {water ? (
+                            <Block
+                              row
+                              style={{
+                                justifyContent: 'space-between',
+                                paddingTop: 20,
+                              }}>
                               <Block
-                                flex={0}
+                                flex={1.8}
                                 width={160}
                                 height={80}
                                 card
@@ -2132,12 +2085,12 @@ console.log('====================================');
                                 </Block>
                               </Block>
                               <Block
-                                flex={0}
+                                flex={1.1}
                                 // card
                                 width={130}
                                 marginHorizontal={10}
                                 center
-                                padding={10}>
+                                padding={30}>
                                 <Block
                                   flex={1}
                                   centerContent
@@ -2146,14 +2099,6 @@ console.log('====================================');
                                     justifyContent: 'center',
                                     alignSelf: 'center',
                                   }}>
-                                  {/* <Block center marginBottom={10}>
-                            <Lottie
-                              width={64}
-                              height={64}
-                              source={require('../assets/json/water.json')}
-                              progress={animationProgress.current}
-                            />
-                          </Block> */}
                                   <Image
                                     center
                                     source={require('../assets/icons/glass.png')}
@@ -2197,160 +2142,21 @@ console.log('====================================');
                                   flex={0}
                                   width={100}
                                   margin={-20}>
-                                  {/* <Lottie
-                             source={require('../assets/json/water2.json')} // Replace with the path to your fill animation JSON file
-                             autoPlay={false}
-                             loop={false}
-                             style={{ width: 50, height: 100, position: 'absolute', bottom: 0 }}
-                            >
-
-                            </Lottie> */}
                                   <Progress.Bar
                                     progress={waterProgress}
                                     width={120}
                                     height={15}
+                                    borderRadius={10}
                                     color="skyblue"></Progress.Bar>
                                 </Block>
                               </Block>
                             </Block>
-                          </Block>
-                        </Image>
-                      </Block>
-                    ) : (
-                      <Block flex={0} marginTop={10}>
-                        <Image
-                          background
-                          resizeMode="cover"
-                          padding={sizes.sm}
-                          paddingBottom={sizes.l}
-                          radius={sizes.cardRadius}
-                          source={assets.green}
-                          blurRadius={10}>
-                          <Block flex={0}>
-                            <Image source={{uri: user?.avatar}} />
-                          
-                            <Text h5 center white>
-                           
-                              Water Tracker
-                            </Text>
-                            <Text p center white>
-                              Target {waterTracker.normal_water_count_ml} ml
-                            </Text>
-
-                            {water ? (
-                            
-                              <Block
-                                row
-                                style={{
-                                  justifyContent: 'space-between',
-                                  paddingTop: 20,
-                                }}>
-                                <Block
-                                  flex={1.8}
-                                  width={160}
-                                  height={80}
-                                  card
-                                  center
-                                  marginTop={30}>
-                                  <Block
-                                    center
-                                    flex={0}
-                                    marginBottom={10}
-                                    marginRight={20}>
-                                    <Lottie
-                                      width={44}
-                                      height={54}
-                                      source={require('../assets/json/water.json')}
-                                      progress={animationProgress.current}
-                                    />
-                                  </Block>
-                                  <Block flex={0} marginLeft={30}>
-                                    <Text center info h5 bold>
-                                      {/* {Math.round(waterAmount * 100)}% */}
-                                      {/* {data.water_datas.todays_consumed_water_count_ml} */}
-                                      {waterTracker.todays_consumed_water_count_ml
-                                        ? `${waterTracker.todays_consumed_water_count_ml} ml`
-                                        : '0 ml'}
-                                    </Text>
-                                    <Text center semibold secondary>
-                                      Water intake
-                                    </Text>
-                                  </Block>
-                                </Block>
-                                <Block
-                                  flex={1.1}
-                                  // card
-                                  width={130}
-                                  marginHorizontal={10}
-                                  center
-                                  padding={30}>
-                                  <Block
-                                    flex={1}
-                                    centerContent
-                                    center
-                                    style={{
-                                      justifyContent: 'center',
-                                      alignSelf: 'center',
-                                    }}>
-                                    <Image
-                                      center
-                                      source={require('../assets/icons/glass.png')}
-                                      height={40}
-                                      width={40}></Image>
-                                  </Block>
-                                  <Text center white>
-                                    (250 ml per cup)
-                                  </Text>
-                                  <Block row center marginTop={10}>
-                                    <Block flex={0} marginRight={5}>
-                                      <Button
-                                        info
-                                        onPress={decreaseWater}
-                                        disabled={
-                                          waterTracker.todays_consumed_water_count_ml <=
-                                          0
-                                        }>
-                                        <Text bold white p>
-                                          -
-                                        </Text>
-                                      </Button>
-                                    </Block>
-                                    <Block flex={0}>
-                                      <Button
-                                        info
-                                        marginLeft={5}
-                                        onPress={increaseWater}>
-                                        <Text bold white>
-                                          {' '}
-                                          +{' '}
-                                        </Text>
-                                      </Button>
-                                    </Block>
-                                  </Block>
-                                </Block>
-                                <Block flex={1} center>
-                                  <Block
-                                    transform={[{rotate: '-90deg'}]}
-                                    centerContent
-                                    flex={0}
-                                    width={100}
-                                    margin={-20}>
-                                    <Progress.Bar
-                                      progress={waterProgress}
-                                      width={120}
-                                      height={15}
-                                      borderRadius={10}
-                                      color="skyblue"></Progress.Bar>
-                                  </Block>
-                                </Block>
-                              </Block>
-                            ) : (
-                              <ActivityIndicator size="large" color="green" /> // Show loading indicator when water data is null
-                            )}
-                          </Block>
-                        </Image>
-                      </Block>
-                    )}
+                          ) : (
+                            <ActivityIndicator size="large" color="green" /> // Show loading indicator when water data is null
+                          )}
+                        </Block>
+                      </Image>
+                    </Block>
                   </>
                 ) : (
                   <PreviousDietDetails data={apiData} />
@@ -2410,7 +2216,6 @@ const styles = StyleSheet.create({
     // flex: 1,
     // flexDirection: 'row', // set elements horizontally, try column.
     // paddingHorizontal: 10,
-    
   },
   // container: {
   //   flex: 3,

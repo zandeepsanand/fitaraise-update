@@ -12,16 +12,83 @@ const LoadingScreen = () => {
   const navigation = useNavigation();
   const {selectedWorkoutPath} = useWorkoutPathContext();
   const {loginSuccess} = useContext(LoginContext);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingCache, setIsLoadingCache] = useState(false);
   const animationProgress = new Animated.Value(0);
-
+  const checkIfDataExists = async () => {
+    try {
+      const allKeys = await AsyncStorage.getAllKeys();
+      if (allKeys.length > 0) {
+        // Data exists
+        console.log(allKeys, 'Data exists in AsyncStorage');
+      } else {
+        // No data
+        console.log('No data in AsyncStorage');
+      }
+    } catch (error) {
+      console.error('Error checking AsyncStorage:', error);
+    }
+  };
+  useEffect(() => {
+    checkIfDataExists();
+  }, []);
   useEffect(() => {
     const checkAuthenticationStatus = async () => {
       try {
+        
         const authDataJSON = await AsyncStorage.getItem('authData');
         const LastHome = await AsyncStorage.getItem('lastHomePage');
+        const cachedDataJSON = await AsyncStorage.getItem('cachedData');
+        const authData1 = JSON.parse(authDataJSON);
+        const formData1 = authData1.formData;
 
-        if (authDataJSON) {
+        if (cachedDataJSON && authDataJSON && LastHome) {
+          setIsLoadingCache(true);
+          const authData = JSON.parse(authDataJSON);
+          const authToken = authData.token;
+          const customerId = authData.formData.customer_id;
+          const formData = authData.formData;
+
+          loginSuccess(customerId, formData, authToken);
+
+          if (LastHome) {
+            if (LastHome === 'DietPlan') {
+              setIsLoadingCache(true);
+
+              const cachedData = JSON.parse(cachedDataJSON);
+              const DietPlanCache = cachedData.dietPlan;
+              const RequiredCalorieCache = cachedData.requiredCalorie;
+              const formDataCache = authData.formData;
+              if (RequiredCalorieCache && formDataCache) {
+                await AsyncStorage.setItem('lastHomePage', 'DietPlan');
+                navigation.reset({
+                  index: 0,
+                  routes: [
+                    {
+                      name: 'Menu',
+                      params: {
+                        data: RequiredCalorieCache,
+                        formDataCopy: formDataCache,
+                        dietPlan: DietPlanCache,
+                      },
+                    },
+                  ],
+                });
+                setIsLoadingCache(false);
+              }
+            }
+            if (LastHome === 'Workout') {
+              handleTabPress();
+              setIsLoading(true);
+            }
+          } else {
+            navigation.reset({
+              index: 0,
+              routes: [{name: 'Frstpage', params: {formData: formData1}}],
+            });
+          }
+        } else if (authDataJSON) {
+          setIsLoading(true);
           const authData = JSON.parse(authDataJSON);
           const authToken = authData.token;
           const customerId = authData.formData.customer_id;
@@ -37,13 +104,15 @@ const LoadingScreen = () => {
             const dietListResponse = await api.get(
               `get_recommended_diet/${customerId}`,
             );
+            console.log('====================================');
+            console.log(requiredCalorieResponse.data.data);
+            console.log(dietListResponse.data.data);
+            console.log('====================================');
 
             if (LastHome) {
-              console.log(LastHome, "home path");
-              
-            
+              console.log(LastHome, 'home path');
+
               if (LastHome === 'DietPlan') {
-                const cachedDataJSON = await AsyncStorage.getItem('cachedData');
                 if (
                   requiredCalorieResponse.data.success &&
                   dietListResponse.data.success &&
@@ -68,6 +137,7 @@ const LoadingScreen = () => {
                         },
                       ],
                     });
+                    setIsLoading(false);
                     return;
                   } else {
                     navigation.reset({
@@ -76,12 +146,14 @@ const LoadingScreen = () => {
                         {name: 'Frstpage', params: {formData: formData}},
                       ],
                     });
+                    setIsLoading(false);
                   }
                 } else {
                   navigation.reset({
                     index: 0,
                     routes: [{name: 'Frstpage', params: {formData: formData}}],
                   });
+                  setIsLoading(false);
                 }
               } else if (LastHome === 'Workout') {
                 handleTabPress();
@@ -201,7 +273,15 @@ const LoadingScreen = () => {
         <Lottie
           style={styles.backgroundAnimation}
           source={require('../assets/json/loader.json')}
-          progress={animationProgress}
+          autoPlay={true}
+        />
+      )}
+      {isLoadingCache && (
+        <Lottie
+          style={styles.backgroundAnimation}
+          source={require('../assets/json/loveloader.json')}
+          autoPlay={true}
+          
         />
       )}
     </View>
@@ -214,6 +294,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  backgroundAnimation:{
+    width:100,
+
+  }
 });
 
 export default LoadingScreen;

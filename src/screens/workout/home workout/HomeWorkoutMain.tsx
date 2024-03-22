@@ -266,6 +266,11 @@ const HomeWorkoutMain = ({navigation, route}) => {
         const userData = JSON.parse(storeduserDataGymWorkout);
 
         await AsyncStorage.setItem('lastHomePage', 'Workout');
+        await AsyncStorage.setItem(
+          'WorkoutPath',
+          JSON.stringify('GymTabNavigator'),
+        );
+
 
         navigation.navigate('GymTabNavigator', {
           screen: 'GymWorkoutMain',

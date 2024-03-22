@@ -15,6 +15,7 @@ const HomeWorkoutDietPlan = () => {
   useEffect(() => {
     const fetchDataAndNavigate = async () => {
       try {
+        setIsLoading(true);
         console.log('clicked diet');
 
         const storedData = await AsyncStorage.getItem('cachedData');
@@ -25,13 +26,13 @@ const HomeWorkoutDietPlan = () => {
           const requiredCalorie = cachedData.requiredCalorie;
           const dietPlan = cachedData.dietPlan;
 
-          setIsLoading(false);
           if (requiredCalorie && authData.formData) {
             try {
               await AsyncStorage.setItem('lastHomePage', 'DietPlan');
             } catch (error) {
               console.error('Error setting AsyncStorage item:', error);
-            }            
+            }
+            setIsLoading(false);
             navigation.navigate('Menu', {
               data: requiredCalorie,
               formDataCopy: authData.formData,
@@ -45,10 +46,8 @@ const HomeWorkoutDietPlan = () => {
               routes: [{name: 'loginNew'}],
             });
           }
-          checkAuthenticationStatus(cachedData);
         } else {
-          await startLoadingAnimation();
-
+          setIsLoading(true);
           const requiredCalorieResponse = await api.get(
             `get_daily_required_calories/${customerId}`,
           );
@@ -64,49 +63,31 @@ const HomeWorkoutDietPlan = () => {
           const formData = formDataResponse.data.data;
           if (requiredCalorieResponse.data.success === true && formData) {
             await AsyncStorage.setItem('lastHomePage', 'DietPlan');
+            
             navigation.navigate('Menu', {
               data: requiredCalorie,
               formDataCopy: formData,
               dietPlan,
             });
+            setIsLoading(false);
           } else if (formData) {
             navigation.reset({
               index: 0,
               routes: [{name: 'Details', params: {formData: formData}}],
             });
+            setIsLoading(false);
           } else {
             navigation.reset({
               index: 0,
               routes: [{name: 'FirstPageCountrySelect'}],
             });
+            setIsLoading(false);
           }
-
-          onAnimationComplete();
         }
       } catch (error) {
         console.error('Error in useEffect:', error);
+        setIsLoading(false);
       }
-    };
-
-    const startLoadingAnimation = () => {
-      return new Promise((resolve) => {
-        Animated.timing(animationProgress.current, {
-          toValue: 1,
-          duration: 2500,
-          easing: Easing.linear,
-          useNativeDriver: false,
-        }).start(() => {
-          resolve();
-        });
-      });
-    };
-
-    const checkAuthenticationStatus = (parsedData) => {
-      onAnimationComplete();
-    };
-
-    const onAnimationComplete = () => {
-      setIsLoading(false);
     };
 
     const unsubscribe = navigation.addListener('focus', () => {
@@ -232,7 +213,7 @@ const HomeWorkoutDietPlan = () => {
         <Lottie
           style={styles.backgroundAnimation}
           source={require('../assets/json/loader.json')}
-          progress={animationProgress.current}
+          autoPlay={true}
         />
       </View>
     );

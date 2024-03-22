@@ -30,7 +30,7 @@ interface MealContextType {
   addMealItem1: (food: any) => void;
   addMealItem2: (food: any) => void;
   addWater: (plus: any) => void;
-  setWater:(item:any)=>void;
+  setWater: (item: any) => void;
   deleteItem: (items: any[], mealType: string) => void;
   clearContextData: () => void;
   totalCalories: number;
@@ -55,7 +55,7 @@ export const MealContext = createContext<MealContextType>({
   addMealItem1: () => {},
   addMealItem2: () => {},
   addWater: () => {},
-  setWater:()=>{},
+  setWater: () => {},
   deleteItem: () => {},
   clearContextData: () => {},
   isLoading: false,
@@ -77,10 +77,10 @@ const MealContextProvider: React.FC = ({children}) => {
   console.log('====================================');
   console.log(water, 'usemeal data');
   console.log('====================================');
-  const [transformedData, setTransformedData] = useState([]);
+  // const [transformedData, setTransformedData] = useState([]);
   const [totalCalories, setTotalCalories] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const [fetchDataFlag, setFetchDataFlag] = useState(true);
+
   // const [customerId, setCustomerId] = useState('');
 
   console.log(authenticated, 'loged in or not');
@@ -109,7 +109,6 @@ const MealContextProvider: React.FC = ({children}) => {
     const result = {};
 
     if (breakfastData) {
-    
       const mappedBreakfastData = breakfastData.diet_list.map((item) => {
         return {
           added_by: null,
@@ -186,7 +185,7 @@ const MealContextProvider: React.FC = ({children}) => {
           weight_in_g: item.taken_weight,
         };
       });
-      
+
       result.breakfastItems = mappedBreakfastData;
     }
     if (morningSnackData) {
@@ -677,16 +676,17 @@ const MealContextProvider: React.FC = ({children}) => {
   }, [authenticated]);
 
   useEffect(() => {
-    console.log(breakfastItems.length, isLoading, 'the properties');
-    // Create a function to fetch and process data
-
+    
+   
     const fetchData = async () => {
       try {
         const currentDate = new Date();
         const formattedDate = `${currentDate.getFullYear()}-${String(
           currentDate.getMonth() + 1,
         ).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`;
-
+        console.log('====================================');
+        console.log(formattedDate, 'todays datee');
+        console.log('====================================');
         const apiUrl = `get_diet_list_wrt_date/${customerId}/${formattedDate}`;
         // Make the API request to get data
         const response = await api.get(apiUrl);
@@ -718,27 +718,21 @@ const MealContextProvider: React.FC = ({children}) => {
         if (transformedData.mealItems2) {
           setMealItems2(transformedData.mealItems2);
         }
-        // setWater
-
-        // Move the setWater line here
       } catch (error) {
         console.error('Error:', error);
         if (error.response && error.response.data) {
           console.error('Server Error Details:', error.response.data);
-          // You can set an error state or show an error message to the user here.
         }
       } finally {
-        setIsLoading(false);
-        setFetchDataFlag(false);
+        setIsLoading(false); // Update loading state regardless of success or failure
       }
     };
 
-    // Check if data is not already loaded (isLoading is true) and if authenticated
-    // Call the data fetch function
-    if (isLoading) {
+   
       fetchData();
-    }
-  }, [breakfastItems, isLoading, authenticated, customerId, setWater]); // Include authenticated in the dependency array
+   
+  
+  }, [customerId,isLoading]); // Include authenticated in the dependency array
   useEffect(() => {
     // Check if water is null after it has been set
     if (water === null) {
@@ -761,11 +755,9 @@ const MealContextProvider: React.FC = ({children}) => {
           const responseData = response.data;
           console.log(responseData.data, 'for water usemeal single ');
           // Move the setWater line here
-          if(response.data.success){
+          if (response.data.success) {
             setWater(responseData.data.water_datas);
           }
-
-         
         } catch (error) {
           console.error('Error:', error);
           if (error.response && error.response.data) {
@@ -774,7 +766,7 @@ const MealContextProvider: React.FC = ({children}) => {
           }
         } finally {
           setIsLoading(false);
-          setFetchDataFlag(false);
+        
         }
       };
       if (water === null) {
@@ -1591,8 +1583,7 @@ const MealContextProvider: React.FC = ({children}) => {
         console.log(details, 'details id from db to update');
 
         const updatedItems = [...mealItems1];
-       
-      
+
         updatedItems[existingIndex] = {...food, details};
         // setBreakfastItems(updatedItems);
         var bodyFormData = new FormData();
