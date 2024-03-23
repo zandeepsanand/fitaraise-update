@@ -35,7 +35,6 @@ const LoadingScreen = () => {
   useEffect(() => {
     const checkAuthenticationStatus = async () => {
       try {
-        
         const authDataJSON = await AsyncStorage.getItem('authData');
         const LastHome = await AsyncStorage.getItem('lastHomePage');
         const cachedDataJSON = await AsyncStorage.getItem('cachedData');
@@ -279,9 +278,8 @@ const LoadingScreen = () => {
       {isLoadingCache && (
         <Lottie
           style={styles.backgroundAnimation}
-          source={require('../assets/json/loveloader.json')}
+          source={require('../assets/json/loader4.json')}
           autoPlay={true}
-          
         />
       )}
     </View>
@@ -294,10 +292,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  backgroundAnimation:{
-    width:100,
-
-  }
+  backgroundAnimation: {
+    width: 200,
+    height: 200,
+  },
 });
 
 export default LoadingScreen;

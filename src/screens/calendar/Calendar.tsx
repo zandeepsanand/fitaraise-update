@@ -15,10 +15,9 @@ const Calendar = ({ onSelectDate, selected   }) => {
   console.log('====================================');
   console.log(scrollPosition);
   console.log('====================================');
-  const screenWidth = Dimensions.get('window').width / 1;
-  console.log('====================================');
-  console.log(screenWidth);
-  console.log('====================================');
+ 
+ 
+  const screenWidth = Dimensions.get('window').width / 6.29;
   // get the dates from today to 10 days from now, format them as strings and store them in state
   const getDates = () => {
     const _dates = [];
@@ -47,7 +46,7 @@ const Calendar = ({ onSelectDate, selected   }) => {
       setNavigationTriggered(false); // Reset navigation trigger after centering
     }
   }, [dates, screenWidth, navigationTriggered]);
-  const getCurrentMonth = () => {
+const getCurrentMonth = () => {
     const centerIndex = Math.round(scrollPosition / screenWidth);
     const centerDate = dates[centerIndex];
     setCurrentMonth(moment(centerDate).format('MMMM YYYY'));

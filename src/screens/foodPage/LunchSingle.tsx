@@ -507,7 +507,7 @@ const LunchSingle = ({route, navigation}) => {
             </Block>
           </TouchableWithoutFeedback>
           {lunchItems.map((item, index) => (
-            <Block>
+            <Block key={index}>
               <Block
                 radius={sizes.sm}
                 shadow={!isAndroid} // disabled shadow on Android due to blur overlay + elevation issue

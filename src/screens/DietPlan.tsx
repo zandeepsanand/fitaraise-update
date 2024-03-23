@@ -60,6 +60,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
   // const [selectedDate, setSelectedDate] = useState(null);
   const currentDate = new Date().toISOString().slice(0, 10);
   const isFocused = useIsFocused();
+  const animationProgress = useRef(new Animated.Value(0));
   const route = useRoute();
   const {
     breakfastItems,
@@ -76,7 +77,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
   } = useContext(MealContext);
 
   console.log('====================================');
-  console.log(breakfastItems, "breakkk");
+  console.log(breakfastItems, 'breakkk');
   console.log('====================================');
   const {customerId} = useContext(LoginContext);
   const [isLoadingScroll, setIsLoadingScroll] = useState(true);
@@ -519,7 +520,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
   const IMAGE_VERTICAL_MARGIN =
     (sizes.width - (IMAGE_VERTICAL_SIZE + sizes.sm) * 2) / 2;
 
-  const animationProgress = useRef(new Animated.Value(0));
+ 
 
   useEffect(() => {
     Animated.timing(animationProgress.current, {
@@ -585,8 +586,13 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
   return (
     <Block paddingTop={10}>
       {shouldRenderDietPlan ? (
-        // While data is loading, you can display a loading indicator
-        <ActivityIndicator size="large" color="green" />
+        <Block style={styles.loadingContainer}>
+        <Lottie
+          style={styles.backgroundAnimation}
+          source={require('../assets/json/foodloader.json')}
+          autoPlay={true}
+        />
+        </Block>
       ) : (
         <>
           {/* search input */}
@@ -2064,14 +2070,9 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                                   flex={0}
                                   marginBottom={10}
                                   marginRight={20}>
-                                  <Lottie
-                                    width={44}
-                                    height={54}
-                                    source={require('../assets/json/water.json')}
-                                    progress={animationProgress.current}
-                                  />
+                               
                                 </Block>
-                                <Block flex={0} marginLeft={30}>
+                                <Block flex={0} >
                                   <Text center info h5 bold>
                                     {/* {Math.round(waterAmount * 100)}% */}
                                     {/* {data.water_datas.todays_consumed_water_count_ml} */}
@@ -2136,6 +2137,12 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                                 </Block>
                               </Block>
                               <Block flex={1} center>
+                              {/* <Lottie
+                                    width={84}
+                                    height={194}
+                                    source={require('../assets/json/water.json')}
+                                    progress={animationProgress.current}
+                                  /> */}
                                 <Block
                                   transform={[{rotate: '-90deg'}]}
                                   centerContent
@@ -2182,6 +2189,15 @@ const styles = StyleSheet.create({
     // borderBottomColor: 'lightgreen',
     // borderBottomWidth: 0.9,
     //  marginTop:0,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  backgroundAnimation: {
+    width: 100,
+    height: 100,
   },
 
   progressBar: {

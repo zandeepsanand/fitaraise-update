@@ -10,18 +10,20 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const HomeWorkoutDietPlan = () => {
   const navigation = useNavigation();
   const {customerId} = useContext(LoginContext);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingCache, setIsLoadingCache] = useState(false);
   const animationProgress = useRef(new Animated.Value(0));
   useEffect(() => {
     const fetchDataAndNavigate = async () => {
       try {
-        setIsLoading(true);
+        // setIsLoading(true);
         console.log('clicked diet');
 
         const storedData = await AsyncStorage.getItem('cachedData');
         const authData = JSON.parse(await AsyncStorage.getItem('authData'));
 
         if (storedData) {
+          setIsLoadingCache(true);
           const cachedData = JSON.parse(storedData);
           const requiredCalorie = cachedData.requiredCalorie;
           const dietPlan = cachedData.dietPlan;
@@ -32,7 +34,7 @@ const HomeWorkoutDietPlan = () => {
             } catch (error) {
               console.error('Error setting AsyncStorage item:', error);
             }
-            setIsLoading(false);
+            setIsLoadingCache(false);
             navigation.navigate('Menu', {
               data: requiredCalorie,
               formDataCopy: authData.formData,
@@ -40,11 +42,13 @@ const HomeWorkoutDietPlan = () => {
             });
           } else if (authData.formData) {
             navigation.navigate('Details', {formData: authData.formData});
+            setIsLoadingCache(false);
           } else {
             navigation.reset({
               index: 0,
               routes: [{name: 'loginNew'}],
             });
+            setIsLoadingCache(false);
           }
         } else {
           setIsLoading(true);
@@ -61,9 +65,14 @@ const HomeWorkoutDietPlan = () => {
           const requiredCalorie = requiredCalorieResponse.data.data;
           const dietPlan = dietListResponse.data.data.recommended_diet_list;
           const formData = formDataResponse.data.data;
+          await AsyncStorage.setItem(
+            'cachedData',
+            JSON.stringify({requiredCalorie, dietPlan}),
+          );
+
           if (requiredCalorieResponse.data.success === true && formData) {
             await AsyncStorage.setItem('lastHomePage', 'DietPlan');
-            
+
             navigation.navigate('Menu', {
               data: requiredCalorie,
               formDataCopy: formData,
@@ -87,6 +96,7 @@ const HomeWorkoutDietPlan = () => {
       } catch (error) {
         console.error('Error in useEffect:', error);
         setIsLoading(false);
+        setIsLoadingCache(false);
       }
     };
 
@@ -97,122 +107,23 @@ const HomeWorkoutDietPlan = () => {
     return unsubscribe;
   }, [navigation, customerId]);
 
-  // useEffect(() => {
-  //   const fetchDataAndNavigate = async () => {
-  //     try {
-  //       console.log('clicked diet');
-
-  //       const storedData = await AsyncStorage.getItem('cachedData');
-  //       const authData = JSON.parse(await AsyncStorage.getItem('authData'));
-
-  //       if (storedData) {
-  //         const cachedData = JSON.parse(storedData);
-  //         const requiredCalorie = cachedData.requiredCalorie;
-  //         const dietPlan = cachedData.dietPlan;
-  //         // Skip animation and proceed to the next step
-
-  //         setIsLoading(false);
-  //         if (requiredCalorie && authData.formData) {
-  //           navigation.navigate('Menu', {
-  //             data: requiredCalorie,
-  //             formDataCopy: authData.formData,
-  //             dietPlan,
-  //           });
-  //         } else if (authData.formData) {
-  //           navigation.navigate('Details', {formData: authData.formData});
-  //         } else {
-  //           navigation.reset({
-  //             index: 0,
-  //             routes: [{name: 'loginNew'}],
-  //           });
-  //         }
-  //         checkAuthenticationStatus(cachedData);
-  //       } else {
-  //         // Data is not available in AsyncStorage, proceed with API calls
-  //         await startLoadingAnimation();
-
-  //         const requiredCalorieResponse = await api.get(
-  //           `get_daily_required_calories/${customerId}`,
-  //         );
-  //         const diet_List = await api.get(`get_recommended_diet/${customerId}`);
-  //         const formDataData = await api.get(
-  //           `get_personal_datas/${customerId}`,
-  //         );
-
-  //         const requiredCalorie = requiredCalorieResponse.data.data;
-  //         const dietPlan = diet_List.data.data.recommended_diet_list;
-  //         const formData = formDataData.data.data;
-  //         if (requiredCalorieResponse.data.success === true && formData) {
-  //           // Reset the navigation stack and navigate to 'Menu'
-  //           navigation.reset({
-  //             index: 0,
-  //             routes: [
-  //               {
-  //                 name: 'Menu',
-  //                 params: {
-  //                   data: requiredCalorie,
-  //                   formDataCopy: formData,
-  //                   dietPlan,
-  //                 },
-  //               },
-  //             ],
-  //           });
-  //         } else if (formData) {
-  //           // Reset the navigation stack and navigate to 'Details'
-  //           navigation.reset({
-  //             index: 0,
-  //             routes: [{name: 'Details', params: {formData: formData}}],
-  //           });
-  //         } else {
-  //           // Reset the navigation stack and navigate to 'FirstPageCountrySelect'
-  //           navigation.reset({
-  //             index: 0,
-  //             routes: [{name: 'FirstPageCountrySelect'}],
-  //           });
-  //         }
-
-  //         onAnimationComplete(); // Proceed to the next step
-  //       }
-  //     } catch (error) {
-  //       console.error('Error in useEffect:', error);
-  //       // Handle error, set state, or perform any necessary actions
-  //       // navigation.reset({ index: 0, routes: [{ name: 'FirstPageCountrySelect' }] });
-  //     }
-  //   };
-
-  //   const startLoadingAnimation = () => {
-  //     return new Promise((resolve) => {
-  //       Animated.timing(animationProgress.current, {
-  //         toValue: 1,
-  //         duration: 2500,
-  //         easing: Easing.linear,
-  //         useNativeDriver: false,
-  //       }).start(() => {
-  //         resolve();
-  //       });
-  //     });
-  //   };
-
-  //   const checkAuthenticationStatus = (parsedData) => {
-  //     // Your logic to handle the data from AsyncStorage
-  //     // ...
-
-  //     onAnimationComplete(); // Proceed to the next step
-  //   };
-
-  //   const onAnimationComplete = () => {
-  //     setIsLoading(false);
-  //   };
-
-  //   fetchDataAndNavigate();
-  // }, [navigation, customerId]);
-
   if (isLoading) {
     return (
       <View style={styles.loadingContainer}>
         <Lottie
           style={styles.backgroundAnimation}
           source={require('../assets/json/loader.json')}
+          autoPlay={true}
+        />
+      </View>
+    );
+  }
+  if (isLoadingCache) {
+    return (
+      <View style={styles.loadingContainer}>
+        <Lottie
+          style={styles.backgroundAnimation}
+          source={require('../assets/json/loader4.json')}
           autoPlay={true}
         />
       </View>
@@ -229,8 +140,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   backgroundAnimation: {
-    width: 200, // Adjust the width based on your design
-    height: 200, // Adjust the height based on your design
+    width: 150, // Adjust the width based on your design
+    height: 150, // Adjust the height based on your design
   },
 });
 

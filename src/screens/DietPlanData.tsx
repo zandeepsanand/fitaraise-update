@@ -26,7 +26,7 @@ const isAndroid = Platform.OS === 'android';
 
 const DietPlanData = ({route, navigation}) => {
   const {mealType, responseData, meal_type, formDataCopy, food} = route.params;
-  console.log(responseData, 'response');
+  console.log(responseData, 'response from ');
   const {addToFavorites} = useFavorites();
   const {favorites} = useFavorites();
 
@@ -335,7 +335,7 @@ const DietPlanData = ({route, navigation}) => {
   const added_date = currentDate;
   const desc_num_food_tbl = 10;
   const customer_id = formDataCopy.customer_id;
-  const food_id = food.id;
+  const food_id = responseData.id;
   const taken_weight = selectedWeight;
   const quantity = multiplication;
   const serving_desc_id = servingId;
