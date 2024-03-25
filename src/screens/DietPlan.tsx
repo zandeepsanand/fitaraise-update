@@ -61,6 +61,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
   const currentDate = new Date().toISOString().slice(0, 10);
   const isFocused = useIsFocused();
   const animationProgress = useRef(new Animated.Value(0));
+  
   const route = useRoute();
   const {
     breakfastItems,
@@ -401,6 +402,9 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
     totaleveningSnackItemsProtein +
     totalMeal1Protein +
     totalMeal2Protein;
+    console.log('====================================');
+    console.log(totalProteinfAllFoods, "total protein");
+    console.log('====================================');
   const ProgressProtein = totalProteinfAllFoods;
   const ProgressProteins = ProgressProtein.toFixed(0);
   // console.log(ProgressProteins, 'total Protein');
@@ -520,8 +524,6 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
   const IMAGE_VERTICAL_MARGIN =
     (sizes.width - (IMAGE_VERTICAL_SIZE + sizes.sm) * 2) / 2;
 
- 
-
   useEffect(() => {
     Animated.timing(animationProgress.current, {
       toValue: 1,
@@ -583,15 +585,24 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
     console.log('====================================');
   }, [data]);
 
+  const increaseProgress = () => {
+    // Increase animation progress by 20%
+    animationProgress.current = Math.min(animationProgress.current + 0.2, 1);
+  };
+
+  const decreaseProgress = () => {
+    // Decrease animation progress by 20%
+    animationProgress.current = Math.max(animationProgress.current - 0.2, 0);
+  };
   return (
     <Block paddingTop={10}>
       {shouldRenderDietPlan ? (
         <Block style={styles.loadingContainer}>
-        <Lottie
-          style={styles.backgroundAnimation}
-          source={require('../assets/json/foodloader.json')}
-          autoPlay={true}
-        />
+          <Lottie
+            style={styles.backgroundAnimation}
+            source={require('../assets/json/foodloader.json')}
+            autoPlay={true}
+          />
         </Block>
       ) : (
         <>
@@ -946,7 +957,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                           <DataTable style={styles.container}>
                             <DataTable.Header style={styles.tableHeader}>
                               <DataTable.Cell
-                                style={{flex: 1.4}}></DataTable.Cell>
+                                style={{flex: 2}}></DataTable.Cell>
                               <DataTable.Cell style={{flex: 1.3}}>
                                 Protein
                               </DataTable.Cell>
@@ -954,13 +965,13 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                                 Carb
                               </DataTable.Cell>
                               <DataTable.Cell>Fat</DataTable.Cell>
-                              <DataTable.Cell>KCAL</DataTable.Cell>
+                              {/* <DataTable.Cell>KCAL</DataTable.Cell> */}
                               <DataTable.Cell></DataTable.Cell>
                             </DataTable.Header>
                             {breakfastItems.map((item, index) => (
                               <DataTable.Row key={index}>
                                 <DataTable.Cell
-                                  style={{flex: 1.4}}
+                                  style={{flex: 2}}
                                   numberOfLines={
                                     expandedItems.includes(index) ? 0 : 1
                                   }>
@@ -975,9 +986,9 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                                 <DataTable.Cell>
                                   {item.details.totalFat}
                                 </DataTable.Cell>
-                                <DataTable.Cell>
+                                {/* <DataTable.Cell>
                                   {item.details.totalCalorie}
-                                </DataTable.Cell>
+                                </DataTable.Cell> */}
                                 <DataTable.Cell
                                   style={{
                                     alignSelf: 'center',
@@ -2069,10 +2080,8 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                                   center
                                   flex={0}
                                   marginBottom={10}
-                                  marginRight={20}>
-                               
-                                </Block>
-                                <Block flex={0} >
+                                  marginRight={20}></Block>
+                                <Block flex={0}>
                                   <Text center info h5 bold>
                                     {/* {Math.round(waterAmount * 100)}% */}
                                     {/* {data.water_datas.todays_consumed_water_count_ml} */}
@@ -2113,11 +2122,13 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                                   <Block flex={0} marginRight={5}>
                                     <Button
                                       info
-                                      onPress={decreaseWater}
-                                      disabled={
-                                        waterTracker.todays_consumed_water_count_ml <=
-                                        0
-                                      }>
+                                      // onPress={decreaseWater}
+                                      onPress={decreaseProgress}
+                                      // disabled={
+                                      //   waterTracker.todays_consumed_water_count_ml <=
+                                      //   0
+                                      // }
+                                      >
                                       <Text bold white p>
                                         -
                                       </Text>
@@ -2127,7 +2138,9 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                                     <Button
                                       info
                                       marginLeft={5}
-                                      onPress={increaseWater}>
+                                      // onPress={increaseWater}
+                                      onPress={increaseProgress} 
+                                      >
                                       <Text bold white>
                                         {' '}
                                         +{' '}
@@ -2137,13 +2150,15 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                                 </Block>
                               </Block>
                               <Block flex={1} center>
-                              {/* <Lottie
+                                <Lottie
                                     width={84}
                                     height={194}
-                                    source={require('../assets/json/water.json')}
+                                    source={require('../assets/json/waterProgress.json')}
                                     progress={animationProgress.current}
-                                  /> */}
-                                <Block
+                                    // autoPlay={true}
+                                  />
+                                  
+                                {/* <Block
                                   transform={[{rotate: '-90deg'}]}
                                   centerContent
                                   flex={0}
@@ -2155,7 +2170,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                                     height={15}
                                     borderRadius={10}
                                     color="skyblue"></Progress.Bar>
-                                </Block>
+                                </Block> */}
                               </Block>
                             </Block>
                           ) : (
