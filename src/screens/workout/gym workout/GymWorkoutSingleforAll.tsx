@@ -33,6 +33,7 @@ const GymWorkoutSingleforAll = () => {
   const navigation = useNavigation();
   const {assets, colors, sizes} = useTheme();
   const [buttonVisible, setButtonVisible] = useState(true);
+  const [savedDate, setCompletedDate] = useState([]);
  
   const [currentWorkoutIndex, setCurrentWorkoutIndex] = useState(
     exerciseDataAll.findIndex((exercise) => exercise.id === exerciseDataSingle.id),
@@ -73,6 +74,7 @@ const GymWorkoutSingleforAll = () => {
     fetchData();
   };
   const goToNextWorkout = () => {
+    setButtonVisible(true);
     if (currentWorkoutIndex < exerciseDataAll.length - 1) {
       setCurrentWorkoutIndex(currentWorkoutIndex + 1);
     }

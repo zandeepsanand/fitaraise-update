@@ -56,7 +56,7 @@ const GymWorkoutSingle = () => {
       });
   };
   const goToPreviousWorkout = () => {
-    setButtonVisible(false);
+    setButtonVisible(true);
     setIsTimerRunning(false);
     setTimerText('Start');
     if (exerciseData && currentWorkoutIndex > 0) {
@@ -71,7 +71,7 @@ const GymWorkoutSingle = () => {
     fetchData();
   };
   const goToNextWorkout = () => {
-    setButtonVisible(false);
+    setButtonVisible(true);
     if (currentWorkoutIndex < exerciseData.length - 1) {
       setCurrentWorkoutIndex(currentWorkoutIndex + 1);
     }
@@ -112,6 +112,7 @@ const GymWorkoutSingle = () => {
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [isTimerPaused, setIsTimerPaused] = useState(false);
   const [timerText, setTimerText] = useState('Start');
+  const [savedDate, setCompletedDate] = useState([]);
   const handleToggleTimer = () => {
     if (timeLeft === 0) {
       // Timer has reached 0, do not start/stop the timer
