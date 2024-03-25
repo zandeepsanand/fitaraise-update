@@ -7,7 +7,7 @@ import React, {
   useState,
 } from 'react';
 import {useIsFocused} from '@react-navigation/native';
-import {DataTable} from 'react-native-paper';
+import {DataTable,Card} from 'react-native-paper';
 import {ProgressBarAndroid} from 'react-native-elements';
 import {BASE_URL} from '@env';
 import {useData, useTheme, useTranslation} from '../hooks/';
@@ -407,6 +407,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
     console.log('====================================');
   const ProgressProtein = totalProteinfAllFoods;
   const ProgressProteins = ProgressProtein.toFixed(0);
+  const RoundedProtienTotal= totalProteinfAllFoods.toFixed(0);
   // console.log(ProgressProteins, 'total Protein');
 
   const totalFatfAllFoods =
@@ -419,6 +420,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
     totalMeal2Fat;
   const ProgressFat = totalFatfAllFoods;
   const ProgressFats = ProgressFat.toFixed(0);
+  const RoundedFatTotal= totalFatfAllFoods.toFixed(0);
   // console.log(ProgressFats, 'total fat');
 
   const totalCarbfAllFoods =
@@ -431,6 +433,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
     totalMeal2Carb;
   const ProgressCarb = totalCarbfAllFoods;
   const ProgressCarbs = ProgressCarb.toFixed(0);
+  const RoundedCarbTotal= totalCarbfAllFoods.toFixed(0);
   // console.log(ProgressCarbs, 'total Carbs');
   console.log('====================================');
   console.log(data.calories);
@@ -682,7 +685,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                       // disableAnimation={totalCaloriesOfAllFoods >= data.calories}
                     />
 
-                    <Block row marginVertical={0} padding={0} marginTop={-10}>
+                    <Block row paddingHorizontal={10}  marginTop={-10}>
                       <Button
                         white
                         outlined
@@ -698,6 +701,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                           radius={sizes.m}
                           paddingHorizontal={sizes.m}
                           paddingVertical={10}
+                          align='center'
                           color="rgba(255,255,255,0.2)">
                           <Text
                             white
@@ -719,7 +723,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                             // transform="uppercase"
                             center
                             paddingTop={5}>
-                            {data.protien_g}g
+                            {RoundedProtienTotal}/{data.protien_g}g
                           </Text>
                         </Block>
                       </Button>
@@ -739,6 +743,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                           radius={sizes.m}
                           paddingHorizontal={sizes.m}
                           paddingVertical={10}
+                          align='center'
                           color="rgba(255,255,255,0.2)">
                           <Text
                             white
@@ -760,7 +765,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                             // transform="uppercase"
                             center
                             paddingTop={5}>
-                            {data.carb_g}g
+                            {RoundedCarbTotal}/{data.carb_g}g
                           </Text>
                         </Block>
                       </Button>
@@ -779,6 +784,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                           radius={sizes.m}
                           paddingHorizontal={sizes.m}
                           paddingVertical={10}
+                          align='center'
                           color="rgba(255,255,255,0.2)">
                           <Text
                             white
@@ -800,7 +806,7 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                             // transform="uppercase"
                             center
                             paddingTop={5}>
-                            {data.fat_g}g
+                            {RoundedFatTotal}/{data.fat_g}g
                           </Text>
                         </Block>
                       </Button>
@@ -954,47 +960,44 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                           </TouchableOpacity>
                         </Block>
                         <Block flex={1} center>
+                          
+                          <Card style={styles.tableHeader1}>
                           <DataTable style={styles.container}>
                             <DataTable.Header style={styles.tableHeader}>
                               <DataTable.Cell
-                                style={{flex: 2}}></DataTable.Cell>
-                              <DataTable.Cell style={{flex: 1.3}}>
+                                style={{flex: 3}}></DataTable.Cell>
+                              <DataTable.Cell style={{flex: 1}} numeric>
                                 Protein
                               </DataTable.Cell>
-                              <DataTable.Cell style={{flex: 1.3}}>
+                              <DataTable.Cell style={{flex: 1}} numeric>
                                 Carb
                               </DataTable.Cell>
-                              <DataTable.Cell>Fat</DataTable.Cell>
+                              <DataTable.Cell numeric>Fat</DataTable.Cell >
                               {/* <DataTable.Cell>KCAL</DataTable.Cell> */}
-                              <DataTable.Cell></DataTable.Cell>
+                              <DataTable.Cell numeric> </DataTable.Cell>
                             </DataTable.Header>
                             {breakfastItems.map((item, index) => (
                               <DataTable.Row key={index}>
                                 <DataTable.Cell
-                                  style={{flex: 2}}
-                                  numberOfLines={
-                                    expandedItems.includes(index) ? 0 : 1
-                                  }>
+                                  style={{flex: 3}}
+                                  >
                                   {item.food_name}
                                 </DataTable.Cell>
-                                <DataTable.Cell style={{flex: 1.3}}>
+                                <DataTable.Cell style={{flex: 1}} numeric>
                                   {item.details.totalProtein}
                                 </DataTable.Cell>
-                                <DataTable.Cell style={{flex: 1.3}}>
+                                <DataTable.Cell style={{flex: 1}} numeric>
                                   {item.details.totalCarb}
                                 </DataTable.Cell>
-                                <DataTable.Cell>
+                                <DataTable.Cell numeric>
                                   {item.details.totalFat}
                                 </DataTable.Cell>
                                 {/* <DataTable.Cell>
                                   {item.details.totalCalorie}
                                 </DataTable.Cell> */}
                                 <DataTable.Cell
-                                  style={{
-                                    alignSelf: 'center',
-                                    justifyContent: 'flex-end',
-                                  }}>
-                                  {' '}
+                                numeric>
+                                 
                                   <TouchableOpacity
                                     onPress={() => {
                                       handleDelete(index, 'breakfast');
@@ -1004,20 +1007,21 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                                       source={require('../assets/icons/close1.png')}
                                       color={'#fa9579'}
                                       style={
-                                        (styles.data,
-                                        {
+                                        ({
                                           width: 20,
                                           height: 20,
-                                          alignContent: 'center',
+                                       
                                         })
                                       }
-                                      margin={sizes.s}
+                                      
                                     />
                                   </TouchableOpacity>
+                                  
                                 </DataTable.Cell>
                               </DataTable.Row>
                             ))}
-                          </DataTable>
+                          </DataTable></Card>
+                         
                         </Block>
                       </Block>
                     ) : (
@@ -1123,10 +1127,10 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                                     formDataCopy,
                                   });
                                 }}>
-                                <Text p black semibold center padding={10}>
+                                <Text p black semibold center padding={10} primary>
                                   {' '}
                                   Morning Snacks ({totalMorningSnackCalorie})
-                                  kcal
+                                 
                                 </Text>
                               </TouchableOpacity>
                             ) : (
@@ -1139,9 +1143,9 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                                     formDataCopy,
                                   });
                                 }}>
-                                <Text p black semibold center padding={10}>
+                                <Text p black semibold center padding={10} primary>
                                   Morning Snack ({totalMorningSnackCalorie})
-                                  kcal
+                                  
                                 </Text>
                               </TouchableOpacity>
                               //   <TouchableOpacity onPress={toggleExpand}>
@@ -1197,47 +1201,43 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                         {/* Header */}
 
                         <Block flex={1} center>
+                          <Card style={styles.tableHeader1}>
                           <DataTable style={styles.container}>
                             <DataTable.Header style={styles.tableHeader}>
                               <DataTable.Cell
-                                style={{flex: 1.4}}></DataTable.Cell>
-                              <DataTable.Cell style={{flex: 1.3}}>
+                                style={{flex: 3}}></DataTable.Cell>
+                              <DataTable.Cell style={{flex: 1}} numeric>
                                 Protein
                               </DataTable.Cell>
-                              <DataTable.Cell style={{flex: 1.3}}>
+                              <DataTable.Cell style={{flex: 1}} numeric>
                                 Carb
                               </DataTable.Cell>
-                              <DataTable.Cell>Fat</DataTable.Cell>
-                              <DataTable.Cell>KCAL</DataTable.Cell>
-                              <DataTable.Cell></DataTable.Cell>
+                              <DataTable.Cell numeric>Fat</DataTable.Cell >
+                              {/* <DataTable.Cell>KCAL</DataTable.Cell> */}
+                              <DataTable.Cell numeric> </DataTable.Cell>
                             </DataTable.Header>
                             {morningSnackItems.map((item, index) => (
                               <DataTable.Row key={index}>
                                 <DataTable.Cell
-                                  style={{flex: 1.4}}
-                                  numberOfLines={
-                                    expandedItems.includes(index) ? 0 : 1
-                                  }>
+                                  style={{flex: 3}}
+                                  >
                                   {item.food_name}
                                 </DataTable.Cell>
-                                <DataTable.Cell style={{flex: 1.3}}>
+                                <DataTable.Cell style={{flex: 1}} numeric>
                                   {item.details.totalProtein}
                                 </DataTable.Cell>
-                                <DataTable.Cell style={{flex: 1.3}}>
+                                <DataTable.Cell style={{flex: 1}} numeric>
                                   {item.details.totalCarb}
                                 </DataTable.Cell>
-                                <DataTable.Cell>
+                                <DataTable.Cell numeric>
                                   {item.details.totalFat}
                                 </DataTable.Cell>
-                                <DataTable.Cell>
+                                {/* <DataTable.Cell>
                                   {item.details.totalCalorie}
-                                </DataTable.Cell>
+                                </DataTable.Cell> */}
                                 <DataTable.Cell
-                                  style={{
-                                    alignSelf: 'center',
-                                    justifyContent: 'flex-end',
-                                  }}>
-                                  {' '}
+                                numeric>
+                                 
                                   <TouchableOpacity
                                     onPress={() => {
                                       handleDelete(index, 'morningSnackItems');
@@ -1247,20 +1247,19 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                                       source={require('../assets/icons/close1.png')}
                                       color={'#fa9579'}
                                       style={
-                                        (styles.data,
-                                        {
+                                        ({
                                           width: 20,
                                           height: 20,
-                                          alignContent: 'center',
+                                       
                                         })
                                       }
-                                      margin={sizes.s}
+                                      
                                     />
                                   </TouchableOpacity>
                                 </DataTable.Cell>
                               </DataTable.Row>
                             ))}
-                          </DataTable>
+                          </DataTable></Card>
                         </Block>
                       </Block>
                     ) : (
@@ -1365,9 +1364,9 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                                     formDataCopy,
                                   })
                                 }>
-                                <Text p black semibold center padding={10}>
+                                <Text p black semibold center padding={10} primary>
                                   {' '}
-                                  Lunch ({totalLunchCalorie}) kcal
+                                  Lunch ({totalLunchCalorie}) 
                                 </Text>
                               </TouchableOpacity>
                             ) : (
@@ -1380,8 +1379,8 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                                     formDataCopy,
                                   })
                                 }>
-                                <Text p black semibold center padding={10}>
-                                  Lunch ({totalLunchCalorie}) kcal
+                                <Text p black semibold center padding={10} primary>
+                                  Lunch ({totalLunchCalorie}) 
                                 </Text>
                               </TouchableOpacity>
                             )}
@@ -1428,47 +1427,43 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                           </TouchableOpacity>
                         </Block>
                         <Block flex={1} center>
+                          <Card style={styles.tableHeader1}>
                           <DataTable style={styles.container}>
                             <DataTable.Header style={styles.tableHeader}>
                               <DataTable.Cell
-                                style={{flex: 1.4}}></DataTable.Cell>
-                              <DataTable.Cell style={{flex: 1.3}}>
+                                style={{flex: 3}}></DataTable.Cell>
+                              <DataTable.Cell style={{flex: 1}} numeric>
                                 Protein
                               </DataTable.Cell>
-                              <DataTable.Cell style={{flex: 1.3}}>
+                              <DataTable.Cell style={{flex: 1}} numeric>
                                 Carb
                               </DataTable.Cell>
-                              <DataTable.Cell>Fat</DataTable.Cell>
-                              <DataTable.Cell>KCAL</DataTable.Cell>
-                              <DataTable.Cell></DataTable.Cell>
+                              <DataTable.Cell numeric>Fat</DataTable.Cell >
+                              {/* <DataTable.Cell>KCAL</DataTable.Cell> */}
+                              <DataTable.Cell numeric> </DataTable.Cell>
                             </DataTable.Header>
                             {lunchItems.map((item, index) => (
                               <DataTable.Row key={index}>
                                 <DataTable.Cell
-                                  style={{flex: 1.4}}
-                                  numberOfLines={
-                                    expandedItems.includes(index) ? 0 : 1
-                                  }>
+                                  style={{flex: 3}}
+                                  >
                                   {item.food_name}
                                 </DataTable.Cell>
-                                <DataTable.Cell style={{flex: 1.3}}>
+                                <DataTable.Cell style={{flex: 1}} numeric>
                                   {item.details.totalProtein}
                                 </DataTable.Cell>
-                                <DataTable.Cell style={{flex: 1.3}}>
+                                <DataTable.Cell style={{flex: 1}} numeric>
                                   {item.details.totalCarb}
                                 </DataTable.Cell>
-                                <DataTable.Cell>
+                                <DataTable.Cell numeric>
                                   {item.details.totalFat}
                                 </DataTable.Cell>
-                                <DataTable.Cell>
+                                {/* <DataTable.Cell>
                                   {item.details.totalCalorie}
-                                </DataTable.Cell>
+                                </DataTable.Cell> */}
                                 <DataTable.Cell
-                                  style={{
-                                    alignSelf: 'center',
-                                    justifyContent: 'flex-end',
-                                  }}>
-                                  {' '}
+                                numeric>
+                                 
                                   <TouchableOpacity
                                     onPress={() => {
                                       handleDelete(index, 'lunch');
@@ -1478,20 +1473,19 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                                       source={require('../assets/icons/close1.png')}
                                       color={'#fa9579'}
                                       style={
-                                        (styles.data,
-                                        {
+                                        ({
                                           width: 20,
                                           height: 20,
-                                          alignContent: 'center',
+                                       
                                         })
                                       }
-                                      margin={sizes.s}
+                                      
                                     />
                                   </TouchableOpacity>
                                 </DataTable.Cell>
                               </DataTable.Row>
                             ))}
-                          </DataTable>
+                          </DataTable></Card>
                         </Block>
                       </Block>
                     ) : (
@@ -1596,10 +1590,10 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                                     formDataCopy,
                                   })
                                 }>
-                                <Text p black semibold center padding={10}>
+                                <Text p black semibold center padding={10} primary>
                                   {' '}
                                   Evening Snacks ({totalEveningSnackCalorie})
-                                  kcal
+                                  
                                 </Text>
                               </TouchableOpacity>
                             ) : (
@@ -1612,9 +1606,9 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                                     formDataCopy,
                                   })
                                 }>
-                                <Text p black semibold center padding={10}>
+                                <Text p black semibold center padding={10} primary>
                                   Evening Snack ({totalEveningSnackCalorie})
-                                  kcal
+                                  
                                 </Text>
                               </TouchableOpacity>
                             )}
@@ -1661,47 +1655,43 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                           </TouchableOpacity>
                         </Block>
                         <Block flex={1} center>
+                          <Card style={styles.tableHeader1}>
                           <DataTable style={styles.container}>
                             <DataTable.Header style={styles.tableHeader}>
                               <DataTable.Cell
-                                style={{flex: 1.4}}></DataTable.Cell>
-                              <DataTable.Cell style={{flex: 1.3}}>
+                                style={{flex: 3}}></DataTable.Cell>
+                              <DataTable.Cell style={{flex: 1}} numeric>
                                 Protein
                               </DataTable.Cell>
-                              <DataTable.Cell style={{flex: 1.3}}>
+                              <DataTable.Cell style={{flex: 1}} numeric>
                                 Carb
                               </DataTable.Cell>
-                              <DataTable.Cell>Fat</DataTable.Cell>
-                              <DataTable.Cell>KCAL</DataTable.Cell>
-                              <DataTable.Cell></DataTable.Cell>
+                              <DataTable.Cell numeric>Fat</DataTable.Cell >
+                              {/* <DataTable.Cell>KCAL</DataTable.Cell> */}
+                              <DataTable.Cell numeric> </DataTable.Cell>
                             </DataTable.Header>
                             {eveningSnackItems.map((item, index) => (
                               <DataTable.Row key={index}>
                                 <DataTable.Cell
-                                  style={{flex: 1.4}}
-                                  numberOfLines={
-                                    expandedItems.includes(index) ? 0 : 1
-                                  }>
+                                  style={{flex: 3}}
+                                  >
                                   {item.food_name}
                                 </DataTable.Cell>
-                                <DataTable.Cell style={{flex: 1.3}}>
+                                <DataTable.Cell style={{flex: 1}} numeric>
                                   {item.details.totalProtein}
                                 </DataTable.Cell>
-                                <DataTable.Cell style={{flex: 1.3}}>
+                                <DataTable.Cell style={{flex: 1}} numeric>
                                   {item.details.totalCarb}
                                 </DataTable.Cell>
-                                <DataTable.Cell>
+                                <DataTable.Cell numeric>
                                   {item.details.totalFat}
                                 </DataTable.Cell>
-                                <DataTable.Cell>
+                                {/* <DataTable.Cell>
                                   {item.details.totalCalorie}
-                                </DataTable.Cell>
+                                </DataTable.Cell> */}
                                 <DataTable.Cell
-                                  style={{
-                                    alignSelf: 'center',
-                                    justifyContent: 'flex-end',
-                                  }}>
-                                  {' '}
+                                numeric>
+                                 
                                   <TouchableOpacity
                                     onPress={() => {
                                       handleDelete(index, 'evening');
@@ -1711,20 +1701,19 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                                       source={require('../assets/icons/close1.png')}
                                       color={'#fa9579'}
                                       style={
-                                        (styles.data,
-                                        {
+                                        ({
                                           width: 20,
                                           height: 20,
-                                          alignContent: 'center',
+                                       
                                         })
                                       }
-                                      margin={sizes.s}
+                                      
                                     />
                                   </TouchableOpacity>
                                 </DataTable.Cell>
                               </DataTable.Row>
                             ))}
-                          </DataTable>
+                          </DataTable></Card>
                         </Block>
                       </Block>
                     ) : (
@@ -1829,9 +1818,9 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                                     formDataCopy,
                                   });
                                 }}>
-                                <Text p black semibold center padding={10}>
+                                <Text p black semibold center padding={10} primary>
                                   {' '}
-                                  Dinner ({totalDinnerCalorie}) kcal
+                                  Dinner ({totalDinnerCalorie}) 
                                 </Text>
                               </TouchableOpacity>
                             ) : (
@@ -1844,8 +1833,8 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                                     formDataCopy,
                                   });
                                 }}>
-                                <Text p black semibold center padding={10}>
-                                  Dinner ({totalDinnerCalorie}) kcal
+                                <Text p black semibold center padding={10} primary>
+                                  Dinner ({totalDinnerCalorie}) 
                                 </Text>
                               </TouchableOpacity>
                             )}
@@ -1894,47 +1883,43 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                         </Block>
 
                         <Block flex={1} center>
+                          <Card style={styles.tableHeader1}>
                           <DataTable style={styles.container}>
                             <DataTable.Header style={styles.tableHeader}>
                               <DataTable.Cell
-                                style={{flex: 1.4}}></DataTable.Cell>
-                              <DataTable.Cell style={{flex: 1.3}}>
+                                style={{flex: 3}}></DataTable.Cell>
+                              <DataTable.Cell style={{flex: 1}} numeric>
                                 Protein
                               </DataTable.Cell>
-                              <DataTable.Cell style={{flex: 1.3}}>
+                              <DataTable.Cell style={{flex: 1}} numeric>
                                 Carb
                               </DataTable.Cell>
-                              <DataTable.Cell>Fat</DataTable.Cell>
-                              <DataTable.Cell>KCAL</DataTable.Cell>
-                              <DataTable.Cell></DataTable.Cell>
+                              <DataTable.Cell numeric>Fat</DataTable.Cell >
+                              {/* <DataTable.Cell>KCAL</DataTable.Cell> */}
+                              <DataTable.Cell numeric> </DataTable.Cell>
                             </DataTable.Header>
                             {dinnerItems.map((item, index) => (
                               <DataTable.Row key={index}>
                                 <DataTable.Cell
-                                  style={{flex: 1.4}}
-                                  numberOfLines={
-                                    expandedItems.includes(index) ? 0 : 1
-                                  }>
+                                  style={{flex: 3}}
+                                  >
                                   {item.food_name}
                                 </DataTable.Cell>
-                                <DataTable.Cell style={{flex: 1.3}}>
+                                <DataTable.Cell style={{flex: 1}} numeric>
                                   {item.details.totalProtein}
                                 </DataTable.Cell>
-                                <DataTable.Cell style={{flex: 1.3}}>
+                                <DataTable.Cell style={{flex: 1}} numeric>
                                   {item.details.totalCarb}
                                 </DataTable.Cell>
-                                <DataTable.Cell>
+                                <DataTable.Cell numeric>
                                   {item.details.totalFat}
                                 </DataTable.Cell>
-                                <DataTable.Cell>
+                                {/* <DataTable.Cell>
                                   {item.details.totalCalorie}
-                                </DataTable.Cell>
+                                </DataTable.Cell> */}
                                 <DataTable.Cell
-                                  style={{
-                                    alignSelf: 'center',
-                                    justifyContent: 'flex-end',
-                                  }}>
-                                  {' '}
+                                numeric>
+                                 
                                   <TouchableOpacity
                                     onPress={() => {
                                       handleDelete(index, 'dinner');
@@ -1944,20 +1929,19 @@ const DietPlan = ({navigation, text, maxLines = 3}) => {
                                       source={require('../assets/icons/close1.png')}
                                       color={'#fa9579'}
                                       style={
-                                        (styles.data,
-                                        {
+                                        ({
                                           width: 20,
                                           height: 20,
-                                          alignContent: 'center',
+                                       
                                         })
                                       }
-                                      margin={sizes.s}
+                                      
                                     />
                                   </TouchableOpacity>
                                 </DataTable.Cell>
                               </DataTable.Row>
                             ))}
-                          </DataTable>
+                          </DataTable></Card>
                         </Block>
                       </Block>
                     ) : (
@@ -2201,9 +2185,19 @@ const styles = StyleSheet.create({
     // Other style properties you want to apply, such as fontSize, color, etc.
   },
   tableHeader: {
+    borderBottomColor: 'lightgreen',
+    borderBottomWidth: 0.9,
+     marginTop:0,
+     borderRadius:15
+     
+  },
+  tableHeader1: {
     // borderBottomColor: 'lightgreen',
     // borderBottomWidth: 0.9,
     //  marginTop:0,
+     borderRadius:15,
+    //  backgroundColor:'white'
+     
   },
   loadingContainer: {
     flex: 1,
